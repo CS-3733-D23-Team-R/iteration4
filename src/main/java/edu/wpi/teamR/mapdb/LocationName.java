@@ -6,10 +6,10 @@ import lombok.Setter;
 
 @Getter
 @Setter(AccessLevel.PACKAGE)
-public class Location {
+public class LocationName {
     private String longName, shortName, nodeType;
 
-    public Location(String longName, String shortName, String nodeType){
+    public LocationName(String longName, String shortName, String nodeType){
         this.longName = longName;
         this.shortName = shortName;
         this.nodeType = nodeType;

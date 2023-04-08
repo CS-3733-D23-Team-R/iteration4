@@ -1,5 +1,8 @@
 package edu.wpi.teamR.mapdb;
 
+import javafx.util.Pair;
+
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Queue;
 
@@ -50,5 +53,69 @@ public class MapDatabase {
 
     public void deleteNode(int nodeID) {
 
+    }
+
+    public ArrayList<Edge> getEdges() {
+        return null;
+    }
+
+    public ArrayList<Edge> getEdgesByNode(int nodeID) {
+        return null;
+    }
+
+    public Edge addEdge(int startNodeID, int endNodeID) {
+        return null;
+    }
+
+    public void deleteEdge(int startNodeID, int endNodeID) {
+
+    }
+
+    public void deleteEdgesByNode(int nodeID) {
+
+    }
+
+    public ArrayList<Move> getMoves() {
+        return null;
+    }
+
+    public ArrayList<Move> getMovesByNode(int nodeID) {
+        return null;
+    }
+
+    public Node getLatestMoveByLocationName(String longName) {
+        return null;
+    }
+
+    public Move addMove(int nodeID, String longName, Date moveDate) {
+        return null;
+    }
+
+    public void deleteMovesByNode(int nodeID) {
+
+    }
+
+    public void deleteMovesByLocationName(String longName) {
+
+    }
+
+    public ArrayList<LocationName> getLocationNames() {
+        return null;
+    }
+
+    public LocationName getLocationNameByLongName(String longName) {
+        return null;
+    }
+
+    public LocationName modifyLocationNameType(String longName, String newType) {
+        return null;
+    }
+
+    public LocationName modifyLocationNameShortName(String longName, String newShortName) {
+        return null;
+    }
+
+    public ArrayList<MapLocation> getMapLocationsByFloor(String floor) {
+        return null;
     }
 }
