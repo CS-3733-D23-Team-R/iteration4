@@ -1,42 +1,23 @@
 package edu.wpi.teamR.csv;
 
 import java.io.*;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class CSVReader<T extends CSVReadable> {
-    private final BufferedReader reader;
-    private final Class<T> _class;
+public class CSVReader<T, K> {
+    private BufferedReader reader;
+    private String[] columns;
+    private String[] currentValues;
 
-    /**
-     * Creates CSVReader
-     * @param path Path to CSV file to read
-     * @param _class Class that you are reading (e.g. Node.class)
-     * @throws IOException If file is not found
-     */
-    public CSVReader(String path, Class<T> _class) throws IOException {
-        this._class = _class;
-        reader = new BufferedReader(new FileReader(path));
-        reader.readLine();
+    public CSVReader(String fileName) throws IOException {
+        reader = new BufferedReader(new FileReader(fileName));
+        columns = reader.readLine().split(",");
     }
 
-    public ArrayList<T> parseCSV() throws CSVParameterException, IOException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
-        ArrayList<T> data = new ArrayList<>();
-        Constructor<T> c = _class.getDeclaredConstructor(String[].class);
-        c.setAccessible(true);
-        String line;
-        String[] args;
-        try {
-            while ((line = reader.readLine()) != null) {
-                args = line.split(",");
-                data.add(c.newInstance((Object) args));
-            }
-            c.setAccessible(false);
-        } catch(IndexOutOfBoundsException e) {
-            c.setAccessible(false);
-            throw new CSVParameterException();
-        }
-        return data;
+    public <T extends MapData> ArrayList<?> getValues(Class<T> _class) throws NoSuchMethodException {
+        _class.getMethod("constructorData").invoke();
+        ArrayList<Field> fields = new ArrayList<>(Arrays.asList(_class.getFields()));
+        fields.
     }
 }
