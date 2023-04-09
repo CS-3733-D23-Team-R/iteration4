@@ -1,15 +1,16 @@
 package edu.wpi.teamR.login;
 import edu.wpi.teamR.Configuration;
-import edu.wpi.teamR.ItemNotFoundException;
 
-import java.sql.*;
-
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 public class AuthenticationDAO {
-    private static AuthenticationDAO instance;
+    private static AuthenticationDAO instance = null;
     private AuthenticationDAO(){
 
     }
-    public static AuthenticationDAO getInstance() {
+    public AuthenticationDAO getInstance() {
         if(AuthenticationDAO.instance == null){
             AuthenticationDAO.instance = new AuthenticationDAO();
         }
@@ -17,48 +18,43 @@ public class AuthenticationDAO {
     }
     public User addUser(String userID, String password, AccessLevel accessLevel) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
-        Statement statement = connection.createStatement();
-        statement.executeUpdate("INSERT INTO "+Configuration.getAuthenticationTableName()+"(username, password, accesslevel) VALUES ('"+userID+"', '"+password+"', '"+accessLevel.toString()+"');");
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO ?(username, password, accesslevel) VALUES (?, ?, ?);");
+        statement.setString(1, Configuration.getAuthenticationTableName());
+        statement.setString(2, userID);
+        statement.setString(3, password);
+        statement.setString(4, accessLevel.toString());
+        statement.execute();
         connection.close();
         return new User(userID, password, accessLevel);
     }
     public User modifyUserAccessByID(String userID, AccessLevel accessLevel) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
-        Statement modify = connection.createStatement();
-        modify.executeUpdate("UPDATE "+Configuration.getAuthenticationTableName()+" SET accesslevel = '"+accessLevel.toString()+"' WHERE username = '"+userID+"';");
-        Statement getUpdated = connection.createStatement();
-        ResultSet resultSet = getUpdated.executeQuery("SELECT * FROM "+Configuration.getAuthenticationTableName()+" WHERE username = '"+userID+"';");
-        resultSet.next();
-        String aUsername = resultSet.getString("username");
-        String aPassword = resultSet.getString("password");
-        AccessLevel anAccessLevel = AccessLevel.valueOf(resultSet.getString("accesslevel"));
-        User temp = new User(aUsername, aPassword, anAccessLevel);
+        PreparedStatement statement = connection.prepareStatement("UPDATE ? SET accesslevel = ? WHERE username = ?;");
+        statement.setString(1, Configuration.getAuthenticationTableName());
+        statement.setString(2, accessLevel.toString());
+        statement.setString(3, userID);
+        statement.execute();
+        PreparedStatement statement2 = connection.prepareStatement("SELECT * FROM ? WHERE username = ?;");
+        statement.setString(1, Configuration.getAuthenticationTableName());
+        statement2.setString(2, userID);
+        statement.execute();
+        ResultSet resultSet = statement2.getResultSet();
         connection.close();
-        return temp;
+        return new User(resultSet.getString("username"), resultSet.getString("password"), AccessLevel.valueOf(resultSet.getString("accessLevel")));
     }
+    //input null to remove entire table
     public void removeUserByID(String userID) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
-        Statement statement = connection.createStatement();
-        statement.executeUpdate("DELETE FROM "+Configuration.getAuthenticationTableName()+" WHERE username = '"+userID+"';");
-        connection.close();
-    }
-    public void deleteALLUsers() throws SQLException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
-        Statement statement = connection.createStatement();
-        statement.executeUpdate("DELETE FROM "+Configuration.getAuthenticationTableName()+";");
-        connection.close();
-    }
-
-    public User getUser(String userID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
-        Connection connection = Configuration.getConnection();
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getAuthenticationTableName()+" WHERE username='"+userID+"';");
-        if (resultSet.next()){
-            String password = resultSet.getString("password");
-            AccessLevel accessLevel = AccessLevel.valueOf(resultSet.getString("accesslevel"));
-
-            return new User(userID, password, accessLevel);
+        if(userID != null){
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM ? WHERE username = ?;");
+            statement.setString(1, Configuration.getAuthenticationTableName());
+            statement.setString(2, userID);
+            statement.execute();
+        } else{
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM ?;");
+            statement.setString(1, Configuration.getAuthenticationTableName());
+            statement.execute();
         }
-        throw new ItemNotFoundException();
+        connection.close();
     }
 }
