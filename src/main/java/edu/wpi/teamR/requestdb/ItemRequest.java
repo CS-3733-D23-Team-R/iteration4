@@ -15,7 +15,7 @@ abstract class ItemRequest {
     private String location;
     private String staffMember;
     private String additionalNotes;
-    private java.sql.Timestamp requestDate;
+    private Timestamp requestDate;
     private RequestStatus requestStatus;
 
     public ItemRequest(int requestID, String requesterName, String location, String staffMember, String additionalNotes, Timestamp requestDate, RequestStatus requestStatus) {

@@ -2,6 +2,7 @@ package edu.wpi.teamR.requestdb;
 
 import edu.wpi.teamR.mapdb.MapDatabase;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class RequestDatabase {
@@ -15,7 +16,7 @@ public class RequestDatabase {
         return instance;
     }
 
-    public MealRequest addMealRequest(String requesterName, String location, String staffMember, String additionalNoted, java.sql.Timestamp requestDate, RequestStatus requestStatus, String mealType) {return null;}
+    public MealRequest addMealRequest(String requesterName, String location, String staffMember, String additionalNoted, Timestamp requestDate, RequestStatus requestStatus, String mealType) {return null;}
 
     public void deleteMealRequest(int requestID) {}
 
@@ -33,14 +34,14 @@ public class RequestDatabase {
 
     public ArrayList<MealRequest> getMealRequestsByRequestStatus(RequestStatus requestStatus) {return null;}
 
-    public ArrayList<MealRequest> getMealRequestsAfterTime(java.sql.Timestamp time) {return null;}
+    public ArrayList<MealRequest> getMealRequestsAfterTime(Timestamp time) {return null;}
 
-    public ArrayList<MealRequest> getMealRequestsBeforeTime(java.sql.Timestamp time) {return null;}
+    public ArrayList<MealRequest> getMealRequestsBeforeTime(Timestamp time) {return null;}
 
-    public ArrayList<MealRequest> getMealRequestsBetweenTimes(java.sql.Timestamp firstTime,java.sql.Timestamp secondTime) {return null;}
+    public ArrayList<MealRequest> getMealRequestsBetweenTimes(Timestamp firstTime,Timestamp secondTime) {return null;}
 
 
-    public FurnitureRequest addFurnitureRequest(String requesterName, String location, String staffMember, String additionalNotes, java.sql.Timestamp requestDate, RequestStatus requestStatus, String furnitureType) {return null;}
+    public FurnitureRequest addFurnitureRequest(String requesterName, String location, String staffMember, String additionalNotes, Timestamp requestDate, RequestStatus requestStatus, String furnitureType) {return null;}
 
     public void deleteFurnitureRequest(int requestID){}
 
@@ -58,11 +59,11 @@ public class RequestDatabase {
 
     public ArrayList<FurnitureRequest> getFurnitureRequestsByRequestStatus(RequestStatus requestStatus) {return null;}
 
-    public ArrayList<FurnitureRequest> getFurnitureRequestsAfterTime(java.sql.Timestamp time) {return null;}
+    public ArrayList<FurnitureRequest> getFurnitureRequestsAfterTime(Timestamp time) {return null;}
 
-    public ArrayList<FurnitureRequest> getFurnitureRequestsBeforeTime(java.sql.Timestamp time) {return null;}
+    public ArrayList<FurnitureRequest> getFurnitureRequestsBeforeTime(Timestamp time) {return null;}
 
-    public ArrayList<FurnitureRequest> getFurnitureRequestsBetweenTimes(java.sql.Timestamp firstTime, java.sql.Timestamp secondTime) {return null;}
+    public ArrayList<FurnitureRequest> getFurnitureRequestsBetweenTimes(Timestamp firstTime, Timestamp secondTime) {return null;}
 
 
 
@@ -80,15 +81,15 @@ public class RequestDatabase {
 
     public ArrayList<ItemRequest> getItemRequestsByRequestStatus(RequestStatus requestStatus) {return null;}
 
-    public ArrayList<ItemRequest> getItemRequestsAfterTime(java.sql.Timestamp time) {return null;}
+    public ArrayList<ItemRequest> getItemRequestsAfterTime(Timestamp time) {return null;}
 
-    public ArrayList<ItemRequest> getItemRequestsBeforeTime(java.sql.Timestamp time) {return null;}
+    public ArrayList<ItemRequest> getItemRequestsBeforeTime(Timestamp time) {return null;}
 
-    public ArrayList<ItemRequest> getItemRequestsBetweenTimes(java.sql.Timestamp firstTime,java.sql.Timestamp secondTime) {return null;}
+    public ArrayList<ItemRequest> getItemRequestsBetweenTimes(Timestamp firstTime,Timestamp secondTime) {return null;}
 
 
 
-    public RoomRequest addRoomRequest(String longName, java.sql.Timestamp startTime, java.sql.Timestamp endTime,String requesterName, String requestReason) {return null;}
+    public RoomRequest addRoomRequest(String longName, Timestamp startTime, Timestamp endTime,String requesterName, String requestReason) {return null;}
 
     public void deleteRoomRequest(int requestID){}
 
@@ -100,15 +101,15 @@ public class RequestDatabase {
 
     public ArrayList<RoomRequest> getRoomRequestsByLocation(String location) {return null;}
 
-    public ArrayList<RoomRequest> getRoomRequestsByStartTime(java.sql.Timestamp startTime) {return null;}
+    public ArrayList<RoomRequest> getRoomRequestsByStartTime(Timestamp startTime) {return null;}
 
-    public ArrayList<RoomRequest> getRoomRequestsByEndTime(java.sql.Timestamp endTime) {return null;}
+    public ArrayList<RoomRequest> getRoomRequestsByEndTime(Timestamp endTime) {return null;}
 
     public ArrayList<RoomRequest> getRoomRequestsByRequestReason(String requestReason) {return null;}
 
-    public ArrayList<RoomRequest> getRoomRequestsAfterTime(java.sql.Timestamp time) {return null;}
+    public ArrayList<RoomRequest> getRoomRequestsAfterTime(Timestamp time) {return null;}
 
-    public ArrayList<RoomRequest> getRoomRequestsBeforeTime(java.sql.Timestamp time) {return null;}
+    public ArrayList<RoomRequest> getRoomRequestsBeforeTime(Timestamp time) {return null;}
 
-    public ArrayList<RoomRequest> getRoomRequestsBetweenTimes(java.sql.Timestamp firstTime, java.sql.Timestamp secondTime) {return null;}
+    public ArrayList<RoomRequest> getRoomRequestsBetweenTimes(Timestamp firstTime, Timestamp secondTime) {return null;}
 }
