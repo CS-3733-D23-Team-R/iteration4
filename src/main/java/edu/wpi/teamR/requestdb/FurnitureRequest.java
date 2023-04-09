@@ -10,8 +10,8 @@ import java.sql.Timestamp;
 @Setter(AccessLevel.PACKAGE)
 public class FurnitureRequest extends ItemRequest{
     private String furnitureType;
-    public FurnitureRequest(int requestID, String requestorName, String location, String staffMember, String additionalNotes, Timestamp requestDate, RequestStatus requestStatus, String furnitureType) {
-        super(requestID, requestorName, location, staffMember, additionalNotes, requestDate, requestStatus);
+    public FurnitureRequest(int requestID, String requesterName, String location, String staffMember, String additionalNotes, Timestamp requestDate, RequestStatus requestStatus, String furnitureType) {
+        super(requestID, requesterName, location, staffMember, additionalNotes, requestDate, requestStatus);
         this.furnitureType = furnitureType;
     }
 }
