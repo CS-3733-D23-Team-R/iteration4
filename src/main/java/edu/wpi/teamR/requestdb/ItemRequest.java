@@ -17,8 +17,9 @@ abstract class ItemRequest {
     private String additionalNotes;
     private Timestamp requestDate;
     private RequestStatus requestStatus;
+    private String itemType;
 
-    public ItemRequest(int requestID, String requesterName, String location, String staffMember, String additionalNotes, Timestamp requestDate, RequestStatus requestStatus) {
+    public ItemRequest(int requestID, String requesterName, String location, String staffMember, String additionalNotes, Timestamp requestDate, RequestStatus requestStatus, String itemType) {
         this.requestID = requestID;
         this.requesterName = requesterName;
         this.location = location;
@@ -26,6 +27,7 @@ abstract class ItemRequest {
         this.additionalNotes = additionalNotes;
         this.requestDate = requestDate;
         this.requestStatus = requestStatus;
+        this.itemType = itemType;
     }
 
 }
