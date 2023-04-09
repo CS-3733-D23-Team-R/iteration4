@@ -1,6 +1,5 @@
 package edu.wpi.teamR.mapdb;
 
-import edu.wpi.teamR.csv.MapData;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
