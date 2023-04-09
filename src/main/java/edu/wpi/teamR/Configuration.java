@@ -8,7 +8,7 @@ public class Configuration {
     public static final String connectionURL = "jdbc:postgresql://database.cs.wpi.edu:5432/teamrdb";
     public static final String username = "teamr";
     public static final String password = "teamr150";
-    public static final String schemaName = "iteration1";
+    public static String schemaName = "iteration1";
     public static final String nodeTableName = "node";
     public static final String edgeTableName = "edge";
     public static final String moveTableName = "move";
@@ -21,6 +21,7 @@ public class Configuration {
         Class.forName("org.postgresql.Driver");
         return DriverManager.getConnection(connectionURL, username, password);
     }
+    public static void changeSchemaName(String schemaName) { Configuration.schemaName = schemaName; }
     public static String getNodeSchemaNameTableName(){
         return schemaName+"."+nodeTableName;
     }
