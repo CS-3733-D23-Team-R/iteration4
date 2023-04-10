@@ -16,7 +16,7 @@ public class AuthenticationDAOTest {
     @BeforeAll
     static void startup() throws SQLException, ClassNotFoundException {
         Configuration.changeSchemaName("iteration1test");
-        authDao.getInstance();
+        authDao = AuthenticationDAO.getInstance();
         authDao.removeUserByID(null);
     }
     @AfterAll
