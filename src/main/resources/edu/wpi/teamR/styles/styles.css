@@ -102,3 +102,7 @@
     -fx-background-color: pressed;
     -fx-border-color: bwhblue;
 }
+
+.furniture-title{
+    -fx-background-image: url("../images/Rectangle 135.png");
+}
