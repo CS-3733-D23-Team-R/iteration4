@@ -36,16 +36,16 @@ public class AuthenticationDAO {
         connection.close();
         return temp;
     }
-    //input null to remove entire table
     public void removeUserByID(String userID) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
-        if(userID != null){
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("DELETE FROM "+Configuration.getAuthenticationTableName()+" WHERE username = '"+userID+"';");
-        } else{
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("DELETE FROM "+Configuration.getAuthenticationTableName()+";");
-        }
+        Statement statement = connection.createStatement();
+        statement.executeUpdate("DELETE FROM "+Configuration.getAuthenticationTableName()+" WHERE username = '"+userID+"';");
+        connection.close();
+    }
+    public void deleteALLUsers() throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        Statement statement = connection.createStatement();
+        statement.executeUpdate("DELETE FROM "+Configuration.getAuthenticationTableName()+";");
         connection.close();
     }
 }
