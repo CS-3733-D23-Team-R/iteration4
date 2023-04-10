@@ -19,14 +19,14 @@ public class MealRequestDAO {
         sqlInsert.setString(2, location);
         sqlInsert.setString(3, staffMember);
         sqlInsert.setString(4, additionalNotes);
-        sqlInsert.setString(5, mealType);
+        sqlInsert.setTimestamp(5, requestDate);
         sqlInsert.setString(6, requestStatus.toString());
-        sqlInsert.setTimestamp(7, requestDate);
+        sqlInsert.setString(7, mealType);
         sqlInsert.executeUpdate();
         ResultSet rs = sqlInsert.getGeneratedKeys();
         int requestID = 0;
         if (rs.next()) {
-            requestID = rs.getInt(1);
+            requestID = rs.getInt("requestID");
         }
         return new MealRequest(requestID, requesterName, location, staffMember, additionalNotes, requestDate, requestStatus, mealType);
     }

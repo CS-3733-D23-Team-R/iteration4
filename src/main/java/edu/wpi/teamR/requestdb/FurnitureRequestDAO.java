@@ -21,18 +21,18 @@ public class FurnitureRequestDAO {
                 +" VALUES (?,?,?,?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
         sqlInsert.setString(1, requesterName);
         sqlInsert.setString(2, location);
-        sqlInsert.setTimestamp(3, requestDate);
+        sqlInsert.setString(3, staffMember);
         sqlInsert.setString(4, additionalNotes);
-        sqlInsert.setString(5, furnitureType);
+        sqlInsert.setTimestamp(5, requestDate);
         sqlInsert.setString(6, requestStatus.toString());
-        sqlInsert.setString(7, staffMember);
+        sqlInsert.setString(7, furnitureType);
+
         sqlInsert.executeUpdate();
         ResultSet rs = sqlInsert.getGeneratedKeys();
         int requestID = 0;
         if (rs.next()) {
-            requestID = rs.getInt(1);
+            requestID = rs.getInt("requestID");
         }
-        connection.close();
         return new FurnitureRequest(requestID, requesterName, location, staffMember, additionalNotes, requestDate, requestStatus, furnitureType);
     }
 
