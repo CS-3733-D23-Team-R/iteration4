@@ -1,6 +1,7 @@
 package edu.wpi.teamR.csv;
 
 import java.io.BufferedWriter;
+import java.io.Closeable;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
