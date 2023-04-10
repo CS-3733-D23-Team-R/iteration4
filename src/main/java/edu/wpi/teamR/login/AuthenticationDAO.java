@@ -6,10 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 public class AuthenticationDAO {
-    private static AuthenticationDAO instance = null;
+    private static AuthenticationDAO instance;
+    private String s;
     private AuthenticationDAO(){
+        s = "loaded!";
     }
-    public AuthenticationDAO getInstance() {
+    public static AuthenticationDAO getInstance() {
         if(AuthenticationDAO.instance == null){
             AuthenticationDAO.instance = new AuthenticationDAO();
         }
@@ -51,6 +53,7 @@ public class AuthenticationDAO {
             statement.setString(2, userID);
             statement.execute();
         } else{
+            System.out.println(Configuration.getAuthenticationTableName());
             PreparedStatement statement = connection.prepareStatement("DELETE FROM ?;");
             statement.setString(1, Configuration.getAuthenticationTableName());
             statement.execute();
