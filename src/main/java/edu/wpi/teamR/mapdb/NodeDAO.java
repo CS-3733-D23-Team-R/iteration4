@@ -36,27 +36,25 @@ public class NodeDAO {
         int yCoord = resultSet.getInt("yCoord");
         String building = resultSet.getString("building");
         String floor = resultSet.getString("floor");
-
-        return new Node(nodeID, xCoord, yCoord, building, floor);
+        return new Node(nodeID, xCoord, yCoord, floor, building);
     }
 
     ArrayList<Node> getNodesByFloor(String floor) throws SQLException {
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" WHERE floor="+floor+";");
         ArrayList<Node> nodes = new ArrayList<>();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" WHERE floor='"+floor+"';");
         while (resultSet.next()){
             int nodeID = resultSet.getInt("nodeid");
             int xCoord = resultSet.getInt("xCoord");
             int yCoord = resultSet.getInt("yCoord");
             String building = resultSet.getString("building");
-
             nodes.add(new Node(nodeID, xCoord, yCoord, building, floor));
         }
         return nodes;
     }
 
     Node addNode(int xCoord, int yCoord, String floorNum, String building) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getNodeSchemaNameTableName()+"(xCoord, yCoord, floorNum, building) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getNodeSchemaNameTableName()+"(xCoord, yCoord, floor, building) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setInt(1, xCoord);
         preparedStatement.setInt(2, yCoord);
         preparedStatement.setString(3, floorNum);
