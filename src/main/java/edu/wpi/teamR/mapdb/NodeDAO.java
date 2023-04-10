@@ -83,4 +83,9 @@ public class NodeDAO {
         preparedStatement.setInt(1, nodeID);
         preparedStatement.executeUpdate();
     }
+
+    void deleteAllNodes() throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getNodeSchemaNameTableName()+";");
+        preparedStatement.executeUpdate();
+    }
 }
