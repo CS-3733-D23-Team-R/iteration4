@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Text id="pageTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Service Requests" translateX="75.0" BorderPane.alignment="CENTER_LEFT">
+         <BorderPane.margin>
+            <Insets bottom="25.0" left="50.0" right="50.0" top="50.0" />
+         </BorderPane.margin>
+      </Text>
+   </top>
+   <center>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="50.0" left="50.0" right="50.0" top="25.0" />
+         </BorderPane.margin>
+         <children>
+            <TableView AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columns>
+                <TableColumn prefWidth="30.0" resizable="false" text="Select All" />
+                  <TableColumn prefWidth="50.0" text="ID" />
+                <TableColumn prefWidth="100.0" text="Name" />
+                  <TableColumn prefWidth="100.0" text="Location" />
+                  <TableColumn prefWidth="100.0" text="Request Type" />
+                  <TableColumn prefWidth="100.0" text="Request Information" />
+                  <TableColumn prefWidth="100.0" text="Staff Member" />
+                  <TableColumn prefWidth="200.0" text="Additional Notes" />
+                  <TableColumn prefWidth="100.0" text="Date &amp; Time" />
+                  <TableColumn prefWidth="150.0" text="Status" />
+                  <TableColumn prefWidth="50.0" resizable="false" text="Delete" />
+              </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
