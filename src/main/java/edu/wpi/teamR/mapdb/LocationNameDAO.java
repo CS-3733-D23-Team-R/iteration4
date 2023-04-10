@@ -27,6 +27,7 @@ public class LocationNameDAO {
     LocationName getLocationByNodeID(int nodeId) throws SQLException {
         Statement statement = aConnection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE nodeID = "+nodeId+";");
+        resultSet.next();
         LocationName aLocationName = new LocationName(resultSet.getString("longname"), resultSet.getString("shortname"), resultSet.getString("nodetype"));
         aConnection.close();
         return aLocationName;
@@ -48,30 +49,25 @@ public class LocationNameDAO {
     LocationName getLocationByLongName(String longName) throws SQLException {
         Statement statement = aConnection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE longname = "+longName+";");
+        resultSet.next();
         LocationName aLocationName = new LocationName(resultSet.getString("longname"), resultSet.getString("shortname"), resultSet.getString("nodetype"));
         aConnection.close();
         return aLocationName;
     }
     LocationName modifyLocationNameType(String longName, String newType) throws SQLException {
         Statement statement = aConnection.createStatement();
-        PreparedStatement preparedStatement = aConnection.prepareStatement("UPDATE ? SET nodeType = ? WHERE longname = ?;");
-        preparedStatement.setString(1, Configuration.getLocationNameSchemaNameTableName());
-        preparedStatement.setString(2, newType);
-        preparedStatement.setString(3, longName);
-        ResultSet rs = preparedStatement.executeQuery();
+        statement.executeUpdate("UPDATE "+Configuration.getLocationNameSchemaNameTableName()+" SET nodeType = '"+newType+"' WHERE longname = '"+longName+"';");
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE longname = "+longName+";");
+        resultSet.next();
         LocationName aLocationName = new LocationName(resultSet.getString("longname"), resultSet.getString("shortname"), resultSet.getString("nodetype"));
         aConnection.close();
         return aLocationName;
     }
-    LocationName modifyLocationNameShortName(String longName, String shortName) throws SQLException {
+    LocationName modifyLocationNameShortName(String longName, String newShortName) throws SQLException {
         Statement statement = aConnection.createStatement();
-        PreparedStatement preparedStatement = aConnection.prepareStatement("UPDATE ? SET shortname = ? WHERE longname = ?;");
-        preparedStatement.setString(1, Configuration.getLocationNameSchemaNameTableName());
-        preparedStatement.setString(2, shortName);
-        preparedStatement.setString(3, longName);
-        ResultSet rs = preparedStatement.executeQuery();
+        statement.executeUpdate("UPDATE "+Configuration.getLocationNameSchemaNameTableName()+" SET shortname = '"+newShortName+"' WHERE longname = '"+longName+"';");
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE longname = "+longName+";");
+        resultSet.next();
         LocationName aLocationName = new LocationName(resultSet.getString("longname"), resultSet.getString("shortname"), resultSet.getString("nodetype"));
         aConnection.close();
         return aLocationName;

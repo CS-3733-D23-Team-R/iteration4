@@ -42,33 +42,26 @@ public class MoveDAO {
     }
     Move getLatestMoveByNodeID(int nodeID) throws SQLException {
         Statement statement = aConnection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE date=(select max(date) FROM iteration1test.move WHERE nodeID = "+nodeID+") AND nodeID = "+nodeID+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE date=(select max(date) FROM "+Configuration.getMoveSchemaNameTableName()+".move WHERE nodeID = "+nodeID+") AND nodeID = "+nodeID+";");
+        resultSet.next();
         Move temp = new Move(resultSet.getInt("nodeid"), resultSet.getString("longname"), resultSet.getDate("date"));
         aConnection.close();
         return temp;
     }
     Move addMove(int nodeID, String longName, java.sql.Date moveDate) throws SQLException {
-        PreparedStatement statement = aConnection.prepareStatement("INSERT INTO ? WHERE nodeID = ? and longname = ? and date = ?;");
-        statement.setString(1, Configuration.getMoveSchemaNameTableName());
-        statement.setInt(2, nodeID);
-        statement.setString(3, longName);
-        statement.setDate(4, moveDate);
-        ResultSet rs = statement.executeQuery();
+        Statement statement = aConnection.createStatement();
+        statement.executeUpdate("INSERT INTO "+Configuration.getMoveSchemaNameTableName()+" WHERE nodeID = "+nodeID+" and longname = '"+longName+"' and date = '"+moveDate.toString()+"';");
         aConnection.close();
         return new Move(nodeID, longName, moveDate);
     }
     void deleteMovesByNode(int nodeID) throws SQLException {
-        PreparedStatement statement = aConnection.prepareStatement("DELETE FROM ? WHERE nodeid = ?;");
-        statement.setString(1, Configuration.getMoveSchemaNameTableName());
-        statement.setInt(2, nodeID);
-        ResultSet rs = statement.executeQuery();
+        Statement statement = aConnection.createStatement();
+        statement.executeUpdate("DELETE FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE nodeid = "+nodeID+";");
         statement.close();
     }
     void deleteMovesByLongName(String longName) throws SQLException {
-        PreparedStatement statement = aConnection.prepareStatement("DELETE FROM ? WHERE longname = ?;");
-        statement.setString(1, Configuration.getMoveSchemaNameTableName());
-        statement.setString(2, longName);
-        ResultSet rs = statement.executeQuery();
+        Statement statement = aConnection.createStatement();
+        statement.executeUpdate("DELETE FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE longname = '"+longName+"';");
         statement.close();
     }
 }
