@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXCheckbox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import net.kurobako.gesturefx.GesturePane?>
+<?import org.controlsfx.control.SearchableComboBox?>
+
+<BorderPane fx:id="borderPane" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.MapController">
+   <center>
+      <AnchorPane fx:id="anchorPane" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <GesturePane fx:id="gesturePane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="332.0" prefWidth="325.0" styleClass="map-vbox">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Map Editor">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Text>
+                  <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Floor">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Text>
+                        <SearchableComboBox fx:id="startField" prefWidth="175.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="319.0" spacing="20.0">
+                     <children>
+                        <Button fx:id="floorDownButton1" prefHeight="30.0" prefWidth="120.0" text="New Node">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/map/new.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="floorUpButton1" prefHeight="30.0" prefWidth="120.0" text="New Edge">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/map/new.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="319.0" spacing="20.0">
+                     <children>
+                        <Button fx:id="floorDownButton2" prefHeight="30.0" prefWidth="120.0" text="New Location">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/map/new.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="floorUpButton2" prefHeight="30.0" prefWidth="120.0" text="New Move">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/map/new.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="80.0" spacing="10.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Display Location Names">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Text>
+                        <MFXCheckbox fx:id="accessibleCheckbox" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Choose Table">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Text>
+                        <SearchableComboBox fx:id="startField1" prefWidth="150.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="319.0" spacing="20.0">
+                     <children>
+                        <Button fx:id="floorDownButton" prefHeight="30.0" prefWidth="120.0" text="Import CSV">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/map/upload.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Button>
+                        <Button fx:id="floorUpButton" prefHeight="30.0" prefWidth="120.0" text="Export CSV">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/map/download.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Button>
+                     </children>
+                  </HBox>
+               </children>
+               <opaqueInsets>
+                  <Insets top="10.0" />
+               </opaqueInsets></VBox>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
