@@ -1,12 +1,13 @@
 package edu.wpi.teamR.mapdb;
 
+import edu.wpi.teamR.csv.CSVWritable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter(AccessLevel.PACKAGE)
-public class LocationName implements MapData {
+public class LocationName implements MapData, CSVWritable {
     private String longName, shortName, nodeType;
 
     LocationName(String longName, String shortName, String nodeType){
@@ -17,5 +18,15 @@ public class LocationName implements MapData {
 
     private LocationName(String[] args) throws ArrayIndexOutOfBoundsException{
         this(args[0], args[1], args[2]);
+    }
+
+    @Override
+    public String toCSVEntry() {
+        return longName + "," +shortName + "," + nodeType;
+    }
+
+    @Override
+    public String getCSVColumns() {
+        return "longName,shortName,nodeType";
     }
 }

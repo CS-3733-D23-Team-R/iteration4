@@ -1,12 +1,13 @@
 package edu.wpi.teamR.mapdb;
 
+import edu.wpi.teamR.csv.CSVWritable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter(AccessLevel.PACKAGE)
-public class Node {
+public class Node implements MapData, CSVWritable {
     private int nodeID;
     private int xCoord;
     private int yCoord;
@@ -24,4 +25,13 @@ public class Node {
         this(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]), args[3], args[4]);
     }
 
+    @Override
+    public String toCSVEntry() {
+        return nodeID + "," + xCoord + "," + yCoord + "," + floorNum + "," + building;
+    }
+
+    @Override
+    public String getCSVColumns() {
+        return "nodeID,xCoord,yCoord,floorNum,building";
+    }
 }
