@@ -1,130 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: DEDEDE;" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.SignageController">
    <center>
-      <AnchorPane BorderPane.alignment="CENTER">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0">
          <children>
-            <HBox prefHeight="381.0" prefWidth="596.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="75.0">
+            <MFXButton fx:id="backButton" layoutX="605.0" layoutY="595.0" prefHeight="38.0" prefWidth="94.0" text="Back">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </MFXButton>
+            <VBox layoutX="621.0" layoutY="263.0" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                  <HBox alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="386.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Announcements" VBox.vgrow="ALWAYS">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ear, Nose, and Throat Department ">
                            <font>
-                              <Font size="36.0" />
+                              <Font name="Times New Roman Bold" size="30.0" />
                            </font>
                         </Text>
-                        <Line endX="250.0" startX="-100.0" VBox.vgrow="ALWAYS" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Introducing Our New Kisosk System!" translateY="100.0" VBox.vgrow="ALWAYS">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Team R is the Best!" translateY="200.0" VBox.vgrow="ALWAYS">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Iteration I Due Today!" translateY="300.0" />
+                        <ImageView fitHeight="107.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/right-arrow.png" />
+                           </image>
+                        </ImageView>
                      </children>
-                  </VBox>
-                  <VBox prefHeight="200.0" prefWidth="150.0" HBox.hgrow="ALWAYS">
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="80.0" prefWidth="600.0">
                      <children>
-                        <StackPane VBox.vgrow="ALWAYS">
-                           <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f3f3f3" height="75.0" stroke="BLACK" strokeType="INSIDE" width="550.0" />
-                              <Line endX="-100.0" endY="70.0" startX="-100.0" startY="20.0" translateX="-150.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-bar" text="Information Desk" translateX="-25.0">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Text>
-                              <ImageView fitHeight="50.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" translateX="-215.0">
-                                 <image>
-                                    <Image url="@../images/leftArrow.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </StackPane>
-                        <StackPane VBox.vgrow="ALWAYS">
-                           <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f3f3f3" height="75.0" stroke="BLACK" strokeType="INSIDE" width="550.0" />
-                              <Line endX="-100.0" endY="70.0" startX="-100.0" startY="20.0" translateX="-150.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-bar" text="Emergency Room" translateX="-25.0">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Text>
-                              <ImageView fitHeight="50.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" translateX="-215.0">
-                                 <image>
-                                    <Image url="@../images/leftArrow.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </StackPane>
-                        <StackPane VBox.vgrow="ALWAYS">
-                           <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f3f3f3" height="75.0" stroke="BLACK" strokeType="INSIDE" width="550.0" />
-                              <Line endX="-100.0" endY="70.0" startX="-100.0" startY="20.0" translateX="160.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-bar" text="Ear, Nose, and Throat Department" textAlignment="RIGHT" translateX="-50.0">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Text>
-                              <ImageView fitHeight="50.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" translateX="220.0">
-                                 <image>
-                                    <Image url="@../images/rightArrow.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </StackPane>
-                        <StackPane VBox.vgrow="ALWAYS">
-                           <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f3f3f3" height="75.0" stroke="BLACK" strokeType="INSIDE" width="550.0" />
-                              <Line endX="-100.0" endY="70.0" startX="-100.0" startY="20.0" translateX="160.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-bar" text="Ultrasound Labs" textAlignment="RIGHT" translateX="45.0">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Text>
-                              <ImageView fitHeight="50.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" translateX="220.0">
-                                 <image>
-                                    <Image url="@../images/rightArrow.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </StackPane>
-                        <StackPane VBox.vgrow="ALWAYS">
-                           <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f3f3f3" height="75.0" stroke="BLACK" strokeType="INSIDE" width="550.0" />
-                              <Line endX="-100.0" endY="70.0" startX="-100.0" startY="20.0" translateX="160.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-bar" text="Restrooms" textAlignment="RIGHT" translateX="75.0">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Text>
-                              <ImageView fitHeight="50.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" translateX="220.0">
-                                 <image>
-                                    <Image url="@../images/rightArrow.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </StackPane>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Restrooms">
+                           <font>
+                              <Font name="Times New Roman Bold" size="30.0" />
+                           </font>
+                        </Text>
+                        <ImageView fitHeight="107.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/right-arrow.png" />
+                           </image>
+                        </ImageView>
                      </children>
-                  </VBox>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="80.0" prefWidth="600.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ultrasound Labs">
+                           <font>
+                              <Font name="Times New Roman Bold" size="30.0" />
+                           </font>
+                        </Text>
+                        <ImageView fitHeight="80.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/right-arrow.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
+            </VBox>
+            <VBox layoutX="78.0" layoutY="49.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <ImageView fitHeight="107.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
+                           <image>
+                              <Image url="@../images/left-arrow.png" />
+                           </image>
+                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Information Desk" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font name="Times New Roman Bold" size="30.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="80.0" prefWidth="239.0">
+                     <children>
+                        <ImageView fitHeight="107.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/left-arrow.png" />
+                           </image>
+                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" Emergency Room">
+                           <font>
+                              <Font name="Times New Roman Bold" size="30.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
          </children>
       </AnchorPane>
    </center>
