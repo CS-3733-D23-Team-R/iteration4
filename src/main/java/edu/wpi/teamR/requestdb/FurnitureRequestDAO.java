@@ -163,15 +163,64 @@ public class FurnitureRequestDAO {
         return furniture;
     }
 
-    ArrayList<FurnitureRequest> getFurnitureRequestsAfterTime(Timestamp time){ //TODO: Finish Implementation
-        return null;
+    ArrayList<FurnitureRequest> getFurnitureRequestsAfterTime(Timestamp time) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE starttime>"+time+";");
+        ArrayList<FurnitureRequest> furniture = new ArrayList<>();
+        while(resultSet.next()){
+            int requestID = resultSet.getInt("requestID");
+            String requesterName = resultSet.getString("requesterName");
+            String location = resultSet.getString("location");
+            String staffMember = resultSet.getString("staffMember");
+            String additionalNotes = resultSet.getString("additionalNotes");
+            Timestamp requestDate = resultSet.getTimestamp("requestDate");
+            String furnitureType = resultSet.getString("furnitureType");
+            RequestStatus requestStatus = RequestStatus.valueOf(resultSet.getString("requestStatus") );
+
+            furniture.add(new FurnitureRequest(requestID, requesterName, location, staffMember, additionalNotes, requestDate, requestStatus, furnitureType));
+        }
+
+        return furniture;
     }
 
-    ArrayList<FurnitureRequest> getFurnitureRequestsBeforeTime(Timestamp time){ //TODO: Finish Implementation
-        return null;
+    ArrayList<FurnitureRequest> getFurnitureRequestsBeforeTime(Timestamp time) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE starttime<"+time+";");
+        ArrayList<FurnitureRequest> furniture = new ArrayList<>();
+        while(resultSet.next()){
+            int requestID = resultSet.getInt("requestID");
+            String requesterName = resultSet.getString("requesterName");
+            String location = resultSet.getString("location");
+            String staffMember = resultSet.getString("staffMember");
+            String additionalNotes = resultSet.getString("additionalNotes");
+            Timestamp requestDate = resultSet.getTimestamp("requestDate");
+            String furnitureType = resultSet.getString("furnitureType");
+            RequestStatus requestStatus = RequestStatus.valueOf(resultSet.getString("requestStatus") );
+
+            furniture.add(new FurnitureRequest(requestID, requesterName, location, staffMember, additionalNotes, requestDate, requestStatus, furnitureType));
+        }
+
+        return furniture;
     }
 
-    ArrayList<FurnitureRequest> getFurnitureRequestsBetweenTimes(Timestamp firstTime, Timestamp secondTime){ //TODO: Finish Implementation
-        return null;
+    ArrayList<FurnitureRequest> getFurnitureRequestsBetweenTimes(Timestamp firstTime, Timestamp secondTime) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE starttime>"+ firstTime +"AND starttime<" + secondTime + ";");
+        ArrayList<FurnitureRequest> furniture = new ArrayList<>();
+        while(resultSet.next()){
+            int requestID = resultSet.getInt("requestID");
+            String requesterName = resultSet.getString("requesterName");
+            String location = resultSet.getString("location");
+            String staffMember = resultSet.getString("staffMember");
+            String additionalNotes = resultSet.getString("additionalNotes");
+            Timestamp requestDate = resultSet.getTimestamp("requestDate");
+            String furnitureType = resultSet.getString("furnitureType");
+            RequestStatus requestStatus = RequestStatus.valueOf(resultSet.getString("requestStatus") );
+
+            furniture.add(new FurnitureRequest(requestID, requesterName, location, staffMember, additionalNotes, requestDate, requestStatus, furnitureType));
+        }
+
+        return furniture;
     }
-}
+    }
+

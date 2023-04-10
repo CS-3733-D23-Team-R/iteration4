@@ -159,15 +159,63 @@ public class MealRequestDAO {
         return meals;
     }
 
-    ArrayList<MealRequest> getMealRequestsAfterTime(Timestamp time){ //TODO: Finish Implementation
-        return null;
+    ArrayList<MealRequest> getMealRequestsAfterTime(Timestamp time) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE starttime>"+time+";");
+        ArrayList<MealRequest> meals = new ArrayList<>();
+        while(resultSet.next()){
+            int requestID = resultSet.getInt("requestID");
+            String requesterName = resultSet.getString("requesterName");
+            String location = resultSet.getString("location");
+            String staffMember = resultSet.getString("staffMember");
+            String additionalNotes = resultSet.getString("additionalNotes");
+            Timestamp requestDate = resultSet.getTimestamp("requestDate");
+            String mealType = resultSet.getString("mealType");
+            RequestStatus requestStatus = RequestStatus.valueOf(resultSet.getString("requestStatus") );
+
+            meals.add(new MealRequest(requestID, requesterName, location, staffMember, additionalNotes, requestDate, requestStatus, mealType));
+        }
+
+        return meals;
     }
 
-    ArrayList<MealRequest> getMealRequestsBeforeTime(Timestamp time){ //TODO: Finish Implementation
-        return null;
-    } //TODO: Finish Implementation
+    ArrayList<MealRequest> getMealRequestsBeforeTime(Timestamp time) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE starttime<"+time+";");
+        ArrayList<MealRequest> meals = new ArrayList<>();
+        while(resultSet.next()){
+            int requestID = resultSet.getInt("requestID");
+            String requesterName = resultSet.getString("requesterName");
+            String location = resultSet.getString("location");
+            String staffMember = resultSet.getString("staffMember");
+            String additionalNotes = resultSet.getString("additionalNotes");
+            Timestamp requestDate = resultSet.getTimestamp("requestDate");
+            String mealType = resultSet.getString("mealType");
+            RequestStatus requestStatus = RequestStatus.valueOf(resultSet.getString("requestStatus") );
 
-    ArrayList<MealRequest> getMealRequestsBetweenTimes(Timestamp firstTime, Timestamp secondTime){ //TODO: Finish Implementation
-        return null;
+            meals.add(new MealRequest(requestID, requesterName, location, staffMember, additionalNotes, requestDate, requestStatus, mealType));
+        }
+
+        return meals;
+    }
+
+    ArrayList<MealRequest> getMealRequestsBetweenTimes(Timestamp firstTime, Timestamp secondTime) throws SQLException { //TODO: Finish Implementation
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE starttime>"+ firstTime +"AND starttime<" + secondTime + ";");
+        ArrayList<MealRequest> meals = new ArrayList<>();
+        while(resultSet.next()){
+            int requestID = resultSet.getInt("requestID");
+            String requesterName = resultSet.getString("requesterName");
+            String location = resultSet.getString("location");
+            String staffMember = resultSet.getString("staffMember");
+            String additionalNotes = resultSet.getString("additionalNotes");
+            Timestamp requestDate = resultSet.getTimestamp("requestDate");
+            String mealType = resultSet.getString("mealType");
+            RequestStatus requestStatus = RequestStatus.valueOf(resultSet.getString("requestStatus") );
+
+            meals.add(new MealRequest(requestID, requesterName, location, staffMember, additionalNotes, requestDate, requestStatus, mealType));
+        }
+
+        return meals;
     }
 }
