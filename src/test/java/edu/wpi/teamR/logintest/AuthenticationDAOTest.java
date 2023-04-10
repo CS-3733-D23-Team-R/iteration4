@@ -1,8 +1,8 @@
-package edu.wpi.teamR.logintest;
+package edu.wpi.teamR;
 
-import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.AuthenticationDAO;
+import edu.wpi.teamR.login.User;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -17,11 +17,12 @@ public class AuthenticationDAOTest {
     static void startup() throws SQLException, ClassNotFoundException {
         Configuration.changeSchemaName("iteration1test");
         authDao = AuthenticationDAO.getInstance();
-        authDao.deleteALLUsers();
+        authDao.removeUserByID(null);
     }
     @AfterAll
     static void end() throws SQLException, ClassNotFoundException {
-        authDao.deleteALLUsers();
+        authDao.removeUserByID(null);
+        Configuration.changeSchemaName("iteration1");
     }
     @Test
     void addDeleteUserTest() throws SQLException, ClassNotFoundException {
