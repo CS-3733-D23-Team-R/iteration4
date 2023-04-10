@@ -59,6 +59,7 @@ public class EdgeDAO {
         preparedStatement.setInt(1, startnode);
         preparedStatement.setInt(2, endnode);
         preparedStatement.executeUpdate();
+        return new Edge(startnode, endnode);
     }
 
     void deleteAllEdges() throws SQLException {
