@@ -1,5 +1,6 @@
 package edu.wpi.teamR.mapdb;
 
+import edu.wpi.teamR.csv.CSVReadable;
 import edu.wpi.teamR.csv.CSVWritable;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import java.sql.Date;
 
 @Getter
 @Setter(AccessLevel.PACKAGE)
-public class Move implements MapData, CSVWritable {
+public class Move implements MapData, CSVReadable, CSVWritable {
 
     private int nodeID;
     private String longName;
