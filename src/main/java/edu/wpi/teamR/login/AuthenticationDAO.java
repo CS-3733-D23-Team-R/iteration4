@@ -1,10 +1,8 @@
 package edu.wpi.teamR.login;
 import edu.wpi.teamR.Configuration;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+
 public class AuthenticationDAO {
     private static AuthenticationDAO instance;
     private String s;
@@ -19,27 +17,22 @@ public class AuthenticationDAO {
     }
     public User addUser(String userID, String password, AccessLevel accessLevel) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement statement = connection.prepareStatement("INSERT INTO ?(username, password, accesslevel) VALUES (?, ?, ?);");
-        statement.setString(1, Configuration.getAuthenticationTableName());
-        statement.setString(2, userID);
-        statement.setString(3, password);
-        statement.setString(4, accessLevel.toString());
-        ResultSet resultSet = statement.executeQuery();
+        Statement statement = connection.createStatement();
+        statement.executeUpdate("INSERT INTO "+Configuration.getAuthenticationTableName()+"(username, password, accesslevel) VALUES ('"+userID+"', '"+password+"', '"+accessLevel.toString()+"');");
         connection.close();
         return new User(userID, password, accessLevel);
     }
     public User modifyUserAccessByID(String userID, AccessLevel accessLevel) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement statement = connection.prepareStatement("UPDATE ? SET accesslevel = ? WHERE username = ?;");
-        statement.setString(1, Configuration.getAuthenticationTableName());
-        statement.setString(2, accessLevel.toString());
-        statement.setString(3, userID);
-        ResultSet rs = statement.executeQuery();
-        PreparedStatement statement2 = connection.prepareStatement("SELECT * FROM ? WHERE username = ?;");
-        statement.setString(1, Configuration.getAuthenticationTableName());
-        statement2.setString(2, userID);
-        ResultSet resultSet = statement.executeQuery();
-        User temp = new User(resultSet.getString("username"), resultSet.getString("password"), AccessLevel.valueOf(resultSet.getString("accessLevel")));
+        Statement modify = connection.createStatement();
+        modify.executeUpdate("UPDATE "+Configuration.getAuthenticationTableName()+" SET accesslevel = '"+accessLevel.toString()+"' WHERE username = '"+userID+"';");
+        Statement getUpdated = connection.createStatement();
+        ResultSet resultSet = getUpdated.executeQuery("SELECT * FROM "+Configuration.getAuthenticationTableName()+" WHERE username = '"+userID+"';");
+        resultSet.next();
+        String aUsername = resultSet.getString("username");
+        String aPassword = resultSet.getString("password");
+        AccessLevel anAccessLevel = AccessLevel.valueOf(resultSet.getString("accesslevel"));
+        User temp = new User(aUsername, aPassword, anAccessLevel);
         connection.close();
         return temp;
     }
@@ -47,15 +40,11 @@ public class AuthenticationDAO {
     public void removeUserByID(String userID) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         if(userID != null){
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM ? WHERE username = ?;");
-            statement.setString(1, Configuration.getAuthenticationTableName());
-            statement.setString(2, userID);
-            ResultSet resultSet = statement.executeQuery();
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("DELETE FROM "+Configuration.getAuthenticationTableName()+" WHERE username = '"+userID+"';");
         } else{
-            System.out.println(Configuration.getAuthenticationTableName());
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM ?;");
-            statement.setString(1, Configuration.getAuthenticationTableName());
-            ResultSet resultSet = statement.executeQuery();
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("DELETE FROM "+Configuration.getAuthenticationTableName()+";");
         }
         connection.close();
     }
