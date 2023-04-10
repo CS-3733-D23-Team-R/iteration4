@@ -1,4 +1,4 @@
-package edu.wpi.teamR;
+package edu.wpi.teamR.mapdb;
 
 public class NodeDAOTest {
 }
