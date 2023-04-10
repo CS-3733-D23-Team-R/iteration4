@@ -6,17 +6,16 @@ import lombok.Setter;
 
 @Getter
 @Setter(AccessLevel.PACKAGE)
-public class LocationName extends MapData {
+public class LocationName implements MapData {
     private String longName, shortName, nodeType;
 
-    public LocationName(String longName, String shortName, String nodeType){
+    LocationName(String longName, String shortName, String nodeType){
         this.longName = longName;
         this.shortName = shortName;
         this.nodeType = nodeType;
     }
 
-    @Override
-    public int constructorData() {
-        return 3;
+    private LocationName(String[] args) throws ArrayIndexOutOfBoundsException{
+        this(args[0], args[1], args[2]);
     }
 }
