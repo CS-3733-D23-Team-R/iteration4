@@ -33,7 +33,7 @@ public class CSVReader<T extends CSVReadable> {
                 data.add(c.newInstance((Object) args));
             }
             c.setAccessible(false);
-        } catch(ArrayIndexOutOfBoundsException e) {
+        } catch(IndexOutOfBoundsException e) {
             c.setAccessible(false);
             throw new CSVParameterException();
         }

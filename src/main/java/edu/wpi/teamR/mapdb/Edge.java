@@ -16,7 +16,7 @@ public class Edge implements MapData, CSVReadable, CSVWritable {
         this.endNode = endNode;
     }
 
-    private Edge(String[] args) throws ArrayIndexOutOfBoundsException {
+    private Edge(String[] args) throws IndexOutOfBoundsException {
         this(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
     }
 
