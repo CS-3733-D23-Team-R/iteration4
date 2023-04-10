@@ -53,7 +53,7 @@ public class MoveDAO {
         statement.setInt(2, nodeID);
         statement.setString(3, longName);
         statement.setDate(4, moveDate);
-        statement.execute();
+        ResultSet rs = statement.executeQuery();
         aConnection.close();
         return new Move(nodeID, longName, moveDate);
     }
@@ -61,14 +61,14 @@ public class MoveDAO {
         PreparedStatement statement = aConnection.prepareStatement("DELETE FROM ? WHERE nodeid = ?;");
         statement.setString(1, Configuration.getMoveSchemaNameTableName());
         statement.setInt(2, nodeID);
-        statement.execute();
+        ResultSet rs = statement.executeQuery();
         statement.close();
     }
     void deleteMovesByLongName(String longName) throws SQLException {
         PreparedStatement statement = aConnection.prepareStatement("DELETE FROM ? WHERE longname = ?;");
         statement.setString(1, Configuration.getMoveSchemaNameTableName());
         statement.setString(2, longName);
-        statement.execute();
+        ResultSet rs = statement.executeQuery();
         statement.close();
     }
 }
