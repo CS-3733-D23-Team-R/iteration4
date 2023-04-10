@@ -8,7 +8,6 @@ import java.sql.SQLException;
 public class AuthenticationDAO {
     private static AuthenticationDAO instance = null;
     private AuthenticationDAO(){
-
     }
     public AuthenticationDAO getInstance() {
         if(AuthenticationDAO.instance == null){
@@ -39,8 +38,9 @@ public class AuthenticationDAO {
         statement2.setString(2, userID);
         statement.execute();
         ResultSet resultSet = statement2.getResultSet();
+        User temp = new User(resultSet.getString("username"), resultSet.getString("password"), AccessLevel.valueOf(resultSet.getString("accessLevel")));
         connection.close();
-        return new User(resultSet.getString("username"), resultSet.getString("password"), AccessLevel.valueOf(resultSet.getString("accessLevel")));
+        return temp;
     }
     //input null to remove entire table
     public void removeUserByID(String userID) throws SQLException, ClassNotFoundException {

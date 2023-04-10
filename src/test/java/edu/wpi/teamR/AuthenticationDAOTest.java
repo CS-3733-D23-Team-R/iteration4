@@ -15,12 +15,14 @@ public class AuthenticationDAOTest {
     static AuthenticationDAO authDao;
     @BeforeAll
     static void startup() throws SQLException, ClassNotFoundException {
+        Configuration.changeSchemaName("iteration1test");
         authDao.getInstance();
         authDao.removeUserByID(null);
     }
     @AfterAll
     static void end() throws SQLException, ClassNotFoundException {
         authDao.removeUserByID(null);
+        Configuration.changeSchemaName("iteration1");
     }
     @Test
     void addDeleteUserTest() throws SQLException, ClassNotFoundException {
