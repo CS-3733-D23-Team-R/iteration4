@@ -12,7 +12,7 @@ class RoomRequestDAO {
         this.connection = connection;
     }
 
-    RoomRequest addRoomRequest(String longName, Timestamp startTime, Timestamp endTime, String requesterName, String requestReason) throws SQLException {
+    static RoomRequest addRoomRequest(String longName, Timestamp startTime, Timestamp endTime, String requesterName, String requestReason) throws SQLException {
         Statement statement = connection.createStatement();
         PreparedStatement sqlInsert = connection.prepareStatement("INSERT INTO " + Configuration.schemaName + "." + Configuration.roomRequestTableName+"(requestername,starttime,endtime,location,requesterreason)" +
                 "VALUES(?,?,?,?,?);",Statement.RETURN_GENERATED_KEYS);
@@ -37,7 +37,7 @@ class RoomRequestDAO {
     }
 
 
-    ArrayList<RoomRequest> getRoomRequests() throws SQLException {
+    static ArrayList<RoomRequest> getRoomRequests() throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+";");
         ArrayList<RoomRequest> rooms = new ArrayList<>();
@@ -194,5 +194,10 @@ class RoomRequestDAO {
         }
 
         return roomRequests;
+    }
+
+    public void deleteAllRoomRequests() throws SQLException {
+        Statement statement = connection.createStatement();
+        statement.executeQuery("DELETE FROM "+Configuration.getRoomRequestSchemaNameTableName()+";");
     }
 }

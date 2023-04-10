@@ -108,7 +108,7 @@ public class FurnitureRequestDAO {
         return furniture;
     }
 
-    ArrayList<FurnitureRequest> getFurnitureRequestByStaffMember(String staffMember) throws SQLException{
+    ArrayList<FurnitureRequest> getFurnitureRequestsByStaffMember(String staffMember) throws SQLException{
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE staffMember="+staffMember+";");
         ArrayList<FurnitureRequest> furniture = new ArrayList<>();
@@ -126,7 +126,7 @@ public class FurnitureRequestDAO {
         return furniture;
     }
 
-    ArrayList<FurnitureRequest> getFurnitureRequestByFurnitureType(String furnitureType) throws SQLException {
+    ArrayList<FurnitureRequest> getFurnitureRequestsByFurnitureType(String furnitureType) throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE furnitureType="+furnitureType+";");
         ArrayList<FurnitureRequest> furniture = new ArrayList<>();
@@ -145,7 +145,7 @@ public class FurnitureRequestDAO {
         return furniture;
     }
 
-    ArrayList<FurnitureRequest> getFurnitureRequestByRequestStatus(RequestStatus requestStatus) throws SQLException {
+    ArrayList<FurnitureRequest> getFurnitureRequestsByRequestStatus(RequestStatus requestStatus) throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE requestStatus="+requestStatus+";");
         ArrayList<FurnitureRequest> furniture = new ArrayList<>();
