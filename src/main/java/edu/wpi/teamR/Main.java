@@ -1,11 +1,13 @@
 package edu.wpi.teamR;
 
-public class Main {
+import java.sql.SQLException;
 
-  public static void main(String[] args) {
-    App.launch(App.class, args);
+public class Main {
+  public Main() throws SQLException, ClassNotFoundException {
   }
 
-  // shortcut: psvm
-
+  public static void main(String[] args) throws SQLException, ClassNotFoundException {
+    App.launch(App.class, args);
+    // shortcut: psvm
+  }
 }
