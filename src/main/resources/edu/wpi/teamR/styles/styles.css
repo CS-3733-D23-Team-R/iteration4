@@ -106,12 +106,3 @@
 .furniture-title{
     -fx-background-image: url("../images/Rectangle 135.png");
 }
-
-.loginBackgroung {
-    -fx-background-image: url("../images/brigham.jpg");
-    -fx-background-repeat: stretch;
-    -fx-background-size: cover;
-    -fx-background-position: center;
-    -fx-background-overlay-color: bwhblue;
-    -fx-background-effect-overlay: #001856;
-}
