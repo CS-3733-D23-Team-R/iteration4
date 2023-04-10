@@ -53,4 +53,16 @@ public class EdgeDAO {
         preparedStatement.setInt(2, nodeID);
         preparedStatement.executeUpdate();
     }
+
+    Edge addEdge(int startnode, int endnode) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getEdgeSchemaNameTableName()+"(startnode, endnode) VALUES(?, ?);");
+        preparedStatement.setInt(1, startnode);
+        preparedStatement.setInt(2, endnode);
+        preparedStatement.executeUpdate();
+    }
+
+    void deleteAllEdges() throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getEdgeSchemaNameTableName()+";");
+        preparedStatement.executeUpdate();
+    }
 }
