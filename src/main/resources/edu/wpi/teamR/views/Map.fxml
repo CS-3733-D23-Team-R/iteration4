@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXCheckbox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -10,41 +14,48 @@
 <?import net.kurobako.gesturefx.GesturePane?>
 <?import org.controlsfx.control.SearchableComboBox?>
 
-<?import javafx.scene.control.Button?>
 <BorderPane fx:id="borderPane" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.MapController">
    <center>
       <AnchorPane fx:id="anchorPane" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <GesturePane fx:id="gesturePane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <VBox prefWidth="250.0" style="-fx-background-color: #2c3033; -fx-opacity: .65;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="312.0" prefWidth="325.0" styleClass="map-vbox">
                <children>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Pathfinding">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Text>
+                  <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Location">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Start Location">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
                               </Text>
                               <SearchableComboBox fx:id="startField" prefWidth="175.0" />
                            </children>
+                           <padding>
+                              <Insets right="20.0" />
+                           </padding>
                         </VBox>
                         <VBox prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="End Location">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="End Location">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
                               </Text>
-                              <SearchableComboBox fx:id="endField" prefWidth="175.0" />
+                              <SearchableComboBox fx:id="endField" prefWidth="156.0" />
                            </children>
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="80.0" spacing="10.0">
                      <children>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Accessible Directions">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Accessible Directions">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -52,9 +63,9 @@
                         <MFXCheckbox fx:id="accessibleCheckbox" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="80.0" spacing="10.0">
                      <children>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Display Text Directions">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Display Text Directions">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -62,28 +73,49 @@
                         <MFXCheckbox fx:id="textCheckbox" />
                      </children>
                   </HBox>
-                  <Button fx:id="searchButton" text="Search" />
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="100.0">
                      <children>
-                        <Button fx:id="clearButton" text="Clear Path" />
-                        <Button fx:id="resetButton" text="Reset Zoom" />
+                        <Button fx:id="searchButton" minWidth="300.0" prefHeight="30.0" text="Search" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                      <children>
-                        <Button fx:id="floorDownButton" text="Floor Down" />
-                        <Button fx:id="floorUpButton" text="Floor Up" />
+                        <Button fx:id="clearButton" prefHeight="30.0" prefWidth="105.0" text="Clear Path" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="resetButton" prefHeight="30.0" prefWidth="105.0" text="Reset Zoom" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
-               </children></VBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="319.0" spacing="20.0">
+                     <children>
+                        <Button fx:id="floorDownButton" prefHeight="30.0" prefWidth="105.0" text="Floor Down">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/map/downarrow.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Button>
+                        <Button fx:id="floorUpButton" prefHeight="30.0" prefWidth="105.0" text="Floor Up">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/map/uparrow.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Button>
+                     </children>
+                  </HBox>
+               </children>
+               <opaqueInsets>
+                  <Insets top="10.0" />
+               </opaqueInsets></VBox>
             <Text fill="WHITE" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0">
                <font>
                   <Font size="24.0" />
                </font>
             </Text>
-            <HBox layoutX="607.0" layoutY="644.0" prefHeight="50.0" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="607.0" AnchorPane.rightAnchor="606.0">
+            <HBox layoutX="607.0" layoutY="644.0" prefHeight="50.0" styleClass="map-vbox" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="607.0" AnchorPane.rightAnchor="606.0">
                <children>
-                  <Text fx:id="floorText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" HBox.hgrow="ALWAYS">
+                  <Text fx:id="floorText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Floor" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="36.0" />
                      </font>
