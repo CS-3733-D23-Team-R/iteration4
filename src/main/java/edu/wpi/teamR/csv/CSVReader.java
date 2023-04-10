@@ -1,19 +1,23 @@
 package edu.wpi.teamR.csv;
 
-import edu.wpi.teamR.mapdb.MapData;
-
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
-public class CSVReader<T extends MapData> {
+public class CSVReader<T extends CSVReadable> {
     private final BufferedReader reader;
     private final Class<T> _class;
 
-    public CSVReader(String fileName, Class<T> _class) throws IOException {
+    /**
+     * Creates CSVReader
+     * @param path Path to CSV file to read
+     * @param _class Class that you are reading (e.g. Node.class)
+     * @throws IOException If file is not found
+     */
+    public CSVReader(String path, Class<T> _class) throws IOException {
         this._class = _class;
-        reader = new BufferedReader(new FileReader(fileName));
+        reader = new BufferedReader(new FileReader(path));
         reader.readLine();
     }
 
