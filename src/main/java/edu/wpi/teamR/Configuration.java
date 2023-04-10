@@ -16,7 +16,7 @@ public class Configuration {
     public static final String mealRequestTableName = "mealrequestview";
     public static final String furnitureRequestTableName = "furniturerequestview";
     public static final String roomRequestTableName = "roomrequestview";
-    public static final String authenticationTableName = "user";
+    public static final String authenticationTableName = "authentication";
     public static Connection getConnection() throws ClassNotFoundException, SQLException {
         Class.forName("org.postgresql.Driver");
         return DriverManager.getConnection(connectionURL, username, password);
