@@ -32,14 +32,34 @@ class RoomRequestDAO {
         return(new RoomRequest(requestID, longName, startTime, endTime, requesterName, requestReason));
     }
 
-    void deleteRoomRequest(int requestID){
-        //TODO this function
+    void deleteRoomRequest(int requestID) throws SQLException {
+        PreparedStatement sqlDelete = connection.prepareStatement("DELETE FROM"+ Configuration.getRoomRequestSchemaNameTableName() + "WHERE requestID = " + requestID +";");
     }
 
-    ArrayList<RoomRequest> getRoomRequests(){return null;}
-    RoomRequest getRoomRequestByID(int requestID){return null;}
 
-    ArrayList<RoomRequest> getRoomRequestsByRequesterName(String requesterName){return null;}
+    ArrayList<RoomRequest> getRoomRequests() throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+";");
+        ArrayList<RoomRequest> rooms = new ArrayList<>();
+        while (resultSet.next()){
+            int requestID = resultSet.getInt("requestID");
+            String location = resultSet.getString("location");
+            Timestamp startTime = resultSet.getTimestamp("startTime");
+            Timestamp endTime = resultSet.getTimestamp("endTime");
+            String requesterName = resultSet.getString("requesterName");
+            String requesterReason = resultSet.getString("requesterReason");
+
+            rooms.add(new RoomRequest(requestID,location, startTime, endTime, requesterName, requesterReason));
+        }
+        return rooms;
+    }
+    RoomRequest getRoomRequestByID(int requestID) throws SQLException{
+
+    }
+
+    ArrayList<RoomRequest> getRoomRequestsByRequesterName(String requesterName){
+        return null;
+    }
 
     ArrayList<RoomRequest> getRoomRequestsByLocation(String location){return null;}
 
