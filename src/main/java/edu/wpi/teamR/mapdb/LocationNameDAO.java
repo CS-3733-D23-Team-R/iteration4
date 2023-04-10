@@ -58,7 +58,7 @@ public class LocationNameDAO {
         preparedStatement.setString(1, Configuration.getLocationNameSchemaNameTableName());
         preparedStatement.setString(2, newType);
         preparedStatement.setString(3, longName);
-        preparedStatement.execute();
+        ResultSet rs = preparedStatement.executeQuery();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE longname = "+longName+";");
         LocationName aLocationName = new LocationName(resultSet.getString("longname"), resultSet.getString("shortname"), resultSet.getString("nodetype"));
         aConnection.close();
@@ -70,7 +70,7 @@ public class LocationNameDAO {
         preparedStatement.setString(1, Configuration.getLocationNameSchemaNameTableName());
         preparedStatement.setString(2, shortName);
         preparedStatement.setString(3, longName);
-        preparedStatement.execute();
+        ResultSet rs = preparedStatement.executeQuery();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE longname = "+longName+";");
         LocationName aLocationName = new LocationName(resultSet.getString("longname"), resultSet.getString("shortname"), resultSet.getString("nodetype"));
         aConnection.close();
