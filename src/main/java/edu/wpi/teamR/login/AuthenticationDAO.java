@@ -5,9 +5,8 @@ import java.sql.*;
 
 public class AuthenticationDAO {
     private static AuthenticationDAO instance;
-    private String s;
     private AuthenticationDAO(){
-        s = "loaded!";
+
     }
     public static AuthenticationDAO getInstance() {
         if(AuthenticationDAO.instance == null){
