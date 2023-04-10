@@ -14,26 +14,24 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LocationNameDAOTest {
 
-    private LocationNameDAO locationNameDAO;
-    private Connection connection;
+    private static LocationNameDAO locationNameDAO;
+    private static Connection connection;
     @BeforeAll
-    void starterFunction() throws SQLException, ClassNotFoundException {
-        Configuration.changeSchemaName("prototype1test");
+    static void starterFunction() throws SQLException, ClassNotFoundException {
+        Configuration.changeSchemaName("iteration1test");
         connection = Configuration.getConnection();
         locationNameDAO = new LocationNameDAO(connection);
     }
-
     @BeforeEach
     void deleteOldData() throws SQLException {
         locationNameDAO.deleteAllLocationNames();
     }
 
     @AfterAll
-    void clearDataDeleteConnection() throws SQLException {
+    static void clearDataDeleteConnection() throws SQLException {
         locationNameDAO.deleteAllLocationNames();
         connection.close();
     }
-
     @Test
     void getLocations() throws SQLException {
         ArrayList<LocationName> locationNames;
@@ -85,10 +83,10 @@ class LocationNameDAOTest {
     }
 
     @Test
-    void getLocationByLongName() throws SQLException {
+    void getLocationByLongName() throws SQLException, ItemNotFoundException {
         LocationName locationName;
 
-        locationName = locationNameDAO.getLocationByLongName("test"); //TODO: ERROR CASE FOR MISSED SELECT
+        //locationName = locationNameDAO.getLocationByLongName("test"); //TODO: ERROR CASE FOR MISSED SELECT
 
         locationNameDAO.addLocationName("Location1", "l1", "node");
         locationNameDAO.addLocationName("Location2", "l2", "node");
@@ -96,24 +94,24 @@ class LocationNameDAOTest {
 
         locationName = locationNameDAO.getLocationByLongName("Location1");
         assertEquals(locationName.getLongName(), "Location1");
-        assertEquals(locationName.getLongName(), "l1");
-        assertEquals(locationName.getLongName(), "node");
+        assertEquals(locationName.getShortName(), "l1");
+        assertEquals(locationName.getNodeType(), "node");
 
         locationName = locationNameDAO.getLocationByLongName("Location2");
         assertEquals(locationName.getLongName(), "Location2");
-        assertEquals(locationName.getLongName(), "l2");
-        assertEquals(locationName.getLongName(), "node");
+        assertEquals(locationName.getShortName(), "l2");
+        assertEquals(locationName.getNodeType(), "node");
 
         locationName = locationNameDAO.getLocationByLongName("Location3");
         assertEquals(locationName.getLongName(), "Location3");
-        assertEquals(locationName.getLongName(), "l3");
-        assertEquals(locationName.getLongName(), "diff");
+        assertEquals(locationName.getShortName(), "l3");
+        assertEquals(locationName.getNodeType(), "diff");
 
-        locationName = locationNameDAO.getLocationByLongName("test");
+        //locationName = locationNameDAO.getLocationByLongName("test");
     }
 
     @Test
-    void modifyLocationNameType() throws SQLException {
+    void modifyLocationNameType() throws SQLException, ItemNotFoundException {
         LocationName locationName;
 
         locationNameDAO.addLocationName("Location1", "l1", "node");
@@ -122,27 +120,19 @@ class LocationNameDAOTest {
 
         locationName = locationNameDAO.getLocationByLongName("Location1");
         assertEquals(locationName.getLongName(), "Location1");
-        assertEquals(locationName.getLongName(), "l1");
-        assertEquals(locationName.getLongName(), "node");
+        assertEquals(locationName.getShortName(), "l1");
+        assertEquals(locationName.getNodeType(), "node");
 
         locationNameDAO.modifyLocationNameType("Location1", "test");
 
         locationName = locationNameDAO.getLocationByLongName("Location1");
         assertEquals(locationName.getLongName(), "Location1");
-        assertEquals(locationName.getLongName(), "l1");
-        assertEquals(locationName.getLongName(), "test");
-
-        //Ensure everything else is unchanged
-        assertEquals(locationName.getLongName(), "Location2");
-        assertEquals(locationName.getLongName(), "l2");
-        assertEquals(locationName.getLongName(), "node");
-        assertEquals(locationName.getLongName(), "Location3");
-        assertEquals(locationName.getLongName(), "l3");
-        assertEquals(locationName.getLongName(), "diff");
+        assertEquals(locationName.getShortName(), "l1");
+        assertEquals(locationName.getNodeType(), "test");
     }
 
     @Test
-    void modifyLocationNameShortName() throws SQLException {
+    void modifyLocationNameShortName() throws SQLException, ItemNotFoundException {
         LocationName locationName;
 
         locationNameDAO.addLocationName("Location1", "l1", "node");
@@ -151,22 +141,14 @@ class LocationNameDAOTest {
 
         locationName = locationNameDAO.getLocationByLongName("Location1");
         assertEquals(locationName.getLongName(), "Location1");
-        assertEquals(locationName.getLongName(), "l1");
-        assertEquals(locationName.getLongName(), "node");
+        assertEquals(locationName.getShortName(), "l1");
+        assertEquals(locationName.getNodeType(), "node");
 
         locationNameDAO.modifyLocationNameShortName("Location1", "testShortName");
 
         locationName = locationNameDAO.getLocationByLongName("Location1");
         assertEquals(locationName.getLongName(), "Location1");
-        assertEquals(locationName.getLongName(), "l1");
-        assertEquals(locationName.getLongName(), "testShortName");
-
-        //Ensure everything else is unchanged
-        assertEquals(locationName.getLongName(), "Location2");
-        assertEquals(locationName.getLongName(), "l2");
-        assertEquals(locationName.getLongName(), "node");
-        assertEquals(locationName.getLongName(), "Location3");
-        assertEquals(locationName.getLongName(), "l3");
-        assertEquals(locationName.getLongName(), "diff");
+        assertEquals(locationName.getShortName(), "testShortName");
+        assertEquals(locationName.getNodeType(), "node");
     }
 }

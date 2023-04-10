@@ -17,14 +17,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MoveDAOTest {
 
-    private Connection connection;
-    private LocationNameDAO locationNameDAO;
-    private NodeDAO nodeDAO;
-    private MoveDAO moveDAO;
+    static private Connection connection;
+    static private LocationNameDAO locationNameDAO;
+    static private NodeDAO nodeDAO;
+    static private MoveDAO moveDAO;
 
     @BeforeAll
-    void starterFunction() throws SQLException, ClassNotFoundException {
-        Configuration.changeSchemaName("prototype1test");
+    static void starterFunction() throws SQLException, ClassNotFoundException {
+        Configuration.changeSchemaName("iteration1test");
         connection = Configuration.getConnection();
         locationNameDAO = new LocationNameDAO(connection);
         nodeDAO = new NodeDAO(connection);
@@ -39,7 +39,7 @@ class MoveDAOTest {
     }
 
     @AfterAll
-    void clearDataDeleteConnection() throws SQLException {
+    static void clearDataDeleteConnection() throws SQLException {
         moveDAO.deleteAllMoves();
         nodeDAO.deleteAllNodes();
         locationNameDAO.deleteAllLocationNames();

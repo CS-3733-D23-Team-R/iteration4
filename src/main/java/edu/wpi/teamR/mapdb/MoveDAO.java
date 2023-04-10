@@ -23,7 +23,6 @@ public class MoveDAO {
             Move aMove = new Move(aNodeID, aLongName, aDate);
             temp.add(aMove);
         }
-        aConnection.close();
         return temp;
     }
     ArrayList<Move> getMovesByNodeID(int nodeID) throws SQLException {
@@ -37,7 +36,6 @@ public class MoveDAO {
             Move aMove = new Move(aNodeID, aLongName, aDate);
             temp.add(aMove);
         }
-        aConnection.close();
         return temp;
     }
     Move getLatestMoveByNodeID(int nodeID) throws SQLException {
@@ -45,13 +43,11 @@ public class MoveDAO {
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE date=(select max(date) FROM "+Configuration.getMoveSchemaNameTableName()+".move WHERE nodeID = "+nodeID+") AND nodeID = "+nodeID+";");
         resultSet.next();
         Move temp = new Move(resultSet.getInt("nodeid"), resultSet.getString("longname"), resultSet.getDate("date"));
-        aConnection.close();
         return temp;
     }
     Move addMove(int nodeID, String longName, java.sql.Date moveDate) throws SQLException {
         Statement statement = aConnection.createStatement();
         statement.executeUpdate("INSERT INTO "+Configuration.getMoveSchemaNameTableName()+" WHERE nodeID = "+nodeID+" and longname = '"+longName+"' and date = '"+moveDate.toString()+"';");
-        aConnection.close();
         return new Move(nodeID, longName, moveDate);
     }
     void deleteMovesByNode(int nodeID) throws SQLException {
