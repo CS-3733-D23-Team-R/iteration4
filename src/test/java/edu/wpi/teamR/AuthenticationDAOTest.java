@@ -29,7 +29,8 @@ public class AuthenticationDAOTest {
         authDao.addUser("140", "test", AccessLevel.Staff);
         Connection connection = Configuration.getConnection();
         Statement statement = connection.createStatement();
-        ResultSet resultset = statement.executeQuery("SELECT * FROM iteration1.authentication WHERE username = '140' AND password = 'test';");
+        ResultSet resultset = statement.executeQuery("SELECT * FROM "+Configuration.getAuthenticationTableName()+" WHERE username = '140' AND password = 'test';");
+        resultset.next();
         assertEquals("140",resultset.getString(1));
         assertEquals("test", resultset.getString(2));
         assertEquals("Staff", resultset.getString(3));
@@ -42,7 +43,8 @@ public class AuthenticationDAOTest {
         authDao.modifyUserAccessByID("777", AccessLevel.Staff);
         Connection connection = Configuration.getConnection();
         Statement statement = connection.createStatement();
-        ResultSet resultset = statement.executeQuery("SELECT * FROM iteration1.authentication WHERE username = '777' AND password = 'seven';");
+        ResultSet resultset = statement.executeQuery("SELECT * FROM "+Configuration.getAuthenticationTableName()+" WHERE username = '777' AND password = 'seven';");
+        resultset.next();
         assertEquals("777", resultset.getString(1));
         assertEquals("seven", resultset.getString(2));
         assertEquals("Staff", resultset.getString(3));
