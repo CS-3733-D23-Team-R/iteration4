@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXCheckbox?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -11,42 +10,77 @@
 <?import net.kurobako.gesturefx.GesturePane?>
 <?import org.controlsfx.control.SearchableComboBox?>
 
-<BorderPane fx:id="borderPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.MapController">
+<?import javafx.scene.control.Button?>
+<BorderPane fx:id="borderPane" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.MapController">
    <center>
       <AnchorPane fx:id="anchorPane" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <GesturePane fx:id="gesturePane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <VBox prefWidth="250.0" style="-fx-background-color: #2c3033; -fx-opacity: .65;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <MFXButton fx:id="floorUpButton" buttonType="RAISED" layoutX="163.0" layoutY="630.0" text="Floor Up" />
-            <MFXButton fx:id="floorDownButton" buttonType="RAISED" layoutX="20.0" layoutY="631.0" text="Floor Down" />
-            <MFXCheckbox fx:id="accessibleCheckbox" layoutX="108.0" layoutY="349.0" />
-            <MFXButton fx:id="searchButton" buttonType="RAISED" layoutX="91.0" layoutY="474.0" text="Search" />
-            <Text fill="WHITE" layoutX="49.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Location">
+            <VBox prefWidth="250.0" style="-fx-background-color: #2c3033; -fx-opacity: .65;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Location">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                              <SearchableComboBox fx:id="startField" prefWidth="175.0" />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="End Location">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                              <SearchableComboBox fx:id="endField" prefWidth="175.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Accessible Directions">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Text>
+                        <MFXCheckbox fx:id="accessibleCheckbox" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Display Text Directions">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Text>
+                        <MFXCheckbox fx:id="textCheckbox" />
+                     </children>
+                  </HBox>
+                  <Button fx:id="searchButton" text="Search" />
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="clearButton" text="Clear Path" />
+                        <Button fx:id="resetButton" text="Reset Zoom" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="floorDownButton" text="Floor Down" />
+                        <Button fx:id="floorUpButton" text="Floor Up" />
+                     </children>
+                  </HBox>
+               </children></VBox>
+            <Text fill="WHITE" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0">
                <font>
                   <Font size="24.0" />
                </font>
             </Text>
-            <Text fill="WHITE" layoutX="55.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="End Location">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Text>
-            <Text fill="WHITE" layoutX="8.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Accessible Directions">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Text>
-            <MFXButton fx:id="resetButton" buttonType="RAISED" layoutX="94.0" layoutY="575.0" text="Reset" />
-            <MFXButton fx:id="homeButton" buttonType="RAISED" layoutX="7.0" layoutY="691.0" text="Home" />
-            <MFXCheckbox fx:id="textCheckbox" layoutX="108.0" layoutY="434.0" />
-            <Text fill="WHITE" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Display Text Directions">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Text>
-            <MFXButton fx:id="clearButton" buttonType="RAISED" layoutX="81.0" layoutY="529.0" text="Clear Path" />
-            <SearchableComboBox fx:id="startField" layoutX="36.0" layoutY="92.0" prefWidth="175.0" />
-            <SearchableComboBox fx:id="endField" layoutX="36.0" layoutY="203.0" prefWidth="175.0" />
             <HBox layoutX="607.0" layoutY="644.0" prefHeight="50.0" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="607.0" AnchorPane.rightAnchor="606.0">
                <children>
                   <Text fx:id="floorText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" HBox.hgrow="ALWAYS">
