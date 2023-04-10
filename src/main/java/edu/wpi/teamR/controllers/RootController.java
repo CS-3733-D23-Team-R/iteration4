@@ -26,7 +26,7 @@ public class RootController {
     profileButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
     newRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
     pendingRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
-    pathfindingButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
+    pathfindingButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
     logoutButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
 
     helpButton.setOnMouseClicked(
