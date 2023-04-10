@@ -72,4 +72,9 @@ public class LocationNameDAO {
         aConnection.close();
         return aLocationName;
     }
+
+    void deleteAllLocationNames() throws SQLException {
+        PreparedStatement preparedStatement = aConnection.prepareStatement("DELETE FROM "+Configuration.getLocationNameSchemaNameTableName()+";");
+        preparedStatement.executeUpdate();
+    }
 }

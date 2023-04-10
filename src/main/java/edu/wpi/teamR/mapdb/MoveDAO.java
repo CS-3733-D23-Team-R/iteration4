@@ -64,4 +64,9 @@ public class MoveDAO {
         statement.executeUpdate("DELETE FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE longname = '"+longName+"';");
         statement.close();
     }
+
+    void deleteAllMoves() throws SQLException {
+        PreparedStatement preparedStatement = aConnection.prepareStatement("DELETE FROM "+Configuration.getMoveSchemaNameTableName()+";");
+        preparedStatement.executeUpdate();
+    }
 }
