@@ -1,0 +1,35 @@
+#home{
+    -fx-background-image: url("../images/home_background.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+#title{
+    -fx-font-family: Lato, regular;
+    -fx-font-weight: bold;
+    -fx-font-size: 40px;
+}
+
+.button{
+    -fx-font-family: Nunito, sans-serif;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+#body{
+    -fx-font-family: Nunito, sans-serif;
+    -fx-font-weight: 500;
+    -fx-font-size: 18px;
+}
+
+#subtitle{
+    -fx-font-family: Roboto, regular;
+    -fx-font-weight: 500;
+    -fx-font-size: 12px;
+}
+
+#sidebar{
+    -fx-font-family: 'Roboto';
+    -fx-font-size: 12.0px;
+}
