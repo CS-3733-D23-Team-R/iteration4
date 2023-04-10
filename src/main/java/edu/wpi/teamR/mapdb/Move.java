@@ -1,5 +1,6 @@
 package edu.wpi.teamR.mapdb;
 
+import edu.wpi.teamR.csv.CSVWritable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +9,7 @@ import java.sql.Date;
 
 @Getter
 @Setter(AccessLevel.PACKAGE)
-public class Move {
+public class Move implements MapData, CSVWritable {
 
     private int nodeID;
     private String longName;
@@ -21,5 +22,15 @@ public class Move {
 
     private Move(String[] args) throws IndexOutOfBoundsException {
         this(Integer.parseInt(args[0]),args[1], Date.valueOf(args[2]));
+    }
+
+    @Override
+    public String toCSVEntry() {
+        return nodeID + "," + longName + "," + moveDate;
+    }
+
+    @Override
+    public String getCSVColumns() {
+        return "nodeID,longName,moveDate";
     }
 }
