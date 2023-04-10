@@ -3,8 +3,7 @@ package edu.wpi.teamR.navigation;
 public enum Screen {
   ROOT("views/Root.fxml"),
   HOME("views/Home.fxml"),
-  SIGNAGE("views/Signage.fxml"),
-  MAP("views/Map.fxml");
+  SIGNAGE("views/Signage.fxml");
 
   private final String filename;
 
