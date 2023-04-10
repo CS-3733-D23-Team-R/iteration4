@@ -9,17 +9,11 @@ import java.util.Queue;
 public class MapDatabase {
     private MapDatabase instance;
 
-    private MapDatabase(String connectionURL, String username, String schemaName, String tableName) {
-
-    }
-
-    public MapDatabase createInstance(String connectionURL, String username, String schemaName, String tableName) {
-        if (instance != null)
-            instance = new MapDatabase(connectionURL, username, schemaName, tableName);
-        return instance;
-    }
+    private MapDatabase() {}
 
     public MapDatabase getInstance() {
+        if (instance != null)
+            instance = new MapDatabase();
         return instance;
     }
 
@@ -103,9 +97,19 @@ public class MapDatabase {
         return null;
     }
 
+    public ArrayList<LocationName> getLocationNamesByNode(int nodeID){
+        return null;
+    }
+
+    public ArrayList<LocationName> getLocationNamesByNodeType(String nodeType){
+        return null;
+    }
+
+
     public LocationName getLocationNameByLongName(String longName) {
         return null;
     }
+
 
     public LocationName modifyLocationNameType(String longName, String newType) {
         return null;
@@ -114,6 +118,7 @@ public class MapDatabase {
     public LocationName modifyLocationNameShortName(String longName, String newShortName) {
         return null;
     }
+
 
     public ArrayList<MapLocation> getMapLocationsByFloor(String floor) {
         return null;
