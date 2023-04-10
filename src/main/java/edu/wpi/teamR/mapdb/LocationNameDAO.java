@@ -90,4 +90,10 @@ public class LocationNameDAO {
         PreparedStatement preparedStatement = aConnection.prepareStatement("DELETE FROM "+Configuration.getLocationNameSchemaNameTableName()+";");
         preparedStatement.executeUpdate();
     }
+
+    void deleteLocationName(String longname) throws SQLException {
+        PreparedStatement preparedStatement = aConnection.prepareStatement("DELETE FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE longname=?;");
+        preparedStatement.setString(1, longname);
+        preparedStatement.executeUpdate();
+    }
 }

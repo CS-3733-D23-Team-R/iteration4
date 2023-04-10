@@ -3,10 +3,7 @@ package edu.wpi.teamR.mapdb;
 import edu.wpi.teamR.Configuration;
 import javafx.util.Pair;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Queue;
 
@@ -53,13 +50,23 @@ public class MapDatabase {
         return nodeDao.getNodesByFloor(floor);
     }
 
-    /*TODO public ArrayList<Node> getNodesByType(String type) throws SQLException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
-        NodeDAO nodeDao = new NodeDAO(connection);
-        ArrayList<Node> output = nodeDao.getNodesByType(type);
-        connection.close();
-        return(output);
-    }*/
+    public ArrayList<Node> getNodesByType(String type) throws SQLException { //TODO: GET CHECKED
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT DISTINCT nodeID,xCoord,yCoord,building,floor FROM "+Configuration.getNodeSchemaNameTableName()+" NATURAL JOIN "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN "+Configuration.getLocationNameSchemaNameTableName()+" WHERE nodetype=?;");
+        preparedStatement.setString(1, type);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        ArrayList<Node> nodes = new ArrayList<>();
+
+        while (resultSet.next()){
+            int nodeID = resultSet.getInt("nodeid");
+            int xCoord = resultSet.getInt("xCoord");
+            int yCoord = resultSet.getInt("yCoord");
+            String building = resultSet.getString("building");
+            String floor = resultSet.getString("floor");
+
+            nodes.add(new Node(nodeID, xCoord, yCoord, building, floor));
+        }
+        return nodes;
+    }
 
     public Node addNode(int xCoord, int yCoord, String floorNum, String building) throws SQLException {
         return nodeDao.addNode(xCoord, yCoord, floorNum, building);
@@ -101,9 +108,19 @@ public class MapDatabase {
         return moveDao.getMovesByNodeID(nodeID);
     }
 
-    /*TODO public Node getLatestMoveByLocationName(String longName) {
-        return nodeDao.get;
-    }*/
+    public Move getLatestMoveByLocationName(String longName) throws SQLException, ItemNotFoundException { //TODO: GET CHECKED
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE date=(select max(date) FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE longname = ? AND date<now()) AND longname = ?;");
+        preparedStatement.setString(1, longName);
+        preparedStatement.setString(2, longName);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()){
+            int nodeID = resultSet.getInt("nodeID");
+            Date date = resultSet.getDate("date");
+
+            return new Move(nodeID, longName, date);
+        }
+        throw new ItemNotFoundException();
+    }
 
     public Move addMove(int nodeID, String longName, Date moveDate) throws SQLException {
         return moveDao.addMove(nodeID, longName, moveDate);
@@ -111,6 +128,18 @@ public class MapDatabase {
 
     public void deleteMovesByNode(int nodeID) throws SQLException {
         moveDao.deleteMovesByNode(nodeID);
+    }
+
+    public void deleteMove(int nodeID, String longname, Date moveDate){
+        moveDao.deleteMove(nodeID, longname, moveDate);
+    }
+
+    public LocationName addLocationName(String longname, String shortname, String nodetype) throws SQLException {
+        return locationNameDao.addLocationName(longname, shortname, nodetype);
+    }
+
+    public void deleteLocationName(String longname) throws SQLException {
+        locationNameDao.deleteLocationName(longname);
     }
 
     public void deleteMovesByLocationName(String longName) throws SQLException {
@@ -139,9 +168,7 @@ public class MapDatabase {
         return locationNameDao.modifyLocationNameShortName(longName, newShortName);
     }
 
-
-    /*TODO public ArrayList<MapLocation> getMapLocationsByFloor(String floor) {
-        return locationNameDao.getMap;
-    }*/
-
+    public ArrayList<MapLocation> getMapLocationsByFloor(String floor) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" GROUP BY (longname, date)")
+    }
 }
