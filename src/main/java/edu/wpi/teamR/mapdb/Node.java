@@ -33,6 +33,6 @@ public class Node implements MapData, CSVReadable, CSVWritable {
 
     @Override
     public String getCSVColumns() {
-        return "nodeID,xCoord,yCoord,floorNum,building";
+        return "nodeID,xcoord,ycoord,floor,building";
     }
 }

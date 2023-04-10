@@ -22,7 +22,7 @@ public class Move implements MapData, CSVReadable, CSVWritable {
     }
 
     private Move(String[] args) throws IndexOutOfBoundsException {
-        this(Integer.parseInt(args[0]),args[1], Date.valueOf(args[2]));
+        this(Integer.parseInt(args[0]), args[1], Date.valueOf(args[2]));
     }
 
     @Override
@@ -32,6 +32,6 @@ public class Move implements MapData, CSVReadable, CSVWritable {
 
     @Override
     public String getCSVColumns() {
-        return "nodeID,longName,moveDate";
+        return "nodeID,longName,date";
     }
 }
