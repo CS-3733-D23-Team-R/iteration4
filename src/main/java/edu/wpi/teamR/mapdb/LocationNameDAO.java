@@ -24,6 +24,9 @@ public class LocationNameDAO {
         aConnection.close();
         return temp;
     }
+
+    /*
+    Outside of DAO scope
     LocationName getLocationByNodeID(int nodeId) throws SQLException {
         Statement statement = aConnection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE nodeID = "+nodeId+";");
@@ -32,6 +35,7 @@ public class LocationNameDAO {
         aConnection.close();
         return aLocationName;
     }
+     */
     ArrayList<LocationName> getLocationsByNodeType(String nodeType) throws SQLException {
         ArrayList<LocationName> temp = new ArrayList<LocationName>();
         Statement statement = aConnection.createStatement();
@@ -71,6 +75,15 @@ public class LocationNameDAO {
         LocationName aLocationName = new LocationName(resultSet.getString("longname"), resultSet.getString("shortname"), resultSet.getString("nodetype"));
         aConnection.close();
         return aLocationName;
+    }
+
+    LocationName addLocationName(String longName, String shortName, String nodeType) throws SQLException {
+        PreparedStatement preparedStatement = aConnection.prepareStatement("INSERT INTO "+Configuration.getLocationNameSchemaNameTableName()+"(longname, shortname, nodetype) VALUES(?,?,?);");
+        preparedStatement.setString(1, longName);
+        preparedStatement.setString(2, shortName);
+        preparedStatement.setString(3, nodeType);
+        preparedStatement.executeUpdate();
+        return null;
     }
 
     void deleteAllLocationNames() throws SQLException {
