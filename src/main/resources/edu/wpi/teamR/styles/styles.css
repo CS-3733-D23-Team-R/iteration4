@@ -1,117 +1,35 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito+Sans:wght@300;400;600;700&family=Roboto:wght@300;400;700&display=swap');
-
-.root {
-    bwhblue: #012D5A;
-    pressed: #BDBDBD;
+#home{
+    -fx-background-image: url("../images/home_background.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
 }
 
-.button {
-    -fx-background-color: bwhblue;
-    -fx-text-fill: white;
-    -fx-font-family: 'Nunito Sans', 'regular';
-    -fx-font-size: 18;
-    -fx-font-weight: 550;
-    border-radius: 4px;
-}
-
-.button:pressed {
-    -fx-background-color: pressed;
-    -fx-text-fill: white;
-    -fx-font-family: 'Nunito Sans', 'regular';
-    -fx-font-size: 18;
-    -fx-font-weight: 550;
-    border-radius: 4px;
-}
-
-.title{
-    -fx-font-family: 'Lato', 'bold';
+#title{
+    -fx-font-family: Lato, regular;
     -fx-font-weight: bold;
-    -fx-font-size: 36px;
+    -fx-font-size: 40px;
 }
 
-.body{
-    -fx-font-family: 'Nunito Sans', 'regular';
-    -fx-font-weight: NORMAL;
-    -fx-font-size: 24;
-}
-
-.subtitle{
-    -fx-font-family: 'Roboto', 'light';
-    -fx-font-weight: 300;
+.button{
+    -fx-font-family: Nunito, sans-serif;
+    -fx-font-weight: bold;
     -fx-font-size: 12px;
 }
 
-.sidebar{
+#body{
+    -fx-font-family: Nunito, sans-serif;
+    -fx-font-weight: 500;
+    -fx-font-size: 18px;
+}
+
+#subtitle{
+    -fx-font-family: Roboto, regular;
+    -fx-font-weight: 500;
+    -fx-font-size: 12px;
+}
+
+#sidebar{
     -fx-font-family: 'Roboto';
-    -fx-font-size: 12px;
-}
-
-.combo-box .list-cell {
-    -fx-padding: 0.7em 0.7em 0.7em 0em;
-}
-
-.popup-overlay {
-    -fx-background-color: white;
-    -fx-border-color: -swatch-grey;
-    -fx-border-width: 0 0 2 0;
-    -fx-background-radius: 0;
-    -fx-border-radius: 0;
-}
-
-.title-bar {
-    -fx-padding: 10;
-}
-
-.title-bar .icon {
-    -fx-alignment: center-left;
-    -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.2), 0.0, 0.0, 0.0,
-    1.0);
-}
-
-.title-bar .title-label {
-    -fx-padding: 0 10 0 10;
-    -fx-alignment: center;
-    -fx-font-size: 36;
-    -fx-font-weight: bolder;
-}
-
-.content-area {
-    -fx-background-color: -dark;
-}
-
-.content-background {
-    -fx-background-color: white;
-    -fx-background-radius: 0.0 0.0 11.0 11.0;
-    -fx-padding: 0 10 10 10;
-}
-
-.map-vbox {
-    -fx-background-color:  #FBF7F5;
-    -fx-border-color: BLACK;
-    -fx-border-insets: 0;
-    -fx-border-width: 3;
-    -fx-border-style: solid;
-}
-
-.sidebar-vbox:pressed{
-    -fx-background-color: pressed;
-    -fx-border-color: bwhblue;
-}
-
-.furniture-title{
-    -fx-background-image: url("../images/Rectangle 135.png");
-}
-
-.loginBackground {
-    -fx-background-image: url("../images/brigham.JPEG");
-    -fx-background-repeat: stretch;
-    -fx-background-size: cover;
-    -fx-background-position: center;
-}
-
-.loginRectangle {
-    -fx-background-color: #F3F3F3;
-    -fx-background-repeat: stretch;
-    -fx-background-size: cover;
-    -fx-background-position: center;
+    -fx-font-size: 12.0px;
 }
