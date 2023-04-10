@@ -5,10 +5,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Type;
-
 @Getter
 @Setter(AccessLevel.PACKAGE)
 public class Edge implements MapData, CSVWritable {
