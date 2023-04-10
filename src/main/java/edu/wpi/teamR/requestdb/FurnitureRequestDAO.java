@@ -5,9 +5,6 @@ import edu.wpi.teamR.Configuration;
 import java.sql.*;
 import java.util.ArrayList;
 
-import static edu.wpi.teamR.TestConfiguration.furnitureRequestTableName;
-import static edu.wpi.teamR.TestConfiguration.schemaName;
-
 public class FurnitureRequestDAO {
     private Connection connection;
 
