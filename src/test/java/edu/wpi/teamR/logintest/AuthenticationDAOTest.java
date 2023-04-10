@@ -1,5 +1,6 @@
-package edu.wpi.teamR;
+package edu.wpi.teamR.logintest;
 
+import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
