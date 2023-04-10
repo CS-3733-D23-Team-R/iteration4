@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class LocationNameDAO {
     private Connection aConnection;
-    private LocationNameDAO(Connection connection) throws SQLException, ClassNotFoundException {
+    LocationNameDAO(Connection connection) throws SQLException, ClassNotFoundException {
         aConnection = connection;
     }
     ArrayList<LocationName> getLocations() throws SQLException {
