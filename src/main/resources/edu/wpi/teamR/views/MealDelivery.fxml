@@ -2,12 +2,21 @@
 
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
 
-
-<BorderPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.views.MealDelivery">
+<BorderPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.views.MealDelivery">
    <center>
-      <AnchorPane prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+      <AnchorPane prefHeight="620.0" prefWidth="1280.0">
+         <children>
+            <Text layoutY="-35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ml" wrappingWidth="85.240234375" />
+         </children></AnchorPane>
    </center>
+   <top>
+      <AnchorPane prefHeight="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox styleClass="furniture-title" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
+   </top>
 </BorderPane>
