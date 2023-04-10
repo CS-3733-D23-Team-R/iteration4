@@ -17,7 +17,7 @@ public class LocationName implements MapData, CSVReadable, CSVWritable {
         this.nodeType = nodeType;
     }
 
-    private LocationName(String[] args) throws ArrayIndexOutOfBoundsException{
+    private LocationName(String[] args) throws IndexOutOfBoundsException{
         this(args[0], args[1], args[2]);
     }
 
