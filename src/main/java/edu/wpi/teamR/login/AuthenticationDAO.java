@@ -24,7 +24,7 @@ public class AuthenticationDAO {
         statement.setString(2, userID);
         statement.setString(3, password);
         statement.setString(4, accessLevel.toString());
-        statement.execute();
+        ResultSet resultSet = statement.executeQuery();
         connection.close();
         return new User(userID, password, accessLevel);
     }
@@ -34,12 +34,11 @@ public class AuthenticationDAO {
         statement.setString(1, Configuration.getAuthenticationTableName());
         statement.setString(2, accessLevel.toString());
         statement.setString(3, userID);
-        statement.execute();
+        ResultSet rs = statement.executeQuery();
         PreparedStatement statement2 = connection.prepareStatement("SELECT * FROM ? WHERE username = ?;");
         statement.setString(1, Configuration.getAuthenticationTableName());
         statement2.setString(2, userID);
-        statement.execute();
-        ResultSet resultSet = statement2.getResultSet();
+        ResultSet resultSet = statement.executeQuery();
         User temp = new User(resultSet.getString("username"), resultSet.getString("password"), AccessLevel.valueOf(resultSet.getString("accessLevel")));
         connection.close();
         return temp;
@@ -51,12 +50,12 @@ public class AuthenticationDAO {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM ? WHERE username = ?;");
             statement.setString(1, Configuration.getAuthenticationTableName());
             statement.setString(2, userID);
-            statement.execute();
+            ResultSet resultSet = statement.executeQuery();
         } else{
             System.out.println(Configuration.getAuthenticationTableName());
             PreparedStatement statement = connection.prepareStatement("DELETE FROM ?;");
             statement.setString(1, Configuration.getAuthenticationTableName());
-            statement.execute();
+            ResultSet resultSet = statement.executeQuery();
         }
         connection.close();
     }
