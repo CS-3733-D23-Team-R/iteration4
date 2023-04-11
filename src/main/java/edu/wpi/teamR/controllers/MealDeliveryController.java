@@ -1,5 +1,7 @@
 package edu.wpi.teamR.controllers;
 
+import edu.wpi.teamR.navigation.Navigation;
+import edu.wpi.teamR.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,7 +19,7 @@ public class MealDeliveryController {
     @FXML SearchableComboBox mealTypeField;
 
     @FXML public void initialize() {
-
+        cancelButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
     }
 
 }
