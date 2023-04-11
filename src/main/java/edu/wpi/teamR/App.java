@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,6 +35,7 @@ public class App extends Application {
 
     final FXMLLoader loader = new FXMLLoader(App.class.getResource("views/Root.fxml"));
     final BorderPane root = loader.load();
+    loadFonts();
 
     App.rootPane = root;
 
@@ -48,5 +50,9 @@ public class App extends Application {
   @Override
   public void stop() {
     log.info("Shutting Down");
+  }
+
+  public void loadFonts() {
+    Font.loadFont(getClass().getResourceAsStream("fonts/Rubik_Pixels/RubikPixels-Regular.ttf"), 36);
   }
 }
