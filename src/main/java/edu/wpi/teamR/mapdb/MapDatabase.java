@@ -88,6 +88,17 @@ public class MapDatabase {
         return edgeDao.getEdgesByNode(nodeID);
     }
 
+    public ArrayList<Edge> getEdgesByFloor(String floor) throws SQLException {
+        ArrayList<Edge> temp = new ArrayList<>();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select startnode,endnode from "+Configuration.getNodeSchemaNameTableName()+" join "+Configuration.getEdgeSchemaNameTableName()+" on node.nodeid = edge.startnode or node.nodeid = edge.endnode where floor = '"+floor+"';");
+        while(resultSet.next()){
+            Edge aEdge = new Edge(resultSet.getInt("startnode"), resultSet.getInt("endnode"));
+            temp.add(aEdge);
+        }
+        return temp;
+    }
+
     public Edge addEdge(int startNodeID, int endNodeID) throws SQLException {
         return edgeDao.addEdge(startNodeID, endNodeID);
     }
