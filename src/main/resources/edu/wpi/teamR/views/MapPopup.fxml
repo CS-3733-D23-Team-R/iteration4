@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.MapPopupController">
+   <top>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="51.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Node ID:" />
+            <Text layoutX="51.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Location Name:" />
+            <Text layoutX="51.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Move:" />
+            <TextField fx:id="nodeField" layoutX="161.0" layoutY="43.0" />
+            <TextField fx:id="locField" layoutX="224.0" layoutY="89.0" />
+            <TextField fx:id="moveField" layoutX="134.0" layoutY="148.0" />
+         </children>
+      </AnchorPane>
+   </top>
+</BorderPane>

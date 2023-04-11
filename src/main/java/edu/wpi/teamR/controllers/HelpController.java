@@ -13,7 +13,7 @@ public class HelpController {
     primaryStage.close();
   }
 
-  public void start(Stage primaryStage) {
+  @FXML public void start(Stage primaryStage) {
     primaryStage.show();
   }
 }

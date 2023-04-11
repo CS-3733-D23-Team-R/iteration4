@@ -18,7 +18,7 @@ public class Line extends Path{
         // Draw Line
         strokeProperty().bind(fillProperty());
         setFill(Color.RED);
-        setStrokeWidth(6);
+        setStrokeWidth(4);
         getElements().add(new MoveTo(startX, startY));
         getElements().add(new LineTo(endX, endY));
     }
