@@ -150,11 +150,16 @@
     -fx-border-color: pressed;
 }
 
-.loginBackgroung {
-    -fx-background-image: url("../images/brigham.jpg");
+.loginBackground {
+    -fx-background-image: url("../images/brigham.JPEG");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
     -fx-background-position: center;
-    -fx-background-overlay-color: bwhblue;
-    -fx-background-effect-overlay: #001856;
+}
+
+.loginRectangle {
+    -fx-background-color: #F3F3F3;
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
 }
