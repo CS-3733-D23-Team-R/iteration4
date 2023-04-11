@@ -1,6 +1,7 @@
 package edu.wpi.teamR.requestdb;
 
 import edu.wpi.teamR.Configuration;
+import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.mapdb.MapDatabase;
 
 import java.sql.Connection;
@@ -228,12 +229,12 @@ public class RequestDatabase {
         ItemRequest output;
         try {
             output = furnitureRequestDAO.getFurnitureRequestByID(requestID);
-        } catch (Exception ItemNotFoundException){
+        } catch (Exception e){
             try{
                 output = mealRequestDAO.getMealRequestByID(requestID);
-            } catch (Exception ItemNotFoundException){
+            } catch (Exception e2){
                 connection.close();
-                throw ItemNotFoundException;
+                throw new ItemNotFoundException();
             }
         }
         connection.close();
