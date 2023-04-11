@@ -1,6 +1,7 @@
 package edu.wpi.teamR.requestdb;
 
 import edu.wpi.teamR.Configuration;
+import edu.wpi.teamR.ItemNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -34,8 +35,8 @@ public class FurnitureRequestDAO {
     }
 
     void deleteFurnitureRequest(Integer requestID) throws SQLException{
-        PreparedStatement sqlDelete = connection.prepareStatement("DELETE FROM"+ Configuration.getFurnitureRequestSchemaNameTableName() + "WHERE requestID = " + requestID +";");
-
+        PreparedStatement sqlDelete = connection.prepareStatement("DELETE FROM "+ Configuration.getFurnitureRequestSchemaNameTableName() + " WHERE requestID = " + requestID +";");
+        sqlDelete.executeUpdate();
     }
 
     ArrayList<FurnitureRequest> getFurnitureRequests() throws SQLException{
@@ -57,10 +58,12 @@ public class FurnitureRequestDAO {
         return furniture;
     }
 
-    FurnitureRequest getFurnitureRequestByID(Integer requestID) throws SQLException {
+    FurnitureRequest getFurnitureRequestByID(Integer requestID) throws SQLException, ItemNotFoundException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE requestID="+requestID+";");
-        resultSet.next();
+        if(!resultSet.next()){
+            throw new ItemNotFoundException();
+        }
         String requesterName = resultSet.getString("requesterName");
         String location = resultSet.getString("location");
         String staffMember = resultSet.getString("staffMember");
@@ -74,7 +77,7 @@ public class FurnitureRequestDAO {
 
     ArrayList<FurnitureRequest> getFurnitureRequestsByRequesterName(String requesterName) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE requesterName="+requesterName+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE requesterName='"+requesterName+"';");
         ArrayList<FurnitureRequest> furniture = new ArrayList<>();
         while (resultSet.next()) {
             int requestID = resultSet.getInt("requestID");
@@ -92,7 +95,7 @@ public class FurnitureRequestDAO {
 
     ArrayList<FurnitureRequest> getFurnitureRequestsByLocation(String location) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE location="+location+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE location='"+location+"';");
         ArrayList<FurnitureRequest> furniture = new ArrayList<>();
         while (resultSet.next()) {
             int requestID = resultSet.getInt("requestID");
@@ -110,7 +113,7 @@ public class FurnitureRequestDAO {
 
     ArrayList<FurnitureRequest> getFurnitureRequestsByStaffMember(String staffMember) throws SQLException{
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE staffMember="+staffMember+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE staffMember='"+staffMember+"';");
         ArrayList<FurnitureRequest> furniture = new ArrayList<>();
         while (resultSet.next()) {
             int requestID = resultSet.getInt("requestID");
@@ -128,7 +131,7 @@ public class FurnitureRequestDAO {
 
     ArrayList<FurnitureRequest> getFurnitureRequestsByFurnitureType(String furnitureType) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE furnitureType="+furnitureType+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE furnitureType='"+furnitureType+"';");
         ArrayList<FurnitureRequest> furniture = new ArrayList<>();
         while (resultSet.next()) {
             int requestID = resultSet.getInt("requestID");
@@ -147,7 +150,7 @@ public class FurnitureRequestDAO {
 
     ArrayList<FurnitureRequest> getFurnitureRequestsByRequestStatus(RequestStatus requestStatus) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE requestStatus="+requestStatus+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE requestStatus='"+requestStatus+"';");
         ArrayList<FurnitureRequest> furniture = new ArrayList<>();
         while (resultSet.next()) {
             int requestID = resultSet.getInt("requestID");
@@ -165,7 +168,7 @@ public class FurnitureRequestDAO {
 
     ArrayList<FurnitureRequest> getFurnitureRequestsAfterTime(Timestamp time) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE starttime>"+time+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE requestdate>'"+time+"';");
         ArrayList<FurnitureRequest> furniture = new ArrayList<>();
         while(resultSet.next()){
             int requestID = resultSet.getInt("requestID");
@@ -185,7 +188,7 @@ public class FurnitureRequestDAO {
 
     ArrayList<FurnitureRequest> getFurnitureRequestsBeforeTime(Timestamp time) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE starttime<"+time+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE requestdate<'"+time+"';");
         ArrayList<FurnitureRequest> furniture = new ArrayList<>();
         while(resultSet.next()){
             int requestID = resultSet.getInt("requestID");
@@ -205,7 +208,7 @@ public class FurnitureRequestDAO {
 
     ArrayList<FurnitureRequest> getFurnitureRequestsBetweenTimes(Timestamp firstTime, Timestamp secondTime) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE starttime>"+ firstTime +"AND starttime<" + secondTime + ";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+" WHERE requestdate>'"+ firstTime +"' AND requestdate<'" + secondTime + "';");
         ArrayList<FurnitureRequest> furniture = new ArrayList<>();
         while(resultSet.next()){
             int requestID = resultSet.getInt("requestID");

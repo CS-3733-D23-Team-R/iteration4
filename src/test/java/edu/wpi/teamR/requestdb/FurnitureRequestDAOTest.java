@@ -1,6 +1,7 @@
 package edu.wpi.teamR.requestdb;
 
 import edu.wpi.teamR.Configuration;
+import edu.wpi.teamR.ItemNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,7 +51,7 @@ class FurnitureRequestDAOTest {
         connection = Configuration.getConnection();
         furnitureRequestDAO = new FurnitureRequestDAO(connection);
         Statement statement = connection.createStatement();
-        statement.executeQuery("DELETE FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+";");
+        statement.executeUpdate("DELETE FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+";");
     }
 
     @AfterEach
@@ -59,31 +60,25 @@ class FurnitureRequestDAOTest {
     }
 
     @Test
-    void addFurnitureRequest(){
-        try {
-            furnitureRequestDAO.addFurnitureRequest(
-                testName,
-                testLocation,
-                testStaffMember,
-                testNotes,
-                testTime,
-                RequestStatus.Done,
-                testType);
+    void addFurnitureRequest() throws SQLException {
+        furnitureRequestDAO.addFurnitureRequest(
+            testName,
+            testLocation,
+            testStaffMember,
+            testNotes,
+            testTime,
+            RequestStatus.Done,
+            testType);
 
-            FurnitureRequest aFurnitureRequest = furnitureRequestDAO.getFurnitureRequests().get(0);
+        FurnitureRequest aFurnitureRequest = furnitureRequestDAO.getFurnitureRequests().get(0);
 
-            assertEquals(testName, aFurnitureRequest.getRequesterName());
-            assertEquals(testLocation, aFurnitureRequest.getLocation());
-            assertEquals(testStaffMember, aFurnitureRequest.getStaffMember());
-            assertEquals(testNotes, aFurnitureRequest.getAdditionalNotes());
-            assertEquals(testTime, aFurnitureRequest.getRequestDate());
-            assertEquals(RequestStatus.Done, aFurnitureRequest.getRequestStatus());
-            assertEquals(testType, aFurnitureRequest.getItemType());
-
-        } catch (SQLException e){
-            e.printStackTrace();
-            fail();
-        }
+        assertEquals(testName, aFurnitureRequest.getRequesterName());
+        assertEquals(testLocation, aFurnitureRequest.getLocation());
+        assertEquals(testStaffMember, aFurnitureRequest.getStaffMember());
+        assertEquals(testNotes, aFurnitureRequest.getAdditionalNotes());
+        assertEquals(testTime, aFurnitureRequest.getRequestDate());
+        assertEquals(RequestStatus.Done, aFurnitureRequest.getRequestStatus());
+        assertEquals(testType, aFurnitureRequest.getItemType());
     }
 
     @Test
@@ -108,7 +103,7 @@ class FurnitureRequestDAOTest {
                 furnitureRequestDAO.getFurnitureRequestByID(requestID);
 
                 fail();
-            } catch (SQLException e){
+            } catch (ItemNotFoundException e){
                 //expected
             }
 
@@ -157,7 +152,7 @@ class FurnitureRequestDAOTest {
             assertEquals(testStaffMemberTwo, bFurnitureRequest.getStaffMember());
             assertEquals(testNotesTwo, bFurnitureRequest.getAdditionalNotes());
             assertEquals(testTimeTwo, bFurnitureRequest.getRequestDate());
-            assertEquals(RequestStatus.Done, bFurnitureRequest.getRequestStatus());
+            assertEquals(RequestStatus.Unstarted, bFurnitureRequest.getRequestStatus());
             assertEquals(testTypeTwo, bFurnitureRequest.getItemType());
 
         } catch (SQLException e){
@@ -205,10 +200,13 @@ class FurnitureRequestDAOTest {
             assertEquals(testStaffMemberTwo, bFurnitureRequest.getStaffMember());
             assertEquals(testNotesTwo, bFurnitureRequest.getAdditionalNotes());
             assertEquals(testTimeTwo, bFurnitureRequest.getRequestDate());
-            assertEquals(RequestStatus.Done, bFurnitureRequest.getRequestStatus());
+            assertEquals(RequestStatus.Unstarted, bFurnitureRequest.getRequestStatus());
             assertEquals(testTypeTwo, bFurnitureRequest.getItemType());
 
         } catch (SQLException e){
+            e.printStackTrace();
+            fail();
+        } catch (ItemNotFoundException e) {
             e.printStackTrace();
             fail();
         }

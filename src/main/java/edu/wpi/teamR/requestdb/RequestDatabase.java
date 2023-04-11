@@ -139,7 +139,7 @@ public class RequestDatabase {
         return output;
     }
 
-    public FurnitureRequest getFurnitureRequestByID(int requestID) throws SQLException, ClassNotFoundException {
+    public FurnitureRequest getFurnitureRequestByID(int requestID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
         FurnitureRequestDAO Dao = new FurnitureRequestDAO(connection);
         FurnitureRequest output = Dao.getFurnitureRequestByID(requestID);
