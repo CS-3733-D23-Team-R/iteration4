@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Queue;
 
 public class MapDatabase {
-//    private MapDatabase instance;
+    //    private MapDatabase instance;
     private Connection connection;
     private NodeDAO nodeDao;
     private EdgeDAO edgeDao;
@@ -111,6 +111,10 @@ public class MapDatabase {
         edgeDao.deleteEdgesByNode(nodeID);
     }
 
+    public ArrayList<Integer> getAdjacentNodeIDsByNodeID(int nodeID) throws SQLException {
+        return edgeDao.getAdjacentNodeIDsByNodeID(nodeID);
+    }
+
     public ArrayList<Move> getMoves() throws SQLException {
         return moveDao.getMoves();
     }
@@ -163,6 +167,16 @@ public class MapDatabase {
 
     public ArrayList<LocationName> getLocationNamesByNodeType(String nodeType) throws SQLException {
         return locationNameDao.getLocationsByNodeType(nodeType);
+    }
+
+    public String getNodeTypeByNodeID(int nodeID) throws SQLException, ItemNotFoundException {
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT nodetype from (SELECT * FROM (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() AND nodeid=? group by longname) as foo ORDER BY date desc limit 1) as foo NATURAL JOIN "+Configuration.getLocationNameSchemaNameTableName()+";");
+        preparedStatement.setInt(1, nodeID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next())
+            return resultSet.getString("nodetype");
+
+        throw new ItemNotFoundException();
     }
 
 
