@@ -10,11 +10,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class RequestDatabase {
-    private RequestDatabase instance;
+    private static RequestDatabase instance;
 
     private RequestDatabase() {}
 
-    public RequestDatabase getInstance() {
+    public static RequestDatabase getInstance() {
         if (instance != null)
             instance = new RequestDatabase();
         return instance;
