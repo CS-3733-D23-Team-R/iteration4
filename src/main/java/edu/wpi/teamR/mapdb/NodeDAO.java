@@ -4,6 +4,7 @@ import edu.wpi.teamR.Configuration;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class NodeDAO {
     private Connection connection;
@@ -15,6 +16,10 @@ public class NodeDAO {
     ArrayList<Node> getNodes() throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+";");
+        return parseNodes(resultSet);
+    }
+
+    static ArrayList<Node> parseNodes(ResultSet resultSet) throws SQLException {
         ArrayList<Node> nodes = new ArrayList<>();
         while (resultSet.next()){
             int nodeID = resultSet.getInt("nodeid");
@@ -85,5 +90,18 @@ public class NodeDAO {
     void deleteAllNodes() throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getNodeSchemaNameTableName()+";");
         preparedStatement.executeUpdate();
+    }
+
+
+    void addNodes(List<Node> nodes) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getNodeSchemaNameTableName()+"(nodeID, xCoord, yCoord, floor, building) VALUES (?,?,?,?,?)");
+        for (Node n : nodes) {
+            preparedStatement.setInt(1, n.getNodeID());
+            preparedStatement.setInt(2, n.getXCoord());
+            preparedStatement.setInt(3, n.getYCoord());
+            preparedStatement.setString(4, n.getFloorNum());
+            preparedStatement.setString(5, n.getBuilding());
+            preparedStatement.executeUpdate();
+        }
     }
 }
