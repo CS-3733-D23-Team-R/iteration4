@@ -141,7 +141,7 @@ public class MapDatabase {
         moveDao.deleteMovesByNode(nodeID);
     }
 
-    public void deleteMove(int nodeID, String longname, Date moveDate){
+    public void deleteMove(int nodeID, String longname, Date moveDate) throws SQLException {
         moveDao.deleteMove(nodeID, longname, moveDate);
     }
 
