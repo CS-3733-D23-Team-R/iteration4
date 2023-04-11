@@ -234,7 +234,7 @@ public class RequestDatabase {
         return output;
     }
 
-    public FlowerRequest getFlowerRequestByID(int requestID) throws SQLException, ClassNotFoundException {
+    public FlowerRequest getFlowerRequestByID(int requestID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
         FlowerRequestDAO Dao = new FlowerRequestDAO(connection);
         FlowerRequest output = Dao.getFlowerRequestByID(requestID);

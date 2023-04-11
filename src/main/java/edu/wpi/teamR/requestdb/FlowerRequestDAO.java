@@ -1,6 +1,7 @@
 package edu.wpi.teamR.requestdb;
 
 import edu.wpi.teamR.Configuration;
+import edu.wpi.teamR.ItemNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class FlowerRequestDAO {
 
     void deleteFlowerRequest(Integer requestID) throws SQLException{
         PreparedStatement sqlDelete = connection.prepareStatement("DELETE FROM"+ Configuration.getFlowerRequestSchemaNameTableName() + "WHERE requestID = " + requestID +";");
-
+        sqlDelete.executeUpdate();
     }
 
     ArrayList<FlowerRequest> getFlowerRequests() throws SQLException{
@@ -57,10 +58,12 @@ public class FlowerRequestDAO {
         return flowers;
     }
 
-    FlowerRequest getFlowerRequestByID(Integer requestID) throws SQLException {
+    FlowerRequest getFlowerRequestByID(Integer requestID) throws SQLException, ItemNotFoundException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFlowerRequestSchemaNameTableName()+" WHERE requestID="+requestID+";");
-        resultSet.next();
+        if(!resultSet.next()){
+            throw new ItemNotFoundException();
+        }
         String requesterName = resultSet.getString("requesterName");
         String location = resultSet.getString("location");
         String staffMember = resultSet.getString("staffMember");
