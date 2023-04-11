@@ -98,10 +98,6 @@
     -fx-border-color: bwhblue;
 }
 
-.furniture-title{
-    -fx-background-image: url("../images/Rectangle 135.png");
-}
-
 .loginBackground {
     -fx-background-image: url("../images/brigham.JPEG");
     -fx-background-repeat: stretch;
@@ -121,4 +117,32 @@
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
     -fx-background-position: center;
+}
+
+.furniture-title{
+    -fx-background-image: url("../images/furnitureTopBarImage.png");
+}
+
+.meal-title{
+    -fx-background-image: url("../images/foodTopBarImage.png");
+}
+
+.food_furniture-clear-button{
+    -fx-background-color: transparent;
+    -fx-text-fill: bwhblue;
+    -fx-font-family: "Nunito Sans";
+    -fx-font-size: 12;
+    -fx-font-weight: 700;
+    -fx-border-radius: 4px;
+    -fx-border-color: pressed;
+}
+
+.food_furniture-cancel-button{
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+    -fx-font-family: "Nunito Sans";
+    -fx-font-size: 12;
+    -fx-font-weight: 700;
+    -fx-border-radius: 4px;
+    -fx-border-color: pressed;
 }
