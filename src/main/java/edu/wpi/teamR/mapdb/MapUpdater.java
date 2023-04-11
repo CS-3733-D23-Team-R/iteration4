@@ -1,5 +1,7 @@
 package edu.wpi.teamR.mapdb;
 
+import edu.wpi.teamR.ItemNotFoundException;
+
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
