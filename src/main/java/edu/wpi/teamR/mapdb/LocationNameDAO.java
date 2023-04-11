@@ -1,6 +1,7 @@
 package edu.wpi.teamR.mapdb;
 
 import edu.wpi.teamR.Configuration;
+import edu.wpi.teamR.ItemNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
