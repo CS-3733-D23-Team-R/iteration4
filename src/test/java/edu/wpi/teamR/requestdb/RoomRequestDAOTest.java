@@ -1,7 +1,5 @@
 package edu.wpi.teamR.requestdb;
 
-import edu.wpi.teamR.requestdb.RoomRequest;
-import edu.wpi.teamR.requestdb.RoomRequestDAO;
 import org.junit.jupiter.api.Test;
 import edu.wpi.teamR.Configuration;
 import org.junit.jupiter.api.AfterAll;
@@ -11,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -51,9 +50,9 @@ class RoomRequestDAOTest {
         roomRequests = roomRequestDAO.getRoomRequests();
         assertEquals(roomRequests.size(), 0);
 
-        RoomRequestDAO.addRoomRequest("RoomRequest1", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name1", "Reason1");
+        roomRequestDAO.addRoomRequest("RoomRequest1", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name1", "Reason1");
 
-        roomRequests = RoomRequestDAO.getRoomRequests();
+        roomRequests = roomRequestDAO.getRoomRequests();
         assertEquals(roomRequests.size(), 1);
         roomRequest = roomRequests.get(0);
         assertEquals(roomRequest.getLocation(), "RoomRequest1");
@@ -69,7 +68,7 @@ class RoomRequestDAOTest {
 
         roomRequestDAO.addRoomRequest("RoomRequest3", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name3", "Reason3");
 
-        roomRequests = RoomRequestDAO.getRoomRequests();
+        roomRequests = roomRequestDAO.getRoomRequests();
         assertEquals(roomRequests.size(), 3);
     }
 
@@ -78,9 +77,9 @@ class RoomRequestDAOTest {
         ArrayList<RoomRequest> roomRequests;
         RoomRequest roomRequest;
 
-        RoomRequestDAO.addRoomRequest("RoomRequest1", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name1", "Reason1");
-        RoomRequestDAO.addRoomRequest("RoomRequest2", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name2", "Reason2");
-        RoomRequestDAO.addRoomRequest("RoomRequest3", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name3", "Reason3");
+        roomRequestDAO.addRoomRequest("RoomRequest1", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name1", "Reason1");
+        roomRequestDAO.addRoomRequest("RoomRequest2", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name2", "Reason2");
+        roomRequestDAO.addRoomRequest("RoomRequest3", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name3", "Reason3");
 
         roomRequest = roomRequestDAO.getRoomRequestByID(0);
         assertEquals(roomRequest.getRequestID(), 0);
@@ -102,9 +101,9 @@ class RoomRequestDAOTest {
 
         roomRequests = roomRequestDAO.getRoomRequestsByRequesterName("test"); //TODO: ERROR CASE FOR MISSED SELECT
 
-        RoomRequestDAO.addRoomRequest("RoomRequest1", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name1", "Reason1");
-        RoomRequestDAO.addRoomRequest("RoomRequest2", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name2", "Reason2");
-        RoomRequestDAO.addRoomRequest("RoomRequest3", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name3", "Reason3");
+        roomRequestDAO.addRoomRequest("RoomRequest1", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name1", "Reason1");
+        roomRequestDAO.addRoomRequest("RoomRequest2", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name2", "Reason2");
+        roomRequestDAO.addRoomRequest("RoomRequest3", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name3", "Reason3");
 
         roomRequests = roomRequestDAO.getRoomRequestsByRequesterName("Name1");
         roomRequest = roomRequests.get(0);
@@ -126,9 +125,9 @@ class RoomRequestDAOTest {
 
         roomRequests = roomRequestDAO.getRoomRequestsByLocation("test"); //TODO: ERROR CASE FOR MISSED SELECT
 
-        RoomRequestDAO.addRoomRequest("RoomRequest1", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name1", "Reason1");
-        RoomRequestDAO.addRoomRequest("RoomRequest2", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name2", "Reason2");
-        RoomRequestDAO.addRoomRequest("RoomRequest3", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name3", "Reason3");
+        roomRequestDAO.addRoomRequest("RoomRequest1", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name1", "Reason1");
+        roomRequestDAO.addRoomRequest("RoomRequest2", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name2", "Reason2");
+        roomRequestDAO.addRoomRequest("RoomRequest3", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name3", "Reason3");
 
         roomRequests = roomRequestDAO.getRoomRequestsByLocation("Location1");
         roomRequest = roomRequests.get(0);
@@ -148,11 +147,11 @@ class RoomRequestDAOTest {
         ArrayList<RoomRequest> roomRequests;
         RoomRequest roomRequest;
 
-        RoomRequestDAO.addRoomRequest("RoomRequest1", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name1", "Reason1");
-        RoomRequestDAO.addRoomRequest("RoomRequest2", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name2", "Reason2");
-        RoomRequestDAO.addRoomRequest("RoomRequest3", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name3", "Reason3");
+        roomRequestDAO.addRoomRequest("RoomRequest1", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name1", "Reason1");
+        roomRequestDAO.addRoomRequest("RoomRequest2", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name2", "Reason2");
+        roomRequestDAO.addRoomRequest("RoomRequest3", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name3", "Reason3");
 
-        roomRequests = roomRequestDAO.getRoomRequestsByStartTime(currentTimeMillis());
+        roomRequests = roomRequestDAO.getRoomRequestsByStartTime(new Timestamp(System.currentTimeMillis()));
         roomRequest = roomRequests.get(0);
         assertEquals(roomRequest.getLocation(), "Location1");
 
