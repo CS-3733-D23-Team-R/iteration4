@@ -78,15 +78,15 @@
                         <Button fx:id="searchButton" minWidth="300.0" prefHeight="30.0" text="Search" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                      <children>
-                        <Button fx:id="clearButton" prefHeight="30.0" prefWidth="105.0" text="Clear Path" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="resetButton" prefHeight="30.0" prefWidth="105.0" text="Reset Zoom" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="clearButton" prefHeight="30.0" prefWidth="145.0" text="Clear Path" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="resetButton" prefHeight="30.0" prefWidth="145.0" text="Reset Zoom" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="319.0" spacing="20.0">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="319.0" spacing="10.0">
                      <children>
-                        <Button fx:id="floorDownButton" prefHeight="30.0" prefWidth="105.0" text="Floor Down">
+                        <Button fx:id="floorDownButton" prefHeight="30.0" prefWidth="145.0" text="Floor Down">
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -94,7 +94,7 @@
                                  </image>
                               </ImageView>
                            </graphic></Button>
-                        <Button fx:id="floorUpButton" prefHeight="30.0" prefWidth="105.0" text="Floor Up">
+                        <Button fx:id="floorUpButton" prefHeight="30.0" prefWidth="145.0" text="Floor Up">
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -113,9 +113,9 @@
                   <Font size="24.0" />
                </font>
             </Text>
-            <HBox layoutX="607.0" layoutY="644.0" prefHeight="50.0" styleClass="map-vbox" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="607.0" AnchorPane.rightAnchor="606.0">
+            <HBox layoutX="607.0" layoutY="644.0" prefHeight="30.0" styleClass="map-vbox" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="607.0" AnchorPane.rightAnchor="606.0">
                <children>
-                  <Text fx:id="floorText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Floor" HBox.hgrow="ALWAYS">
+                  <Text fx:id="floorText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Floor" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="36.0" />
                      </font>
