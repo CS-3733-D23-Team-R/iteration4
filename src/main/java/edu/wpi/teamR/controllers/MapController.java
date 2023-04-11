@@ -1,5 +1,6 @@
 package edu.wpi.teamR.controllers;
 
+import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.Main;
 import edu.wpi.teamR.mapdb.MapDatabase;
 import edu.wpi.teamR.navigation.Navigation;
@@ -7,6 +8,7 @@ import edu.wpi.teamR.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -25,10 +27,12 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import net.kurobako.gesturefx.*;
 import edu.wpi.teamR.pathfinding.*;
+import edu.wpi.teamR.mapdb.*;
 import org.controlsfx.control.SearchableComboBox;
 
+import javax.xml.stream.Location;
+
 public class MapController {
-    /*
     @FXML
     Button resetButton;
     @FXML Button searchButton;
@@ -85,11 +89,10 @@ public class MapController {
     HashMap<String, Integer> floorNamesMap = new HashMap<String, Integer>();
 
     private MapDatabase mapdb;
-
-    String username = "teamr";
-    String password = "teamr150";
-    String schemaName = "prototype2";
-    String url = "jdbc:postgresql://database.cs.wpi.edu:5432/teamrdb";
+    ArrayList<Node> nodes;
+    ArrayList<Edge> edges;
+    ArrayList<LocationName> locationNames;
+    ArrayList<Move> moves;
 
     @FXML
     public void initialize() throws Exception {
@@ -99,19 +102,18 @@ public class MapController {
         }
 
         imageView = new ImageView(linkArray[currentFloor].toExternalForm());
-        gesturePane.setContent(mapPane); // set to groundfloor
+        gesturePane.setContent(mapPane);
         mapPane.getChildren().add(imageView);
         gesturePane.setMinScale(0.25);
         gesturePane.setMaxScale(2);
         resetButton.setOnMouseClicked(event -> reset());
         floorDownButton.setOnMouseClicked(event -> displayFloorDown());
         floorUpButton.setOnMouseClicked(event -> displayFloorUp());
-        homeButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
         clearButton.setOnMouseClicked(event -> clearPath());
         searchButton.setOnMouseClicked(event -> {
             try {
                 search();
-            } catch (Exception e) {
+            } catch (ItemNotFoundException | Exception e) {
                 e.printStackTrace();
             }
         });
@@ -121,7 +123,11 @@ public class MapController {
 
         reset();
 
-        mapdb = mapdb.getInstance();
+        mapdb = new MapDatabase();
+        nodes = mapdb.getNodes();
+        edges = mapdb.getEdges();
+        locationNames = mapdb.getLocationNames();
+        moves = mapdb.getMoves();
 
         setChoiceboxes();
     }
@@ -154,7 +160,7 @@ public class MapController {
                 .centreOn(new Point2D(x, y));
     }
 
-    public void search() throws Exception {
+    public void search() throws Exception, ItemNotFoundException {
     /*TODO
     take info from fields
     calculate route
@@ -163,9 +169,8 @@ public class MapController {
     create path between nodes on ALL floors
     create/display textual path? (would have to add spot to display)
      */
-    /*
-        String start = startField.getValue().toString();
-        String end = endField.getValue().toString();
+        String start = startField.getValue();
+        String end = endField.getValue();
         Boolean isAccessible = accessibleCheckbox.isPressed();
         displayPath(start, end, isAccessible);
     }
@@ -178,7 +183,7 @@ public class MapController {
             mapPane.getChildren().add(imageView);
             mapPane.getChildren().add(paths[currentFloor]);
             floorText.setText(floorNames[currentFloor]);
-            //reset();
+            reset();
         }
     }
 
@@ -190,7 +195,7 @@ public class MapController {
             mapPane.getChildren().add(imageView);
             mapPane.getChildren().add(paths[currentFloor]);
             floorText.setText(floorNames[currentFloor]);
-            //reset();
+            reset();
         }
     }
 
@@ -202,30 +207,30 @@ public class MapController {
             mapPane.getChildren().add(imageView);
             mapPane.getChildren().add(paths[currentFloor]);
             floorText.setText(floorNames[currentFloor]);
-            //reset();
+            reset();
         }
     }
 
-    public void displayPath(String startLocation, String endLocation, Boolean accessible) throws Exception {
+    public void displayPath(String startLocation, String endLocation, Boolean accessible) throws Exception, ItemNotFoundException {
         clearPath();
         mapPane.getChildren().add(paths[currentFloor]);
 
         int startID = idFromName(startLocation);
         int endID = idFromName(endLocation);
 
-        Pathfinder pathfinder = new Pathfinder(nodes, edges, moves, locationNames);
+        Pathfinder pathfinder = new Pathfinder(mapdb);
         Path mapPath = pathfinder.aStarPath(startID, endID, accessible);
         ArrayList<Integer> currentPath = mapPath.getPath();
 
-        Node startNode = nodes.selectNodeByID(startID);
-        Node endNode = nodes.selectNodeByID(endID);
+        Node startNode = mapdb.getNodeByID(startID);
+        Node endNode = mapdb.getNodeByID(endID);
 
         if (startNode.getFloorNum() != nodeFloorNames[currentFloor]){
             displayFloorNum(floorNamesMap.get(startNode.getFloorNum()));
         }
 
         Circle start = new Circle(startNode.getXCoord(), startNode.getYCoord(), 5, Color.RED);
-        Text startText = new Text(nameFromID(startNode.getNodeID()));
+        Text startText = new Text(startField.getValue());
         startText.setX(startNode.getXCoord() + 10);
         startText.setY(startNode.getYCoord());
         startText.setFill(Color.RED);
@@ -234,8 +239,8 @@ public class MapController {
 
         int drawFloor = currentFloor;
         for (int i = 0; i < mapPath.getPath().size() - 1; i++) {
-            Node n1 = nodes.selectNodeByID(mapPath.getPath().get(i));
-            Node n2 = nodes.selectNodeByID(mapPath.getPath().get(i + 1));
+            Node n1 = mapdb.getNodeByID(mapPath.getPath().get(i));
+            Node n2 = mapdb.getNodeByID(mapPath.getPath().get(i + 1));
             if (n1.getFloorNum().equals(nodeFloorNames[drawFloor]) && n2.getFloorNum().equals(nodeFloorNames[drawFloor])) {
                 Line l1 = new Line(n1.getXCoord(), n1.getYCoord(), n2.getXCoord(), n2.getYCoord());
                 paths[drawFloor].getChildren().add(l1);
@@ -245,7 +250,7 @@ public class MapController {
             }
         }
         Circle end = new Circle(endNode.getXCoord(), endNode.getYCoord(), 5, Color.RED);
-        Text endText = new Text(nameFromID(endNode.getNodeID()));
+        Text endText = new Text(endField.getValue());
         endText.setX(endNode.getXCoord() + 10);
         endText.setY(endNode.getYCoord());
         endText.setFill(Color.RED);
@@ -253,44 +258,12 @@ public class MapController {
         paths[drawFloor].getChildren().add(endText);
     }
 
-    private static int idFromName(String longname) throws NotFoundException {
-        ArrayList<Move> matchingMoves = moves.selectMoves(null, longname, null);
-        int newestMove = -1;
-        long lowestDate = Long.MAX_VALUE;
-
-        for (int i = 0; i < matchingMoves.size(); i++){
-            long moveDate = matchingMoves.get(i).getMoveDate().getTime();
-            if (moveDate < lowestDate){
-                lowestDate = moveDate;
-                newestMove = i;
-            }
-        }
-        if (newestMove==-1)
-            throw new NotFoundException();
-
-        return matchingMoves.get(newestMove).getNodeID();
-    }
-
-    private static String nameFromID(int nodeID) throws NotFoundException {
-        ArrayList<Move> matchingMoves = moves.selectMoves(nodeID, null, null);
-        int newestMove = -1;
-        long lowestDate = Long.MAX_VALUE;
-
-        for (int i = 0; i < matchingMoves.size(); i++){
-            long moveDate = matchingMoves.get(i).getMoveDate().getTime();
-            if (moveDate < lowestDate){
-                lowestDate = moveDate;
-                newestMove = i;
-            }
-        }
-        if (newestMove==-1)
-            throw new NotFoundException();
-
-        return matchingMoves.get(newestMove).getLongName();
+    private int idFromName(String longname) throws SQLException, ItemNotFoundException {
+        return mapdb.getLatestMoveByLocationName(longname).getNodeID();
     }
 
     void setChoiceboxes(){
-        ArrayList<LocationName> locationNodes = locationNames.selectLocationNames(null, null, null);
+        ArrayList<LocationName> locationNodes = locationNames;
         ArrayList<String> names = new ArrayList<String>();
         for (LocationName l: locationNodes) {
             if(!l.getLongName().contains("Hall")) {
@@ -301,5 +274,4 @@ public class MapController {
         startField.setItems(choices);
         endField.setItems(choices);
     }
-    */
 }

@@ -1,15 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito+Sans:wght@300;400;600;700&family=Roboto:wght@300;400;700&display=swap');
 
-.root{
+.root {
     bwhblue: #012D5A;
     pressed: #BDBDBD;
-}
-
-#home{
-    -fx-background-image: url("../images/home_background.png");
-    -fx-background-repeat: stretch;
-    -fx-background-size: cover;
-    -fx-background-position: center;
 }
 
 .button {
@@ -17,7 +10,7 @@
     -fx-text-fill: white;
     -fx-font-family: 'Nunito Sans', 'regular';
     -fx-font-size: 18;
-    -fx-font-weight: 550;
+    -fx-font-weight: 500;
     border-radius: 4px;
 }
 
@@ -26,7 +19,7 @@
     -fx-text-fill: white;
     -fx-font-family: 'Nunito Sans', 'regular';
     -fx-font-size: 18;
-    -fx-font-weight: 550;
+    -fx-font-weight: 500;
     border-radius: 4px;
 }
 
@@ -69,6 +62,29 @@
     -fx-padding: 10;
 }
 
+.title-bar .icon {
+    -fx-alignment: center-left;
+    -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.2), 0.0, 0.0, 0.0,
+    1.0);
+}
+
+.title-bar .title-label {
+    -fx-padding: 0 10 0 10;
+    -fx-alignment: center;
+    -fx-font-size: 36;
+    -fx-font-weight: bolder;
+}
+
+.content-area {
+    -fx-background-color: -dark;
+}
+
+.content-background {
+    -fx-background-color: white;
+    -fx-background-radius: 0.0 0.0 11.0 11.0;
+    -fx-padding: 0 10 10 10;
+}
+
 .map-vbox {
     -fx-background-color:  #FBF7F5;
     -fx-border-color: BLACK;
@@ -80,4 +96,65 @@
 .sidebar-vbox:pressed{
     -fx-background-color: pressed;
     -fx-border-color: bwhblue;
+}
+
+.food-title{
+    -fx-background-image: url("../images/foodTopBarImage.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.furniture-title{
+    -fx-background-image: url("../images/furnitureTopBarImage.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.food-icon{
+    -fx-background-image: url("../images/food-dinner-icon2.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.food-nameTitle{
+    -fx-font-family: "Nunito Sans";
+    -fx-font-weight: NORMAL;
+    -fx-font-size: 36px;
+}
+
+.food_furniture-clear-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: bwhblue;
+    -fx-font-family: "Nunito Sans";
+    -fx-font-size: 12;
+    -fx-font-weight: 700;
+    border-radius: 4px;
+    -fx-border-color: pressed;
+}
+
+.food_furniture-cancel-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+    -fx-font-family: "Nunito Sans";
+    -fx-font-size: 12;
+    -fx-font-weight: 700;
+    border-radius: 4px;
+    -fx-border-color: pressed;
+}
+
+.loginBackground {
+    -fx-background-image: url("../images/brigham.JPEG");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.loginRectangle {
+    -fx-background-color: #F3F3F3;
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
 }
