@@ -40,7 +40,7 @@ public class Pathfinder {
                 int newCost = costSoFar.get(currentNode) + nodeDist(currentNode, neighbor);
                 if (!costSoFar.containsKey(neighbor) || newCost < costSoFar.get(neighbor)){
                     costSoFar.put(neighbor, newCost);
-                    int priority = newCost + hueristic(neighbor, endID);
+                    int priority = newCost + heuristic(neighbor, endID);
                     pQueue.add(new QueueNode(neighbor, priority));
                     cameFrom.put(neighbor, currentNode);
                 }
@@ -57,23 +57,19 @@ public class Pathfinder {
         return path;
     }
 
-//    private String findNodeType(int nodeID) {
-//        return locationNames.selectLocationNames(moves.selectMoves(nodeID, null, null).get(0).getLongName() ,null, null).get(0).getNodeType();
-//    }
-
-    private int hueristic(int nodeID, int endID) throws SQLException, ItemNotFoundException {
+    private int heuristic(int nodeID, int endID) throws SQLException, ItemNotFoundException {
         //returns A* hueristic for node
         return nodeDist(nodeID, endID, 200);
     }
 
     private ArrayList<Integer> findNeighboringNodes(int nodeID, int endID) throws SQLException, ItemNotFoundException {
         // ArrayList<Node> neighbors = new ArrayList<Node>();
-        ArrayList<Integer> neighbors = mapDatabase.getAdjacentNodeIDsByNodeID(nodeID); //TODO adjacent node IDs
+        ArrayList<Integer> neighbors = mapDatabase.getAdjacentNodeIDsByNodeID(nodeID);
         for (Integer neighbor : neighbors) {
             if (neighbor.equals(endID)) {
                 continue;
             }
-            String type = mapDatabase.getNodeTypeByNodeID(neighbor); //TODO type from ID
+            String type = mapDatabase.getNodeTypeByNodeID(neighbor);
             if (!type.equals("HALL") && !type.equals("ELEV") && !type.equals("STAI")) {
                 neighbors.remove(neighbor);
             }
