@@ -211,13 +211,110 @@ public class RequestDatabase {
         return output;
     }
 
+    public FlowerRequest addFlowerRequest(String requesterName, String location, String staffMember, String additionalNotes, Timestamp requestDate, RequestStatus requestStatus, String flowerType) throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        FlowerRequestDAO Dao = new FlowerRequestDAO(connection);
+        FlowerRequest output = Dao.addFlowerRequest(requesterName, location, staffMember, additionalNotes, requestDate, requestStatus, flowerType);
+        connection.close();
+        return output;
+    }
+
+    public void deleteFlowerRequest(int requestID) throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        FlowerRequestDAO Dao = new FlowerRequestDAO(connection);
+        Dao.deleteFlowerRequest(requestID);
+        connection.close();
+    }
+
+    public ArrayList<FlowerRequest> getFlowerRequests() throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        FlowerRequestDAO Dao = new FlowerRequestDAO(connection);
+        ArrayList<FlowerRequest> output = Dao.getFlowerRequests();
+        connection.close();
+        return output;
+    }
+
+    public FlowerRequest getFlowerRequestByID(int requestID) throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        FlowerRequestDAO Dao = new FlowerRequestDAO(connection);
+        FlowerRequest output = Dao.getFlowerRequestByID(requestID);
+        connection.close();
+        return output;
+    }
+
+    public ArrayList<FlowerRequest> getFlowerRequestsByRequesterName(String requesterName) throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        FlowerRequestDAO Dao = new FlowerRequestDAO(connection);
+        ArrayList<FlowerRequest> output = Dao.getFlowerRequestsByRequesterName(requesterName);
+        connection.close();
+        return output;
+    }
+
+    public ArrayList<FlowerRequest> getFlowerRequestsByLocation(String location) throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        FlowerRequestDAO Dao = new FlowerRequestDAO(connection);
+        ArrayList<FlowerRequest> output = Dao.getFlowerRequestsByLocation(location);
+        connection.close();
+        return output;
+    }
+
+    public ArrayList<FlowerRequest> getFlowerRequestsByStaffMember(String staffMember) throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        FlowerRequestDAO Dao = new FlowerRequestDAO(connection);
+        ArrayList<FlowerRequest> output = Dao.getFlowerRequestsByStaffMember(staffMember);
+        connection.close();
+        return output;
+    }
+
+    public ArrayList<FlowerRequest> getFlowerRequestsByFlowerType(String flowerType) throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        FlowerRequestDAO Dao = new FlowerRequestDAO(connection);
+        ArrayList<FlowerRequest> output = Dao.getFlowerRequestsByFlowerType(flowerType);
+        connection.close();
+        return output;
+    }
+
+    public ArrayList<FlowerRequest> getFlowerRequestsByRequestStatus(RequestStatus requestStatus) throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        FlowerRequestDAO Dao = new FlowerRequestDAO(connection);
+        ArrayList<FlowerRequest> output = Dao.getFlowerRequestsByRequestStatus(requestStatus);
+        connection.close();
+        return output;
+    }
+
+    public ArrayList<FlowerRequest> getFlowerRequestsAfterTime(Timestamp time) throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        FlowerRequestDAO Dao = new FlowerRequestDAO(connection);
+        ArrayList<FlowerRequest> output = Dao.getFlowerRequestsAfterTime(time);
+        connection.close();
+        return output;
+    }
+
+    public ArrayList<FlowerRequest> getFlowerRequestsBeforeTime(Timestamp time) throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        FlowerRequestDAO Dao = new FlowerRequestDAO(connection);
+        ArrayList<FlowerRequest> output = Dao.getFlowerRequestsBeforeTime(time);
+        connection.close();
+        return output;
+    }
+
+    public ArrayList<FlowerRequest> getFlowerRequestsBetweenTimes(Timestamp firstTime, Timestamp secondTime) throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        FlowerRequestDAO Dao = new FlowerRequestDAO(connection);
+        ArrayList<FlowerRequest> output = Dao.getFlowerRequestsBetweenTimes(firstTime, secondTime);
+        connection.close();
+        return output;
+    }
+
     public ArrayList<ItemRequest> getItemRequests() throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         FurnitureRequestDAO furnitureRequestDAO = new FurnitureRequestDAO(connection);
         MealRequestDAO mealRequestDAO = new MealRequestDAO(connection);
+        FlowerRequestDAO flowerRequestDAO = new FlowerRequestDAO(connection);
         ArrayList<ItemRequest> output = new ArrayList<>();
         output.addAll(furnitureRequestDAO.getFurnitureRequests());
         output.addAll(mealRequestDAO.getMealRequests());
+        output.addAll(flowerRequestDAO.getFlowerRequests());
         connection.close();
         return output;
     }
@@ -226,6 +323,7 @@ public class RequestDatabase {
         Connection connection = Configuration.getConnection();
         FurnitureRequestDAO furnitureRequestDAO = new FurnitureRequestDAO(connection);
         MealRequestDAO mealRequestDAO = new MealRequestDAO(connection);
+        FlowerRequestDAO flowerRequestDAO = new FlowerRequestDAO(connection);
         ItemRequest output;
         try {
             output = furnitureRequestDAO.getFurnitureRequestByID(requestID);
@@ -233,8 +331,12 @@ public class RequestDatabase {
             try{
                 output = mealRequestDAO.getMealRequestByID(requestID);
             } catch (Exception e2){
-                connection.close();
-                throw new ItemNotFoundException();
+                try{
+                    output = flowerRequestDAO.getFlowerRequestByID(requestID);
+                } catch (SQLException ex) {
+                    connection.close();
+                    throw new ItemNotFoundException();
+                }
             }
         }
         connection.close();
@@ -245,6 +347,7 @@ public class RequestDatabase {
         ArrayList<ItemRequest> output = new ArrayList<>();
         output.addAll(this.getFurnitureRequestsByRequesterName(requesterName));
         output.addAll(this.getMealRequestsByRequesterName(requesterName));
+        output.addAll(this.getFlowerRequestsByRequesterName(requesterName));
         return output;
     }
 
@@ -252,13 +355,15 @@ public class RequestDatabase {
         ArrayList<ItemRequest> output = new ArrayList<>();
         output.addAll(this.getFurnitureRequestsByLocation(location));
         output.addAll(this.getMealRequestsByLocation(location));
+        output.addAll(this.getFlowerRequestsByLocation(location));
         return output;
     }
 
-    public ArrayList<ItemRequest> getItemRequestsByStaffMember(String staffMember) {
+    public ArrayList<ItemRequest> getItemRequestsByStaffMember(String staffMember) throws SQLException, ClassNotFoundException {
         ArrayList<ItemRequest> output = new ArrayList<>();
-        output.addAll(this.getItemRequestsByStaffMember(staffMember));
-        output.addAll(this.getItemRequestsByStaffMember(staffMember));
+        output.addAll(this.getFurnitureRequestsByStaffMember(staffMember));
+        output.addAll(this.getMealRequestsByStaffMember(staffMember));
+        output.addAll(this.getFlowerRequestsByStaffMember(staffMember));
         return output;
     }
 
@@ -266,6 +371,7 @@ public class RequestDatabase {
         ArrayList<ItemRequest> output = new ArrayList<>();
         output.addAll(this.getFurnitureRequestsByFurnitureType(itemType));
         output.addAll(this.getMealRequestsByMealType(itemType));
+        output.addAll(this.getFlowerRequestsByFlowerType(itemType));
         return output;
     }
 
@@ -273,6 +379,7 @@ public class RequestDatabase {
         ArrayList<ItemRequest> output = new ArrayList<>();
         output.addAll(this.getFurnitureRequestsByRequestStatus(requestStatus));
         output.addAll(this.getMealRequestsByRequestStatus(requestStatus));
+        output.addAll(this.getFlowerRequestsByRequestStatus(requestStatus));
         return output;
     }
 
@@ -280,6 +387,7 @@ public class RequestDatabase {
         ArrayList<ItemRequest> output = new ArrayList<>();
         output.addAll(this.getFurnitureRequestsAfterTime(time));
         output.addAll(this.getMealRequestsAfterTime(time));
+        output.addAll(this.getFlowerRequestsAfterTime(time));
         return output;
     }
 
@@ -287,6 +395,7 @@ public class RequestDatabase {
         ArrayList<ItemRequest> output = new ArrayList<>();
         output.addAll(this.getFurnitureRequestsBeforeTime(time));
         output.addAll(this.getMealRequestsBeforeTime(time));
+        output.addAll(this.getFlowerRequestsBeforeTime(time));
         return output;
     }
 
@@ -294,6 +403,7 @@ public class RequestDatabase {
         ArrayList<ItemRequest> output = new ArrayList<>();
         output.addAll(this.getFurnitureRequestsBetweenTimes(firstTime, secondTime));
         output.addAll(this.getMealRequestsBetweenTimes(firstTime, secondTime));
+        output.addAll(this.getFlowerRequestsBetweenTimes(firstTime, secondTime));
         return output;
     }
 
