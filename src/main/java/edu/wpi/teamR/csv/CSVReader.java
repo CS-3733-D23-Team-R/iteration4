@@ -21,9 +21,14 @@ public class CSVReader<T extends CSVReadable> {
         reader.readLine();
     }
 
-    public ArrayList<T> parseCSV() throws CSVParameterException, IOException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
+    public ArrayList<T> parseCSV() throws CSVParameterException, IOException {
         ArrayList<T> data = new ArrayList<>();
-        Constructor<T> c = _class.getDeclaredConstructor(String[].class);
+        Constructor<T> c = null;
+        try {
+            c = _class.getDeclaredConstructor(String[].class);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
         c.setAccessible(true);
         String line;
         String[] args;
@@ -36,6 +41,8 @@ public class CSVReader<T extends CSVReadable> {
         } catch(IndexOutOfBoundsException e) {
             c.setAccessible(false);
             throw new CSVParameterException();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e ) {
+            throw new RuntimeException(e);
         }
         return data;
     }
