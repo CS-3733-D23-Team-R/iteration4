@@ -41,10 +41,6 @@ public class MapDatabase {
 //        return instance;
 //    }
 
-    void submitUpdates(Queue<ArrayList<Pair<?, EditType>>> updates) {
-
-    }
-
     public ArrayList<Node> getNodes() throws SQLException {
         return nodeDao.getNodes();
     }
