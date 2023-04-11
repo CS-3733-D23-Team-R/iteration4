@@ -1,6 +1,7 @@
 package edu.wpi.teamR.mapdb;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,7 +29,7 @@ public class MapUpdater {
         currentAction = null;
     }
 
-    public void submitUpdates() {
+    public void submitUpdates() throws SQLException {
         if (currentAction != null) actionQueue.addFirst(currentAction);
         Collection<Pair<MapData, EditType>> action;
         while(!actionQueue.isEmpty()) {
@@ -37,7 +38,7 @@ public class MapUpdater {
                 switch (p.second) {
                     case ADDITION -> {
                         if (p.first instanceof Node n) {
-                            mapdb.addNode(n.getXCoord(), n.getYCoord(), n.getFloorNum());
+                            mapdb.addNode(n.getXCoord(), n.getYCoord(), n.getFloorNum(), n.getBuilding());
                         } else if (p.first instanceof Edge e) {
                             mapdb.addEdge(e.getStartNode(), e.getEndNode());
                         } else if (p.first instanceof Move m) {
@@ -62,7 +63,7 @@ public class MapUpdater {
                         } else if (p.first instanceof Move m) {
                             mapdb.deleteMove(m.getNodeID(), m.getLongName(), m.getMoveDate());
                         } else if (p.first instanceof LocationName l) {
-                            mapdb.deleteLocationName(l.getLongName(), l.getShortName(), l.getNodeType());
+                            mapdb.deleteLocationName(l.getLongName());
                         }
                     }
                 }
@@ -83,7 +84,7 @@ public class MapUpdater {
         return n;
     }
 
-    public Node modifyCoords(int nodeID, int xCoord, int yCoord) {
+    public Node modifyCoords(int nodeID, int xCoord, int yCoord) throws SQLException {
         if (currentAction == null) currentAction = new UpdateAction();
         Node n = mapdb.getNodeByID(nodeID);
         n.setXCoord(xCoord);
@@ -92,7 +93,7 @@ public class MapUpdater {
         return n;
     }
 
-    public void deleteNode(int nodeID) {
+    public void deleteNode(int nodeID) throws SQLException {
         if (currentAction == null) currentAction = new UpdateAction();
         currentAction.addUpdate(mapdb.getNodeByID(nodeID), EditType.DELETION);
     }
@@ -111,7 +112,7 @@ public class MapUpdater {
         currentAction.addUpdate(e, EditType.DELETION);
     }
 
-    public void deleteEdgesByNode(int nodeID) {
+    public void deleteEdgesByNode(int nodeID) throws SQLException {
         if (currentAction == null) currentAction = new UpdateAction();
         ArrayList<Edge> edges = mapdb.getEdgesByNode(nodeID);
         currentAction.addUpdates(edges, EditType.DELETION);
@@ -125,20 +126,20 @@ public class MapUpdater {
         return m;
     }
 
-    public void deleteMovesByNode(int nodeID) {
+    public void deleteMovesByNode(int nodeID) throws SQLException {
         if (currentAction == null) currentAction = new UpdateAction();
         ArrayList<Move> moves = mapdb.getMovesByNode(nodeID);
         currentAction.addUpdates(moves, EditType.DELETION);
     }
 
-    public void deleteMovesByLocationName(String longName) {
+    public void deleteMovesByLocationName(String longName) throws SQLException, ItemNotFoundException {
         if (currentAction == null) currentAction = new UpdateAction();
         Move m = mapdb.getLatestMoveByLocationName(longName);
         currentAction.addUpdate(m, EditType.DELETION);
     }
 
 
-    public LocationName modifyLocationNameType(String longName, String newType) {
+    public LocationName modifyLocationNameType(String longName, String newType) throws SQLException, ItemNotFoundException {
         if (currentAction == null) currentAction = new UpdateAction();
         LocationName l = mapdb.getLocationNameByLongName(longName);
         l.setNodeType(newType);
@@ -146,7 +147,7 @@ public class MapUpdater {
         return l;
     }
 
-    public LocationName modifyLocationNameShortName(String longName, String newShortName) {
+    public LocationName modifyLocationNameShortName(String longName, String newShortName) throws SQLException, ItemNotFoundException {
         if (currentAction == null) currentAction = new UpdateAction();
         LocationName l = mapdb.getLocationNameByLongName(longName);
         l.setShortName(newShortName);
