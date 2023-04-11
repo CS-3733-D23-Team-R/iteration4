@@ -15,7 +15,7 @@ public class EdgeDAO {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+ Configuration.getEdgeSchemaNameTableName()+";");
         ArrayList<Edge> edges = new ArrayList<>();
-        
+
         while (resultSet.next()){
             int startNode = resultSet.getInt("startnode");
             int endNode = resultSet.getInt("endnode");
@@ -65,5 +65,25 @@ public class EdgeDAO {
     void deleteAllEdges() throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getEdgeSchemaNameTableName()+";");
         preparedStatement.executeUpdate();
+    }
+
+    public ArrayList<Integer> getAdjacentNodeIDsByNodeID(int nodeID) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT startnode,endnode FROM "+Configuration.getEdgeSchemaNameTableName()+" WHERE startnode=? OR endnode=?;");
+        preparedStatement.setInt(1, nodeID);
+        preparedStatement.setInt(2, nodeID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        ArrayList<Integer> nodeIDs = new ArrayList<>();
+
+        while (resultSet.next()){
+            int startNode = resultSet.getInt("startnode");
+            int endNode = resultSet.getInt("endnode");
+
+            if (startNode != nodeID)
+                nodeIDs.add(startNode);
+
+            if (endNode != nodeID)
+                nodeIDs.add(endNode);
+        }
+        return nodeIDs;
     }
 }
