@@ -134,21 +134,21 @@ class MoveDAOTest {
         moveDAO.addMove(node.getNodeID(), "name1", date);
         date = Date.valueOf(LocalDate.now().minusDays(1));
         moveDAO.addMove(node.getNodeID(), "name1", date);
-        date = Date.valueOf(LocalDate.now().minusDays(1));
+        date = Date.valueOf(LocalDate.now().minusDays(2));
         moveDAO.addMove(node2.getNodeID(), "name1", date);
 
         moves = moveDAO.getMovesByNodeID(node.getNodeID()); //after three moves added
-        assertEquals(moves.size(), 3);
+        assertEquals(moves.size(), 2);
 
         moveDAO.deleteMovesByNode(node.getNodeID());
 
-        moves = moveDAO.getMovesByNodeID(node.getNodeID()); //after two moves deleted
+        moves = moveDAO.getMovesByNodeID(node2.getNodeID()); //after two moves deleted
         assertEquals(moves.size(), 1);
 
         moveDAO.deleteMovesByNode(node2.getNodeID());
 
         moves = moveDAO.getMovesByNodeID(node.getNodeID()); //after last move deleted
-        assertEquals(moves.size(), 1);
+        assertEquals(moves.size(), 0);
     }
 
     @Test
@@ -172,7 +172,7 @@ class MoveDAOTest {
         moves = moveDAO.getMovesByNodeID(node.getNodeID()); //after both added
         assertEquals(moves.size(), 2);
 
-        moveDAO.deleteMovesByLongName("name1");
+        moveDAO.deleteMove(node.getNodeID(), "name2", date);
 
         moves = moveDAO.getMovesByNodeID(node.getNodeID()); //after one deleted
         assertEquals(moves.size(), 1);
@@ -182,7 +182,7 @@ class MoveDAOTest {
         moves = moveDAO.getMovesByNodeID(node.getNodeID()); //after fake delete
         assertEquals(moves.size(), 1);
 
-        moveDAO.deleteMovesByLongName("node2");
+        moveDAO.deleteMovesByLongName("name1");
 
         moves = moveDAO.getMovesByNodeID(node.getNodeID()); //after last one deleted
         assertEquals(moves.size(), 0);
