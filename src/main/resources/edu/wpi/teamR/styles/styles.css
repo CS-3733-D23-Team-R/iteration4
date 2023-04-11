@@ -115,3 +115,10 @@
     -fx-background-size: cover;
     -fx-background-position: center;
 }
+
+.homeBackground {
+    -fx-background-color: #F3F3F3;
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}

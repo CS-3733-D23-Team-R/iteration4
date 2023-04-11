@@ -23,8 +23,8 @@ public class LoginController {
         System.out.println(usernameField.getText());
         System.out.println(passwordField.getText());
 
-        /*if (usernameField.getText().equals("admin") && passwordField.getText().equals("admin")) {
-            Navigation.navigate(Screen.);
+        /*if (usernameField.getText().equals(AuthenticationDAO.getInstance().getUser(usernameField.getText()))) {
+            Navigation.navigate(Screen.HOME);
         }*/
     }
 
