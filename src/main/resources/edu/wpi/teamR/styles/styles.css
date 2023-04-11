@@ -99,7 +99,7 @@
 }
 
 .furniture-title{
-    -fx-background-image: url("../images/furnitureTopBarImage.png");
+    -fx-background-image: url("../images/Rectangle 135.png");
 }
 
 .loginBackground {
@@ -116,26 +116,9 @@
     -fx-background-position: center;
 }
 
-.meal-title{
-    -fx-background-image: url("../images/foodTopBarImage.png");
-}
-
-.food_furniture-clear-button{
-    -fx-background-color: transparent;
-    -fx-text-fill: bwhblue;
-    -fx-font-family: "Nunito Sans";
-    -fx-font-size: 12;
-    -fx-font-weight: 700;
-    -fx-border-radius: 4px;
-    -fx-border-color: pressed;
-}
-
-.food_furniture-cancel-button{
-    -fx-background-color: transparent;
-    -fx-text-fill: black;
-    -fx-font-family: "Nunito Sans";
-    -fx-font-size: 12;
-    -fx-font-weight: 700;
-    -fx-border-radius: 4px;
-    -fx-border-color: pressed;
+.homeBackground {
+    -fx-background-color: #F3F3F3;
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
 }
