@@ -169,6 +169,39 @@ public class MapDatabase {
     }
 
     public ArrayList<MapLocation> getMapLocationsByFloor(String floor) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" GROUP BY (longname, date)")
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" NATURAL JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as foo natural join "+Configuration.getLocationNameSchemaNameTableName()+" ORDER BY nodeID;");
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        ArrayList<MapLocation> mapLocations = new ArrayList<>();
+        Node lastNode = new Node(-1, 0, 0, "", ""); //need to initialize so that it doesm't error
+        Node currentNode;
+        ArrayList<LocationName> locationNames = new ArrayList<>();
+        LocationName locationName;
+        while (resultSet.next()){
+            int nodeID = resultSet.getInt("nodeid");
+            int xCoord = resultSet.getInt("xCoord");
+            int yCoord = resultSet.getInt("yCoord");
+            String building = resultSet.getString("building");
+            String longName = resultSet.getString("longName");
+            String shortName = resultSet.getString("shortName");
+            String nodeType = resultSet.getString("nodeType");
+
+            currentNode = new Node(nodeID, xCoord, yCoord, floor, building);
+            locationName = new LocationName(longName, shortName, nodeType);
+
+            boolean continuingLastNode = lastNode.getNodeID()==nodeID;
+            if (continuingLastNode){
+                locationNames.add(locationName);
+            } else{
+                mapLocations.add(new MapLocation(lastNode, locationNames)); //if you've reached the end of the list of locations then you're ready to add it
+                locationNames = new ArrayList<>(); //reset list for the next node
+                locationNames.add(locationName); //add first entry for the next node
+            }
+
+            lastNode = currentNode;
+        }
+        mapLocations.add(new MapLocation(lastNode, locationNames)); //the last locationName will already have been added
+
+        return mapLocations;
     }
 }
