@@ -1,6 +1,6 @@
 package edu.wpi.teamR.pathfinding;
 
-import edu.wpi.teamR.database.*;
+import edu.wpi.teamR.mapdb.ItemNotFoundException;
 import edu.wpi.teamR.mapdb.MapDatabase;
 import edu.wpi.teamR.mapdb.Node;
 
@@ -18,7 +18,7 @@ public class Pathfinder {
     }
 
     //if accessible is True, the algorithm will not suggest staircases
-    public Path aStarPath(int startID, int endID, boolean accessible) throws Exception{
+    public Path aStarPath(int startID, int endID, boolean accessible) throws Exception, ItemNotFoundException {
         Path path = new Path();
         HashMap<Integer, Integer> cameFrom = new HashMap<>();
         HashMap<Integer, Integer> costSoFar = new HashMap<>();
@@ -34,7 +34,7 @@ public class Pathfinder {
             ArrayList<Integer> neighbors = mapDatabase.getAdjacentNodeIDsByNodeID(currentNode);
             for (int neighbor : neighbors) {
                 //remove stair nodes if accessible is checked
-                if(accessible && mapDatabase.nodeTypeByID(currentNode).equals("STAI") && mapDatabase.nodeTypeByID(neighbor).equals("STAI")) {
+                if(accessible && mapDatabase.getNodeTypeByNodeID(currentNode).equals("STAI") && mapDatabase.getNodeTypeByNodeID(neighbor).equals("STAI")) {
                     continue;
                 }
                 int newCost = costSoFar.get(currentNode) + nodeDist(currentNode, neighbor);
@@ -61,19 +61,19 @@ public class Pathfinder {
 //        return locationNames.selectLocationNames(moves.selectMoves(nodeID, null, null).get(0).getLongName() ,null, null).get(0).getNodeType();
 //    }
 
-    private int hueristic(int nodeID, int endID) throws SQLException {
+    private int hueristic(int nodeID, int endID) throws SQLException, ItemNotFoundException {
         //returns A* hueristic for node
         return nodeDist(nodeID, endID, 200);
     }
 
-    private ArrayList<Integer> findNeighboringNodes(int nodeID, int endID){
+    private ArrayList<Integer> findNeighboringNodes(int nodeID, int endID) throws SQLException, ItemNotFoundException {
         // ArrayList<Node> neighbors = new ArrayList<Node>();
-        ArrayList<Integer> neighbors = mapDatabase.getAdjacentNodeIDsbyNodeID(nodeID); //TODO adjacent node IDs
+        ArrayList<Integer> neighbors = mapDatabase.getAdjacentNodeIDsByNodeID(nodeID); //TODO adjacent node IDs
         for (Integer neighbor : neighbors) {
             if (neighbor.equals(endID)) {
                 continue;
             }
-            String type = mapDatabase.nodeTypeByID(neighbor); //TODO type from ID
+            String type = mapDatabase.getNodeTypeByNodeID(neighbor); //TODO type from ID
             if (!type.equals("HALL") && !type.equals("ELEV") && !type.equals("STAI")) {
                 neighbors.remove(neighbor);
             }
@@ -82,11 +82,11 @@ public class Pathfinder {
         return neighbors;
     }
 
-    private int nodeDist(int currentNodeID, int nextNodeID) throws SQLException {
+    private int nodeDist(int currentNodeID, int nextNodeID) throws SQLException, ItemNotFoundException {
         return nodeDist(currentNodeID, nextNodeID, 100);
     }
 
-    private int nodeDist(int currentNodeID, int nextNodeID, int zDifMultiplier) throws SQLException {
+    private int nodeDist(int currentNodeID, int nextNodeID, int zDifMultiplier) throws SQLException, ItemNotFoundException {
         //finds difference in x,y
         Node currNode = mapDatabase.getNodeByID(currentNodeID);
         Node nextNode = mapDatabase.getNodeByID(nextNodeID);
@@ -95,7 +95,7 @@ public class Pathfinder {
         int yDif = abs(currNode.getYCoord() - nextNode.getYCoord());
         int zDif = abs(floorNumAsInt(currNode.getFloorNum()) - floorNumAsInt(nextNode.getFloorNum()));
 
-        if (mapDatabase.findNodeTypeByID(currentNodeID).equals("STAI") && mapDatabase.findNodeTypeByID(nextNodeID).equals("STAI")) {
+        if (mapDatabase.getNodeTypeByNodeID(currentNodeID).equals("STAI") && mapDatabase.getNodeTypeByNodeID(nextNodeID).equals("STAI")) {
             zDif = zDif * zDifMultiplier * 2;
         } else {
             zDif = zDif * zDifMultiplier;
