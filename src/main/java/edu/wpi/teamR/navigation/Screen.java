@@ -5,7 +5,8 @@ public enum Screen {
   HOME("views/Home.fxml"),
   SIGNAGE("views/Signage.fxml"),
   MealDelivery("views/MealDelivery.fxml"),
-  MAP("views/Map.fxml");
+  MAP("views/Map.fxml"),
+  LOGIN("view/Login.fxml");
 
   private final String filename;
 
