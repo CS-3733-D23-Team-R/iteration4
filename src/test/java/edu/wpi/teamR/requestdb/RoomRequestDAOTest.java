@@ -1,4 +1,4 @@
-package edu.wpi.teamR.requesttest;
+package edu.wpi.teamR.requestdb;
 
 import edu.wpi.teamR.requestdb.RoomRequest;
 import edu.wpi.teamR.requestdb.RoomRequestDAO;
