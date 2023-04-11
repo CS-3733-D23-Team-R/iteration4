@@ -35,7 +35,7 @@
          </children></AnchorPane>
    </center>
    <top>
-      <AnchorPane prefHeight="100.0" styleClass="food-title" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="100.0" styleClass="meal-title" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="90.0" fitWidth="90.0" layoutX="1184.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="6.0">
                <image>
