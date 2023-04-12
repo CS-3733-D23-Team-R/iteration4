@@ -1,5 +1,6 @@
 package edu.wpi.teamR.login;
 import edu.wpi.teamR.Configuration;
+import edu.wpi.teamR.ItemNotFoundException;
 
 import java.sql.*;
 
@@ -46,5 +47,18 @@ public class AuthenticationDAO {
         Statement statement = connection.createStatement();
         statement.executeUpdate("DELETE FROM "+Configuration.getAuthenticationTableName()+";");
         connection.close();
+    }
+
+    public User getUser(String userID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        Connection connection = Configuration.getConnection();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getAuthenticationTableName()+" WHERE username='"+userID+"';");
+        if (resultSet.next()){
+            String password = resultSet.getString("password");
+            AccessLevel accessLevel = AccessLevel.valueOf(resultSet.getString("accesslevel"));
+
+            return new User(userID, password, accessLevel);
+        }
+        throw new ItemNotFoundException();
     }
 }
