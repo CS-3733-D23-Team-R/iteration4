@@ -113,7 +113,7 @@ public class MapController {
         searchButton.setOnMouseClicked(event -> {
             try {
                 search();
-            } catch (ItemNotFoundException | Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
