@@ -1,8 +1,6 @@
 package edu.wpi.teamR.controllers;
 
-import edu.wpi.teamR.ItemNotFoundException;
-import edu.wpi.teamR.navigation.Navigation;
-import edu.wpi.teamR.navigation.Screen;
+import edu.wpi.teamR.Main;
 import edu.wpi.teamR.requestdb.ItemRequest;
 import edu.wpi.teamR.requestdb.RequestDatabase;
 import edu.wpi.teamR.requestdb.RequestStatus;
@@ -10,17 +8,18 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.converter.IntegerStringConverter;
+import javafx.scene.image.ImageView;
+import javafx.util.Callback;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-
 
 public class SortOrdersController {
 
@@ -33,7 +32,8 @@ public class SortOrdersController {
     @FXML TableColumn<ItemRequest, String> staffMemberColumn;
     @FXML TableColumn<ItemRequest, String> timeColumn;
     @FXML TableColumn<ItemRequest, String> statusColumn;
-    @FXML MFXButton backButton;
+
+    @FXML TableColumn<ItemRequest, Void> deleteCol;
     ObservableList<RequestStatus> statusList = FXCollections.observableArrayList(RequestStatus.values());
 
 
@@ -49,7 +49,7 @@ public class SortOrdersController {
         //statusColumn.setCellValueFactory(new PropertyValueFactory<>("requestStatus"));
         requestTypeColumn.setCellValueFactory(new PropertyValueFactory<>("itemType"));
         requestTypeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-
+        addButtonToTable();
 
         for (ItemRequest request : RequestDatabase.getInstance().getItemRequests()) {
             requestTable.getItems().add(request);
@@ -60,7 +60,7 @@ public class SortOrdersController {
             ItemRequest request = event.getRowValue();
             request.setStaffMember(event.getNewValue());
             try {
-                RequestDatabase.getInstance()(request.getRequestID(), request.getRequesterName(),request.getLocation(),request.getItemType(), event.getNewValue(), request.getAdditionalNotes(), request.getRequestDate(), request.getRequestStatus());
+                RequestDatabase.getInstance().modifyRequestByID(request.getRequestID(), request.getRequesterName(),request.getLocation(), event.getNewValue(), request.getAdditionalNotes(), request.getRequestDate(), request.getRequestStatus(),request.getItemType());
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -78,7 +78,7 @@ public class SortOrdersController {
                     try {
                         RequestStatus status = changeStatusButton.getSelectionModel().getSelectedItem();
                         request.setRequestStatus(status);
-                        FoodRequestDAO.getInstance().modifyFoodRequestByID(request.getRequestID(), request.getRequesterName(), request.getLocation(), request.getMealType(), request.getStaffMember(), request.getAdditionalNotes(), request.getRequestDate(), status);
+                        RequestDatabase.getInstance().modifyRequestByID(request.getRequestID(), request.getRequesterName(), request.getLocation(), request.getStaffMember(), request.getAdditionalNotes(), request.getRequestDate(), status, request.getItemType());
                     } catch (SQLException | ClassNotFoundException e) {
                         throw new RuntimeException(e);
                     }
@@ -91,12 +91,48 @@ public class SortOrdersController {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    ServiceRequest sr = getTableView().getItems().get(getIndex());
+                    ItemRequest sr = getTableView().getItems().get(getIndex());
                     changeStatusButton.getSelectionModel().selectItem(sr.getRequestStatus());
                     setGraphic(changeStatusButton);
                 }
             }
         });
 
+    }
+
+    private void addButtonToTable() {
+        Callback<TableColumn<ItemRequest, Void>, TableCell<ItemRequest, Void>> cellFactory = new Callback<TableColumn<ItemRequest, Void>, TableCell<ItemRequest, Void>>() {
+            @Override
+            public TableCell<ItemRequest, Void> call(final TableColumn<ItemRequest, Void> param) {
+                final TableCell<ItemRequest, Void> cell = new TableCell<ItemRequest, Void>() {
+
+                    private final Button btn = new Button();
+                    {
+                        ImageView imageView = new ImageView(Main.class.getResource("images/delete.png").toExternalForm());
+                        imageView.setPreserveRatio(true);
+                        imageView.setFitHeight(30);
+                        btn.getStyleClass().add("food_furniture-clear-button");
+                        btn.setGraphic(imageView);
+                        btn.setOnAction((ActionEvent event) -> {
+                            ItemRequest data = getTableView().getItems().get(getIndex());
+                            RequestDatabase.getInstance().deleteRequest(data.getRequestID());
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+
+        deleteCol.setCellFactory(cellFactory);
     }
 }

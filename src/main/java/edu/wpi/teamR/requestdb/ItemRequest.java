@@ -30,4 +30,11 @@ public class ItemRequest {
         this.itemType = itemType;
     }
 
+    public void setRequestStatus(RequestStatus requestStatus) {
+        this.requestStatus = requestStatus;
+    }
+
+    public void setStaffMember(String staffMember) {
+        this.staffMember = staffMember;
+    }
 }
