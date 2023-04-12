@@ -54,7 +54,7 @@ public class MapDatabase {
     }
 
     public ArrayList<Node> getNodesByType(String type) throws SQLException { //TODO: GET CHECKED
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT DISTINCT nodeID,xCoord,yCoord,building,floor FROM "+Configuration.getNodeSchemaNameTableName()+" NATURAL JOIN "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN "+Configuration.getLocationNameSchemaNameTableName()+" WHERE nodetype=?;");
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" NATURAL JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as foo natural join "+Configuration.getLocationNameSchemaNameTableName()+" WHERE nodetype=? ORDER BY nodeID;");
         preparedStatement.setString(1, type);
         ResultSet resultSet = preparedStatement.executeQuery();
         return parseNodes(resultSet);
