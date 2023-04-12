@@ -84,7 +84,7 @@ public class LocationNameDAO {
         preparedStatement.setString(2, shortName);
         preparedStatement.setString(3, nodeType);
         preparedStatement.executeUpdate();
-        return null;
+        return new LocationName(longName, shortName, nodeType);
     }
 
     void deleteAllLocationNames() throws SQLException {

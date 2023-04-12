@@ -16,6 +16,7 @@ public class Configuration {
     public static final String mealRequestTableName = "mealrequestview";
     public static final String furnitureRequestTableName = "furniturerequestview";
     public static final String roomRequestTableName = "roomrequestview";
+    public static final String flowerRequestTableName = "flowerrequestview";
     public static final String authenticationTableName = "authentication";
     public static Connection getConnection() throws ClassNotFoundException, SQLException {
         Class.forName("org.postgresql.Driver");
@@ -43,5 +44,6 @@ public class Configuration {
     public static String getRoomRequestSchemaNameTableName(){
         return schemaName+"."+roomRequestTableName;
     }
+    public static String getFlowerRequestSchemaNameTableName() {return schemaName+"."+flowerRequestTableName; }
     public static String getAuthenticationTableName(){ return schemaName+"."+authenticationTableName;}
 }
