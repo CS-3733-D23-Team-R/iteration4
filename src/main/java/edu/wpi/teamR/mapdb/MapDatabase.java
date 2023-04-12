@@ -190,7 +190,8 @@ public class MapDatabase {
     }
 
     public ArrayList<MapLocation> getMapLocationsByFloor(String floor) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" NATURAL JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as foo natural join "+Configuration.getLocationNameSchemaNameTableName()+" ORDER BY nodeID;");
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" NATURAL JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as foo natural join "+Configuration.getLocationNameSchemaNameTableName()+" WHERE floor=? ORDER BY nodeID;");
+        preparedStatement.setString(1, floor);
         ResultSet resultSet = preparedStatement.executeQuery();
 
         ArrayList<MapLocation> mapLocations = new ArrayList<>();
@@ -210,8 +211,8 @@ public class MapDatabase {
             currentNode = new Node(nodeID, xCoord, yCoord, floor, building);
             locationName = new LocationName(longName, shortName, nodeType);
 
-            boolean continuingLastNode = lastNode.getNodeID()==nodeID;
-            if (continuingLastNode){
+            boolean continuingLastNodeOrIsFirstNode = lastNode.getNodeID()==nodeID || lastNode.getNodeID()==-1;
+            if (continuingLastNodeOrIsFirstNode){
                 locationNames.add(locationName);
             } else{
                 mapLocations.add(new MapLocation(lastNode, locationNames)); //if you've reached the end of the list of locations then you're ready to add it
