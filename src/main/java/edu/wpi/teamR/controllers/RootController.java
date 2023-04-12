@@ -29,9 +29,9 @@ public class RootController {
   @FXML
   public void initialize() {
     homeButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
-    profileButton.setOnMouseClicked(event -> Navigation.navigate(Screen.ADMINHOME));
+    profileButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
     newRequestButton.setOnMouseClicked(event -> openRequest());
-    pendingRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP_EDITOR));
+    pendingRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SRTRACKER));
     pathfindingButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
     logoutButton.setOnMouseClicked(event -> Platform.exit());
 

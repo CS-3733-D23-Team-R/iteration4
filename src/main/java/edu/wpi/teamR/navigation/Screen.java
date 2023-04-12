@@ -10,7 +10,8 @@ public enum Screen {
   MAP("views/Map.fxml"),
   LOGIN("views/Login.fxml"),
   ADMINHOME("views/AdminHome.fxml"),
-  MAP_EDITOR("views/MapEditor.fxml");
+  MAP_EDITOR("views/MapEditor.fxml"),
+  SRTRACKER("views/ServiceRequestTracker.fxml");
 
   private final String filename;
 
