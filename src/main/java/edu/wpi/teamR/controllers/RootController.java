@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import org.controlsfx.control.PopOver;
 
 import java.io.IOException;
@@ -19,15 +20,20 @@ public class RootController {
   @FXML VBox pathfindingButton;
   @FXML VBox helpButton;
   @FXML VBox logoutButton;
+  @FXML Text flowerDelivery;
+  @FXML Text furnitureDelivery;
+  @FXML Text mealDelivery;
 
   @FXML
   public void initialize() {
     homeButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
     profileButton.setOnMouseClicked(event -> Navigation.navigate(Screen.ADMINHOME));
-    newRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
+    newRequestButton.setOnMouseClicked(event -> openRequest());
     pendingRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
     pathfindingButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
     logoutButton.setOnMouseClicked(event -> Platform.exit());
+    furnitureDelivery.setOnMouseClicked(event -> Navigation.navigate(Screen.FurnitureDelivery));
+    mealDelivery.setOnMouseClicked(event -> Navigation.navigate(Screen.MealDelivery));
 
     helpButton.setOnMouseClicked(
             event -> {
@@ -49,5 +55,11 @@ public class RootController {
     helpPopup.setArrowLocation(PopOver.ArrowLocation.TOP_CENTER);
     helpPopup.setAutoHide(true);
     helpPopup.show(helpButton);
+  }
+
+  @FXML
+  private void openRequest(){
+
+
   }
 }
