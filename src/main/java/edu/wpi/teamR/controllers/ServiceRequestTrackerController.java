@@ -3,6 +3,7 @@ package edu.wpi.teamR.controllers;
 import edu.wpi.teamR.*;
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
+import edu.wpi.teamR.requestdb.RequestDatabase;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -19,9 +20,10 @@ import javafx.util.converter.IntegerStringConverter;
 public class ServiceRequestTrackerController {
     @FXML TableView requestTable;
     @FXML TableColumn selectAllColumn, idColumn, nameColumn, locationColumn, typeColumn, infoColumn, staffColumn, notesColumn, dateColumn, statusColumn, deleteColumn;
+    RequestDatabase db;
 
     @FXML
     public void initialize() {
-
+        db = RequestDatabase.getInstance();
     }
 }
