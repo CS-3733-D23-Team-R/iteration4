@@ -127,6 +127,10 @@
     -fx-background-image: url("../images/foodTopBarImage.png");
 }
 
+.flower-title{
+    -fx-background-image: url("../images/flowerBackgroundCropped2.png");
+}
+
 .food_furniture-clear-button{
     -fx-background-color: transparent;
     -fx-text-fill: bwhblue;
