@@ -29,7 +29,7 @@ public class RequestDatabase {
         return output;
     }
 
-    MealRequest modifyMealRequest(int requestID, String newRequesterName, String newLocation, String newStaffMember, String newAdditionalNotes, Timestamp newRequestDate, RequestStatus newRequestStatus, String newMealType) throws SQLException, ClassNotFoundException {
+    public MealRequest modifyMealRequest(int requestID, String newRequesterName, String newLocation, String newStaffMember, String newAdditionalNotes, Timestamp newRequestDate, RequestStatus newRequestStatus, String newMealType) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         MealRequestDAO mealRequestDAO = new MealRequestDAO(connection);
         MealRequest output = mealRequestDAO.modifyMealRequest(requestID, newRequesterName, newLocation, newStaffMember, newAdditionalNotes, newRequestDate, newRequestStatus, newMealType);
@@ -133,7 +133,7 @@ public class RequestDatabase {
         return output;
     }
 
-    FurnitureRequest modifyFurnitureRequest(int requestID, String newRequesterName, String newLocation, String newStaffMember, String newAdditionalNotes, Timestamp newRequestDate, RequestStatus newRequestStatus, String newFurnitureType) throws SQLException, ClassNotFoundException {
+    public FurnitureRequest modifyFurnitureRequest(int requestID, String newRequesterName, String newLocation, String newStaffMember, String newAdditionalNotes, Timestamp newRequestDate, RequestStatus newRequestStatus, String newFurnitureType) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         FurnitureRequestDAO furnitureRequestDAO = new FurnitureRequestDAO(connection);
         FurnitureRequest output = furnitureRequestDAO.modifyFurnitureRequest(requestID, newRequesterName, newLocation, newStaffMember, newAdditionalNotes, newRequestDate, newRequestStatus, newFurnitureType);
@@ -236,7 +236,7 @@ public class RequestDatabase {
         return output;
     }
 
-    FlowerRequest modifyFlowerRequest(int requestID, String newRequesterName, String newLocation, String newStaffMember, String newAdditionalNotes, Timestamp newRequestDate, RequestStatus newRequestStatus, String newFlowerType) throws SQLException, ClassNotFoundException {
+    public FlowerRequest modifyFlowerRequest(int requestID, String newRequesterName, String newLocation, String newStaffMember, String newAdditionalNotes, Timestamp newRequestDate, RequestStatus newRequestStatus, String newFlowerType) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         FlowerRequestDAO flowerRequestDAO = new FlowerRequestDAO(connection);
         FlowerRequest output = flowerRequestDAO.modifyFlowerRequest(requestID, newRequesterName, newLocation, newStaffMember, newAdditionalNotes, newRequestDate, newRequestStatus, newFlowerType);
@@ -331,7 +331,7 @@ public class RequestDatabase {
         return output;
     }
 
-    void deleteItemRequest(int requestID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+    public void deleteItemRequestByID(int requestID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
         ItemRequest itemRequest = this.getItemRequestByID(requestID);
         if (itemRequest instanceof MealRequest){
@@ -346,7 +346,7 @@ public class RequestDatabase {
         connection.close();
     }
 
-    ItemRequest modifyItemRequest(int requestID, String newRequesterName, String newLocation, String newStaffMember, String newAdditionalNotes, Timestamp newRequestDate, RequestStatus newRequestStatus, String newItemType) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+    public ItemRequest modifyItemRequestByID(int requestID, String newRequesterName, String newLocation, String newStaffMember, String newAdditionalNotes, Timestamp newRequestDate, RequestStatus newRequestStatus, String newItemType) throws SQLException, ClassNotFoundException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
         ItemRequest itemRequest = this.getItemRequestByID(requestID);
         ItemRequest output;
