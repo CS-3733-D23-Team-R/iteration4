@@ -41,7 +41,7 @@ public class MealDeliveryController {
             }
         });
 
-        mealTypeField.setValue("Select Furniture");
+        mealTypeField.setValue("Select Meal");
         locationField.setValue("Select Your Location");
     }
 
