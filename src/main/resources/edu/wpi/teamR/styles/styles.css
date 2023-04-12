@@ -102,6 +102,14 @@
     -fx-background-image: url("../images/furnitureTopBarImage.png");
 }
 
+.flower-title{
+    -fx-background-image: url("../images/flowerBackgroundCropped2.png");
+}
+
+.flower-title2{
+    -fx-background-image: url("../images/flowerBackgroundCropped2.png");
+}
+
 .loginBackground {
     -fx-background-image: url("../images/brigham.JPEG");
     -fx-background-repeat: stretch;

@@ -52,7 +52,8 @@ public class RootController {
   }
 
   @FXML private void request(){
-    Navigation.navigate(Screen.MEAL_REQUEST);
-
+      RequestController.requestType = new RequestTypeMeal();
+      Navigation.navigate(Screen.MEAL_REQUEST);
+    }
   }
-}
+

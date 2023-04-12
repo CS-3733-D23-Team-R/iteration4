@@ -11,7 +11,7 @@ public class RequestDatabase {
     private RequestDatabase() {}
 
     public static RequestDatabase getInstance() {
-        if (instance != null)
+        if (instance == null)
             instance = new RequestDatabase();
         return instance;
     }

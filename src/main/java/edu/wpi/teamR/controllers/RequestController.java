@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class RequestController {
-    RequestType requestType = new RequestTypeFlower();
+    public static RequestType requestType = new RequestTypeMeal();
     @FXML Button cancelButton;
     @FXML Button resetButton;
     @FXML Button submitButton;
@@ -29,11 +29,12 @@ public class RequestController {
 
     ObservableList<String> locList;
 
-    ArrayList<String> tempList;
+    ArrayList<String> tempList = new ArrayList<>();
 
 
     @FXML
     public void initialize() {
+        tempList.add("TEST");
         try {
             MapDatabase mapDatabase = new MapDatabase();
             for(LocationName locationName: mapDatabase.getLocationNamesByNodeType("DEPT")){
@@ -42,12 +43,15 @@ public class RequestController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        locList = FXCollections.observableArrayList(tempList);
 
         cancelButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
         resetButton.setOnMouseClicked(event -> clear());
         submitButton.setOnMouseClicked(event -> submit());
         typeBox.setValue(requestType.getDefaultText());
         typeBox.setItems(requestType.getItemList());
+        locationBox.setValue("Select Location");
+        locationBox.setItems(locList);
     }
 
     public Timestamp CurrentDateTime(){
@@ -55,9 +59,6 @@ public class RequestController {
         return new Timestamp(now.getYear(), now.getMonthValue(), now.getDayOfMonth(), now.getHour(),now.getMinute(),now.getSecond(),now.getNano());
     }
 
-    public void setRequestType(RequestType requestType){
-        this.requestType = requestType;
-    }
 
     @FXML
     public void submit(){
