@@ -9,7 +9,8 @@ public enum Screen {
   FLOWER_REQUEST("views/DeliveryRequest.fxml"),
   MAP("views/Map.fxml"),
   LOGIN("views/Login.fxml"),
-  ADMINHOME("views/AdminHome.fxml");
+  ADMINHOME("views/AdminHome.fxml"),
+  MAP_EDITOR("views/MapEditor.fxml");
 
   private final String filename;
 

@@ -6,6 +6,7 @@ import edu.wpi.teamR.csv.CSVParameterException;
 import edu.wpi.teamR.csv.CSVReader;
 import edu.wpi.teamR.csv.CSVWriter;
 import edu.wpi.teamR.pathfinding.Line;
+import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -50,6 +51,7 @@ public class MapEditorController {
     @FXML Button newNodeButton;
     @FXML Button newEdgeButton;
     @FXML Button newMoveButton;
+    @FXML Button redrawButton;
 
     static File selectedFile;
     static File selectedDirectory;
@@ -68,6 +70,8 @@ public class MapEditorController {
     ComboBox<String> floorComboBox;
     @FXML
     ComboBox<String> tableComboBox;
+    @FXML
+    MFXCheckbox locationCheckbox;
     ObservableList<String> DAOType =
             FXCollections.observableArrayList("Node", "Edge", "LocationName", "Moves");
     ObservableList<String> floors =
@@ -107,6 +111,7 @@ public class MapEditorController {
     };
 
     AnchorPane[] nodePanes = new AnchorPane[5];
+    AnchorPane[] locationPanes = new AnchorPane[5];
 
     private AnchorPane mapPane = new AnchorPane();
 
@@ -118,6 +123,7 @@ public class MapEditorController {
     public void initialize() throws SQLException, ClassNotFoundException, ItemNotFoundException {
         for (int i = 0; i < 5; i++) {
             nodePanes[i] = new AnchorPane();
+            locationPanes[i] = new AnchorPane();
             floorNamesMap.put(nodeFloorNames[i], i);
             floorNamesMap.put(floorNames[i], i);
         }
@@ -184,7 +190,9 @@ public class MapEditorController {
                 popupStage.setScene(new Scene(popupRoot, 400, 200));
                 popupStage.showAndWait(); // Show the popup and wait for it to be closed
                 nodePanes[currentFloor].getChildren().clear();
+                locationPanes[currentFloor].getChildren().clear();
                 mapPane.getChildren().remove(nodePanes[currentFloor]);
+                mapPane.getChildren().remove(locationPanes[currentFloor]);
                 displayNodesByFloor(currentFloor);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -192,6 +200,24 @@ public class MapEditorController {
                 throw new RuntimeException(e);
             }
         });
+
+        redrawButton.setOnAction(event -> {
+            try {
+                redraw();
+            } catch (SQLException | ItemNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        locationCheckbox.setOnAction(event -> {
+            if (locationCheckbox.isSelected()) {
+                mapPane.getChildren().remove(nodePanes[currentFloor]);
+                mapPane.getChildren().add(locationPanes[currentFloor]);
+                mapPane.getChildren().add(nodePanes[currentFloor]);
+            } else {
+                mapPane.getChildren().remove(locationPanes[currentFloor]);
+            }
+        });
+
 
         imageView = new ImageView(linkArray[currentFloor].toExternalForm());
         gesturePane.setContent(mapPane);
@@ -236,6 +262,7 @@ public class MapEditorController {
 
     public void displayNodesByFloor(int floor) throws SQLException, ItemNotFoundException {
         String f = nodeFloorNames[floor];
+        mapPane.getChildren().add(locationPanes[currentFloor]);
         mapPane.getChildren().add(nodePanes[floor]);
 
         ArrayList<MapLocation> mapLocations = mapdb.getMapLocationsByFloor(f);
@@ -272,6 +299,7 @@ public class MapEditorController {
                 mapdb.readCSV(selectedFile.getAbsolutePath(), Move.class);
             }
         }
+        tableComboBox.getSelectionModel().clearSelection();
         tableComboBox.setValue(null);
     }
 
@@ -310,6 +338,7 @@ public class MapEditorController {
             }
         }
         selectedDirectory = null;
+        tableComboBox.getSelectionModel().clearSelection();
         tableComboBox.setValue(null);
     }
 
@@ -323,7 +352,7 @@ public class MapEditorController {
             t.setX(n.getXCoord() + 10);
             t.setY(n.getYCoord());
 
-            nodePanes[floor].getChildren().add(t);
+            locationPanes[floor].getChildren().add(t);
         }
     }
 
@@ -371,11 +400,13 @@ public class MapEditorController {
                 }
             });
             c.setOnMouseReleased(dragEvent -> {
-                try {
-                    mapdb.modifyCoords(n.getNodeID(), (int)c.getCenterX(), (int)c.getCenterY());
-                    displayNodesByFloor(floor);
-                } catch (SQLException | ItemNotFoundException e) {
-                    throw new RuntimeException(e);
+                if (!gesturePane.isGestureEnabled()) {
+                    try {
+                        mapdb.modifyCoords(n.getNodeID(), (int) c.getCenterX(), (int) c.getCenterY());
+                        redraw();
+                    } catch (SQLException | ItemNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             });
             dragging.set(false);
@@ -384,13 +415,17 @@ public class MapEditorController {
             t.setX(n.getXCoord() + 10);
             t.setY(n.getYCoord());
             t.setFill(Color.RED);
-            nodePanes[floor].getChildren().add(t);
+            locationPanes[floor].getChildren().add(t);
+            locationCheckbox.setSelected(true);
         }
     }
 
     public void redraw() throws SQLException, ItemNotFoundException {
+        locationPanes[currentFloor].getChildren().clear();
         nodePanes[currentFloor].getChildren().clear();
         mapPane.getChildren().remove(nodePanes[currentFloor]);
+        mapPane.getChildren().remove(locationPanes[currentFloor]);
+        displayEdgesByFloor(currentFloor);
         displayNodesByFloor(currentFloor);
     }
 }
