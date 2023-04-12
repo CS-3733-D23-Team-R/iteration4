@@ -65,6 +65,7 @@ public class RequestDatabaseTest {
         FurnitureRequest aFurniture = furnitureRequestDAO.addFurnitureRequest("John", "WPI", "Wong", "Need to get the thing", testTime, RequestStatus.Processing, "Arm");
         MealRequest aMeal = mealRequestDAO.addMealRequest("John", "WPI", "Wong", "Need to get the thing", testTime, RequestStatus.Done, "Finger");
         FlowerRequest aFlower = flowerRequestDAO.addFlowerRequest("John", "WPI", "Wong", "Need to get the thing", testTime, RequestStatus.Processing, "corn-cockle");
+
         assertEquals(aFurniture.getRequestID(), requestDatabase.getItemRequestByID(aFurniture.getRequestID()).getRequestID());
         assertEquals(aFurniture.getRequesterName(), requestDatabase.getItemRequestByID(aFurniture.getRequestID()).getRequesterName());
         assertEquals(aFurniture.getRequestDate(), requestDatabase.getItemRequestByID(aFurniture.getRequestID()).getRequestDate());
@@ -72,7 +73,8 @@ public class RequestDatabaseTest {
         assertEquals(aFurniture.getItemType(), requestDatabase.getItemRequestByID(aFurniture.getRequestID()).getItemType());
         assertEquals(aFurniture.getLocation(), requestDatabase.getItemRequestByID(aFurniture.getRequestID()).getLocation());
         assertEquals(aFurniture.getAdditionalNotes(), requestDatabase.getItemRequestByID(aFurniture.getRequestID()).getAdditionalNotes());
-
+        System.out.println(aMeal.getRequestID());
+        System.out.println(requestDatabase.getItemRequestByID(aMeal.getRequestID()).getRequestID());
         assertEquals(aMeal.getRequestID(), requestDatabase.getItemRequestByID(aMeal.getRequestID()).getRequestID());
         assertEquals(aMeal.getRequesterName(), requestDatabase.getItemRequestByID(aMeal.getRequestID()).getRequesterName());
         assertEquals(aMeal.getRequestDate(), requestDatabase.getItemRequestByID(aMeal.getRequestID()).getRequestDate());

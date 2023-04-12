@@ -327,11 +327,11 @@ public class RequestDatabase {
         ItemRequest output;
         try {
             output = furnitureRequestDAO.getFurnitureRequestByID(requestID);
-        } catch (Exception e){
-            try{
+        } catch (ItemNotFoundException e) {
+            try {
                 output = mealRequestDAO.getMealRequestByID(requestID);
-            } catch (Exception e2){
-                try{
+            } catch (ItemNotFoundException e2) {
+                try {
                     output = flowerRequestDAO.getFlowerRequestByID(requestID);
                 } catch (SQLException ex) {
                     connection.close();
