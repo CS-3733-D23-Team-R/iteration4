@@ -10,12 +10,12 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class RequestDatabase {
-    private RequestDatabase instance;
+    private static RequestDatabase instance;
 
     private RequestDatabase() {}
 
-    public RequestDatabase getInstance() {
-        if (instance != null)
+    public static RequestDatabase getInstance() {
+        if (instance == null)
             instance = new RequestDatabase();
         return instance;
     }
@@ -43,7 +43,7 @@ public class RequestDatabase {
         return output;
     }
 
-    public MealRequest getMealRequestByID(int requestID) throws SQLException, ClassNotFoundException {
+    public MealRequest getMealRequestByID(int requestID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
         MealRequestDAO Dao = new MealRequestDAO(connection);
         MealRequest output = Dao.getMealRequestByID(requestID);
@@ -70,7 +70,7 @@ public class RequestDatabase {
     public ArrayList<MealRequest> getMealRequestsByStaffMember(String staffMember) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         MealRequestDAO Dao = new MealRequestDAO(connection);
-        ArrayList<MealRequest> output = Dao.getMealRequestByStaffMember(staffMember);
+        ArrayList<MealRequest> output = Dao.getMealRequestsByStaffMember(staffMember);
         connection.close();
         return output;
     }
@@ -78,7 +78,7 @@ public class RequestDatabase {
     public ArrayList<MealRequest> getMealRequestsByMealType(String mealType) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         MealRequestDAO Dao = new MealRequestDAO(connection);
-        ArrayList<MealRequest> output = Dao.getMealRequestByMealType(mealType);
+        ArrayList<MealRequest> output = Dao.getMealRequestsByMealType(mealType);
         connection.close();
         return output;
     }
@@ -86,7 +86,7 @@ public class RequestDatabase {
     public ArrayList<MealRequest> getMealRequestsByRequestStatus(RequestStatus requestStatus) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         MealRequestDAO Dao = new MealRequestDAO(connection);
-        ArrayList<MealRequest> output = Dao.getMealRequestByRequestStatus(requestStatus);
+        ArrayList<MealRequest> output = Dao.getMealRequestsByRequestStatus(requestStatus);
         connection.close();
         return output;
     }
@@ -234,7 +234,7 @@ public class RequestDatabase {
         return output;
     }
 
-    public FlowerRequest getFlowerRequestByID(int requestID) throws SQLException, ClassNotFoundException {
+    public FlowerRequest getFlowerRequestByID(int requestID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
         FlowerRequestDAO Dao = new FlowerRequestDAO(connection);
         FlowerRequest output = Dao.getFlowerRequestByID(requestID);
@@ -327,11 +327,11 @@ public class RequestDatabase {
         ItemRequest output;
         try {
             output = furnitureRequestDAO.getFurnitureRequestByID(requestID);
-        } catch (Exception e){
-            try{
+        } catch (ItemNotFoundException e) {
+            try {
                 output = mealRequestDAO.getMealRequestByID(requestID);
-            } catch (Exception e2){
-                try{
+            } catch (ItemNotFoundException e2) {
+                try {
                     output = flowerRequestDAO.getFlowerRequestByID(requestID);
                 } catch (SQLException ex) {
                     connection.close();

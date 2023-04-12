@@ -1,6 +1,7 @@
 package edu.wpi.teamR.requestdb;
 
 import edu.wpi.teamR.Configuration;
+import edu.wpi.teamR.ItemNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class FlowerRequestDAO {
 
     void deleteFlowerRequest(Integer requestID) throws SQLException{
         PreparedStatement sqlDelete = connection.prepareStatement("DELETE FROM"+ Configuration.getFlowerRequestSchemaNameTableName() + "WHERE requestID = " + requestID +";");
-
+        sqlDelete.executeUpdate();
     }
 
     ArrayList<FlowerRequest> getFlowerRequests() throws SQLException{
@@ -57,10 +58,12 @@ public class FlowerRequestDAO {
         return flowers;
     }
 
-    FlowerRequest getFlowerRequestByID(Integer requestID) throws SQLException {
+    FlowerRequest getFlowerRequestByID(Integer requestID) throws SQLException, ItemNotFoundException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFlowerRequestSchemaNameTableName()+" WHERE requestID="+requestID+";");
-        resultSet.next();
+        if(!resultSet.next()){
+            throw new ItemNotFoundException();
+        }
         String requesterName = resultSet.getString("requesterName");
         String location = resultSet.getString("location");
         String staffMember = resultSet.getString("staffMember");
@@ -74,7 +77,7 @@ public class FlowerRequestDAO {
 
     ArrayList<FlowerRequest> getFlowerRequestsByRequesterName(String requesterName) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFlowerRequestSchemaNameTableName()+" WHERE requesterName="+requesterName+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFlowerRequestSchemaNameTableName()+" WHERE requesterName='"+requesterName+"';");
         ArrayList<FlowerRequest> flowers = new ArrayList<>();
         while (resultSet.next()) {
             int requestID = resultSet.getInt("requestID");
@@ -92,7 +95,7 @@ public class FlowerRequestDAO {
 
     ArrayList<FlowerRequest> getFlowerRequestsByLocation(String location) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFlowerRequestSchemaNameTableName()+" WHERE location="+location+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFlowerRequestSchemaNameTableName()+" WHERE location='"+location+"';");
         ArrayList<FlowerRequest> flowers = new ArrayList<>();
         while (resultSet.next()) {
             int requestID = resultSet.getInt("requestID");
@@ -110,7 +113,7 @@ public class FlowerRequestDAO {
 
     ArrayList<FlowerRequest> getFlowerRequestsByStaffMember(String staffMember) throws SQLException{
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFlowerRequestSchemaNameTableName()+" WHERE staffMember="+staffMember+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFlowerRequestSchemaNameTableName()+" WHERE staffMember='"+staffMember+"';");
         ArrayList<FlowerRequest> flowers = new ArrayList<>();
         while (resultSet.next()) {
             int requestID = resultSet.getInt("requestID");
@@ -128,7 +131,7 @@ public class FlowerRequestDAO {
 
     ArrayList<FlowerRequest> getFlowerRequestsByFlowerType(String flowerType) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFlowerRequestSchemaNameTableName()+" WHERE flowerType="+flowerType+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFlowerRequestSchemaNameTableName()+" WHERE flowerType='"+flowerType+"';");
         ArrayList<FlowerRequest> flowers = new ArrayList<>();
         while (resultSet.next()) {
             int requestID = resultSet.getInt("requestID");
@@ -147,7 +150,7 @@ public class FlowerRequestDAO {
 
     ArrayList<FlowerRequest> getFlowerRequestsByRequestStatus(RequestStatus requestStatus) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFlowerRequestSchemaNameTableName()+" WHERE requestStatus="+requestStatus+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFlowerRequestSchemaNameTableName()+" WHERE requestStatus='"+requestStatus+"';");
         ArrayList<FlowerRequest> flowers = new ArrayList<>();
         while (resultSet.next()) {
             int requestID = resultSet.getInt("requestID");
@@ -165,7 +168,7 @@ public class FlowerRequestDAO {
 
     ArrayList<FlowerRequest> getFlowerRequestsAfterTime(Timestamp time) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFlowerRequestSchemaNameTableName()+" WHERE starttime>"+time+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFlowerRequestSchemaNameTableName()+" WHERE requestDate>'"+time+"';");
         ArrayList<FlowerRequest> flowers = new ArrayList<>();
         while(resultSet.next()){
             int requestID = resultSet.getInt("requestID");
@@ -185,7 +188,7 @@ public class FlowerRequestDAO {
 
     ArrayList<FlowerRequest> getFlowerRequestsBeforeTime(Timestamp time) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFlowerRequestSchemaNameTableName()+" WHERE starttime<"+time+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFlowerRequestSchemaNameTableName()+" WHERE requestDate<'"+time+"';");
         ArrayList<FlowerRequest> flowers = new ArrayList<>();
         while(resultSet.next()){
             int requestID = resultSet.getInt("requestID");
@@ -205,7 +208,7 @@ public class FlowerRequestDAO {
 
     ArrayList<FlowerRequest> getFlowerRequestsBetweenTimes(Timestamp firstTime, Timestamp secondTime) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFlowerRequestSchemaNameTableName()+" WHERE starttime>"+ firstTime +"AND starttime<" + secondTime + ";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getFlowerRequestSchemaNameTableName()+" WHERE requestDate>'"+ firstTime +"'AND requestDate<'" + secondTime + "';");
         ArrayList<FlowerRequest> flowers = new ArrayList<>();
         while(resultSet.next()){
             int requestID = resultSet.getInt("requestID");
