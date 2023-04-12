@@ -234,6 +234,8 @@ public class MapDatabase {
             case "Node" -> {
                 CSVReader<Node> reader = new CSVReader<>(path, Node.class);
                 ArrayList<Node> nodes = reader.parseCSV();
+                edgeDao.deleteAllEdges();
+                moveDao.deleteAllMoves();
                 nodeDao.deleteAllNodes();
                 nodeDao.addNodes(nodes);
                 return nodes;
@@ -259,6 +261,7 @@ public class MapDatabase {
             case "LocationName" -> {
                 CSVReader<LocationName> reader = new CSVReader<>(path, LocationName.class);
                 ArrayList<LocationName> locs = reader.parseCSV();
+                moveDao.deleteAllMoves();
                 locationNameDao.deleteAllLocationNames();
                 for (LocationName l : locs) {
                     locationNameDao.addLocationName(l.getLongName(), l.getShortName(), l.getNodeType());
