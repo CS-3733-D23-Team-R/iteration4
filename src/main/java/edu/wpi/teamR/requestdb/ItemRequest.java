@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 
 @Getter
 @Setter(AccessLevel.PACKAGE)
-abstract class ItemRequest {
+public class ItemRequest {
 
     private int requestID;
     private String requesterName;
