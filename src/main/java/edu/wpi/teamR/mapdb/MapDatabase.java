@@ -41,6 +41,10 @@ public class MapDatabase {
 //        return instance;
 //    }
 
+    void submitUpdates(Queue<ArrayList<Pair<?, EditType>>> updates) {
+
+    }
+
     public ArrayList<Node> getNodes() throws SQLException {
         return nodeDao.getNodes();
     }
@@ -54,7 +58,7 @@ public class MapDatabase {
     }
 
     public ArrayList<Node> getNodesByType(String type) throws SQLException { //TODO: GET CHECKED
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" NATURAL JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as foo natural join "+Configuration.getLocationNameSchemaNameTableName()+" WHERE nodetype=? ORDER BY nodeID;");
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT DISTINCT nodeID,xCoord,yCoord,building,floor FROM "+Configuration.getNodeSchemaNameTableName()+" NATURAL JOIN "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN "+Configuration.getLocationNameSchemaNameTableName()+" WHERE nodetype=?;");
         preparedStatement.setString(1, type);
         ResultSet resultSet = preparedStatement.executeQuery();
         return parseNodes(resultSet);
@@ -186,7 +190,8 @@ public class MapDatabase {
     }
 
     public ArrayList<MapLocation> getMapLocationsByFloor(String floor) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" LEFT JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as foo left join "+Configuration.getLocationNameSchemaNameTableName()+" ORDER BY nodeID;");
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" NATURAL JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as foo natural join "+Configuration.getLocationNameSchemaNameTableName()+" WHERE floor=? ORDER BY nodeID;");
+        preparedStatement.setString(1, floor);
         ResultSet resultSet = preparedStatement.executeQuery();
 
         ArrayList<MapLocation> mapLocations = new ArrayList<>();
@@ -206,18 +211,13 @@ public class MapDatabase {
             currentNode = new Node(nodeID, xCoord, yCoord, floor, building);
             locationName = new LocationName(longName, shortName, nodeType);
 
-            boolean noLocationNameForNode = longName==null && shortName==null && nodeType==null;
-            boolean continuingLastNode = lastNode.getNodeID()==nodeID;
-            if (continuingLastNode){
-                if (!noLocationNameForNode) {
-                    locationNames.add(locationName);
-                }
-            } else {
+            boolean continuingLastNodeOrIsFirstNode = lastNode.getNodeID()==nodeID || lastNode.getNodeID()==-1;
+            if (continuingLastNodeOrIsFirstNode){
+                locationNames.add(locationName);
+            } else{
                 mapLocations.add(new MapLocation(lastNode, locationNames)); //if you've reached the end of the list of locations then you're ready to add it
                 locationNames = new ArrayList<>(); //reset list for the next node
-                if (!noLocationNameForNode) {
-                    locationNames.add(locationName); //add first entry for the next node
-                }
+                locationNames.add(locationName); //add first entry for the next node
             }
 
             lastNode = currentNode;

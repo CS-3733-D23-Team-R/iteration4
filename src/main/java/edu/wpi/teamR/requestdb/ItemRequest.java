@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 
 @Getter
 @Setter(AccessLevel.PACKAGE)
-abstract class ItemRequest {
+public class ItemRequest {
 
     private int requestID;
     private String requesterName;
@@ -30,4 +30,11 @@ abstract class ItemRequest {
         this.itemType = itemType;
     }
 
+    public void setRequestStatus(RequestStatus requestStatus) {
+        this.requestStatus = requestStatus;
+    }
+
+    public void setStaffMember(String staffMember) {
+        this.staffMember = staffMember;
+    }
 }
