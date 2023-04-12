@@ -158,6 +158,13 @@
     -fx-background-color: #012D5A;
 }
 
+.adminHome{
+    -fx-background-color: #A3B9C9;
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
 .whiteTitle{
     -fx-font-family: 'Lato', 'bold';
     -fx-font-weight: bold;

@@ -23,11 +23,11 @@ public class RootController {
   @FXML
   public void initialize() {
     homeButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
-    profileButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
+    profileButton.setOnMouseClicked(event -> Navigation.navigate(Screen.ADMINHOME));
     newRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
     pendingRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
     pathfindingButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
-    logoutButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
+    logoutButton.setOnMouseClicked(event -> Platform.exit());
 
     helpButton.setOnMouseClicked(
             event -> {
