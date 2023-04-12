@@ -9,7 +9,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <top>
-      <Text id="pageTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Service Requests" translateX="75.0" BorderPane.alignment="CENTER_LEFT">
+      <Text fx:id="pageTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Service Requests" translateX="75.0" BorderPane.alignment="CENTER_LEFT">
          <BorderPane.margin>
             <Insets bottom="25.0" left="50.0" right="50.0" top="50.0" />
          </BorderPane.margin>
@@ -21,19 +21,19 @@
             <Insets bottom="50.0" left="50.0" right="50.0" top="25.0" />
          </BorderPane.margin>
          <children>
-            <TableView AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <TableView fx:id="requestTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columns>
-                <TableColumn prefWidth="30.0" resizable="false" text="Select All" />
-                  <TableColumn prefWidth="50.0" text="ID" />
-                <TableColumn prefWidth="100.0" text="Name" />
-                  <TableColumn prefWidth="100.0" text="Location" />
-                  <TableColumn prefWidth="100.0" text="Request Type" />
-                  <TableColumn prefWidth="100.0" text="Request Information" />
-                  <TableColumn prefWidth="100.0" text="Staff Member" />
-                  <TableColumn prefWidth="200.0" text="Additional Notes" />
-                  <TableColumn prefWidth="100.0" text="Date &amp; Time" />
-                  <TableColumn prefWidth="150.0" text="Status" />
-                  <TableColumn prefWidth="50.0" resizable="false" text="Delete" />
+                <TableColumn fx:id="selectAllColumn" prefWidth="30.0" text="Select All" />
+                  <TableColumn fx:id="idColumn" prefWidth="50.0" text="ID" />
+                <TableColumn fx:id="nameColumn" prefWidth="100.0" text="Name" />
+                  <TableColumn fx:id="locationColumn" prefWidth="100.0" text="Location" />
+                  <TableColumn fx:id="typeColumn" prefWidth="100.0" text="Request Type" />
+                  <TableColumn fx:id="infoColumn" prefWidth="100.0" text="Request Information" />
+                  <TableColumn fx:id="staffColumn" prefWidth="100.0" text="Staff Member" />
+                  <TableColumn fx:id="notesColumn" prefWidth="200.0" text="Additional Notes" />
+                  <TableColumn fx:id="dateColumn" prefWidth="100.0" text="Date &amp; Time" />
+                  <TableColumn fx:id="statusColumn" prefWidth="150.0" text="Status" />
+                  <TableColumn fx:id="deleteColumn" prefWidth="50.0" text="Delete" />
               </columns>
             </TableView>
          </children>
