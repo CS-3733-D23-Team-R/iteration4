@@ -146,3 +146,29 @@
     -fx-border-radius: 4px;
     -fx-border-color: pressed;
 }
+
+.curvedHome{
+    -fx-background-image: url("../images/curvedHome.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.homeBackground{
+    -fx-background-color: #012D5A;
+}
+
+.whiteTitle{
+    -fx-font-family: 'Lato', 'bold';
+    -fx-font-weight: bold;
+    -fx-font-size: 36px;
+}
+
+.inverseButton {
+    -fx-background-color: white;
+    -fx-text-fill: #012D5A;
+    -fx-font-family: 'Nunito Sans', 'regular';
+    -fx-font-size: 18;
+    -fx-font-weight: 550;
+    border-radius: 4px;
+}
