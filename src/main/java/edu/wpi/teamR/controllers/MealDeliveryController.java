@@ -4,12 +4,14 @@ import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
 import edu.wpi.teamR.requestdb.FurnitureRequest;
 import edu.wpi.teamR.requestdb.MealRequest;
+import edu.wpi.teamR.requestdb.RequestDatabase;
 import edu.wpi.teamR.requestdb.RequestStatus;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import org.controlsfx.control.SearchableComboBox;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,7 +31,15 @@ public class MealDeliveryController {
     @FXML public void initialize() {
         cancelButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
         resetButton.setOnMouseClicked(event -> clear());
-        submitButton.setOnMouseClicked(event -> submit());
+        submitButton.setOnMouseClicked(event -> {
+            try {
+                submit();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         mealTypeField.setValue("Select Furniture");
         locationField.setValue("Select Your Location");
@@ -53,7 +63,7 @@ public class MealDeliveryController {
     }
 
     @FXML
-    public void submit() {
+    public void submit() throws SQLException, ClassNotFoundException {
         String mealType = mealTypeField.getValue().toString();
         String location = locationField.getValue().toString();
 
@@ -67,13 +77,16 @@ public class MealDeliveryController {
 
         Navigation.navigate(Screen.HOME);
         int id = 0;
-        ArrayList<MealRequest> foodList = MealRequestDAO.getInstance().getFoodRequests();
+        RequestDatabase db = RequestDatabase.getInstance();
+
+        ArrayList<MealRequest> foodList = db.getMealRequests();
         for(MealRequest foodRequest: foodList){
             if(id < foodRequest.getRequestID()){
                 id = foodRequest.getRequestID();
             }
         }
-        ArrayList<FurnitureRequest> furnList = FurnitureRequestDAO.getInstance().getFurnitureRequests();
+
+        ArrayList<FurnitureRequest> furnList = db.getFurnitureRequests();
         for(FurnitureRequest furnitureRequest: furnList){
             if(id < furnitureRequest.getRequestID()){
                 id = furnitureRequest.getRequestID();
@@ -81,7 +94,7 @@ public class MealDeliveryController {
         }
         id++;
         try {
-            MealRequestDAO.getInstance().addFoodRequest(id, nameField.getText(), location, staffMemberField.getText(), notesField.getText(), CurrentDateTime(), RequestStatus.Unstarted, mealType);
+            db.addMealRequest(nameField.getText(), location, staffMemberField.getText(), notesField.getText(), CurrentDateTime(), RequestStatus.Unstarted, mealType);
         }
         catch(Exception e) {
             e.printStackTrace();
