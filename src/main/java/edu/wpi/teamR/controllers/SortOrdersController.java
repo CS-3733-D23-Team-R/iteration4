@@ -117,7 +117,6 @@ public class SortOrdersController {
                         btn.setOnAction((ActionEvent event) -> {
                             ItemRequest data = getTableView().getItems().get(getIndex());
                             requestTable.getItems().remove(data);
-                            RequestDatabase.getInstance().deleteRequest(data.getRequestID());
                             try {
                                 RequestDatabase.getInstance().deleteItemRequestByID(data.getRequestID());
                             } catch (Exception e) {
