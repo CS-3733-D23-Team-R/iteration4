@@ -8,7 +8,6 @@ public enum Screen {
   FURNITURE_REQUEST("views/DeliveryRequest.fxml"),
   FLOWER_REQUEST("views/DeliveryRequest.fxml"),
   MAP("views/Map.fxml"),
-  FurnitureDelivery("views/FurnitureDelivery.fxml"),
   LOGIN("views/Login.fxml"),
   ADMINHOME("views/AdminHome.fxml");
 

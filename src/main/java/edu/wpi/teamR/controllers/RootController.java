@@ -24,6 +24,8 @@ public class RootController {
   @FXML Text furnitureDelivery;
   @FXML Text mealDelivery;
 
+  @FXML VBox sidebarVBox;
+
   @FXML
   public void initialize() {
     homeButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
@@ -32,8 +34,6 @@ public class RootController {
     pendingRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
     pathfindingButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
     logoutButton.setOnMouseClicked(event -> Platform.exit());
-    furnitureDelivery.setOnMouseClicked(event -> Navigation.navigate(Screen.FurnitureDelivery));
-    mealDelivery.setOnMouseClicked(event -> Navigation.navigate(Screen.MealDelivery));
 
     helpButton.setOnMouseClicked(
             event -> {
@@ -43,6 +43,9 @@ public class RootController {
                 e.printStackTrace();
               }
             });
+
+    sidebarVBox.setVisible(false);
+    sidebarVBox.setManaged(false);
   }
 
   @FXML
@@ -56,9 +59,40 @@ public class RootController {
     helpPopup.setAutoHide(true);
     helpPopup.show(helpButton);
   }
-
-
   @FXML
   private void openRequest(){
+    if (sidebarVBox.isVisible()) {
+      sidebarVBox.setVisible(false);
+      sidebarVBox.setManaged(false);
+    }
+    else {
+      sidebarVBox.setVisible(true);
+      sidebarVBox.setManaged(true);
+      flowerDelivery.setOnMouseClicked(event -> flowerRequest());
+      furnitureDelivery.setOnMouseClicked(event -> furnitureRequest());
+      mealDelivery.setOnMouseClicked(event -> mealRequest());
+    }
   }
+
+  @FXML private void mealRequest() {
+    RequestController.requestType = new RequestTypeMeal();
+    Navigation.navigate(Screen.MEAL_REQUEST);
+    sidebarVBox.setVisible(false);
+    sidebarVBox.setManaged(false);
+  }
+
+  @FXML private void flowerRequest() {
+    RequestController.requestType = new RequestTypeFlower();
+    Navigation.navigate(Screen.FLOWER_REQUEST);
+    sidebarVBox.setVisible(false);
+    sidebarVBox.setManaged(false);
+  }
+
+  @FXML private void furnitureRequest() {
+    RequestController.requestType = new RequestTypeFurniture();
+    Navigation.navigate(Screen.FURNITURE_REQUEST);
+    sidebarVBox.setVisible(false);
+    sidebarVBox.setManaged(false);
+  }
+
 }
