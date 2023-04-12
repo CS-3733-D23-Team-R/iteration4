@@ -259,7 +259,7 @@ public class MapEditorController {
             mapPane.getChildren().clear();
             mapPane.getChildren().add(imageView);
             reset();
-            displayNodesByFloor(floorNum);
+            redraw();
         }
     }
 

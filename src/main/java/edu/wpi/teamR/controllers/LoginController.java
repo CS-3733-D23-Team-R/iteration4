@@ -39,7 +39,7 @@ public class LoginController {
         User user = AuthenticationDAO.getInstance().getUser(usernameField.getText());
 
         if (passwordField.getText().equals(user.getPassword())) {
-            Navigation.navigate(Screen.HOME);
+            Navigation.navigate(Screen.MAP_EDITOR);
         }
     }
 

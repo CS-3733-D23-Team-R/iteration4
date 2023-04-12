@@ -256,6 +256,9 @@ public class MapController {
         endText.setFill(Color.RED);
         paths[drawFloor].getChildren().add(end);
         paths[drawFloor].getChildren().add(endText);
+
+        gesturePane.zoomTo(1, 1, new Point2D(startNode.getXCoord(), startNode.getYCoord()));
+        gesturePane.centreOn(new Point2D(startNode.getXCoord(), startNode.getYCoord()));
     }
 
     private int idFromName(String longname) throws SQLException, ItemNotFoundException {
