@@ -1,6 +1,7 @@
 package edu.wpi.teamR.requestdb;
 
 import edu.wpi.teamR.Configuration;
+import edu.wpi.teamR.ItemNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -55,10 +56,12 @@ public class MealRequestDAO {
         return meals;
     }
 
-    MealRequest getMealRequestByID(Integer requestID) throws SQLException {
+    MealRequest getMealRequestByID(Integer requestID) throws SQLException, ItemNotFoundException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE requestID="+requestID+";");
-        resultSet.next();
+        if(!resultSet.next()){
+            throw new ItemNotFoundException();
+        }
         String requesterName = resultSet.getString("requesterName");
         String location = resultSet.getString("location");
         String staffMember = resultSet.getString("staffMember");
@@ -106,7 +109,7 @@ public class MealRequestDAO {
         return meals;
     }
 
-    ArrayList<MealRequest> getMealRequestByStaffMember(String staffMember) throws SQLException {
+    ArrayList<MealRequest> getMealRequestsByStaffMember(String staffMember) throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE staffMember='"+staffMember+"';");
         ArrayList<MealRequest> meals = new ArrayList<MealRequest>();
@@ -124,7 +127,7 @@ public class MealRequestDAO {
         return meals;
     }
 
-    ArrayList<MealRequest> getMealRequestByMealType(String mealType) throws SQLException{
+    ArrayList<MealRequest> getMealRequestsByMealType(String mealType) throws SQLException{
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE mealType='"+mealType+"';");
         ArrayList<MealRequest> meals = new ArrayList<MealRequest>();
@@ -142,7 +145,7 @@ public class MealRequestDAO {
         return meals;
     }
 
-    ArrayList<MealRequest> getMealRequestByRequestStatus(RequestStatus requestStatus) throws SQLException{
+    ArrayList<MealRequest> getMealRequestsByRequestStatus(RequestStatus requestStatus) throws SQLException{
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE requestStatus='"+requestStatus+"';");
         ArrayList<MealRequest> meals = new ArrayList<MealRequest>();
