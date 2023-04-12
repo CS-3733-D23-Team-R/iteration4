@@ -43,7 +43,7 @@ public class RequestDatabase {
         return output;
     }
 
-    public MealRequest getMealRequestByID(int requestID) throws SQLException, ClassNotFoundException {
+    public MealRequest getMealRequestByID(int requestID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
         MealRequestDAO Dao = new MealRequestDAO(connection);
         MealRequest output = Dao.getMealRequestByID(requestID);
@@ -70,7 +70,7 @@ public class RequestDatabase {
     public ArrayList<MealRequest> getMealRequestsByStaffMember(String staffMember) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         MealRequestDAO Dao = new MealRequestDAO(connection);
-        ArrayList<MealRequest> output = Dao.getMealRequestByStaffMember(staffMember);
+        ArrayList<MealRequest> output = Dao.getMealRequestsByStaffMember(staffMember);
         connection.close();
         return output;
     }
@@ -78,7 +78,7 @@ public class RequestDatabase {
     public ArrayList<MealRequest> getMealRequestsByMealType(String mealType) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         MealRequestDAO Dao = new MealRequestDAO(connection);
-        ArrayList<MealRequest> output = Dao.getMealRequestByMealType(mealType);
+        ArrayList<MealRequest> output = Dao.getMealRequestsByMealType(mealType);
         connection.close();
         return output;
     }
@@ -86,7 +86,7 @@ public class RequestDatabase {
     public ArrayList<MealRequest> getMealRequestsByRequestStatus(RequestStatus requestStatus) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         MealRequestDAO Dao = new MealRequestDAO(connection);
-        ArrayList<MealRequest> output = Dao.getMealRequestByRequestStatus(requestStatus);
+        ArrayList<MealRequest> output = Dao.getMealRequestsByRequestStatus(requestStatus);
         connection.close();
         return output;
     }
