@@ -31,7 +31,7 @@ public class RootController {
     homeButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
     profileButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
     newRequestButton.setOnMouseClicked(event -> openRequest());
-    pendingRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SRTRACKER));
+    pendingRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SORT_ORDERS));
     pathfindingButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
     logoutButton.setOnMouseClicked(event -> Platform.exit());
 
