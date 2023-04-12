@@ -1,5 +1,6 @@
 package edu.wpi.teamR.requestdb;
 
+import edu.wpi.teamR.ItemNotFoundException;
 import org.junit.jupiter.api.Test;
 import edu.wpi.teamR.Configuration;
 import org.junit.jupiter.api.AfterAll;
@@ -18,6 +19,37 @@ import static org.junit.jupiter.api.Assertions.*;
 class RoomRequestDAOTest {
     private static RoomRequestDAO roomRequestDAO;
     private static Connection connection;
+    /*
+    RoomRequest
+    String location/longName
+    Timestamp startTime
+    Timestamp endTime
+    String requesterName
+    String requestReason
+     */
+    private String testLocation = "Unity Hall";
+    private Timestamp testStartTime = new Timestamp(2020, 10, 7, 12, 30, 30, 100000000);
+    private Timestamp testEndTime = new Timestamp(2021, 11, 8, 13, 31, 31, 100000000);
+    private String testRequesterName = "Joe Biden";
+    private String testRequestReason = "No particular reason";
+
+    private String testLocationTwo = "Morgan Hall";
+    private Timestamp testStartTimeTwo = new Timestamp(2023, 11, 25, 23, 59, 59, 100000000);
+    private Timestamp testEndTimeTwo = new Timestamp(2024, 12, 26, 1, 1, 1, 100000000);
+    private String testRequesterNameTwo = "Donald Trump";
+    private String testRequestReasonTwo = "All the particular reasons";
+
+    private String testLocationThree = "South Village";
+    private Timestamp testStartTimeThree = new Timestamp(2027, 10, 23, 23, 59, 59, 100000000);;
+    private Timestamp testEndTimeThree = new Timestamp(2028, 11, 1, 1, 1, 1, 100000000);
+    private String testRequesterNameThree = "Thanos";
+    private String testRequestReasonThree = "Trying to hit the gym";
+
+    //these test times are placed in between testTime and testTime2 for testing purposes
+    private Timestamp testTimeOnePointTwo = new Timestamp(2021, 10, 7, 12, 30, 30, 100000000);
+    private Timestamp testTimeOnePointFive = new Timestamp(2022, 10, 7, 12, 30, 30, 100000000);
+    private Timestamp testTimeOnePointEight = new Timestamp(2023, 10, 7, 12, 30, 30, 100000000);
+
     @BeforeAll
     static void starterFunction() throws SQLException, ClassNotFoundException {
         Configuration.changeSchemaName("iteration1test");
@@ -35,152 +67,497 @@ class RoomRequestDAOTest {
         connection.close();
     }
     @Test
-    void addRoomRequest() {
+    void addRoomRequest() throws SQLException {
+        roomRequestDAO.addRoomRequest(
+                testLocation,
+                testStartTime,
+                testEndTime,
+                testRequesterName,
+                testRequestReason);
+
+        RoomRequest aRoomRequest = roomRequestDAO.getRoomRequests().get(0);
+
+        assertEquals(testLocation, aRoomRequest.getLocation());
+        assertEquals(testStartTime, aRoomRequest.getStartTime());
+        assertEquals(testEndTime, aRoomRequest.getEndTime());
+        assertEquals(testRequesterName, aRoomRequest.getRequesterName());
+        assertEquals(testRequestReason, aRoomRequest.getRequestReason());
     }
 
     @Test
     void deleteRoomRequest() {
+        try {
+            roomRequestDAO.addRoomRequest(
+                    testLocation,
+                    testStartTime,
+                    testEndTime,
+                    testRequesterName,
+                    testRequestReason);
+
+            RoomRequest aRoomRequest = roomRequestDAO.getRoomRequests().get(0);
+
+            int requestID = aRoomRequest.getRequestID();
+
+            roomRequestDAO.deleteRoomRequest(requestID);
+
+            roomRequestDAO.getRoomRequestByID(requestID);
+
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            fail();
+        }
     }
 
     @Test
-    void getRoomRequests() throws SQLException {
-        ArrayList<RoomRequest> roomRequests;
-        RoomRequest roomRequest;
+    void getRoomRequests() {
+        try {
+            roomRequestDAO.addRoomRequest(
+                    testLocation,
+                    testStartTime,
+                    testEndTime,
+                    testRequesterName,
+                    testRequestReason);
 
-        roomRequests = roomRequestDAO.getRoomRequests();
-        assertEquals(roomRequests.size(), 0);
+            roomRequestDAO.addRoomRequest(
+                    testLocationTwo,
+                    testStartTimeTwo,
+                    testEndTimeTwo,
+                    testRequesterNameTwo,
+                    testRequestReasonTwo);
 
-        roomRequestDAO.addRoomRequest("RoomRequest1", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name1", "Reason1");
+            ArrayList<RoomRequest> someRoomRequests = roomRequestDAO.getRoomRequests();
+            assertEquals(someRoomRequests.size(), 2);
+            RoomRequest aRoomRequest = someRoomRequests.get(0);
+            RoomRequest bRoomRequest = someRoomRequests.get(1);
 
-        roomRequests = roomRequestDAO.getRoomRequests();
-        assertEquals(roomRequests.size(), 1);
-        roomRequest = roomRequests.get(0);
-        assertEquals(roomRequest.getLocation(), "RoomRequest1");
-        assertEquals(roomRequest.getStartTime(), new Timestamp(System.currentTimeMillis()));
-        assertEquals(roomRequest.getEndTime(), new Timestamp(System.currentTimeMillis()));
-        assertEquals(roomRequest.getRequesterName(), "Name1");
-        assertEquals(roomRequest.getRequestReason(), "Reason1");
+            assertEquals(testLocation, aRoomRequest.getLocation());
+            assertEquals(testStartTime, aRoomRequest.getStartTime());
+            assertEquals(testEndTime, aRoomRequest.getEndTime());
+            assertEquals(testRequesterName, aRoomRequest.getRequesterName());
+            assertEquals(testRequestReason, aRoomRequest.getRequestReason());
 
-        roomRequestDAO.addRoomRequest("RoomRequest2", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name2", "Reason2");
+            assertEquals(testLocationTwo, bRoomRequest.getLocation());
+            assertEquals(testStartTimeTwo, bRoomRequest.getStartTime());
+            assertEquals(testEndTimeTwo, bRoomRequest.getEndTime());
+            assertEquals(testRequesterNameTwo, bRoomRequest.getRequesterName());
+            assertEquals(testRequestReasonTwo, bRoomRequest.getRequestReason());
 
-        roomRequests = roomRequestDAO.getRoomRequests();
-        assertEquals(roomRequests.size(), 2);
 
-        roomRequestDAO.addRoomRequest("RoomRequest3", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name3", "Reason3");
-
-        roomRequests = roomRequestDAO.getRoomRequests();
-        assertEquals(roomRequests.size(), 3);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 
     @Test
-    void getRoomRequestByID() throws SQLException {
-        ArrayList<RoomRequest> roomRequests;
-        RoomRequest roomRequest;
+    void getRoomRequestByID() {
+        try {
+            roomRequestDAO.addRoomRequest(
+                    testLocation,
+                    testStartTime,
+                    testEndTime,
+                    testRequesterName,
+                    testRequestReason);
 
-        roomRequestDAO.addRoomRequest("RoomRequest1", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name1", "Reason1");
-        roomRequestDAO.addRoomRequest("RoomRequest2", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name2", "Reason2");
-        roomRequestDAO.addRoomRequest("RoomRequest3", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name3", "Reason3");
+            roomRequestDAO.addRoomRequest(
+                    testLocationTwo,
+                    testStartTimeTwo,
+                    testEndTimeTwo,
+                    testRequesterNameTwo,
+                    testRequestReasonTwo);
 
-        roomRequest = roomRequestDAO.getRoomRequestByID(0);
-        assertEquals(roomRequest.getRequestID(), 0);
+            RoomRequest testRoomRequest = roomRequestDAO.getRoomRequests().get(0);
+            int requestID = testRoomRequest.getRequestID();
+            RoomRequest aRoomRequest = roomRequestDAO.getRoomRequestByID(requestID);
+            RoomRequest bRoomRequest = roomRequestDAO.getRoomRequestByID(requestID + 1);
 
-        roomRequest = roomRequestDAO.getRoomRequestByID(2);
-        assertEquals(roomRequest.getRequestID(), 2);
+            assertEquals(testLocation, aRoomRequest.getLocation());
+            assertEquals(testStartTime, aRoomRequest.getStartTime());
+            assertEquals(testEndTime, aRoomRequest.getEndTime());
+            assertEquals(testRequesterName, aRoomRequest.getRequesterName());
+            assertEquals(testRequestReason, aRoomRequest.getRequestReason());
 
-        roomRequest = roomRequestDAO.getRoomRequestByID(1);
-        assertEquals(roomRequest.getRequestID(), 1);
+            assertEquals(testLocationTwo, bRoomRequest.getLocation());
+            assertEquals(testStartTimeTwo, bRoomRequest.getStartTime());
+            assertEquals(testEndTimeTwo, bRoomRequest.getEndTime());
+            assertEquals(testRequesterNameTwo, bRoomRequest.getRequesterName());
+            assertEquals(testRequestReasonTwo, bRoomRequest.getRequestReason());
 
-        roomRequest = roomRequestDAO.getRoomRequestByID(0);
-        assertEquals(roomRequest.getRequestID(), 0);
+        } catch (SQLException e){
+            e.printStackTrace();
+            fail();
+        }
     }
 
     @Test
-    void getRoomRequestsByRequesterName() throws SQLException {
-        ArrayList<RoomRequest> roomRequests;
-        RoomRequest roomRequest;
+    void getRoomRequestsByRequesterName() {
+        try {
+            roomRequestDAO.addRoomRequest(
+                    testLocation,
+                    testStartTime,
+                    testEndTime,
+                    testRequesterName,
+                    testRequestReason);
 
-        roomRequests = roomRequestDAO.getRoomRequestsByRequesterName("test"); //TODO: ERROR CASE FOR MISSED SELECT
-
-        roomRequestDAO.addRoomRequest("RoomRequest1", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name1", "Reason1");
-        roomRequestDAO.addRoomRequest("RoomRequest2", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name2", "Reason2");
-        roomRequestDAO.addRoomRequest("RoomRequest3", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name3", "Reason3");
-
-        roomRequests = roomRequestDAO.getRoomRequestsByRequesterName("Name1");
-        roomRequest = roomRequests.get(0);
-        assertEquals(roomRequest.getRequesterName(), "Name1");
-
-
-        roomRequests = roomRequestDAO.getRoomRequestsByRequesterName("Name2");
-        assertEquals(roomRequest.getRequesterName(), "Name2");
+            roomRequestDAO.addRoomRequest(
+                    testLocationTwo,
+                    testStartTimeTwo,
+                    testEndTimeTwo,
+                    testRequesterName,
+                    testRequestReasonTwo);
 
 
-        roomRequests = roomRequestDAO.getRoomRequestsByRequesterName("Name3");
-        assertEquals(roomRequest.getRequesterName(), "Name3");
+            ArrayList<RoomRequest> someRoomRequests = roomRequestDAO.getRoomRequestsByRequesterName(testRequesterName);
+            assertEquals(someRoomRequests.size(), 2);
+            RoomRequest aRoomRequest = someRoomRequests.get(0);
+            RoomRequest bRoomRequest = someRoomRequests.get(1);
+
+            assertEquals(testLocation, aRoomRequest.getLocation());
+            assertEquals(testStartTime, aRoomRequest.getStartTime());
+            assertEquals(testEndTime, aRoomRequest.getEndTime());
+            assertEquals(testRequesterName, aRoomRequest.getRequesterName());
+            assertEquals(testRequestReason, aRoomRequest.getRequestReason());
+
+            assertEquals(testLocationTwo, bRoomRequest.getLocation());
+            assertEquals(testStartTimeTwo, bRoomRequest.getStartTime());
+            assertEquals(testEndTimeTwo, bRoomRequest.getEndTime());
+            assertEquals(testRequesterName, bRoomRequest.getRequesterName());
+            assertEquals(testRequestReasonTwo, bRoomRequest.getRequestReason());
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            fail();
+        }
     }
 
     @Test
-    void getRoomRequestsByLocation() throws SQLException {
-        ArrayList<RoomRequest> roomRequests;
-        RoomRequest roomRequest;
+    void getRoomRequestsByLocation() {
+        try {
+            roomRequestDAO.addRoomRequest(
+                    testLocation,
+                    testStartTime,
+                    testEndTime,
+                    testRequesterName,
+                    testRequestReason);
 
-        roomRequests = roomRequestDAO.getRoomRequestsByLocation("test"); //TODO: ERROR CASE FOR MISSED SELECT
-
-        roomRequestDAO.addRoomRequest("RoomRequest1", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name1", "Reason1");
-        roomRequestDAO.addRoomRequest("RoomRequest2", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name2", "Reason2");
-        roomRequestDAO.addRoomRequest("RoomRequest3", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name3", "Reason3");
-
-        roomRequests = roomRequestDAO.getRoomRequestsByLocation("Location1");
-        roomRequest = roomRequests.get(0);
-        assertEquals(roomRequest.getLocation(), "Location1");
-
-
-        roomRequests = roomRequestDAO.getRoomRequestsByRequesterName("Location2");
-        assertEquals(roomRequest.getRequesterName(), "Location2");
+            roomRequestDAO.addRoomRequest(
+                    testLocation,
+                    testStartTimeTwo,
+                    testEndTimeTwo,
+                    testRequesterNameTwo,
+                    testRequestReasonTwo);
 
 
-        roomRequests = roomRequestDAO.getRoomRequestsByRequesterName("Location3");
-        assertEquals(roomRequest.getRequesterName(), "Location3");
+            ArrayList<RoomRequest> someRoomRequests = roomRequestDAO.getRoomRequestsByLocation(testLocation);
+            assertEquals(someRoomRequests.size(), 2);
+            RoomRequest aRoomRequest = someRoomRequests.get(0);
+            RoomRequest bRoomRequest = someRoomRequests.get(1);
+
+            assertEquals(testLocation, aRoomRequest.getLocation());
+            assertEquals(testStartTime, aRoomRequest.getStartTime());
+            assertEquals(testEndTime, aRoomRequest.getEndTime());
+            assertEquals(testRequesterName, aRoomRequest.getRequesterName());
+            assertEquals(testRequestReason, aRoomRequest.getRequestReason());
+
+            assertEquals(testLocation, bRoomRequest.getLocation());
+            assertEquals(testStartTimeTwo, bRoomRequest.getStartTime());
+            assertEquals(testEndTimeTwo, bRoomRequest.getEndTime());
+            assertEquals(testRequesterNameTwo, bRoomRequest.getRequesterName());
+            assertEquals(testRequestReasonTwo, bRoomRequest.getRequestReason());
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            fail();
+        }
     }
 
     @Test
-    void getRoomRequestsByStartTime() throws SQLException {
-        ArrayList<RoomRequest> roomRequests;
-        RoomRequest roomRequest;
+    void getRoomRequestsByStartTime() {
+        try {
+            roomRequestDAO.addRoomRequest(
+                    testLocation,
+                    testStartTime,
+                    testEndTime,
+                    testRequesterName,
+                    testRequestReason);
 
-        roomRequestDAO.addRoomRequest("RoomRequest1", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name1", "Reason1");
-        roomRequestDAO.addRoomRequest("RoomRequest2", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name2", "Reason2");
-        roomRequestDAO.addRoomRequest("RoomRequest3", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), "Name3", "Reason3");
-
-        roomRequests = roomRequestDAO.getRoomRequestsByStartTime(new Timestamp(System.currentTimeMillis()));
-        roomRequest = roomRequests.get(0);
-        assertEquals(roomRequest.getLocation(), "Location1");
-
-
-        roomRequests = roomRequestDAO.getRoomRequestsByRequesterName("Location2");
-        assertEquals(roomRequest.getRequesterName(), "Location2");
+            roomRequestDAO.addRoomRequest(
+                    testLocationTwo,
+                    testStartTime,
+                    testEndTimeTwo,
+                    testRequesterNameTwo,
+                    testRequestReasonTwo);
 
 
-        roomRequests = roomRequestDAO.getRoomRequestsByRequesterName("Location3");
-        assertEquals(roomRequest.getRequesterName(), "Location3");
+            ArrayList<RoomRequest> someRoomRequests = roomRequestDAO.getRoomRequestsByStartTime(testStartTime);
+            assertEquals(someRoomRequests.size(), 2);
+            RoomRequest aRoomRequest = someRoomRequests.get(0);
+            RoomRequest bRoomRequest = someRoomRequests.get(1);
+
+            assertEquals(testLocation, aRoomRequest.getLocation());
+            assertEquals(testStartTime, aRoomRequest.getStartTime());
+            assertEquals(testEndTime, aRoomRequest.getEndTime());
+            assertEquals(testRequesterName, aRoomRequest.getRequesterName());
+            assertEquals(testRequestReason, aRoomRequest.getRequestReason());
+
+            assertEquals(testLocationTwo, bRoomRequest.getLocation());
+            assertEquals(testStartTime, bRoomRequest.getStartTime());
+            assertEquals(testEndTimeTwo, bRoomRequest.getEndTime());
+            assertEquals(testRequesterNameTwo, bRoomRequest.getRequesterName());
+            assertEquals(testRequestReasonTwo, bRoomRequest.getRequestReason());
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            fail();
+        }
     }
 
     @Test
     void getRoomRequestsByEndTime() {
+        try {
+            roomRequestDAO.addRoomRequest(
+                    testLocation,
+                    testStartTime,
+                    testEndTime,
+                    testRequesterName,
+                    testRequestReason);
+
+            roomRequestDAO.addRoomRequest(
+                    testLocationTwo,
+                    testStartTimeTwo,
+                    testEndTime,
+                    testRequesterNameTwo,
+                    testRequestReasonTwo);
+
+
+            ArrayList<RoomRequest> someRoomRequests = roomRequestDAO.getRoomRequestsByEndTime(testEndTime);
+            assertEquals(someRoomRequests.size(), 2);
+            RoomRequest aRoomRequest = someRoomRequests.get(0);
+            RoomRequest bRoomRequest = someRoomRequests.get(1);
+
+            assertEquals(testLocation, aRoomRequest.getLocation());
+            assertEquals(testStartTime, aRoomRequest.getStartTime());
+            assertEquals(testEndTime, aRoomRequest.getEndTime());
+            assertEquals(testRequesterName, aRoomRequest.getRequesterName());
+            assertEquals(testRequestReason, aRoomRequest.getRequestReason());
+
+            assertEquals(testLocationTwo, bRoomRequest.getLocation());
+            assertEquals(testStartTimeTwo, bRoomRequest.getStartTime());
+            assertEquals(testEndTime, bRoomRequest.getEndTime());
+            assertEquals(testRequesterNameTwo, bRoomRequest.getRequesterName());
+            assertEquals(testRequestReasonTwo, bRoomRequest.getRequestReason());
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            fail();
+        }
     }
 
     @Test
     void getRoomRequestsByRequestReason() {
+        try {
+            roomRequestDAO.addRoomRequest(
+                    testLocation,
+                    testStartTime,
+                    testEndTime,
+                    testRequesterName,
+                    testRequestReason);
+
+            roomRequestDAO.addRoomRequest(
+                    testLocationTwo,
+                    testStartTimeTwo,
+                    testEndTimeTwo,
+                    testRequesterNameTwo,
+                    testRequestReason);
+
+
+            ArrayList<RoomRequest> someRoomRequests = roomRequestDAO.getRoomRequestsByRequestReason(testRequestReason);
+            assertEquals(someRoomRequests.size(), 2);
+            RoomRequest aRoomRequest = someRoomRequests.get(0);
+            RoomRequest bRoomRequest = someRoomRequests.get(1);
+
+            assertEquals(testLocation, aRoomRequest.getLocation());
+            assertEquals(testStartTime, aRoomRequest.getStartTime());
+            assertEquals(testEndTime, aRoomRequest.getEndTime());
+            assertEquals(testRequesterName, aRoomRequest.getRequesterName());
+            assertEquals(testRequestReason, aRoomRequest.getRequestReason());
+
+            assertEquals(testLocationTwo, bRoomRequest.getLocation());
+            assertEquals(testStartTimeTwo, bRoomRequest.getStartTime());
+            assertEquals(testEndTimeTwo, bRoomRequest.getEndTime());
+            assertEquals(testRequesterNameTwo, bRoomRequest.getRequesterName());
+            assertEquals(testRequestReason, bRoomRequest.getRequestReason());
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            fail();
+        }
     }
 
     @Test
     void getRoomRequestsAfterTime() {
+        try {
+            roomRequestDAO.addRoomRequest(
+                    testLocation,
+                    testStartTime,
+                    testEndTime,
+                    testRequesterName,
+                    testRequestReason
+                    );
+
+            roomRequestDAO.addRoomRequest(
+                    testLocationTwo,
+                    testStartTimeTwo,
+                    testEndTimeTwo,
+                    testRequesterNameTwo,
+                    testRequestReasonTwo);
+
+
+            roomRequestDAO.addRoomRequest(
+                    testLocation,
+                    testTimeOnePointEight,
+                    testEndTime,
+                    testRequesterName,
+                    testRequestReason);
+
+            roomRequestDAO.addRoomRequest(
+                    testLocationThree,
+                    testTimeOnePointFive,
+                    testEndTimeThree,
+                    testRequesterNameThree,
+                    testRequestReasonThree);
+
+            ArrayList<RoomRequest> someRoomRequests = roomRequestDAO.getRoomRequestsAfterTime(testTimeOnePointFive);
+            assertEquals(someRoomRequests.size(), 2);
+            RoomRequest aRoomRequest = someRoomRequests.get(0);
+            RoomRequest bRoomRequest = someRoomRequests.get(1);
+
+            assertEquals(testLocationTwo, aRoomRequest.getLocation());
+            assertEquals(testStartTimeTwo, aRoomRequest.getStartTime());
+            assertEquals(testEndTimeTwo, aRoomRequest.getEndTime());
+            assertEquals(testRequesterNameTwo, aRoomRequest.getRequesterName());
+            assertEquals(testRequestReasonTwo, aRoomRequest.getRequestReason());
+
+            assertEquals(testLocation, bRoomRequest.getLocation());
+            assertEquals(testTimeOnePointEight, bRoomRequest.getStartTime());
+            assertEquals(testEndTime, bRoomRequest.getEndTime());
+            assertEquals(testRequesterName, bRoomRequest.getRequesterName());
+            assertEquals(testRequestReason, bRoomRequest.getRequestReason());
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            fail();
+        }
     }
 
     @Test
     void getRoomRequestsBeforeTime() {
+        try {
+            roomRequestDAO.addRoomRequest(
+                    testLocation,
+                    testStartTime,
+                    testEndTime,
+                    testRequesterName,
+                    testRequestReason);
+
+            roomRequestDAO.addRoomRequest(
+                    testLocationTwo,
+                    testStartTimeTwo,
+                    testEndTimeTwo,
+                    testRequesterNameTwo,
+                    testRequestReasonTwo);
+
+            roomRequestDAO.addRoomRequest(
+                    testLocationTwo,
+                    testTimeOnePointEight,
+                    testEndTimeTwo,
+                    testRequesterNameTwo,
+                    testRequestReasonTwo);
+
+            roomRequestDAO.addRoomRequest(
+                    testLocationThree,
+                    testTimeOnePointFive,
+                    testEndTimeThree,
+                    testRequesterNameThree,
+                    testRequestReasonThree);
+
+            ArrayList<RoomRequest> someRoomRequests = roomRequestDAO.getRoomRequestsBeforeTime(testTimeOnePointEight);
+            assertEquals(someRoomRequests.size(), 2);
+            RoomRequest aRoomRequest = someRoomRequests.get(0);
+            RoomRequest bRoomRequest = someRoomRequests.get(1);
+
+            assertEquals(testLocation, aRoomRequest.getLocation());
+            assertEquals(testStartTime, aRoomRequest.getStartTime());
+            assertEquals(testEndTime, aRoomRequest.getEndTime());
+            assertEquals(testRequesterName, aRoomRequest.getRequesterName());
+            assertEquals(testRequestReason, aRoomRequest.getRequestReason());
+
+            assertEquals(testLocationThree, bRoomRequest.getLocation());
+            assertEquals(testTimeOnePointFive, bRoomRequest.getStartTime());
+            assertEquals(testRequesterNameThree, bRoomRequest.getRequesterName());
+            assertEquals(testRequestReasonThree, bRoomRequest.getRequestReason());
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            fail();
+        }
     }
 
     @Test
     void getRoomRequestsBetweenTimes() {
+        try {
+            roomRequestDAO.addRoomRequest(
+                    testLocation,
+                    testStartTime,
+                    testEndTime,
+                    testRequesterName,
+                    testRequestReason);
+
+            roomRequestDAO.addRoomRequest(
+                    testLocationTwo,
+                    testStartTimeTwo,
+                    testEndTimeTwo,
+                    testRequesterNameTwo,
+                    testRequestReasonTwo);
+
+
+            roomRequestDAO.addRoomRequest(
+                    testLocationTwo,
+                    testTimeOnePointEight,
+                    testEndTimeTwo,
+                    testRequesterNameTwo,
+                    testRequestReasonTwo
+                    );
+
+            roomRequestDAO.addRoomRequest(
+                    testLocationThree,
+                    testTimeOnePointFive,
+                    testEndTimeThree,
+                    testRequesterNameThree,
+                    testRequestReasonThree
+                    );
+
+            ArrayList<RoomRequest> someRoomRequests = roomRequestDAO.getRoomRequestsBetweenTimes(testStartTime, testStartTimeTwo);
+            assertEquals(someRoomRequests.size(), 2);
+            RoomRequest aRoomRequest = someRoomRequests.get(0);
+            RoomRequest bRoomRequest = someRoomRequests.get(1);
+
+            assertEquals(testLocationTwo, aRoomRequest.getLocation());
+            assertEquals(testTimeOnePointEight, aRoomRequest.getStartTime());
+            assertEquals(testEndTimeTwo, aRoomRequest.getEndTime());
+            assertEquals(testRequesterNameTwo, aRoomRequest.getRequesterName());
+            assertEquals(testRequestReasonTwo, aRoomRequest.getRequestReason());
+
+            assertEquals(testLocationThree, bRoomRequest.getLocation());
+            assertEquals(testTimeOnePointFive, bRoomRequest.getStartTime());
+            assertEquals(testEndTimeThree, bRoomRequest.getEndTime());
+            assertEquals(testRequesterNameThree, bRoomRequest.getRequesterName());
+            assertEquals(testRequestReasonThree, bRoomRequest.getRequestReason());
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            fail();
+        }
     }
 }

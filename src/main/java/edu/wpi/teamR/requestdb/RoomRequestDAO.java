@@ -14,7 +14,7 @@ class RoomRequestDAO {
 
     RoomRequest addRoomRequest(String longName, Timestamp startTime, Timestamp endTime, String requesterName, String requestReason) throws SQLException {
         Statement statement = connection.createStatement();
-        PreparedStatement sqlInsert = connection.prepareStatement("INSERT INTO " + Configuration.schemaName + "." + Configuration.roomRequestTableName+"(requestername,starttime,endtime,location,requesterreason)" +
+        PreparedStatement sqlInsert = connection.prepareStatement("INSERT INTO " + Configuration.schemaName + "." + Configuration.roomRequestTableName+"(requestername,starttime,endtime,location,requestreason)" +
                 "VALUES(?,?,?,?,?);",Statement.RETURN_GENERATED_KEYS);
         sqlInsert.setString(1, requesterName);
         sqlInsert.setTimestamp(2, startTime);
@@ -47,9 +47,9 @@ class RoomRequestDAO {
             Timestamp startTime = resultSet.getTimestamp("startTime");
             Timestamp endTime = resultSet.getTimestamp("endTime");
             String requesterName = resultSet.getString("requesterName");
-            String requesterReason = resultSet.getString("requesterReason");
+            String requestReason = resultSet.getString("requestReason");
 
-            rooms.add(new RoomRequest(requestID,location, startTime, endTime, requesterName, requesterReason));
+            rooms.add(new RoomRequest(requestID,location, startTime, endTime, requesterName, requestReason));
         }
         return rooms;
     }
@@ -68,7 +68,7 @@ class RoomRequestDAO {
 
     ArrayList<RoomRequest> getRoomRequestsByRequesterName(String requesterName) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE requestername="+requesterName+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE requestername='"+requesterName+"';");
         ArrayList<RoomRequest> roomRequests = new ArrayList<>();
         while(resultSet.next()){
             Integer requestID = resultSet.getInt("requestid");
@@ -84,7 +84,7 @@ class RoomRequestDAO {
 
     ArrayList<RoomRequest> getRoomRequestsByLocation(String location) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE location="+location+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE location='"+location+"';");
         ArrayList<RoomRequest> roomRequests = new ArrayList<>();
         while(resultSet.next()){
             Integer requestID = resultSet.getInt("requestid");
@@ -100,7 +100,7 @@ class RoomRequestDAO {
 
     ArrayList<RoomRequest> getRoomRequestsByStartTime(Timestamp startTime) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE starttime="+startTime+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE starttime='"+startTime+"';");
         ArrayList<RoomRequest> roomRequests = new ArrayList<>();
         while(resultSet.next()){
             Integer requestID = resultSet.getInt("requestid");
@@ -116,7 +116,7 @@ class RoomRequestDAO {
 
     ArrayList<RoomRequest> getRoomRequestsByEndTime(Timestamp endTime) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE endtime="+endTime+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE endtime='"+endTime+"';");
         ArrayList<RoomRequest> roomRequests = new ArrayList<>();
         while(resultSet.next()){
             Integer requestID = resultSet.getInt("requestid");
@@ -131,7 +131,7 @@ class RoomRequestDAO {
     }
     ArrayList<RoomRequest> getRoomRequestsByRequestReason(String requestReason) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE requestreason="+requestReason+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE requestreason='"+requestReason+"';");
         ArrayList<RoomRequest> roomRequests = new ArrayList<>();
         while(resultSet.next()){
             Integer requestID = resultSet.getInt("requestid");
@@ -147,7 +147,7 @@ class RoomRequestDAO {
 
     ArrayList<RoomRequest> getRoomRequestsAfterTime(Timestamp time) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE starttime>"+time+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE starttime>'"+time+"';");
         ArrayList<RoomRequest> roomRequests = new ArrayList<>();
         while(resultSet.next()){
             Integer requestID = resultSet.getInt("requestid");
@@ -164,7 +164,7 @@ class RoomRequestDAO {
 
     ArrayList<RoomRequest> getRoomRequestsBeforeTime(Timestamp time) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE starttime<"+time+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE starttime<'"+time+"';");
         ArrayList<RoomRequest> roomRequests = new ArrayList<>();
         while(resultSet.next()){
             Integer requestID = resultSet.getInt("requestid");
@@ -181,7 +181,7 @@ class RoomRequestDAO {
 
     ArrayList<RoomRequest> getRoomRequestsBetweenTimes(Timestamp firstTime,Timestamp secondTime) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE starttime>"+ firstTime +"AND starttime<" + secondTime + ";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE starttime>'"+ firstTime +"'AND starttime<'" + secondTime + "';");
         ArrayList<RoomRequest> roomRequests = new ArrayList<>();
         while(resultSet.next()){
             Integer requestID = resultSet.getInt("requestid");
@@ -198,6 +198,6 @@ class RoomRequestDAO {
 
     public void deleteAllRoomRequests() throws SQLException {
         Statement statement = connection.createStatement();
-        statement.executeQuery("DELETE FROM "+Configuration.getRoomRequestSchemaNameTableName()+";");
+        statement.executeUpdate("DELETE FROM "+Configuration.getRoomRequestSchemaNameTableName()+";");
     }
 }
