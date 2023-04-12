@@ -141,6 +141,19 @@
                   </HBox>
                </children>
             </VBox>
+            <VBox layoutX="490.0" layoutY="14.0" prefWidth="300.0" spacing="20.0" styleClass="map-vbox">
+               <children>
+                  <HBox fx:id="edgeHBox" alignment="CENTER" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Select Two Nodes to Draw Edge">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
          </children>
       </AnchorPane>
    </center>
