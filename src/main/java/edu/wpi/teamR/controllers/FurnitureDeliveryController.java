@@ -82,7 +82,7 @@ public class FurnitureDeliveryController {
         }
         id++;
         try {
-            FurnitureRequestDAO.getInstance().addFurnitureRequest(id, nameField.getText(), location, furnitureType, staffMemberField.getText(), notesField.getText(), CurrentDateTime(), RequestStatus.Unstarted);
+            FurnitureRequestDAO.getInstance().addFurnitureRequest(id, nameField.getText(), location, staffMemberField.getText(), notesField.getText(), CurrentDateTime(), RequestStatus.Unstarted, furnitureType);
         }
         catch (Exception e){
             e.printStackTrace();

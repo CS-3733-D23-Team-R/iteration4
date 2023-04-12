@@ -81,7 +81,7 @@ public class MealDeliveryController {
         }
         id++;
         try {
-            MealRequestDAO.getInstance().addFoodRequest(id, nameField.getText(), location, mealType, staffMemberField.getText(), notesField.getText(), CurrentDateTime(), RequestStatus.Unstarted);
+            MealRequestDAO.getInstance().addFoodRequest(id, nameField.getText(), location, staffMemberField.getText(), notesField.getText(), CurrentDateTime(), RequestStatus.Unstarted, mealType);
         }
         catch(Exception e) {
             e.printStackTrace();
