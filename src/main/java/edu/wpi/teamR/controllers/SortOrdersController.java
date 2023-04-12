@@ -1,5 +1,6 @@
 package edu.wpi.teamR.controllers;
 
+import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.Main;
 import edu.wpi.teamR.requestdb.ItemRequest;
 import edu.wpi.teamR.requestdb.RequestDatabase;
@@ -60,8 +61,8 @@ public class SortOrdersController {
             ItemRequest request = event.getRowValue();
             request.setStaffMember(event.getNewValue());
             try {
-                RequestDatabase.getInstance().modifyRequestByID(request.getRequestID(), request.getRequesterName(),request.getLocation(), event.getNewValue(), request.getAdditionalNotes(), request.getRequestDate(), request.getRequestStatus(),request.getItemType());
-            } catch (SQLException | ClassNotFoundException e) {
+                RequestDatabase.getInstance().modifyItemRequestByID(request.getRequestID(), request.getRequesterName(),request.getLocation(), event.getNewValue(), request.getAdditionalNotes(), request.getRequestDate(), request.getRequestStatus(),request.getItemType());
+            } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
                 throw new RuntimeException(e);
             }
 
@@ -78,9 +79,9 @@ public class SortOrdersController {
                     try {
                         RequestStatus status = changeStatusButton.getSelectionModel().getSelectedItem();
                         request.setRequestStatus(status);
-                        RequestDatabase.getInstance().modifyRequestByID(request.getRequestID(), request.getRequesterName(), request.getLocation(), request.getStaffMember(), request.getAdditionalNotes(), request.getRequestDate(), status, request.getItemType());
-                    } catch (SQLException | ClassNotFoundException e) {
-                        throw new RuntimeException(e);
+                        RequestDatabase.getInstance().modifyItemRequestByID(request.getRequestID(), request.getRequesterName(), request.getLocation(), request.getStaffMember(), request.getAdditionalNotes(), request.getRequestDate(), status, request.getItemType());
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 });
             }
@@ -115,7 +116,11 @@ public class SortOrdersController {
                         btn.setGraphic(imageView);
                         btn.setOnAction((ActionEvent event) -> {
                             ItemRequest data = getTableView().getItems().get(getIndex());
-                            RequestDatabase.getInstance().deleteRequest(data.getRequestID());
+                            try {
+                                RequestDatabase.getInstance().deleteItemRequestByID(data.getRequestID());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         });
                     }
 
