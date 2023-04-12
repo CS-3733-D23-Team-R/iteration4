@@ -9,8 +9,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import org.controlsfx.control.SearchableComboBox;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,16 +28,18 @@ public class RequestController {
     @FXML MFXTextField staffMemberField;
     @FXML MFXTextField notesField;
     @FXML SearchableComboBox typeBox;
-
-
+    @FXML Text titleText;
+    @FXML Text typeText;
+    @FXML AnchorPane topAnchor;
     ObservableList<String> locList;
-
     ArrayList<String> tempList = new ArrayList<>();
-
 
     @FXML
     public void initialize() {
-        tempList.add("TEST");
+        titleText.setText(requestType.getTitleText());
+        typeText.setText(requestType.getTypeText());
+        topAnchor.getStyleClass().clear();
+        topAnchor.getStyleClass().add(requestType.getStyle());
         try {
             MapDatabase mapDatabase = new MapDatabase();
             for(LocationName locationName: mapDatabase.getLocationNamesByNodeType("DEPT")){
@@ -43,6 +48,7 @@ public class RequestController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         locList = FXCollections.observableArrayList(tempList);
 
         cancelButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
@@ -71,7 +77,13 @@ public class RequestController {
             location = "";
         }
         Navigation.navigate(Screen.HOME);
-        requestType.addRequest(nameField.toString(), location, staffMemberField.toString(), notesField.toString(), CurrentDateTime(), RequestStatus.Unstarted, type);
+
+        try {
+            requestType.addRequest(nameField.getText(), location, staffMemberField.getText(), notesField.getText(), CurrentDateTime(), RequestStatus.Unstarted, type);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

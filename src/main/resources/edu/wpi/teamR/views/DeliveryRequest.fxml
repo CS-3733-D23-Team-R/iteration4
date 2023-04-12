@@ -21,7 +21,7 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="83.0" prefWidth="1280.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Meal Delivery Request" wrappingWidth="354.2402114868164">
+                        <Text fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" text="Meal Delivery Request" wrappingWidth="354.2402114868164">
                            <font>
                               <Font name="Roboto" size="36.0" />
                            </font>
@@ -53,7 +53,7 @@
                         <HBox alignment="CENTER" spacing="200.0" translateY="25.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-bar" text="Staff Member:" translateX="-213.0" wrappingWidth="87.57356834411621" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-bar" text="Meal Type:" translateX="-52.0" wrappingWidth="87.57356834411621" />
+                              <Text fx:id="typeText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-bar" text="Meal Type:" translateX="-52.0" wrappingWidth="87.57356834411621" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="31.0" prefWidth="1280.0" spacing="100.0" translateY="28.0">
@@ -95,7 +95,7 @@
          </children></AnchorPane>
    </center>
    <top>
-      <AnchorPane prefHeight="100.0" styleClass="meal-title" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="topAnchor" prefHeight="100.0" styleClass="meal-title" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="90.0" fitWidth="90.0" layoutX="1184.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="6.0">
                <image>

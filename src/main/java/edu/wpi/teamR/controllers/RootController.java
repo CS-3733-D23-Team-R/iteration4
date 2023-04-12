@@ -24,7 +24,7 @@ public class RootController {
   public void initialize() {
     homeButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
     profileButton.setOnMouseClicked(event -> Navigation.navigate(Screen.ADMINHOME));
-    newRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
+    newRequestButton.setOnMouseClicked(event -> request());
     pendingRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
     pathfindingButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
     logoutButton.setOnMouseClicked(event -> Platform.exit());
@@ -49,5 +49,10 @@ public class RootController {
     helpPopup.setArrowLocation(PopOver.ArrowLocation.TOP_CENTER);
     helpPopup.setAutoHide(true);
     helpPopup.show(helpButton);
+  }
+
+  @FXML private void request(){
+    RequestController.requestType = new RequestTypeFlower();
+    Navigation.navigate(Screen.FLOWER_REQUEST);
   }
 }
