@@ -5,6 +5,7 @@ import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.mapdb.MapDatabase;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -24,6 +25,14 @@ public class RequestDatabase {
         Connection connection = Configuration.getConnection();
         MealRequestDAO Dao = new MealRequestDAO(connection);
         MealRequest output = Dao.addMealRequest(requesterName, location, staffMember, additionalNotes, requestDate, requestStatus, mealType);
+        connection.close();
+        return output;
+    }
+
+    MealRequest modifyMealRequest(int requestID, String newRequesterName, String newLocation, String newStaffMember, String newAdditionalNotes, Timestamp newRequestDate, RequestStatus newRequestStatus, String newMealType) throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        MealRequestDAO mealRequestDAO = new MealRequestDAO(connection);
+        MealRequest output = mealRequestDAO.modifyMealRequest(requestID, newRequesterName, newLocation, newStaffMember, newAdditionalNotes, newRequestDate, newRequestStatus, newMealType);
         connection.close();
         return output;
     }
@@ -124,6 +133,14 @@ public class RequestDatabase {
         return output;
     }
 
+    FurnitureRequest modifyFurnitureRequest(int requestID, String newRequesterName, String newLocation, String newStaffMember, String newAdditionalNotes, Timestamp newRequestDate, RequestStatus newRequestStatus, String newFurnitureType) throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        FurnitureRequestDAO furnitureRequestDAO = new FurnitureRequestDAO(connection);
+        FurnitureRequest output = furnitureRequestDAO.modifyFurnitureRequest(requestID, newRequesterName, newLocation, newStaffMember, newAdditionalNotes, newRequestDate, newRequestStatus, newFurnitureType);
+        connection.close();
+        return output;
+    }
+
     public void deleteFurnitureRequest(int requestID) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         FurnitureRequestDAO Dao = new FurnitureRequestDAO(connection);
@@ -219,6 +236,14 @@ public class RequestDatabase {
         return output;
     }
 
+    FlowerRequest modifyFlowerRequest(int requestID, String newRequesterName, String newLocation, String newStaffMember, String newAdditionalNotes, Timestamp newRequestDate, RequestStatus newRequestStatus, String newFlowerType) throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        FlowerRequestDAO flowerRequestDAO = new FlowerRequestDAO(connection);
+        FlowerRequest output = flowerRequestDAO.modifyFlowerRequest(requestID, newRequesterName, newLocation, newStaffMember, newAdditionalNotes, newRequestDate, newRequestStatus, newFlowerType);
+        connection.close();
+        return output;
+    }
+
     public void deleteFlowerRequest(int requestID) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         FlowerRequestDAO Dao = new FlowerRequestDAO(connection);
@@ -302,6 +327,38 @@ public class RequestDatabase {
         Connection connection = Configuration.getConnection();
         FlowerRequestDAO Dao = new FlowerRequestDAO(connection);
         ArrayList<FlowerRequest> output = Dao.getFlowerRequestsBetweenTimes(firstTime, secondTime);
+        connection.close();
+        return output;
+    }
+
+    void deleteItemRequest(int requestID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        Connection connection = Configuration.getConnection();
+        ItemRequest itemRequest = this.getItemRequestByID(requestID);
+        if (itemRequest instanceof MealRequest){
+            this.deleteMealRequest(requestID);
+        } else if (itemRequest instanceof FurnitureRequest){
+            this.deleteFurnitureRequest(requestID);
+        } else if (itemRequest instanceof FlowerRequest){
+            this.deleteFlowerRequest(requestID);
+        } else {
+            throw new ItemNotFoundException();
+        }
+        connection.close();
+    }
+
+    ItemRequest modifyItemRequest(int requestID, String newRequesterName, String newLocation, String newStaffMember, String newAdditionalNotes, Timestamp newRequestDate, RequestStatus newRequestStatus, String newItemType) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        Connection connection = Configuration.getConnection();
+        ItemRequest itemRequest = this.getItemRequestByID(requestID);
+        ItemRequest output;
+        if (itemRequest instanceof MealRequest){
+            output = this.modifyMealRequest(requestID, newRequesterName, newLocation, newStaffMember, newAdditionalNotes, newRequestDate, newRequestStatus, newItemType);
+        } else if (itemRequest instanceof FurnitureRequest){
+            output = this.modifyFurnitureRequest(requestID, newRequesterName, newLocation, newStaffMember, newAdditionalNotes, newRequestDate, newRequestStatus, newItemType);
+        } else if (itemRequest instanceof FlowerRequest){
+            output = this.modifyFlowerRequest(requestID, newRequesterName, newLocation, newStaffMember, newAdditionalNotes, newRequestDate, newRequestStatus, newItemType);
+        } else {
+            throw new ItemNotFoundException();
+        }
         connection.close();
         return output;
     }
