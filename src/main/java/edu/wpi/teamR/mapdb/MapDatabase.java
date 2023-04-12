@@ -186,7 +186,7 @@ public class MapDatabase {
     }
 
     public ArrayList<MapLocation> getMapLocationsByFloor(String floor) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" LEFT JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as foo natural join "+Configuration.getLocationNameSchemaNameTableName()+" ORDER BY nodeID;");
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" LEFT JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as foo left join "+Configuration.getLocationNameSchemaNameTableName()+" ORDER BY nodeID;");
         ResultSet resultSet = preparedStatement.executeQuery();
 
         ArrayList<MapLocation> mapLocations = new ArrayList<>();
