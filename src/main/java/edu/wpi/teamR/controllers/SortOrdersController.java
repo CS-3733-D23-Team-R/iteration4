@@ -115,7 +115,16 @@ public class SortOrdersController {
                         btn.setGraphic(imageView);
                         btn.setOnAction((ActionEvent event) -> {
                             ItemRequest data = getTableView().getItems().get(getIndex());
+<<<<<<< Updated upstream
                             RequestDatabase.getInstance().deleteRequest(data.getRequestID());
+=======
+                            requestTable.getItems().remove(data);
+                            try {
+                                RequestDatabase.getInstance().deleteItemRequestByID(data.getRequestID());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+>>>>>>> Stashed changes
                         });
                     }
 
