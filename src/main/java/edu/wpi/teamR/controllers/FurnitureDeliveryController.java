@@ -95,7 +95,7 @@ public class FurnitureDeliveryController {
         }
         id++;
         try {
-            db.addMealRequest(nameField.getText(), location, staffMemberField.getText(), notesField.getText(), CurrentDateTime(), RequestStatus.Unstarted, furnitureType);
+            db.addFurnitureRequest(nameField.getText(), location, staffMemberField.getText(), notesField.getText(), CurrentDateTime(), RequestStatus.Unstarted, furnitureType);
         }
         catch(Exception e) {
             e.printStackTrace();
