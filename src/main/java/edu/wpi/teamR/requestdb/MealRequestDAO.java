@@ -222,4 +222,18 @@ public class MealRequestDAO {
 
         return meals;
     }
+
+    MealRequest modifyMealRequest(int requestID, String newRequesterName, String newLocation, String newStaffMember, String newAdditionalNotes, Timestamp newRequestDate, RequestStatus newRequestStatus, String newMealType) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE " + Configuration.getMealRequestSchemaNameTableName() + " SET requestername=?, location=?, staffmember=?, additionalnotes=?, requestdate=?, requeststatus=?, mealtype=? WHERE requestID=?");
+        preparedStatement.setString(1, newRequesterName);
+        preparedStatement.setString(2, newLocation);
+        preparedStatement.setString(3, newStaffMember);
+        preparedStatement.setString(4, newAdditionalNotes);
+        preparedStatement.setTimestamp(5, newRequestDate);
+        preparedStatement.setString(6, newRequestStatus.toString());
+        preparedStatement.setString(7, newMealType);
+        preparedStatement.setInt(8, requestID);
+        preparedStatement.executeUpdate();
+        return new MealRequest(requestID, newRequesterName, newLocation, newStaffMember, newAdditionalNotes, newRequestDate, newRequestStatus, newMealType);
+    }
 }
