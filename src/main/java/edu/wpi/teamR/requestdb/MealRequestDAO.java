@@ -33,6 +33,7 @@ public class MealRequestDAO {
 
     void deleteMealRequest(Integer requestID) throws SQLException {
         PreparedStatement sqlDelete = connection.prepareStatement("DELETE FROM"+ Configuration.getMealRequestSchemaNameTableName() + "WHERE requestID = " + requestID +";");
+        sqlDelete.executeUpdate();
     }
 
     ArrayList<MealRequest> getMealRequests() throws SQLException {
@@ -71,7 +72,7 @@ public class MealRequestDAO {
 
     ArrayList<MealRequest> getMealRequestsByRequesterName(String requesterName) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE requesterName="+requesterName+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE requesterName='"+requesterName+"';");
         ArrayList<MealRequest> meals = new ArrayList<MealRequest>();
         while (resultSet.next()) {
             int requestID = resultSet.getInt("requestID");
@@ -89,7 +90,7 @@ public class MealRequestDAO {
 
     ArrayList<MealRequest> getMealRequestsByLocation(String location) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE location="+location+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE location='"+location+"';");
         ArrayList<MealRequest> meals = new ArrayList<MealRequest>();
         while (resultSet.next()) {
             int requestID = resultSet.getInt("requestID");
@@ -107,7 +108,7 @@ public class MealRequestDAO {
 
     ArrayList<MealRequest> getMealRequestByStaffMember(String staffMember) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE staffMember="+staffMember+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE staffMember='"+staffMember+"';");
         ArrayList<MealRequest> meals = new ArrayList<MealRequest>();
         while (resultSet.next()) {
             int requestID = resultSet.getInt("requestID");
@@ -125,7 +126,7 @@ public class MealRequestDAO {
 
     ArrayList<MealRequest> getMealRequestByMealType(String mealType) throws SQLException{
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE mealType="+mealType+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE mealType='"+mealType+"';");
         ArrayList<MealRequest> meals = new ArrayList<MealRequest>();
         while (resultSet.next()) {
             int requestID = resultSet.getInt("requestID");
@@ -143,7 +144,7 @@ public class MealRequestDAO {
 
     ArrayList<MealRequest> getMealRequestByRequestStatus(RequestStatus requestStatus) throws SQLException{
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE requestStatus="+requestStatus+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE requestStatus='"+requestStatus+"';");
         ArrayList<MealRequest> meals = new ArrayList<MealRequest>();
         while (resultSet.next()) {
             int requestID = resultSet.getInt("requestID");
@@ -161,7 +162,7 @@ public class MealRequestDAO {
 
     ArrayList<MealRequest> getMealRequestsAfterTime(Timestamp time) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE starttime>"+time+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE starttime>'"+time+"';");
         ArrayList<MealRequest> meals = new ArrayList<>();
         while(resultSet.next()){
             int requestID = resultSet.getInt("requestID");
@@ -181,7 +182,7 @@ public class MealRequestDAO {
 
     ArrayList<MealRequest> getMealRequestsBeforeTime(Timestamp time) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE starttime<"+time+";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE starttime<'"+time+"';");
         ArrayList<MealRequest> meals = new ArrayList<>();
         while(resultSet.next()){
             int requestID = resultSet.getInt("requestID");
@@ -201,7 +202,7 @@ public class MealRequestDAO {
 
     ArrayList<MealRequest> getMealRequestsBetweenTimes(Timestamp firstTime, Timestamp secondTime) throws SQLException { //TODO: Finish Implementation
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE starttime>"+ firstTime +"AND starttime<" + secondTime + ";");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMealRequestSchemaNameTableName()+" WHERE starttime>'"+ firstTime +"' AND starttime<'" + secondTime + "';");
         ArrayList<MealRequest> meals = new ArrayList<>();
         while(resultSet.next()){
             int requestID = resultSet.getInt("requestID");
