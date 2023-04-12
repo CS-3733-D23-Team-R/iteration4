@@ -68,7 +68,7 @@ public class FurnitureDeliveryController {
         String furnitureType = furnitureTypeField.getValue().toString();
         String location = locationField.getValue().toString();
 
-        if (furnitureType == "Select Meal") {
+        if (furnitureType == "Select Furniture") {
             furnitureType = "";
         }
 
