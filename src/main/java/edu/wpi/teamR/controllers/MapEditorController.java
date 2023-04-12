@@ -273,9 +273,6 @@ public class MapEditorController {
             }
         }
         tableComboBox.setValue(null);
-        nodePanes[currentFloor].getChildren().clear();
-        mapPane.getChildren().remove(nodePanes[currentFloor]);
-        displayNodesByFloor(currentFloor);
     }
 
     public void openFile() {
@@ -327,7 +324,6 @@ public class MapEditorController {
             t.setY(n.getYCoord());
 
             nodePanes[floor].getChildren().add(t);
-
         }
     }
 
@@ -392,4 +388,9 @@ public class MapEditorController {
         }
     }
 
+    public void redraw() throws SQLException, ItemNotFoundException {
+        nodePanes[currentFloor].getChildren().clear();
+        mapPane.getChildren().remove(nodePanes[currentFloor]);
+        displayNodesByFloor(currentFloor);
+    }
 }

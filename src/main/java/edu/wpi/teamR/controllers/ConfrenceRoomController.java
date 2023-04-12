@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ConfrenceRoomController {
+    /*
     @FXML MFXButton submitButton;
     @FXML MFXButton resetButton;
     @FXML MFXTextField nameField;
@@ -95,11 +96,6 @@ ArrayList<String> timeArray = new ArrayList<>();
     }
 
     public boolean isAvailable(ConferenceRoom conferenceRoom){
-        /*TODO
-            check time availability
-            if there is a floor given, check if its on the floor
-            if there is a room name given, check if it shares a name (.matches)
-         */
         if(conferenceRoom.getName().matches(location)){
 
         }
@@ -109,6 +105,5 @@ ArrayList<String> timeArray = new ArrayList<>();
 
 
 
-
-
+    */
 }

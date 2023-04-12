@@ -25,6 +25,5 @@ public class HomeController {
   @FXML
   public void initialize() {
     loginButton.setOnAction(event -> Navigation.navigate(Screen.LOGIN));
-
   }
 }
