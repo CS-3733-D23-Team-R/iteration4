@@ -102,17 +102,10 @@ public class Pathfinder {
 
     //outputs the floor number 0 indexed from the lowest floor (L2)
     private int floorNumAsInt(String floorNum){
-        int output;
-        switch(floorNum){
-            case "L1":
-                output = 1;
-                break;
-            case "L2":
-                output = 0;
-                break;
-            default:
-                output = Integer.parseInt(floorNum) + 1;
-        }
-        return output;
+        return switch (floorNum) {
+            case "L1" -> 1;
+            case "L2" -> 0;
+            default -> Integer.parseInt(floorNum) + 1;
+        };
     }
 }

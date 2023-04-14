@@ -8,7 +8,6 @@ import edu.wpi.teamR.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
-import java.awt.*;
 import java.sql.SQLException;
 
 public class LoginController {
@@ -22,11 +21,7 @@ public class LoginController {
         loginButton.setOnMouseClicked(event -> {
             try {
                 checkLogIn();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (ItemNotFoundException e) {
+            } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
                 e.printStackTrace();
             }
         });

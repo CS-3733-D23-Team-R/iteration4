@@ -1,7 +1,6 @@
 package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.mapdb.MapDatabase;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
