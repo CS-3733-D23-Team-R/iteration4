@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class RequestController {
     public static RequestType requestType = new RequestTypeMeal();
@@ -24,10 +25,10 @@ public class RequestController {
     @FXML Button resetButton;
     @FXML Button submitButton;
     @FXML MFXTextField nameField;
-    @FXML SearchableComboBox locationBox;
+    @FXML SearchableComboBox<String> locationBox;
     @FXML MFXTextField staffMemberField;
     @FXML MFXTextField notesField;
-    @FXML SearchableComboBox typeBox;
+    @FXML SearchableComboBox<String> typeBox;
     @FXML Text titleText;
     @FXML Text typeText;
     @FXML AnchorPane topAnchor;
@@ -61,19 +62,18 @@ public class RequestController {
     }
 
     public Timestamp CurrentDateTime(){
-        LocalDateTime now = LocalDateTime.now();
-        return new Timestamp(now.getYear(), now.getMonthValue(), now.getDayOfMonth(), now.getHour(),now.getMinute(),now.getSecond(),now.getNano());
+        return new Timestamp(System.currentTimeMillis());
     }
 
 
     @FXML
     public void submit(){
-        String type = typeBox.getValue().toString();
-        if (type == requestType.getDefaultText()) {
+        String type = typeBox.getValue();
+        if (type.equals(requestType.getDefaultText())) {
             type = "";
         }
-        String location = locationBox.getValue().toString();
-        if (location == "Select Location") {
+        String location = locationBox.getValue();
+        if (location.equals("Select Location")) {
             location = "";
         }
         Navigation.navigate(Screen.HOME);

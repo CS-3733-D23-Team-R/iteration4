@@ -229,13 +229,7 @@ public class MapController {
             displayFloorNum(floorNamesMap.get(startNode.getFloorNum()));
         }
 
-        Circle start = new Circle(startNode.getXCoord(), startNode.getYCoord(), 5, Color.RED);
-        Text startText = new Text(startField.getValue());
-        startText.setX(startNode.getXCoord() + 10);
-        startText.setY(startNode.getYCoord());
-        startText.setFill(Color.RED);
-        paths[currentFloor].getChildren().add(start);
-        paths[currentFloor].getChildren().add(startText);
+        createCircle(startNode, currentFloor, startField);
 
         int drawFloor = currentFloor;
         for (int i = 0; i < mapPath.getPath().size() - 1; i++) {
@@ -249,6 +243,13 @@ public class MapController {
                 drawFloor = floorNamesMap.get(n2.getFloorNum());
             }
         }
+        createCircle(endNode, drawFloor, endField);
+
+        gesturePane.zoomTo(1, 1, new Point2D(startNode.getXCoord(), startNode.getYCoord()));
+        gesturePane.centreOn(new Point2D(startNode.getXCoord(), startNode.getYCoord()));
+    }
+
+    private void createCircle(Node endNode, int drawFloor, SearchableComboBox<String> endField) {
         Circle end = new Circle(endNode.getXCoord(), endNode.getYCoord(), 5, Color.RED);
         Text endText = new Text(endField.getValue());
         endText.setX(endNode.getXCoord() + 10);
@@ -256,9 +257,6 @@ public class MapController {
         endText.setFill(Color.RED);
         paths[drawFloor].getChildren().add(end);
         paths[drawFloor].getChildren().add(endText);
-
-        gesturePane.zoomTo(1, 1, new Point2D(startNode.getXCoord(), startNode.getYCoord()));
-        gesturePane.centreOn(new Point2D(startNode.getXCoord(), startNode.getYCoord()));
     }
 
     private int idFromName(String longname) throws SQLException, ItemNotFoundException {
