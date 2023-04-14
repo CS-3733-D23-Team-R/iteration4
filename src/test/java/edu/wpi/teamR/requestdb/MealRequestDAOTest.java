@@ -54,11 +54,6 @@ class MealRequestDAOTest {
         statement.executeUpdate("DELETE FROM "+Configuration.getMealRequestSchemaNameTableName()+";");
     }
 
-    @AfterEach
-    void tearDown() throws SQLException {
-        connection.close();
-    }
-
     @Test
     void addMealRequest() throws SQLException {
         mealRequestDAO.addMealRequest(

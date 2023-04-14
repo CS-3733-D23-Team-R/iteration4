@@ -31,7 +31,6 @@ class LocationNameDAOTest {
     @AfterAll
     static void clearDataDeleteConnection() throws SQLException {
         locationNameDAO.deleteAllLocationNames();
-        connection.close();
     }
     @Test
     void getLocations() throws SQLException {

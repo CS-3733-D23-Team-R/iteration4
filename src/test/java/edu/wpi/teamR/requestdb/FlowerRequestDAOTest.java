@@ -52,11 +52,6 @@ class FlowerRequestDAOTest {
         statement.executeUpdate("DELETE FROM "+Configuration.getFlowerRequestSchemaNameTableName()+";");
     }
 
-    @AfterEach
-    void tearDown() throws SQLException {
-        connection.close();
-    }
-
     @Test
     void addFlowerRequest() throws SQLException {
         flowerRequestDAO.addFlowerRequest(

@@ -47,7 +47,6 @@ class MapDatabaseTest {
         moveDAO.deleteAllMoves();
         nodeDAO.deleteAllNodes();
         locationNameDAO.deleteAllLocationNames();
-        connection.close();
     }
 
     @Test

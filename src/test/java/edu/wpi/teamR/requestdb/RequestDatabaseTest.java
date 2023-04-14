@@ -38,10 +38,6 @@ public class RequestDatabaseTest {
         statement.executeUpdate("DELETE FROM "+Configuration.getMealRequestSchemaNameTableName()+";");
         statement.executeUpdate("DELETE FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+";");
     }
-    @AfterEach
-    void endInstance() throws SQLException {
-        connection.close();
-    }
     @Test
     void getItemRequestTest() throws SQLException, ClassNotFoundException {
         furnitureRequestDAO.addFurnitureRequest("John", "WPI", "Wong", "Need to get the thing", testTime, RequestStatus.Processing, "Arm");

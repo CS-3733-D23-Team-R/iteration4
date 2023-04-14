@@ -23,7 +23,6 @@ public class NodeDAOTest {
     @AfterAll
     static void end() throws SQLException {
         nodeDAO.deleteAllNodes();
-        connection.close();
     }
     @BeforeEach
     void reset() throws SQLException {

@@ -249,7 +249,7 @@ public class MapEditorController {
 
     @FXML
     public void close(Stage primaryStage) throws SQLException {
-        mapdb.closeConnection();
+        //mapdb.closeConnection();
     }
 
     public void changeFloor(int floorNum) throws SQLException, ItemNotFoundException {

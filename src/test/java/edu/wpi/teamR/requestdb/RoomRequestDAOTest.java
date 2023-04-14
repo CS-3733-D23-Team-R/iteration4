@@ -61,11 +61,6 @@ class RoomRequestDAOTest {
         roomRequestDAO.deleteAllRoomRequests();
     }
 
-    @AfterAll
-    static void clearDataDeleteConnection() throws SQLException {
-        roomRequestDAO.deleteAllRoomRequests();
-        connection.close();
-    }
     @Test
     void addRoomRequest() throws SQLException {
         roomRequestDAO.addRoomRequest(
