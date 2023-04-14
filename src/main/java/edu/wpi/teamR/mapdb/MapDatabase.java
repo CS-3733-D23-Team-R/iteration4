@@ -30,10 +30,6 @@ public class MapDatabase {
         this.locationNameDao = new LocationNameDAO(connection);
     }
 
-    public void closeConnection() throws SQLException {
-        connection.close();
-    }
-
     // old code for making mapDatabase singleton
 //    public MapDatabase getInstance() {
 //        if (instance != null)

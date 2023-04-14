@@ -35,7 +35,7 @@ public class FlowerRequestDAO {
     }
 
     void deleteFlowerRequest(Integer requestID) throws SQLException{
-        PreparedStatement sqlDelete = connection.prepareStatement("DELETE FROM"+ Configuration.getFlowerRequestSchemaNameTableName() + "WHERE requestID = " + requestID +";");
+        PreparedStatement sqlDelete = connection.prepareStatement("DELETE FROM "+ Configuration.getFlowerRequestSchemaNameTableName() + " WHERE requestID = " + requestID +";");
         sqlDelete.executeUpdate();
     }
 

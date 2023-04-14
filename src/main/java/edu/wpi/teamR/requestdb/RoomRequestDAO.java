@@ -14,7 +14,7 @@ class RoomRequestDAO {
 
     RoomRequest addRoomRequest(String longName, Timestamp startTime, Timestamp endTime, String requesterName, String requestReason) throws SQLException {
         Statement statement = connection.createStatement();
-        PreparedStatement sqlInsert = connection.prepareStatement("INSERT INTO " + Configuration.schemaName + "." + Configuration.roomRequestTableName+"(requestername,starttime,endtime,location,requestreason)" +
+        PreparedStatement sqlInsert = connection.prepareStatement("INSERT INTO " + Configuration.getRoomRequestSchemaNameTableName()+"(requestername,starttime,endtime,location,requestreason)" +
                 "VALUES(?,?,?,?,?);",Statement.RETURN_GENERATED_KEYS);
         sqlInsert.setString(1, requesterName);
         sqlInsert.setTimestamp(2, startTime);

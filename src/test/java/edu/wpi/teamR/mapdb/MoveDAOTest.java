@@ -43,7 +43,6 @@ class MoveDAOTest {
         moveDAO.deleteAllMoves();
         nodeDAO.deleteAllNodes();
         locationNameDAO.deleteAllLocationNames();
-        connection.close();
     }
 
 

@@ -25,17 +25,6 @@ public class LocationNameDAO {
         return temp;
     }
 
-    /*
-    Outside of DAO scope
-    LocationName getLocationByNodeID(int nodeId) throws SQLException {
-        Statement statement = aConnection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE nodeID = "+nodeId+";");
-        resultSet.next();
-        LocationName aLocationName = new LocationName(resultSet.getString("longname"), resultSet.getString("shortname"), resultSet.getString("nodetype"));
-        aConnection.close();
-        return aLocationName;
-    }
-     */
     ArrayList<LocationName> getLocationsByNodeType(String nodeType) throws SQLException {
         ArrayList<LocationName> temp = new ArrayList<LocationName>();
         Statement statement = aConnection.createStatement();

@@ -5,20 +5,23 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Configuration {
-    public static final String connectionURL = "jdbc:postgresql://database.cs.wpi.edu:5432/teamrdb";
-    public static final String username = "teamr";
-    public static final String password = "teamr150";
-    public static String schemaName = "iteration1";
-    public static final String nodeTableName = "node";
-    public static final String edgeTableName = "edge";
-    public static final String moveTableName = "move";
-    public static final String locationNameTableName = "locationname";
-    public static final String mealRequestTableName = "mealrequestview";
-    public static final String furnitureRequestTableName = "furniturerequestview";
-    public static final String roomRequestTableName = "roomrequestview";
-    public static final String flowerRequestTableName = "flowerrequestview";
-    public static final String authenticationTableName = "authentication";
+    private static final String connectionURL = "jdbc:postgresql://database.cs.wpi.edu:5432/teamrdb";
+    private static final String username = "teamr";
+    private static final String password = "teamr150";
+    private static Connection connection;
+    private static String schemaName = "iteration1";
+    private static final String nodeTableName = "node";
+    private static final String edgeTableName = "edge";
+    private static final String moveTableName = "move";
+    private static final String locationNameTableName = "locationname";
+    private static final String mealRequestTableName = "mealrequestview";
+    private static final String furnitureRequestTableName = "furniturerequestview";
+    private static final String roomRequestTableName = "roomrequestview";
+    private static final String flowerRequestTableName = "flowerrequestview";
+    private static final String authenticationTableName = "authentication";
     public static Connection getConnection() throws ClassNotFoundException, SQLException {
+        if (connection!=null && !connection.isClosed())
+            return Configuration.connection;
         Class.forName("org.postgresql.Driver");
         return DriverManager.getConnection(connectionURL, username, password);
     }
