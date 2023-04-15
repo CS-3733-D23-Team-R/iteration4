@@ -43,7 +43,7 @@ public class ScreensaverController {
 
         bwh.sceneProperty().addListener((observable, oldScene, newScene) -> {
             if (newScene != null) {
-                timeline = new Timeline(new KeyFrame(Duration.millis(10), e -> moveLogo()));
+                timeline = new Timeline(new KeyFrame(Duration.millis(60), e -> moveLogo()));
                 timeline.setCycleCount(Animation.INDEFINITE);
                 timeline.play();
             }
@@ -79,6 +79,6 @@ public class ScreensaverController {
     private void goHome(){
         Navigation.navigate(Screen.HOME);
         RootController rootController = RootController.getInstance();
-        rootController.initialize();
+        rootController.showSidebar();
     }
 }

@@ -44,9 +44,6 @@ public class RootController {
   public void initialize() {
     instance = this;
 
-    rootHbox.setVisible(true);
-    rootHbox.setManaged(true);
-
     homeButton.setOnMouseClicked(event -> navigate(Screen.HOME));
     profileButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGE));
     newRequestButton.setOnMouseClicked(event -> openRequest());
@@ -66,7 +63,7 @@ public class RootController {
     sidebarVBox.setVisible(false);
     sidebarVBox.setManaged(false);
 
-    Duration delay = Duration.seconds(60);
+    Duration delay = Duration.seconds(5);
     transition = new PauseTransition(delay);
     transition.setOnFinished(evt -> timeout());
 
@@ -121,8 +118,6 @@ public class RootController {
       rootHbox.setVisible(false);
       rootHbox.setManaged(false);
       Navigation.navigate(Screen.SCREENSAVER);
-
-      App.getPrimaryStage().removeEventFilter(InputEvent.ANY, ssevent);
   }
 
   public static RootController getInstance() {
@@ -133,5 +128,10 @@ public class RootController {
     sidebarVBox.setVisible(false);
     sidebarVBox.setManaged(false);
     Navigation.navigate(screen);
+  }
+
+  public void showSidebar() {
+    rootHbox.setVisible(true);
+    rootHbox.setManaged(true);
   }
 }
