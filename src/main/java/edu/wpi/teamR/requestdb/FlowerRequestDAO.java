@@ -35,7 +35,7 @@ public class FlowerRequestDAO {
     }
 
     void deleteFlowerRequest(Integer requestID) throws SQLException{
-        PreparedStatement sqlDelete = connection.prepareStatement("DELETE FROM"+ Configuration.getFlowerRequestSchemaNameTableName() + "WHERE requestID = " + requestID +";");
+        PreparedStatement sqlDelete = connection.prepareStatement("DELETE FROM "+ Configuration.getFlowerRequestSchemaNameTableName() + " WHERE requestID = " + requestID +";");
         sqlDelete.executeUpdate();
     }
 
@@ -224,5 +224,20 @@ public class FlowerRequestDAO {
         }
 
         return flowers;
+    }
+
+
+    FlowerRequest modifyFlowerRequest(int requestID, String newRequesterName, String newLocation, String newStaffMember, String newAdditionalNotes, Timestamp newRequestDate, RequestStatus newRequestStatus, String newFlowerType) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE " + Configuration.getFlowerRequestSchemaNameTableName() + " SET requestername=?, location=?, staffmember=?, additionalnotes=?, requestdate=?, requeststatus=?, flowertype=? WHERE requestID=?");
+        preparedStatement.setString(1, newRequesterName);
+        preparedStatement.setString(2, newLocation);
+        preparedStatement.setString(3, newStaffMember);
+        preparedStatement.setString(4, newAdditionalNotes);
+        preparedStatement.setTimestamp(5, newRequestDate);
+        preparedStatement.setString(6, newRequestStatus.toString());
+        preparedStatement.setString(7, newFlowerType);
+        preparedStatement.setInt(8, requestID);
+        preparedStatement.executeUpdate();
+        return new FlowerRequest(requestID, newRequesterName, newLocation, newStaffMember, newAdditionalNotes, newRequestDate, newRequestStatus, newFlowerType);
     }
 }

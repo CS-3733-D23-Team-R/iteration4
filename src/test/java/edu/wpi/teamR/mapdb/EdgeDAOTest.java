@@ -25,7 +25,6 @@ public class EdgeDAOTest {
     static void end() throws SQLException {
         edgeDAO.deleteAllEdges();
         nodeDAO.deleteAllNodes();
-        connection.close();
     }
     @BeforeEach
     void reset() throws SQLException {

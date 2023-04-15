@@ -54,11 +54,6 @@ class FurnitureRequestDAOTest {
         statement.executeUpdate("DELETE FROM "+Configuration.getFurnitureRequestSchemaNameTableName()+";");
     }
 
-    @AfterEach
-    void tearDown() throws SQLException {
-        connection.close();
-    }
-
     @Test
     void addFurnitureRequest() throws SQLException {
         furnitureRequestDAO.addFurnitureRequest(

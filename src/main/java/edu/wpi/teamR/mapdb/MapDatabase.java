@@ -4,13 +4,10 @@ import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.csv.CSVParameterException;
 import edu.wpi.teamR.csv.CSVReader;
-import javafx.util.Pair;
 
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Queue;
 
 import static edu.wpi.teamR.mapdb.NodeDAO.parseNodes;
 
@@ -28,10 +25,6 @@ public class MapDatabase {
         this.edgeDao = new EdgeDAO(connection);
         this.moveDao = new MoveDAO(connection);
         this.locationNameDao = new LocationNameDAO(connection);
-    }
-
-    public void closeConnection() throws SQLException {
-        connection.close();
     }
 
     // old code for making mapDatabase singleton
@@ -186,7 +179,7 @@ public class MapDatabase {
     }
 
     public ArrayList<MapLocation> getMapLocationsByFloor(String floor) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" LEFT JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as foo left join "+Configuration.getLocationNameSchemaNameTableName()+" ORDER BY nodeID;");
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" node LEFT JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as move on node.nodeid=move.nodeid left join "+Configuration.getLocationNameSchemaNameTableName()+" locationname on move.longname=locationname.longname ORDER BY node.nodeID desc;");
         ResultSet resultSet = preparedStatement.executeQuery();
 
         ArrayList<MapLocation> mapLocations = new ArrayList<>();
@@ -234,6 +227,8 @@ public class MapDatabase {
             case "Node" -> {
                 CSVReader<Node> reader = new CSVReader<>(path, Node.class);
                 ArrayList<Node> nodes = reader.parseCSV();
+                edgeDao.deleteAllEdges();
+                moveDao.deleteAllMoves();
                 nodeDao.deleteAllNodes();
                 nodeDao.addNodes(nodes);
                 return nodes;
@@ -259,6 +254,7 @@ public class MapDatabase {
             case "LocationName" -> {
                 CSVReader<LocationName> reader = new CSVReader<>(path, LocationName.class);
                 ArrayList<LocationName> locs = reader.parseCSV();
+                moveDao.deleteAllMoves();
                 locationNameDao.deleteAllLocationNames();
                 for (LocationName l : locs) {
                     locationNameDao.addLocationName(l.getLongName(), l.getShortName(), l.getNodeType());

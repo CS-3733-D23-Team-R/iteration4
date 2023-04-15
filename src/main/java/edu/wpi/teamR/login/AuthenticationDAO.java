@@ -19,7 +19,6 @@ public class AuthenticationDAO {
         Connection connection = Configuration.getConnection();
         Statement statement = connection.createStatement();
         statement.executeUpdate("INSERT INTO "+Configuration.getAuthenticationTableName()+"(username, password, accesslevel) VALUES ('"+userID+"', '"+password+"', '"+accessLevel.toString()+"');");
-        connection.close();
         return new User(userID, password, accessLevel);
     }
     public User modifyUserAccessByID(String userID, AccessLevel accessLevel) throws SQLException, ClassNotFoundException {
@@ -33,20 +32,17 @@ public class AuthenticationDAO {
         String aPassword = resultSet.getString("password");
         AccessLevel anAccessLevel = AccessLevel.valueOf(resultSet.getString("accesslevel"));
         User temp = new User(aUsername, aPassword, anAccessLevel);
-        connection.close();
         return temp;
     }
     public void removeUserByID(String userID) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         Statement statement = connection.createStatement();
         statement.executeUpdate("DELETE FROM "+Configuration.getAuthenticationTableName()+" WHERE username = '"+userID+"';");
-        connection.close();
     }
     public void deleteALLUsers() throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         Statement statement = connection.createStatement();
         statement.executeUpdate("DELETE FROM "+Configuration.getAuthenticationTableName()+";");
-        connection.close();
     }
 
     public User getUser(String userID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
