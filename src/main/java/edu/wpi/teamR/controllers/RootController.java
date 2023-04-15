@@ -63,7 +63,7 @@ public class RootController {
     sidebarVBox.setVisible(false);
     sidebarVBox.setManaged(false);
 
-    Duration delay = Duration.seconds(5);
+    Duration delay = Duration.seconds(120);
     transition = new PauseTransition(delay);
     transition.setOnFinished(evt -> timeout());
 
