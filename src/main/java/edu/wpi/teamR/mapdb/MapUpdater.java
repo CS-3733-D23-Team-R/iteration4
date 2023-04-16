@@ -53,6 +53,7 @@ public class MapUpdater {
     }
 
     public Deque<UndoData> undo() {
+        if (currentAction != null) actionQueue.addFirst(currentAction);
         return actionQueue.removeFirst().getUndoData();
     }
 
