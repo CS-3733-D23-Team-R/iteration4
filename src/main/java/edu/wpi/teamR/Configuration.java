@@ -9,16 +9,16 @@ public class Configuration {
     private static final String username = "teamr";
     private static final String password = "teamr150";
     private static Connection connection;
-    private static String schemaName = "iteration1";
+    private static String schemaName = "iteration2";
     private static final String nodeTableName = "node";
     private static final String edgeTableName = "edge";
     private static final String moveTableName = "move";
     private static final String locationNameTableName = "locationname";
-    private static final String mealRequestTableName = "mealrequestview";
-    private static final String furnitureRequestTableName = "furniturerequestview";
-    private static final String roomRequestTableName = "roomrequestview";
-    private static final String flowerRequestTableName = "flowerrequestview";
-    private static final String authenticationTableName = "authentication";
+    private static final String conferenceRoomTableName = "conferenceroom";
+    private static final String directionArrowTableName = "directionarrow";
+    private static final String serviceRequestTableName = "servicerequest";
+    private static final String roomRequestTableName = "roomrequest";
+    private static final String userTableName = "user";
     public static Connection getConnection() throws ClassNotFoundException, SQLException {
         if (connection!=null && !connection.isClosed())
             return Configuration.connection;
@@ -38,15 +38,17 @@ public class Configuration {
     public static String getLocationNameSchemaNameTableName(){
         return schemaName+"."+locationNameTableName;
     }
-    public static String getMealRequestSchemaNameTableName(){
-        return schemaName+"."+mealRequestTableName;
+    public static String getDirectionArrowSchemaNameTableName(){
+        return schemaName+"."+directionArrowTableName;
     }
-    public static String getFurnitureRequestSchemaNameTableName(){
-        return schemaName+"."+furnitureRequestTableName;
+    public static String getConferenceRoomSchemaNameTableName(){
+        return schemaName+"."+conferenceRoomTableName;
+    }
+    public static String getServiceRequestSchemaNameTableName(){
+        return schemaName+"."+serviceRequestTableName;
     }
     public static String getRoomRequestSchemaNameTableName(){
         return schemaName+"."+roomRequestTableName;
     }
-    public static String getFlowerRequestSchemaNameTableName() {return schemaName+"."+flowerRequestTableName; }
-    public static String getAuthenticationTableName(){ return schemaName+"."+authenticationTableName;}
+    public static String getUserTableSchemaNameTableName(){ return schemaName+"."+userTableName;}
 }
