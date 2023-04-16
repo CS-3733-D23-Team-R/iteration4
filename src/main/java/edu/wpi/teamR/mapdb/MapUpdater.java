@@ -2,12 +2,13 @@ package edu.wpi.teamR.mapdb;
 
 import edu.wpi.teamR.ItemNotFoundException;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Deque;
 import java.util.List;
 
 public class MapUpdater {
@@ -38,49 +39,21 @@ public class MapUpdater {
 
     public void submitUpdates() throws SQLException {
         if (currentAction != null) actionQueue.addFirst(currentAction);
-        Collection<Pair<MapData, EditType>> action;
-        while(!actionQueue.isEmpty()) {
-            action = actionQueue.removeLast().getUpdates();
-            for (Pair<MapData, EditType> p : action) {
-                switch (p.second) {
-                    case ADDITION -> {
-                        if (p.first instanceof Node n) {
-                            mapdb.addNode(n.getXCoord(), n.getYCoord(), n.getFloorNum(), n.getBuilding());
-                        } else if (p.first instanceof Edge e) {
-                            mapdb.addEdge(e.getStartNode(), e.getEndNode());
-                        } else if (p.first instanceof Move m) {
-                            mapdb.addMove(m.getNodeID(), m.getLongName(), m.getMoveDate());
-                        } else if (p.first instanceof LocationName l) {
-                            mapdb.addLocationName(l.getLongName(), l.getShortName(), l.getNodeType());
-                        }
-                    }
-                    case MODIFICATION -> {
-                        if (p.first instanceof Node n) {
-                            mapdb.modifyCoords(n.getNodeID(), n.getXCoord(), n.getYCoord());
-                        } else if (p.first instanceof LocationName l) {
-                            mapdb.deleteLocationName(l.getLongName());
-                            mapdb.addLocationName(l.getLongName(), l.getShortName(), l.getNodeType());
-                        }
-                    }
-                    case DELETION -> {
-                        if (p.first instanceof Node n) {
-                            mapdb.deleteNode(n.getNodeID());
-                        } else if (p.first instanceof Edge e) {
-                            mapdb.deleteEdge(e.getStartNode(), e.getEndNode());
-                        } else if (p.first instanceof Move m) {
-                            mapdb.deleteMove(m.getNodeID(), m.getLongName(), m.getMoveDate());
-                        } else if (p.first instanceof LocationName l) {
-                            mapdb.deleteLocationName(l.getLongName());
-                        }
-                    }
+        List<Pair<Method, Object[]>> action;
+        try {
+            while (!actionQueue.isEmpty()) {
+                action = actionQueue.removeLast().getUpdates();
+                for (Pair<Method, Object[]> p : action) {
+                    p.first.invoke(p.second);
                 }
             }
-
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public UpdateAction undo() {
-        return actionQueue.removeFirst();
+    public Deque<UndoData> undo() {
+        return actionQueue.removeFirst().getUndoData();
     }
 
 
@@ -157,7 +130,7 @@ public class MapUpdater {
         List<Edge> edges = mapdb.getEdgesByNode(nodeID);
         try {
             m = mapdb.getClass().getMethod("deleteEdgesByNode", int.class);
-            currentAction.addUpdate(m, new Object[]{nodeID}, edges, EditType.DELETION);
+            currentAction.addUpdate(m, new Object[]{nodeID}, edges);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -183,7 +156,7 @@ public class MapUpdater {
         ArrayList<Move> moves = mapdb.getMovesByNode(nodeID);
         try {
             m = mapdb.getClass().getMethod("deleteMovesByNode", int.class);
-            currentAction.addUpdate(m, new Object[]{nodeID}, moves, EditType.DELETION);
+            currentAction.addUpdate(m, new Object[]{nodeID}, moves);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
@@ -219,20 +192,40 @@ public class MapUpdater {
     public LocationName modifyLocationNameShortName(String longName, String newShortName) throws SQLException, ItemNotFoundException {
         if (currentAction == null) currentAction = new UpdateAction();
         Method m;
-        LocationName l = mapdb.getLocationNameByLongName(longName);
-        l.setShortName(newShortName);
-        currentAction.addUpdate(l, EditType.MODIFICATION);
-        return l;
+        LocationName oldl = mapdb.getLocationNameByLongName(longName);
+        LocationName newl = new LocationName(oldl.getLongName(), newShortName, oldl.getNodeType());
+        try {
+            m = mapdb.getClass().getMethod("modifyLocationNameShortName", String.class, String.class);
+            currentAction.addUpdate(m, new Object[]{longName, newShortName}, oldl, EditType.MODIFICATION);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+        return newl;
     }
 
     public LocationName addLocationName(String longName, String shortName, String nodeType) {
         if (currentAction == null) currentAction = new UpdateAction();
+        Method m;
         LocationName l = new LocationName(longName, shortName, nodeType);
-        currentAction.addUpdate(l, EditType.ADDITION);
+        try {
+            m = mapdb.getClass().getMethod("addLocationName", String.class, String.class, String.class);
+            currentAction.addUpdate(m, new Object[]{longName, shortName, nodeType}, l, EditType.ADDITION);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
         return l;
     }
 
-    public void deleteLocationName(String longName) {
-
+    public void deleteLocationName(String longName) throws SQLException, ItemNotFoundException {
+        if (currentAction == null) currentAction = new UpdateAction();
+        Method m;
+        LocationName l = mapdb.getLocationNameByLongName(longName);
+        deleteMovesByLocationName(longName);
+        try {
+            m = mapdb.getClass().getMethod("deleteLocationName", String.class);
+            currentAction.addUpdate(m, new Object[]{longName}, l, EditType.DELETION);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
