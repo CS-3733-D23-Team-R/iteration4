@@ -114,10 +114,12 @@ public class RootController {
     navigate(Screen.FURNITURE_REQUEST);
   }
 
+  /* This is a little buggy and could be worked on more. */
   private void timeout() {
       rootHbox.setVisible(false);
       rootHbox.setManaged(false);
       Navigation.navigate(Screen.SCREENSAVER);
+      App.getPrimaryStage().removeEventFilter(InputEvent.ANY, ssevent);
   }
 
   public static RootController getInstance() {
@@ -133,5 +135,6 @@ public class RootController {
   public void showSidebar() {
     rootHbox.setVisible(true);
     rootHbox.setManaged(true);
+    App.getPrimaryStage().addEventFilter(InputEvent.ANY, ssevent);
   }
 }

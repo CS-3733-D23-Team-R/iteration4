@@ -30,8 +30,8 @@ public class ScreensaverController {
 
     private URL[] images;
     private int currentImageIndex = 0;
-    private int offsetX = 2;
-    private int offsetY = 2;
+    private int offsetX = 5;
+    private int offsetY = 5;
 
     public void initialize() {
         images = new URL[]{
