@@ -185,3 +185,49 @@
     -fx-font-weight: 550;
     border-radius: 4px;
 }
+.Subtitle{
+    -fx-font-family: 'Roboto', 'bold';
+    -fx-font-weight: bold;
+    -fx-font-size: 24px;
+}
+.SubtitleBody{
+    -fx-font-family: 'Roboto';
+    -fx-font-weight: light;
+    -fx-font-size: 24px;
+}
+
+.bodyBold{
+    -fx-font-family: 'Nunito Sans', 'regular';
+    -fx-font-weight: BOLD;
+    -fx-font-size: 24   ;
+}
+.boxShadow{
+    -fx-background-color:  #FBF7F5;
+    -fx-border-color: BLACK;
+    -fx-border-insets: 0;
+    -fx-border-width: 0;
+    -fx-border-style: solid;
+    -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+.profileToMapEditor{
+    -fx-background-image: url("../images/blurredmap.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-color: BLACK;
+    -fx-border-insets: 0;
+    -fx-border-width: 0;
+    -fx-border-style: solid;
+    -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+.profileToEmployeeManager{
+    -fx-background-image: url("../images/blurredemployeemanagerbutton.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-color: BLACK;
+    -fx-border-insets: 0;
+    -fx-border-width: 0;
+    -fx-border-style: solid;
+    -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
