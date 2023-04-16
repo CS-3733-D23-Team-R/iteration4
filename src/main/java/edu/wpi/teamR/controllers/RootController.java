@@ -9,9 +9,11 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.controlsfx.control.PopOver;
@@ -19,13 +21,14 @@ import org.controlsfx.control.PopOver;
 import java.io.IOException;
 
 public class RootController {
-  @FXML VBox homeButton;
+  @FXML VBox bwhHome;
   @FXML VBox profileButton;
   @FXML VBox newRequestButton;
   @FXML VBox pendingRequestButton;
   @FXML VBox pathfindingButton;
   @FXML VBox helpButton;
   @FXML VBox logoutButton;
+  @FXML VBox exitButton;
   @FXML Text flowerDelivery;
   @FXML Text furnitureDelivery;
   @FXML Text mealDelivery;
@@ -33,6 +36,11 @@ public class RootController {
   @FXML VBox sidebarVBox;
   @FXML
   HBox rootHbox;
+
+  @FXML
+  ImageView profileIcon;
+  @FXML
+  Circle circle;
 
   PauseTransition transition;
 
@@ -44,12 +52,12 @@ public class RootController {
   public void initialize() {
     instance = this;
 
-    homeButton.setOnMouseClicked(event -> navigate(Screen.HOME));
+    bwhHome.setOnMouseClicked(event -> navigate(Screen.HOME));
     profileButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGE));
     newRequestButton.setOnMouseClicked(event -> openRequest());
     pendingRequestButton.setOnMouseClicked(event -> navigate(Screen.SORT_ORDERS));
     pathfindingButton.setOnMouseClicked(event -> navigate(Screen.MAP));
-    logoutButton.setOnMouseClicked(event -> Platform.exit());
+    exitButton.setOnMouseClicked(event -> Platform.exit());
 
     helpButton.setOnMouseClicked(
             event -> {

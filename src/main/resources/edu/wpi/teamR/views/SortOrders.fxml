@@ -16,19 +16,26 @@
 
 <BorderPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/tables.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.SortOrdersController">
    <top>
-          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Service Request Information" BorderPane.alignment="CENTER_LEFT">
-              <font>
-                  <Font name="Times New Roman" size="48.0" />
-              </font>
+      <HBox prefWidth="1260.0" BorderPane.alignment="BOTTOM_LEFT">
          <BorderPane.margin>
             <Insets left="20.0" top="5.0" />
          </BorderPane.margin>
-          </Text>
+         <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Service Request Information">
+                    <font>
+                        <Font name="Times New Roman" size="48.0" />
+                    </font>
+               <HBox.margin>
+                  <Insets top="20.0" />
+               </HBox.margin>
+                </Text>
+         </children>
+      </HBox>
    </top>
    <center>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="CENTER" layoutX="50.0" layoutY="50.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+            <VBox alignment="CENTER" layoutX="50.0" layoutY="50.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="10.0">
                <children>
                   <HBox fx:id="buttonBox" fillHeight="false" maxHeight="75.0" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: WHITE;" VBox.vgrow="NEVER">
                      <children>

@@ -186,3 +186,28 @@
     -fx-text-fill: white;
     -fx-font-size: 30px;
 }
+
+.sr-sidebar-title{
+    -fx-font-family: 'Lato', 'bold';
+    -fx-font-weight: bold;
+    -fx-font-size: 30px;
+    -fx-text-fill: white;
+}
+
+.sr-sidebar-body{
+    -fx-font-family: 'Nunito Sans', 'regular';
+    -fx-font-weight: NORMAL;
+    -fx-font-size: 24;
+    -fx-text-fill: white;
+}
+
+.sr-sidebar-body:pressed{
+    -fx-text-fill: pressed
+}
+
+.sr-sidebar-subtitle{
+    -fx-font-family: 'Nunito Sans', 'regular';
+    -fx-font-weight: NORMAL;
+    -fx-font-size: 16;
+    -fx-text-fill: white;
+}

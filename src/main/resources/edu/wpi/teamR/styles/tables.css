@@ -160,5 +160,7 @@
 
 /* Button click effect */
 .button:pressed {
-    -fx-text-fill: grey
+    -fx-text-fill: grey;
+    -fx-effect: null;
+    -fx-background-color: transparent;
 }
