@@ -1,7 +1,6 @@
 package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.mapdb.*;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -9,7 +8,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import javax.swing.event.ChangeListener;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;

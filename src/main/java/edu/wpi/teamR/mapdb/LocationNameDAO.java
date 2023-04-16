@@ -15,6 +15,10 @@ public class LocationNameDAO {
         ArrayList<LocationName> temp = new ArrayList<LocationName>();
         Statement statement = aConnection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+";");
+        return parseLocationNames(temp, resultSet);
+    }
+
+    private ArrayList<LocationName> parseLocationNames(ArrayList<LocationName> temp, ResultSet resultSet) throws SQLException {
         while(resultSet.next()){
             String aLongName = resultSet.getString("longname");
             String aShortName = resultSet.getString("shortname");
@@ -29,14 +33,7 @@ public class LocationNameDAO {
         ArrayList<LocationName> temp = new ArrayList<LocationName>();
         Statement statement = aConnection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE nodeType = '"+nodeType+"';");
-        while(resultSet.next()){
-            String aLongName = resultSet.getString("longname");
-            String aShortName = resultSet.getString("shortname");
-            String aNodeType = resultSet.getString("nodetype");
-            LocationName aLocationName = new LocationName(aLongName, aShortName, aNodeType);
-            temp.add(aLocationName);
-        }
-        return temp;
+        return parseLocationNames(temp, resultSet);
     }
     LocationName getLocationByLongName(String longName) throws SQLException, ItemNotFoundException {
         Statement statement = aConnection.createStatement();

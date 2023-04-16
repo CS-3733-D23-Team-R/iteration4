@@ -1,6 +1,7 @@
 package edu.wpi.teamR.mapdb;
 
 import edu.wpi.teamR.Configuration;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,6 +15,11 @@ public class EdgeDAO {
     ArrayList<Edge> getEdges() throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+ Configuration.getEdgeSchemaNameTableName()+";");
+        return parseEdges(resultSet);
+    }
+
+    @NotNull
+    private ArrayList<Edge> parseEdges(ResultSet resultSet) throws SQLException {
         ArrayList<Edge> edges = new ArrayList<>();
 
         while (resultSet.next()){
@@ -31,14 +37,7 @@ public class EdgeDAO {
         statement.setInt(2, nodeID);
         ResultSet resultSet = statement.executeQuery();
 
-        ArrayList<Edge> edges = new ArrayList<>();
-        while (resultSet.next()){
-            int startNode = resultSet.getInt("startnode");
-            int endNode = resultSet.getInt("endnode");
-
-            edges.add(new Edge(startNode, endNode));
-        }
-        return edges;
+        return parseEdges(resultSet);
     }
 
     void deleteEdge(int startNodeID, int endNodeID) throws SQLException {

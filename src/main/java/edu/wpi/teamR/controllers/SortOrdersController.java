@@ -5,7 +5,6 @@ import edu.wpi.teamR.Main;
 import edu.wpi.teamR.requestdb.ItemRequest;
 import edu.wpi.teamR.requestdb.RequestDatabase;
 import edu.wpi.teamR.requestdb.RequestStatus;
-import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class SortOrdersController {
 
@@ -105,11 +105,11 @@ public class SortOrdersController {
         Callback<TableColumn<ItemRequest, Void>, TableCell<ItemRequest, Void>> cellFactory = new Callback<TableColumn<ItemRequest, Void>, TableCell<ItemRequest, Void>>() {
             @Override
             public TableCell<ItemRequest, Void> call(final TableColumn<ItemRequest, Void> param) {
-                final TableCell<ItemRequest, Void> cell = new TableCell<ItemRequest, Void>() {
+                return new TableCell<ItemRequest, Void>() {
 
                     private final Button btn = new Button();
                     {
-                        ImageView imageView = new ImageView(Main.class.getResource("images/delete.png").toExternalForm());
+                        ImageView imageView = new ImageView(Objects.requireNonNull(Main.class.getResource("images/delete.png")).toExternalForm());
                         imageView.setPreserveRatio(true);
                         imageView.setFitHeight(30);
                         btn.getStyleClass().add("food_furniture-clear-button");
@@ -135,7 +135,6 @@ public class SortOrdersController {
                         }
                     }
                 };
-                return cell;
             }
         };
 

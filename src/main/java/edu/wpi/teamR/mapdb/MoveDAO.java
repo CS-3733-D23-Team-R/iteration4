@@ -1,9 +1,7 @@
 package edu.wpi.teamR.mapdb;
 
 import edu.wpi.teamR.Configuration;
-import oracle.ucp.proxy.annotation.Pre;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -16,8 +14,12 @@ public class MoveDAO {
         ArrayList<Move> temp = new ArrayList<Move>();
         Statement statement = aConnection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+";");
+        return parseMoves(temp, resultSet);
+    }
+
+    private ArrayList<Move> parseMoves(ArrayList<Move> temp, ResultSet resultSet) throws SQLException {
         while(resultSet.next()){
-            java.sql.Date aDate = resultSet.getDate("date");
+            Date aDate = resultSet.getDate("date");
             String aLongName = resultSet.getString("longname");
             int aNodeID = resultSet.getInt("nodeID");
             Move aMove = new Move(aNodeID, aLongName, aDate);
@@ -25,18 +27,12 @@ public class MoveDAO {
         }
         return temp;
     }
+
     ArrayList<Move> getMovesByNodeID(int nodeID) throws SQLException {
         ArrayList<Move> temp = new ArrayList<Move>();
         Statement statement = aConnection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE nodeID = "+nodeID+";");
-        while(resultSet.next()){
-            java.sql.Date aDate = resultSet.getDate("date");
-            String aLongName = resultSet.getString("longname");
-            int aNodeID = resultSet.getInt("nodeID");
-            Move aMove = new Move(aNodeID, aLongName, aDate);
-            temp.add(aMove);
-        }
-        return temp;
+        return parseMoves(temp, resultSet);
     }
     Move getLatestMoveByNodeID(int nodeID) throws SQLException {
         Statement statement = aConnection.createStatement();

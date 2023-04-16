@@ -4,13 +4,10 @@ import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.csv.CSVParameterException;
 import edu.wpi.teamR.csv.CSVReader;
-import javafx.util.Pair;
 
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Queue;
 
 import static edu.wpi.teamR.mapdb.NodeDAO.parseNodes;
 
