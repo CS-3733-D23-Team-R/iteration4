@@ -17,7 +17,7 @@ public class UpdateAction {
         undos = new ArrayList<>();
     }
 
-    void addUpdate(Method update, Object[] updateArgs, List<MapData> data, EditType editType) {
+    void addUpdate(Method update, Object[] updateArgs, List<? extends MapData> data, EditType editType) {
         updates.add(new Pair<>(update, updateArgs));
         for (MapData d : data) {
             undos.add(new Pair<>(d, editType));
