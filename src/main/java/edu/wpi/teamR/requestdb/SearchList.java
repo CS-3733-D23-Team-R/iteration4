@@ -10,6 +10,15 @@ public class SearchList {
         this.searchRequirements = new ArrayList<>();
     }
 
+    //TODO: DOCUMENT
+    /**
+     * Add a comparison to filter down the results of the selection statement
+     *
+     * @param requestAttribute any attribute
+     * @param operation
+     * @param compareValue
+     * @throws SearchException
+     */
     public void addComparison(RequestAttribute requestAttribute, Operation operation, Object compareValue) throws SearchException {
         //Check for possible mistakes
         boolean passedOperationIsOrder = operation==Operation.orderByAsc || operation==Operation.orderByDesc;
@@ -64,6 +73,10 @@ public class SearchList {
 
         //input is cleared to be added
         searchRequirements.add(new Triple<RequestAttribute, Operation, Object>(requestAttribute, operation, null)); //will ignore 3rd
+    }
+
+    ArrayList<Triple<RequestAttribute, Operation, Object>> getSearchRequirements(){
+        return searchRequirements;
     }
 
 
