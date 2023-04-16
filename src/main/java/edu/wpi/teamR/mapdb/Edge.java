@@ -11,7 +11,7 @@ import lombok.Setter;
 public class Edge implements MapData, CSVReadable, CSVWritable {
     private int startNode, endNode;
 
-    Edge(int startNode, int endNode) {
+    public Edge(int startNode, int endNode) {
         this.startNode = startNode;
         this.endNode = endNode;
     }
