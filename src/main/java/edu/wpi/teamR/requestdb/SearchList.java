@@ -26,10 +26,10 @@ public class SearchList {
             throw new SearchException("Invalid Operation for Comparison");
 
         for (Triple<RequestAttribute, Operation, Object> triple : searchRequirements){
-            boolean listOperationIsOrder = triple.getMiddle()==Operation.orderByAsc || triple.getMiddle()==Operation.orderByDesc;
-            boolean requestAttributesEqual = requestAttribute == triple.getLeft();
-            if (requestAttributesEqual && !listOperationIsOrder)
-                throw new SearchException("Attribute Already Exists"); //if the attribute already exists in another non-order clause
+//            boolean listOperationIsOrder = triple.getMiddle()==Operation.orderByAsc || triple.getMiddle()==Operation.orderByDesc;
+//            boolean requestAttributesEqual = requestAttribute == triple.getLeft();
+//            if (requestAttributesEqual && !listOperationIsOrder)
+//                throw new SearchException("Attribute Already Exists"); //if the attribute already exists in another non-order clause
 
             RequestAttribute rA = requestAttribute; //make the boolean expressions shorter
             boolean shouldBeInteger = rA==RequestAttribute.requestID;
