@@ -53,4 +53,21 @@ public class ConferenceRoomDAO {
         }
         return conferenceRooms;
     }
+
+    ConferenceRoom getConferenceRoomByLongname(String longname) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getConferenceRoomSchemaNameTableName()+" WHERE longname=?;");
+        preparedStatement.setString(1, longname);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if (!resultSet.next())
+            throw new ItemNotFoundException();
+
+        int capacity = resultSet.getInt("capacity");
+        boolean isAccessible = resultSet.getBoolean("isAccessible");
+        boolean hasOutlets = resultSet.getBoolean("hasOutlets");
+        boolean hasScreen = resultSet.getBoolean("hasScreen");
+
+        return new ConferenceRoom(longname, capacity, isAccessible, hasOutlets, hasScreen);
+    }
 }
