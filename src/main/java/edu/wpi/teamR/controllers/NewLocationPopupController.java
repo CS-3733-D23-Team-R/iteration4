@@ -1,6 +1,7 @@
 package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.mapdb.MapDatabase;
+import edu.wpi.teamR.mapdb.update.MapUpdater;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,7 +13,7 @@ import javafx.stage.Stage;
 import java.sql.SQLException;
 
 public class NewLocationPopupController {
-    MapDatabase mapDB;
+    MapUpdater mapUpdater;
 
     @FXML
     TextField longField;
@@ -43,10 +44,16 @@ public class NewLocationPopupController {
     }
 
     public void createNewLocation() throws SQLException {
-        mapDB.addLocationName(longField.getText(), shortField.getText(), typeBox.getValue());
+        mapUpdater.addLocationName(longField.getText(), shortField.getText(), typeBox.getValue());
     }
 
-    public void setMapDB(MapDatabase mdb) {
-        mapDB = mdb;
+    public void setMapUpdater(MapUpdater updater) {
+        mapUpdater = updater;
+    }
+
+    public void clearFields() {
+        longField.clear();
+        shortField.clear();
+        typeBox.setValue(null);
     }
 }

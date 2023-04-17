@@ -99,6 +99,7 @@
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="344.0" spacing="10.0">
                      <children>
                         <Button fx:id="redrawButton" prefHeight="30.0" prefWidth="165.0" text="Redraw" />
+                        <Button fx:id="undoButton" prefHeight="30.0" prefWidth="165.0" text="Undo" />
                      </children>
                   </HBox>
                </children>
