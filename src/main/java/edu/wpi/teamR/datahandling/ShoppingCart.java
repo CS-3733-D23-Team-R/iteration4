@@ -8,8 +8,19 @@ import java.util.HashMap;
 public class ShoppingCart {
     public HashMap<ItemRequest, Integer> items;
 
-    public ShoppingCart(HashMap<ItemRequest, Integer> items) {
-        this.items = items;
+    private static ShoppingCart instance;
+
+    public ShoppingCart() {}
+
+    public static ShoppingCart getInstance(){
+        if(instance == null){
+            instance = new ShoppingCart();
+        }
+        return instance;
+    }
+
+    public void deleteCartInstance(){
+        instance = null;
     }
 
     public void addItem(ItemRequest item, int quantity){
