@@ -28,7 +28,7 @@ public class NodeDAO {
             String building = resultSet.getString("building");
             String floor = resultSet.getString("floor");
 
-            nodes.add(new Node(nodeID, xCoord, yCoord, building, floor));
+            nodes.add(new Node(nodeID, xCoord, yCoord, floor, building));
         }
         return nodes;
     }
