@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: DEDEDE;" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane opacity="0.8" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #0279CE;" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.SignageController">
    <center>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
@@ -20,112 +20,177 @@
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Announcements" VBox.vgrow="ALWAYS">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Announcements" VBox.vgrow="ALWAYS">
                            <font>
                               <Font size="36.0" />
                            </font>
                         </Text>
                         <Line endX="250.0" startX="-100.0" VBox.vgrow="ALWAYS" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Introducing Our New Kisosk System!" translateY="100.0" VBox.vgrow="ALWAYS">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="signage-title" text="Introducing Our New Kisosk System!" translateY="100.0" VBox.vgrow="ALWAYS">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Team R is the Best!" translateY="200.0" VBox.vgrow="ALWAYS">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="signage-title" text="Romantic Raijuus’ are the Best!" translateY="200.0" VBox.vgrow="ALWAYS">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Iteration I Due Today!" translateY="300.0" />
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="signage-title" text="Iteration II Nailed !" translateY="300.0" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="150.0" HBox.hgrow="ALWAYS">
+                  <VBox prefHeight="489.0" prefWidth="520.0" spacing="30.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <StackPane VBox.vgrow="ALWAYS">
+                        <VBox VBox.vgrow="ALWAYS">
                            <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f3f3f3" height="75.0" stroke="BLACK" strokeType="INSIDE" width="550.0" />
-                              <Line endX="-100.0" endY="70.0" startX="-100.0" startY="20.0" translateX="-150.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-bar" text="Information Desk" translateX="-25.0">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Text>
-                              <ImageView fitHeight="50.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" translateX="-215.0">
-                                 <image>
-                                    <Image url="@../images/leftArrow.png" />
-                                 </image>
-                              </ImageView>
+                              <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="75.0" prefWidth="550.0" spacing="20.0" style="-fx-background-color: #241010cc; -fx-border-width: 1; -fx-border-color: black;" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <ImageView fitHeight="50.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                                       <image>
+                                          <Image url="@../images/leftArrowWhite.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </ImageView>
+                                    <Line endX="-100.0" endY="70.0" startX="-100.0" startY="20.0" />
+                                    <Text fill="#ebebeb" strokeType="OUTSIDE" strokeWidth="0.0" text="Information Desk" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                    </Text>
+                                    <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                                       <image>
+                                          <Image url="@../images/informationDesk.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" prefHeight="75.0" prefWidth="550.0" spacing="20.0" style="-fx-background-color: #241010cc; -fx-border-width: 1; -fx-border-color: black;" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <ImageView fitHeight="50.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/leftArrowWhite.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </ImageView>
+                                    <Line endX="-100.0" endY="70.0" startX="-100.0" startY="20.0" />
+                                    <Text fill="#ebebeb" strokeType="OUTSIDE" strokeWidth="0.0" text="Emergency Room">
+                                       <font>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                    </Text>
+                                    <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/emergencyRoom.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
                            </children>
-                        </StackPane>
-                        <StackPane VBox.vgrow="ALWAYS">
+                        </VBox>
+                        <VBox VBox.vgrow="ALWAYS">
                            <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f3f3f3" height="75.0" stroke="BLACK" strokeType="INSIDE" width="550.0" />
-                              <Line endX="-100.0" endY="70.0" startX="-100.0" startY="20.0" translateX="-150.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-bar" text="Emergency Room" translateX="-25.0">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Text>
-                              <ImageView fitHeight="50.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" translateX="-215.0">
-                                 <image>
-                                    <Image url="@../images/leftArrow.png" />
-                                 </image>
-                              </ImageView>
+                              <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" prefHeight="75.0" prefWidth="550.0" spacing="20.0" style="-fx-background-color: #241010cc; -fx-border-width: 1; -fx-border-color: black;" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                                       <image>
+                                          <Image url="@../images/earNoseThroat.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </ImageView>
+                                    <Text fill="#ebebeb" strokeType="OUTSIDE" strokeWidth="0.0" text="Ear, Nose and Throat Department" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                    </Text>
+                                    <Line endX="-100.0" endY="70.0" startX="-100.0" startY="20.0" />
+                                    <ImageView fitHeight="50.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                                       <image>
+                                          <Image url="@../images/rightArrowWhite.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets right="5.0" />
+                                       </HBox.margin>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" prefHeight="75.0" prefWidth="550.0" spacing="20.0" style="-fx-background-color: #241010cc; -fx-border-width: 1; -fx-border-color: black;" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                                       <image>
+                                          <Image url="@../images/ultrasoundLab.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </ImageView>
+                                    <Text fill="#ebebeb" strokeType="OUTSIDE" strokeWidth="0.0" text="Ultrasound Labs" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                    </Text>
+                                    <Line endX="-100.0" endY="70.0" startX="-100.0" startY="20.0" />
+                                    <ImageView fitHeight="50.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                                       <image>
+                                          <Image url="@../images/rightArrowWhite.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets right="5.0" />
+                                       </HBox.margin>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" prefHeight="75.0" prefWidth="550.0" spacing="20.0" style="-fx-background-color: #241010cc; -fx-border-width: 1; -fx-border-color: black;" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                                       <image>
+                                          <Image url="@../images/restroom.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </ImageView>
+                                    <Text fill="#ebebeb" strokeType="OUTSIDE" strokeWidth="0.0" text="Restrooms" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font name="System Bold" size="24.0" />
+                                       </font>
+                                    </Text>
+                                    <Line endX="-100.0" endY="70.0" startX="-100.0" startY="20.0" />
+                                    <ImageView fitHeight="50.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                                       <image>
+                                          <Image url="@../images/rightArrowWhite.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets right="5.0" />
+                                       </HBox.margin>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
                            </children>
-                        </StackPane>
-                        <StackPane VBox.vgrow="ALWAYS">
-                           <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f3f3f3" height="75.0" stroke="BLACK" strokeType="INSIDE" width="550.0" />
-                              <Line endX="-100.0" endY="70.0" startX="-100.0" startY="20.0" translateX="160.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-bar" text="Ear, Nose, and Throat Department" textAlignment="RIGHT" translateX="-50.0">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Text>
-                              <ImageView fitHeight="50.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" translateX="220.0">
-                                 <image>
-                                    <Image url="@../images/rightArrow.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </StackPane>
-                        <StackPane VBox.vgrow="ALWAYS">
-                           <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f3f3f3" height="75.0" stroke="BLACK" strokeType="INSIDE" width="550.0" />
-                              <Line endX="-100.0" endY="70.0" startX="-100.0" startY="20.0" translateX="160.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-bar" text="Ultrasound Labs" textAlignment="RIGHT" translateX="45.0">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Text>
-                              <ImageView fitHeight="50.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" translateX="220.0">
-                                 <image>
-                                    <Image url="@../images/rightArrow.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </StackPane>
-                        <StackPane VBox.vgrow="ALWAYS">
-                           <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f3f3f3" height="75.0" stroke="BLACK" strokeType="INSIDE" width="550.0" />
-                              <Line endX="-100.0" endY="70.0" startX="-100.0" startY="20.0" translateX="160.0" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-bar" text="Restrooms" textAlignment="RIGHT" translateX="75.0">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Text>
-                              <ImageView fitHeight="50.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" translateX="220.0">
-                                 <image>
-                                    <Image url="@../images/rightArrow.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </StackPane>
+                        </VBox>
                      </children>
+                     <HBox.margin>
+                        <Insets top="80.0" />
+                     </HBox.margin>
                   </VBox>
                </children>
             </HBox>
          </children>
       </AnchorPane>
    </center>
+   <bottom>
+      <Button fx:id="configurationButton" mnemonicParsing="false" styleClass="signage-button" text="Configuration Settings">
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </Button>
+   </bottom>
 </BorderPane>
