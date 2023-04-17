@@ -37,6 +37,10 @@ public class RequestDatabase {
         return new ItemRequestDAO().getItemRequestByAttributes(searchList);
     }
 
+    public ArrayList<AvailableItem> getAvailableItemsByTypeWithinRangeSortedByPrice(RequestType requestType, Double upperBound, Double lowerBound, SortOrder sortOrder) throws SQLException, ClassNotFoundException {
+        return new AvailableItemDAO().getAvailableItemsByTypeWithinRangeSortedByPrice(requestType, upperBound, lowerBound, sortOrder);
+    }
+
     public RoomRequest addRoomRequest(String longName, Timestamp startTime, Timestamp endTime,String requesterName, String requestReason) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         RoomRequestDAO Dao = new RoomRequestDAO(connection);
