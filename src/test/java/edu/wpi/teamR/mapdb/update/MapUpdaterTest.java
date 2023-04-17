@@ -105,6 +105,7 @@ class MapUpdaterTest {
         assertEquals(EditType.DELETION, undo.editType());
     }
 
+    @Test
     void deleteNodeUpdate() throws SQLException {
         MapUpdater mapUpdater = new MapUpdater(mapdb);
         Node i = mapdb.addNode(12, 21, "flop", "bloud");
