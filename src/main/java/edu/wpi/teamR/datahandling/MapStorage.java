@@ -1,4 +1,4 @@
-package edu.wpi.teamR.pathfinding;
+package edu.wpi.teamR.datahandling;
 
 import edu.wpi.teamR.Main;
 import edu.wpi.teamR.mapdb.*;
