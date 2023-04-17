@@ -12,11 +12,21 @@ public class SearchList {
 
     //TODO: DOCUMENT
     /**
-     * Add a comparison to filter down the results of the selection statement
+     * Add a comparison to filter down the results of the selection statement. This function can be called more than once
      *
-     * @param requestAttribute any attribute
-     * @param operation
-     * @param compareValue
+     * @param requestAttribute an Enum containing a value of every attribute of the service request table.
+     *                         This will be the attribute that you are comparing to
+     * @param operation an Enum containing different operations. For this function you are limited to the Operation.equalTo,
+     *                  Operation.lessThan, and Operation.greaterThan values as ordering cant be used for comparison
+     * @param compareValue this is an object with the value that needs to be compared with the request attribute. The
+     *                     object type is limited based off of the requestAttribute value types. Here are the required types
+     *                     for values of requestAttribute:
+     *                     RequestAttribute.requestID: Integer
+     *                     RequestAttribute.requestType: RequestType
+     *                     RequestAttribute.requestStatus: RequestStatus
+     *                     RequestAttribute.longname, staffUsername, itemType, requesterName, additionalNotes: String
+     *                     RequestAttribute.requestDate: Timestamp
+     *
      * @throws SearchException
      */
     public void addComparison(RequestAttribute requestAttribute, Operation operation, Object compareValue) throws SearchException {
@@ -58,6 +68,15 @@ public class SearchList {
         searchRequirements.add(new Triple<RequestAttribute, Operation, Object>(requestAttribute, operation, compareValue));
     }
 
+    /**
+     * Add something to order off of for the sql query. The first addOrdering method call will define the main order and all
+     * following calls will add tiebreakers
+     * @param requestAttribute an Enum containing a value of every attribute of the service request table.
+     *      *                  This will be the attribute that you are ordering by
+     * @param operation an Enum containing different operations. For this function you are limited to the Operation.orderByDesc,
+     *                  and Operation.orderByAsc values as comparisons can't be used for ordering
+     * @throws SearchException
+     */
     public void addOrdering(RequestAttribute requestAttribute, Operation operation) throws SearchException {
         //Check for possible mistakes
         boolean passedOperationIsOrder = operation==Operation.orderByAsc || operation==Operation.orderByDesc;
