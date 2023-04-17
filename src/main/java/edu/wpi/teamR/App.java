@@ -47,7 +47,7 @@ public class App extends Application {
     final Scene scene = new Scene(root);
     primaryStage.setScene(scene);
 
-    primaryStage.getScene().getStylesheets().add("https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Nunito+Sans&family=Quicksand&family=Roboto:wght@300;400&display=swap");
+    primaryStage.getScene().getStylesheets().add("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito+Sans:wght@300;400;700&family=Quicksand&family=Roboto:wght@300;400;700&display=swap");
 
     primaryStage.setMaximized(true);
     primaryStage.show();
