@@ -133,6 +133,8 @@ public class MapEditorController {
     MapUpdater updater;
     Map<Integer, Line> linesMap = new HashMap<>();
 
+    Map<Integer, Node> nodeMap = new HashMap<>();
+
     @FXML
     public void initialize() throws SQLException, ClassNotFoundException, ItemNotFoundException {
         for (int i = 0; i < 5; i++) {
@@ -240,7 +242,11 @@ public class MapEditorController {
         try {
             mapdb = new MapDatabase();
             updater = new MapUpdater(mapdb);
-            if (mapdb.getMapLocationsByFloor(nodeFloorNames[currentFloor]).size() > 0) {
+            ArrayList<MapLocation> locations = mapdb.getMapLocationsByFloor(nodeFloorNames[currentFloor]);
+            if (locations.size() > 0) {
+                for (MapLocation location : locations) {
+                    nodeMap.put(location.getNode().getNodeID(), location.getNode());
+                }
                 displayEdgesByFloor(currentFloor);
                 displayNodesByFloor(currentFloor);
             }

@@ -8,6 +8,9 @@ import lombok.Getter;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Getter
 public class MapStorage {
@@ -30,12 +33,19 @@ public class MapStorage {
     ArrayList<LocationName> locationNames;
     ArrayList<Move> moves;
 
+    Map<Integer, Node> nodeMap;
+    Map<Integer, List<Integer>> edgeMap;
+
     public MapStorage() throws SQLException, ClassNotFoundException {
         mapdb = new MapDatabase();
         nodes = mapdb.getNodes();
         edges = mapdb.getEdges();
         locationNames = mapdb.getLocationNames();
         moves = mapdb.getMoves();
+
+        for (Node n : nodes) {
+            nodeMap.put(n.getNodeID(), n);
+        }
     }
 
 
