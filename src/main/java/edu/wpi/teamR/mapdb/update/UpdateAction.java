@@ -10,30 +10,30 @@ import java.util.ArrayDeque;
 
 public class UpdateAction {
     private final List<UpdateData> updates;
-    private final Deque<UndoData> undos;
+    private final List<UndoData> undos;
 
     UpdateAction() {
         updates = new ArrayList<>();
-        undos = new ArrayDeque<>();
+        undos = new ArrayList<>();
     }
 
     void addUpdate(Method update, Object[] updateArgs, List<? extends MapData> data) {
         updates.add(new UpdateData(update, updateArgs));
         for (MapData d : data) {
-            undos.push(new UndoData(d, EditType.DELETION));
+            undos.add(new UndoData(d, EditType.DELETION));
         }
     }
 
     void addUpdate(Method update, Object[] updateArgs, MapData data, EditType editType) {
         updates.add(new UpdateData(update, updateArgs));
-        undos.push(new UndoData(data, editType));
+        undos.add(new UndoData(data, editType));
     }
 
     List<UpdateData> getUpdates() {
         return updates;
     }
 
-    Deque<UndoData> getUndoData() {
+    List<UndoData> getUndoData() {
         return undos;
     }
 
