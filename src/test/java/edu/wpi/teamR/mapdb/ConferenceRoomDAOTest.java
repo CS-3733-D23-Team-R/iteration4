@@ -118,6 +118,31 @@ class ConferenceRoomDAOTest {
 
     }
 
+    @Test
+    void getConferenceRoomByLongname() throws SQLException, ClassNotFoundException, ItemNotFoundException {
+
+        locationNameDAO.addLocationName("long1", "", "");
+        conferenceRoomDAO.addConferenceRoom("long1", 5, true, true, false);
+
+        locationNameDAO.addLocationName("long2", "", "");
+        conferenceRoomDAO.addConferenceRoom("long2", 6, false, false, true);
+
+        ConferenceRoom conferenceRoom = conferenceRoomDAO.getConferenceRoomByLongname("long1");
+        assertEquals(conferenceRoom.getLongname(), "long1");
+        assertEquals(conferenceRoom.getCapacity(), 5);
+        assertEquals(conferenceRoom.isAccessible(), true);
+        assertEquals(conferenceRoom.isHasOutlets(), true);
+        assertEquals(conferenceRoom.isHasScreen(), false);
+
+
+        conferenceRoom = conferenceRoomDAO.getConferenceRoomByLongname("long2");
+        assertEquals(conferenceRoom.getLongname(), "long2");
+        assertEquals(conferenceRoom.getCapacity(), 6);
+        assertEquals(conferenceRoom.isAccessible(), false);
+        assertEquals(conferenceRoom.isHasOutlets(), false);
+        assertEquals(conferenceRoom.isHasScreen(), true);
+    }
+
 
 //    @Test HANDLED IN OTHERS
 //    void getConferenceRooms() {
