@@ -5,13 +5,12 @@ import edu.wpi.teamR.navigation.Screen;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import edu.wpi.teamR.pathfinding.MapStorage;
+import edu.wpi.teamR.datahandling.MapStorage;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,7 +46,7 @@ public class App extends Application {
     final Scene scene = new Scene(root);
     primaryStage.setScene(scene);
 
-    primaryStage.getScene().getStylesheets().add("https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Nunito+Sans&family=Quicksand&family=Roboto:wght@300;400&display=swap");
+    primaryStage.getScene().getStylesheets().add("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito+Sans:wght@300;400;700&family=Quicksand&family=Roboto:wght@300;400;700&display=swap");
 
     primaryStage.setMaximized(true);
     primaryStage.show();

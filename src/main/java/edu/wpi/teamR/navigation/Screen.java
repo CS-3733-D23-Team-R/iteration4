@@ -12,7 +12,8 @@ public enum Screen {
   ADMINHOME("views/AdminHome.fxml"),
   MAP_EDITOR("views/MapEditor.fxml"),
   SORT_ORDERS("views/SortOrders.fxml"),
-  SCREENSAVER("views/Screensaver.fxml");
+  SCREENSAVER("views/Screensaver.fxml"),
+  SIGNAGECONFIGURATION("views/SignageConfiguration.fxml");
 
   private final String filename;
 

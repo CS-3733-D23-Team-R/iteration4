@@ -11,7 +11,7 @@ import lombok.Setter;
 public class LocationName implements MapData, CSVReadable, CSVWritable {
     private String longName, shortName, nodeType;
 
-    LocationName(String longName, String shortName, String nodeType){
+    public LocationName(String longName, String shortName, String nodeType){
         this.longName = longName;
         this.shortName = shortName;
         this.nodeType = nodeType;
