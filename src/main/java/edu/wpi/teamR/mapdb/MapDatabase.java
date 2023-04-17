@@ -178,6 +178,17 @@ public class MapDatabase {
         return locationNameDao.modifyLocationNameShortName(longName, newShortName);
     }
 
+    ConferenceRoom addConferenceRoom(String longname, int capacity, boolean isAccessible, boolean hasOutlets, boolean hasScreen) throws SQLException, ClassNotFoundException {
+        return new ConferenceRoomDAO().addConferenceRoom(longname, capacity, isAccessible, hasOutlets, hasScreen);
+    }
+    void deleteConferenceRoom(String longname) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        new ConferenceRoomDAO().deleteConferenceRoom(longname);
+    }
+
+    ArrayList<ConferenceRoom> getConferenceRooms() throws SQLException, ClassNotFoundException {
+        return new ConferenceRoomDAO().getConferenceRooms();
+    }
+
     public ArrayList<MapLocation> getMapLocationsByFloor(String floor) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" node LEFT JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as move on node.nodeid=move.nodeid left join "+Configuration.getLocationNameSchemaNameTableName()+" locationname on move.longname=locationname.longname ORDER BY node.nodeID desc;");
         ResultSet resultSet = preparedStatement.executeQuery();
