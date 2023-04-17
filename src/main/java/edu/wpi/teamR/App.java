@@ -5,13 +5,12 @@ import edu.wpi.teamR.navigation.Screen;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import edu.wpi.teamR.pathfinding.MapStorage;
+import edu.wpi.teamR.datahandling.MapStorage;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;

@@ -45,6 +45,8 @@ public class MapController {
     SearchableComboBox<String> startField;
     @FXML
     SearchableComboBox<String> endField;
+    @FXML
+    SearchableComboBox<String> algorithm;
 
     @FXML BorderPane borderPane;
     @FXML AnchorPane anchorPane;
@@ -90,6 +92,9 @@ public class MapController {
     ArrayList<Edge> edges;
     ArrayList<LocationName> locationNames;
     ArrayList<Move> moves;
+
+    ObservableList<String> algorithms =
+            FXCollections.observableArrayList("A-Star", "Breadth-First Search", "Depth-First Search");
 
     @FXML
     public void initialize() throws Exception {
@@ -142,6 +147,8 @@ public class MapController {
                 mapPane.getChildren().remove(locationPanes[currentFloor]);
             }
         });
+
+        algorithm.setItems(algorithms);
     }
 
     // Reset to original zoom
@@ -231,7 +238,7 @@ public class MapController {
         int endID = idFromName(endLocation);
 
         Pathfinder pathfinder = new Pathfinder(mapdb);
-        Path mapPath = pathfinder.aStarPath(startID, endID, accessible);
+        Path mapPath = pathfinder.findPath(startID, endID, accessible);
         ArrayList<Integer> currentPath = mapPath.getPath();
 
         Node startNode = mapdb.getNodeByID(startID);
@@ -296,7 +303,7 @@ public class MapController {
                 for (MapLocation m: locs) {
                     Text t = new Text();
                     Node n = m.getNode();
-                    t.setText(m.getLocationNames().get(0).getShortName()); //m.getLocationNames().get(0).getShortName()
+                    //t.setText(m.getLocationNames().get(0).getShortName()); //m.getLocationNames().get(0).getShortName()
                     t.setX(n.getXCoord() + 10);
                     t.setY(n.getYCoord());
 
