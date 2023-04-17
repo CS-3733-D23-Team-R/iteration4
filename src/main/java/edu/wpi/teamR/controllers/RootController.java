@@ -1,6 +1,7 @@
 package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.App;
+import edu.wpi.teamR.datahandling.ShoppingCart;
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
 import javafx.animation.PauseTransition;
@@ -57,6 +58,7 @@ public class RootController {
     newRequestButton.setOnMouseClicked(event -> openRequest());
     pendingRequestButton.setOnMouseClicked(event -> navigate(Screen.SORT_ORDERS));
     pathfindingButton.setOnMouseClicked(event -> navigate(Screen.MAP));
+    logoutButton.setOnMouseClicked(event -> logout());
     exitButton.setOnMouseClicked(event -> Platform.exit());
 
     helpButton.setOnMouseClicked(
@@ -144,5 +146,10 @@ public class RootController {
     rootHbox.setVisible(true);
     rootHbox.setManaged(true);
     App.getPrimaryStage().addEventFilter(InputEvent.ANY, ssevent);
+  }
+
+  @FXML private void logout(){
+    ShoppingCart.getInstance().clearCart();
+    Navigation.navigate(Screen.HOME);
   }
 }
