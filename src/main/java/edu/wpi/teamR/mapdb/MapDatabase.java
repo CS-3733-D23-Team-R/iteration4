@@ -189,6 +189,10 @@ public class MapDatabase {
         return new ConferenceRoomDAO().getConferenceRooms();
     }
 
+    public ConferenceRoom getConferenceRoomByLongname(String longname) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        return new ConferenceRoomDAO().getConferenceRoomByLongname(longname);
+    }
+
     public ArrayList<MapLocation> getMapLocationsByFloor(String floor) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" node LEFT JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as move on node.nodeid=move.nodeid left join "+Configuration.getLocationNameSchemaNameTableName()+" locationname on move.longname=locationname.longname ORDER BY node.nodeID desc;");
         ResultSet resultSet = preparedStatement.executeQuery();
