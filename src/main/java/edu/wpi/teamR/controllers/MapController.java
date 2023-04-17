@@ -96,6 +96,8 @@ public class MapController {
     ObservableList<String> algorithms =
             FXCollections.observableArrayList("A-Star", "Breadth-First Search", "Depth-First Search");
 
+    Pathfinder pathfinder;
+
     @FXML
     public void initialize() throws Exception {
         mapdb = App.getMapData().getMapdb();
@@ -148,7 +150,11 @@ public class MapController {
             }
         });
 
+        pathfinder = new Pathfinder(mapdb);
         algorithm.setItems(algorithms);
+        algorithm.setOnAction(event -> {
+            updatePathfindingAlgorithm(algorithm.getValue());
+        });
     }
 
     // Reset to original zoom
@@ -237,7 +243,6 @@ public class MapController {
         int startID = idFromName(startLocation);
         int endID = idFromName(endLocation);
 
-        Pathfinder pathfinder = new Pathfinder(mapdb);
         Path mapPath = pathfinder.findPath(startID, endID, accessible);
         ArrayList<Integer> currentPath = mapPath.getPath();
 
@@ -310,6 +315,17 @@ public class MapController {
                     locationPanes[floor].getChildren().add(t);
                 }
             }
+        }
+    }
+
+    private void updatePathfindingAlgorithm(String algo) {
+        switch (algo) {
+            case "A-Star":
+                pathfinder.setAlgorithm(Algorithm.Astar);
+            case "Breadth-First Search":
+                pathfinder.setAlgorithm(Algorithm.BFS);
+            case "Depth-First Search":
+                pathfinder.setAlgorithm(Algorithm.DFS);
         }
     }
 }
