@@ -5,7 +5,9 @@ import edu.wpi.teamR.ItemNotFoundException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ConferenceRoomDAO {
     ConferenceRoomDAO(){}
@@ -34,5 +36,21 @@ public class ConferenceRoomDAO {
         preparedStatement.executeUpdate();
     }
 
-    //TODO: create getters that are useful
+    ArrayList<ConferenceRoom> getConferenceRooms() throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getConferenceRoomSchemaNameTableName()+";");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        ArrayList<ConferenceRoom> conferenceRooms = new ArrayList<>();
+
+        while (resultSet.next()){
+            String longname = resultSet.getString("longname");
+            int capacity = resultSet.getInt("capacity");
+            boolean isAccessible = resultSet.getBoolean("isAccessible");
+            boolean hasOutlets = resultSet.getBoolean("hasOutlets");
+            boolean hasScreen = resultSet.getBoolean("hasScreen");
+
+            conferenceRooms.add(new ConferenceRoom(longname, capacity, isAccessible, hasOutlets, hasScreen));
+        }
+        return conferenceRooms;
+    }
 }
