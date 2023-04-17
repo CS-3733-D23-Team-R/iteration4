@@ -1,4 +1,4 @@
-package edu.wpi.teamR.controllers;
+package edu.wpi.teamR.controllers.mapeditor;
 
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.mapdb.*;

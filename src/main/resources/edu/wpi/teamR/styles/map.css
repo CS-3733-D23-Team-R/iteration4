@@ -1,6 +1,7 @@
 .root {
     bwhblue: #012D5A;
     pressed: #BDBDBD;
+    error: #A31621;
 }
 
 .map-vbox {
@@ -33,6 +34,15 @@
     -fx-font-weight: 700;
     border-radius: 4px;
 }
+.delete-button {
+    -fx-background-color: error;
+    -fx-text-fill: white;
+    -fx-font-family: 'Nunito Sans', 'bold';
+    -fx-font-size: 16;
+    -fx-font-weight: 700;
+    border-radius: 4px;
+}
+
 
 .body{
     -fx-font-family: 'Nunito Sans', 'regular';

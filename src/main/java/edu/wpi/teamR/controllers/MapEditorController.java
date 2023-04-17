@@ -2,11 +2,14 @@ package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.Main;
+import edu.wpi.teamR.controllers.mapeditor.EditLocationPopupController;
+import edu.wpi.teamR.controllers.mapeditor.MapPopupController;
+import edu.wpi.teamR.controllers.mapeditor.NewLocationPopupController;
+import edu.wpi.teamR.controllers.mapeditor.NewNodePopupController;
 import edu.wpi.teamR.csv.CSVParameterException;
 import edu.wpi.teamR.csv.CSVWriter;
 import edu.wpi.teamR.mapdb.update.*;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
-import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,7 +18,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
@@ -24,7 +26,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -57,6 +58,7 @@ public class MapEditorController {
     @FXML Button newMoveButton;
     @FXML Button redrawButton;
     @FXML Button undoButton;
+    @FXML Button editLocationButton;
 
     static File selectedFile;
     static File selectedDirectory;
@@ -172,7 +174,7 @@ public class MapEditorController {
         });
 
         newLocationButton.setOnAction(event -> {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/NewLocationPopup.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/NewLocationPopup.fxml"));
             try {
                 Parent popupRoot = loader.load();
                 NewLocationPopupController popupController = loader.getController();
@@ -188,7 +190,7 @@ public class MapEditorController {
             }
         });
         newNodeButton.setOnAction(event -> {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/NewNodePopup.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/NewNodePopup.fxml"));
             try {
                 Parent popupRoot = loader.load();
                 NewNodePopupController popupController = loader.getController();
@@ -238,12 +240,35 @@ public class MapEditorController {
         try {
             mapdb = new MapDatabase();
             updater = new MapUpdater(mapdb);
-            displayEdgesByFloor(currentFloor);
-            displayNodesByFloor(currentFloor);
+            if (mapdb.getMapLocationsByFloor(nodeFloorNames[currentFloor]).size() > 0) {
+                displayEdgesByFloor(currentFloor);
+                displayNodesByFloor(currentFloor);
+            }
+            else {
+                System.out.println("tables are empty");
+            }
         }
         catch (ItemNotFoundException e) {
             e.printStackTrace();
         }
+
+        editLocationButton.setOnAction(event -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/EditLocationPopup.fxml"));
+            try {
+                Parent popupRoot = loader.load();
+                EditLocationPopupController popupController = loader.getController();
+                popupController.setUpdater(updater);
+
+                Stage popupStage = new Stage();
+                popupStage.initModality(Modality.APPLICATION_MODAL);
+                popupStage.setTitle("Edit Location");
+                popupStage.setScene(new Scene(popupRoot, 300, 400));
+                popupStage.showAndWait();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
         reset();
     }
 
@@ -395,7 +420,7 @@ public class MapEditorController {
                     } else {
                         PopOver popOver = new PopOver();
                         final FXMLLoader loader =
-                                new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/MapPopup.fxml"));
+                                new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/MapPopup.fxml"));
                         Parent popup;
                         try {
                             popup = loader.load();
