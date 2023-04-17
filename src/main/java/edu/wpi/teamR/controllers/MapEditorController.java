@@ -398,6 +398,7 @@ public class MapEditorController {
             ArrayList<LocationName> ln = l.getLocationNames();
             Node n = l.getNode();
             Move m = mapdb.getLatestMoveByLocationName(ln.get(0).getLongName());
+            ArrayList<Edge> edges = mapdb.getEdgesByNode(n.getNodeID());
 
             Circle c = new Circle(n.getXCoord(), n.getYCoord(), 5, Color.RED);
             nodePanes[floor].getChildren().add(c);
@@ -413,6 +414,7 @@ public class MapEditorController {
                             Line l1 = new Line(selectedNode.getXCoord(), selectedNode.getYCoord(), n.getXCoord(), n.getYCoord());
                             updater.addEdge(selectedNode.getNodeID(), n.getNodeID());
                             nodePanes[floor].getChildren().add(l1);
+                            linesMap.put(selectedNode.getNodeID(), l1);
                             l1.toBack();
                             selectedNode = null;
                             edgeDialog(false);
