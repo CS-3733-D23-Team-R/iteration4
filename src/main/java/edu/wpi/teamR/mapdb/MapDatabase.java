@@ -178,14 +178,14 @@ public class MapDatabase {
         return locationNameDao.modifyLocationNameShortName(longName, newShortName);
     }
 
-    ConferenceRoom addConferenceRoom(String longname, int capacity, boolean isAccessible, boolean hasOutlets, boolean hasScreen) throws SQLException, ClassNotFoundException {
+    public ConferenceRoom addConferenceRoom(String longname, int capacity, boolean isAccessible, boolean hasOutlets, boolean hasScreen) throws SQLException, ClassNotFoundException {
         return new ConferenceRoomDAO().addConferenceRoom(longname, capacity, isAccessible, hasOutlets, hasScreen);
     }
-    void deleteConferenceRoom(String longname) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+    public void deleteConferenceRoom(String longname) throws SQLException, ClassNotFoundException, ItemNotFoundException {
         new ConferenceRoomDAO().deleteConferenceRoom(longname);
     }
 
-    ArrayList<ConferenceRoom> getConferenceRooms() throws SQLException, ClassNotFoundException {
+    public ArrayList<ConferenceRoom> getConferenceRooms() throws SQLException, ClassNotFoundException {
         return new ConferenceRoomDAO().getConferenceRooms();
     }
 
