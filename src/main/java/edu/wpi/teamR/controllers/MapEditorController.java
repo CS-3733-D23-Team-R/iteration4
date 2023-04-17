@@ -1,5 +1,6 @@
 package edu.wpi.teamR.controllers;
 
+import edu.wpi.teamR.App;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.Main;
 import edu.wpi.teamR.controllers.mapeditor.EditLocationPopupController;
@@ -240,7 +241,7 @@ public class MapEditorController {
         gesturePane.setMaxScale(2);
 
         try {
-            mapdb = new MapDatabase();
+            mapdb = App.getMapData().getMapdb();
             updater = new MapUpdater(mapdb);
             ArrayList<MapLocation> locations = mapdb.getMapLocationsByFloor(nodeFloorNames[currentFloor]);
             if (locations.size() > 0) {
@@ -327,21 +328,23 @@ public class MapEditorController {
                     l1.setStroke(Color.RED);
                     l1.setStrokeWidth(4);
                     linesMap.put(e.getStartNode(), l1);
+                    linesMap.put(e.getEndNode(), l1);
+                    nodePanes[floor].getChildren().add(l1);
+                    l1.toBack();
 
                     l1.setOnMouseClicked(event -> {
                         if (event.getButton().equals(MouseButton.PRIMARY)){
+                            System.out.println(e.getStartNode() + " " + e.getEndNode());
                             return;
                         }
                         if (!gesturePane.isGestureEnabled()) {
                             nodePanes[floor].getChildren().remove(l1);
                             updater.deleteEdge(n1.getNodeID(), n2.getNodeID());
                             linesMap.remove(e.getStartNode());
+                            linesMap.remove(e.getEndNode());
                             nodePanes[floor].getChildren().remove(l1);
                         }
                     });
-
-                    nodePanes[floor].getChildren().add(l1);
-                    l1.toBack();
                 }
             }
         }
@@ -458,16 +461,24 @@ public class MapEditorController {
                         throw new RuntimeException(e);
                     }
                     for (Edge e: n_edges) {
+                        ObservableList<javafx.scene.Node> children = nodePanes[floor].getChildren();
+                        Line l_1 = linesMap.get(e.getStartNode());
+                        Line l2 = linesMap.get(e.getEndNode());
+                        // System.out.println(l_1.toString() + " " + l2.toString());
                         nodePanes[floor].getChildren().remove(linesMap.get(e.getStartNode()));
+                        nodePanes[floor].getChildren().remove(linesMap.get(e.getEndNode()));
+                        System.out.println("Contains L1: " + children.contains(l_1) + " Contains L2: " + children.contains(l2));
+                        System.out.println(linesMap.get(1095));
                         linesMap.remove(e.getStartNode());
+                        linesMap.remove(e.getEndNode());
                         Line l1;
-                        Node startNode = null;
+                        Node startNode;
                         try {
                             startNode = mapdb.getNodeByID(e.getStartNode());
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
-                        Node endNode = null;
+                        Node endNode;
                         try {
                             endNode = mapdb.getNodeByID(e.getEndNode());
                         } catch (SQLException ex) {
