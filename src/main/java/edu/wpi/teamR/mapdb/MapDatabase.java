@@ -189,6 +189,31 @@ public class MapDatabase {
         return new ConferenceRoomDAO().getConferenceRooms();
     }
 
+    DirectionArrow addDirectionArrow(String longname, int kioskID, Direction direction) throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        return new DirectionArrowDAO(connection).addDirectionArrow(longname, kioskID, direction);
+    }
+
+    void deleteDirectionArrowByLongname(String longname) throws SQLException, ItemNotFoundException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        new DirectionArrowDAO(connection).deleteDirectionArrowByLongname(longname);
+    }
+
+    void deleteDirectionArrowsByKiosk(int kioskID) throws SQLException, ItemNotFoundException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        new DirectionArrowDAO(connection).deleteDirectionArrowsByKiosk(kioskID);
+    }
+
+    ArrayList<DirectionArrow> getDirectionArrows() throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        return new DirectionArrowDAO(connection).getDirectionArrows();
+    }
+
+    ArrayList<DirectionArrow> getDirectionArrowsByKiosk(int kioskID) throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        return new DirectionArrowDAO(connection).getDirectionArrowsByKiosk(kioskID);
+    }
+
     public ArrayList<MapLocation> getMapLocationsByFloor(String floor) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" node LEFT JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as move on node.nodeid=move.nodeid left join "+Configuration.getLocationNameSchemaNameTableName()+" locationname on move.longname=locationname.longname ORDER BY node.nodeID desc;");
         ResultSet resultSet = preparedStatement.executeQuery();
