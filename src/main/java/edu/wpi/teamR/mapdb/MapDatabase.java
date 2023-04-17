@@ -189,6 +189,32 @@ public class MapDatabase {
         return new ConferenceRoomDAO().getConferenceRooms();
     }
 
+
+    DirectionArrow addDirectionArrow(String longname, int kioskID, Direction direction) throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        return new DirectionArrowDAO(connection).addDirectionArrow(longname, kioskID, direction);
+    }
+
+    void deleteDirectionArrowByLongname(String longname) throws SQLException, ItemNotFoundException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        new DirectionArrowDAO(connection).deleteDirectionArrowByLongname(longname);
+    }
+
+    void deleteDirectionArrowsByKiosk(int kioskID) throws SQLException, ItemNotFoundException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        new DirectionArrowDAO(connection).deleteDirectionArrowsByKiosk(kioskID);
+    }
+
+    ArrayList<DirectionArrow> getDirectionArrows() throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        return new DirectionArrowDAO(connection).getDirectionArrows();
+    }
+
+    ArrayList<DirectionArrow> getDirectionArrowsByKiosk(int kioskID) throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        return new DirectionArrowDAO(connection).getDirectionArrowsByKiosk(kioskID);
+    }
+
     public ConferenceRoom getConferenceRoomByLongname(String longname) throws SQLException, ClassNotFoundException, ItemNotFoundException {
         return new ConferenceRoomDAO().getConferenceRoomByLongname(longname);
     }
