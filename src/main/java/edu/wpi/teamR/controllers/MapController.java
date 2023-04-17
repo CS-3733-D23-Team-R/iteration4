@@ -3,11 +3,8 @@ package edu.wpi.teamR.controllers;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.App;
 import edu.wpi.teamR.mapdb.MapDatabase;
-import edu.wpi.teamR.navigation.Navigation;
-import edu.wpi.teamR.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,8 +28,6 @@ import edu.wpi.teamR.pathfinding.*;
 import edu.wpi.teamR.mapdb.*;
 import org.controlsfx.control.SearchableComboBox;
 
-import javax.xml.stream.Location;
-
 public class MapController {
     @FXML
     Button resetButton;
@@ -46,7 +41,7 @@ public class MapController {
     @FXML
     SearchableComboBox<String> endField;
     @FXML
-    SearchableComboBox<String> algorithm;
+    SearchableComboBox<String> algorithmChoicebox;
 
     @FXML BorderPane borderPane;
     @FXML AnchorPane anchorPane;
@@ -151,9 +146,9 @@ public class MapController {
         });
 
         pathfinder = new Pathfinder(mapdb);
-        algorithm.setItems(algorithms);
-        algorithm.setOnAction(event -> {
-            updatePathfindingAlgorithm(algorithm.getValue());
+        algorithmChoicebox.setItems(algorithms);
+        algorithmChoicebox.setOnAction(event -> {
+            updatePathfindingAlgorithm(algorithmChoicebox.getValue());
         });
     }
 
