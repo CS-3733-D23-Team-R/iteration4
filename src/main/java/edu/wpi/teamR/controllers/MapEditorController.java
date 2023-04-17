@@ -132,7 +132,7 @@ public class MapEditorController {
     HBox edgeHBox;
 
     MapUpdater updater;
-    Map<Integer, Line> linesMap = new HashMap<>();
+    Map<Integer, List<Line>> linesMap = new HashMap<>();
 
     Map<Integer, Node> nodeMap = new HashMap<>();
 
@@ -327,8 +327,10 @@ public class MapEditorController {
                     Line l1 = new Line(n1.getXCoord(), n1.getYCoord(), n2.getXCoord(), n2.getYCoord());
                     l1.setStroke(Color.RED);
                     l1.setStrokeWidth(4);
-                    linesMap.put(e.getStartNode(), l1);
-                    linesMap.put(e.getEndNode(), l1);
+                    //linesMap.put(e.getStartNode(), l1);
+                    //linesMap.put(e.getEndNode(), l1);
+                    addLine(e.getStartNode(), l1);
+                    addLine(e.getEndNode(), l1);
                     nodePanes[floor].getChildren().add(l1);
                     l1.toBack();
 
@@ -343,6 +345,7 @@ public class MapEditorController {
                             linesMap.remove(e.getStartNode());
                             linesMap.remove(e.getEndNode());
                             nodePanes[floor].getChildren().remove(l1);
+                            System.out.println("Edge removed");
                         }
                     });
                 }
@@ -361,6 +364,16 @@ public class MapEditorController {
         }
         tableComboBox.getSelectionModel().clearSelection();
         tableComboBox.setValue(null);
+    }
+
+    private void addLine(int nodeID, Line line) {
+        if (linesMap.containsKey(nodeID)) {
+            linesMap.get(nodeID).add(line);
+        } else {
+            ArrayList<Line> lines = new ArrayList<>();
+            lines.add(line);
+            linesMap.put(nodeID, lines);
+        }
     }
 
     public void openFile() {
@@ -423,7 +436,8 @@ public class MapEditorController {
                             Line l1 = new Line(selectedNode.getXCoord(), selectedNode.getYCoord(), n.getXCoord(), n.getYCoord());
                             updater.addEdge(selectedNode.getNodeID(), n.getNodeID());
                             nodePanes[floor].getChildren().add(l1);
-                            linesMap.put(selectedNode.getNodeID(), l1);
+                            // linesMap.put(selectedNode.getNodeID(), l1);
+                            addLine(selectedNode.getNodeID(), l1);
                             l1.toBack();
                             selectedNode = null;
                             edgeDialog(false);
@@ -462,12 +476,12 @@ public class MapEditorController {
                     }
                     for (Edge e: n_edges) {
                         ObservableList<javafx.scene.Node> children = nodePanes[floor].getChildren();
-                        Line l_1 = linesMap.get(e.getStartNode());
-                        Line l2 = linesMap.get(e.getEndNode());
+                        // Line l_1 = linesMap.get(e.getStartNode()).get(0);
+                        // Line l2 = linesMap.get(e.getEndNode()).get(0);
                         // System.out.println(l_1.toString() + " " + l2.toString());
-                        nodePanes[floor].getChildren().remove(linesMap.get(e.getStartNode()));
-                        nodePanes[floor].getChildren().remove(linesMap.get(e.getEndNode()));
-                        System.out.println("Contains L1: " + children.contains(l_1) + " Contains L2: " + children.contains(l2));
+                        nodePanes[floor].getChildren().removeAll(linesMap.get(n.getNodeID()));
+                        //nodePanes[floor].getChildren().removeAll(linesMap.get(e.getEndNode()));
+                        // System.out.println("Contains L1: " + children.contains(l_1) + " Contains L2: " + children.contains(l2));
                         System.out.println(linesMap.get(1095));
                         linesMap.remove(e.getStartNode());
                         linesMap.remove(e.getEndNode());
@@ -492,7 +506,8 @@ public class MapEditorController {
                         }
                         l1.setStroke(Color.RED);
                         l1.setStrokeWidth(4);
-                        linesMap.put(e.getStartNode(), l1);
+                        // linesMap.put(e.getStartNode(), l1);
+                        addLine(e.getStartNode(), l1);
                         nodePanes[floor].getChildren().add(l1);
                         l1.toBack();
                     }

@@ -44,7 +44,7 @@ public class MapStorage {
         moves = mapdb.getMoves();
 
         for (Node n : nodes) {
-            nodeMap.put(n.getNodeID(), n);
+            // nodeMap.put(n.getNodeID(), n);
         }
     }
 
