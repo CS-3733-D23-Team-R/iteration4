@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.AdminProfilePageController">
    <center>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
@@ -26,7 +26,7 @@
                               <VBox VBox.vgrow="ALWAYS">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Email:" VBox.vgrow="ALWAYS" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="rickisgay@gayforgood.org" VBox.vgrow="ALWAYS" />
+                                    <Text fx:id="email" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="rickisgay@gayforgood.org" VBox.vgrow="ALWAYS" />
                                  </children>
                               </VBox>
                               <HBox spacing="30.0" VBox.vgrow="ALWAYS">
@@ -36,13 +36,13 @@
                                           <VBox>
                                              <children>
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Job Title:" VBox.vgrow="ALWAYS" />
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="CFO" VBox.vgrow="ALWAYS" />
+                                                <Text fx:id="occupation" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="CFO" VBox.vgrow="ALWAYS" />
                                              </children>
                                           </VBox>
                                           <VBox layoutX="178.6666717529297" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="178.6666717529297" AnchorPane.topAnchor="0.0">
                                              <children>
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Date of Joining:" VBox.vgrow="ALWAYS" />
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="4/15/2023" VBox.vgrow="ALWAYS" />
+                                                <Text fx:id="DateOfJoining" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="4/15/2023" VBox.vgrow="ALWAYS" />
                                              </children>
                                           </VBox>
                                        </children>
@@ -55,14 +55,14 @@
                               <VBox VBox.vgrow="ALWAYS">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Phone Number:" VBox.vgrow="ALWAYS" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="123-456-7890" VBox.vgrow="ALWAYS" />
+                                    <Text fx:id="phone" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="123-456-7890" VBox.vgrow="ALWAYS" />
                                  </children>
                               </VBox>
                            </children>
                         </VBox>
                         <HBox alignment="CENTER" maxHeight="200.0" maxWidth="200.0" prefHeight="200.0" prefWidth="200.0" styleClass="map-vbox" HBox.hgrow="ALWAYS">
                            <children>
-                              <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                              <ImageView fx:id="ProfilePicture" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                                  <image>
                                     <Image url="@../images/Rick_Sanchez-0%201.png" />
                                  </image>
@@ -83,7 +83,7 @@
                            <effect>
                               <BoxBlur />
                            </effect></HBox>
-                        <Button mnemonicParsing="false" text="To Map Editor" />
+                        <Button fx:id="ToMapEditor" mnemonicParsing="false" text="To Map Editor" />
                      </children>
                   </StackPane>
                   <StackPane VBox.vgrow="ALWAYS">
@@ -93,7 +93,7 @@
                               <BoxBlur />
                            </effect>
                         </HBox>
-                        <Button mnemonicParsing="false" text="To Employee Manager" />
+                        <Button fx:id="ToEmployeeManager" mnemonicParsing="false" text="To Employee Manager" />
                      </children>
                   </StackPane>
                </children>
@@ -109,7 +109,7 @@
                         </Text>
                         <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                            <children>
-                              <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                              <ImageView fx:id="CreateNewMessage" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                                  <image>
                                     <Image url="@../images/v-icon.png" />
                                  </image>
@@ -126,7 +126,7 @@
                   </HBox>
                </children>
             </VBox>
-            <Text layoutX="14.0" layoutY="699.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="14:32" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
+            <Text fx:id="time" layoutX="14.0" layoutY="699.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="14:32" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
          </children>
       </AnchorPane>
    </center>
