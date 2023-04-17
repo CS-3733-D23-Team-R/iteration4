@@ -26,17 +26,17 @@ class DirectionArrowDAOTest {
         directionArrowDAO = new DirectionArrowDAO(connection);
     }
     @AfterAll
-    static void end() throws SQLException {
+    static void end() throws SQLException, ClassNotFoundException {
         directionArrowDAO.deleteAllDirectionArrows();
         locationNameDAO.deleteAllLocationNames();
     }
     @BeforeEach
-    void reset() throws SQLException {
+    void reset() throws SQLException, ClassNotFoundException {
         directionArrowDAO.deleteAllDirectionArrows();
         locationNameDAO.deleteAllLocationNames();
     }
     @Test
-    void addDirectionArrow() throws SQLException {
+    void addDirectionArrow() throws SQLException, ClassNotFoundException {
         ArrayList<DirectionArrow> directionArrows; // create empty ArrayList
         locationNameDAO.addLocationName("test1", "", ""); // creates a location for any direction arrows
         directionArrows = directionArrowDAO.getDirectionArrows(); // should return list w/ 0 items
@@ -51,7 +51,7 @@ class DirectionArrowDAOTest {
     }
 
     @Test
-    void deleteDirectionArrowByLongname() throws SQLException, ItemNotFoundException {
+    void deleteDirectionArrowByLongname() throws SQLException, ItemNotFoundException, ClassNotFoundException {
         // creates an empty list
         ArrayList<DirectionArrow> directionArrows;
         locationNameDAO.addLocationName("test1", "", "");
@@ -80,7 +80,7 @@ class DirectionArrowDAOTest {
     }
 
     @Test
-    void deleteDirectionArrowsByKiosk() throws SQLException, ItemNotFoundException {
+    void deleteDirectionArrowsByKiosk() throws SQLException, ItemNotFoundException, ClassNotFoundException {
         // creates an empty list
         ArrayList<DirectionArrow> directionArrows;
         locationNameDAO.addLocationName("test1", "", "");
@@ -108,7 +108,7 @@ class DirectionArrowDAOTest {
     }
 
     @Test
-    void deleteAllDirectionArrows() throws SQLException {
+    void deleteAllDirectionArrows() throws SQLException, ClassNotFoundException {
         ArrayList<DirectionArrow> directionArrows;
         locationNameDAO.addLocationName("test1", "", "");
         locationNameDAO.addLocationName("test2", "", "");
@@ -125,7 +125,7 @@ class DirectionArrowDAOTest {
     // }
 
     @Test
-    void getDirectionArrowsByKiosk() throws SQLException {
+    void getDirectionArrowsByKiosk() throws SQLException, ClassNotFoundException {
         // creates an empty list
         ArrayList<DirectionArrow> directionArrows;
         locationNameDAO.addLocationName("test1", "", "");
