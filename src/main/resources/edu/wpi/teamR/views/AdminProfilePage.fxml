@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.BoxBlur?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -24,8 +25,8 @@
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Rick Sanchez" VBox.vgrow="ALWAYS" />
                               <VBox VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subtitle" text="Email:" VBox.vgrow="ALWAYS" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubtitleBody" text="rickisgay@gayforgood.org" VBox.vgrow="ALWAYS" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Email:" VBox.vgrow="ALWAYS" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="rickisgay@gayforgood.org" VBox.vgrow="ALWAYS" />
                                  </children>
                               </VBox>
                               <HBox spacing="30.0" VBox.vgrow="ALWAYS">
@@ -34,14 +35,14 @@
                                        <children>
                                           <VBox>
                                              <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subtitle" text="Job Title:" VBox.vgrow="ALWAYS" />
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubtitleBody" text="CFO" VBox.vgrow="ALWAYS" />
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Job Title:" VBox.vgrow="ALWAYS" />
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="CFO" VBox.vgrow="ALWAYS" />
                                              </children>
                                           </VBox>
                                           <VBox layoutX="178.6666717529297" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="178.6666717529297" AnchorPane.topAnchor="0.0">
                                              <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subtitle" text="Date of Joining:" VBox.vgrow="ALWAYS" />
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubtitleBody" text="4/15/2023" VBox.vgrow="ALWAYS" />
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Date of Joining:" VBox.vgrow="ALWAYS" />
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="4/15/2023" VBox.vgrow="ALWAYS" />
                                              </children>
                                           </VBox>
                                        </children>
@@ -53,8 +54,8 @@
                               </HBox>
                               <VBox VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subtitle" text="Phone Number:" VBox.vgrow="ALWAYS" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubtitleBody" text="123-456-7890" VBox.vgrow="ALWAYS" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Phone Number:" VBox.vgrow="ALWAYS" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="123-456-7890" VBox.vgrow="ALWAYS" />
                                  </children>
                               </VBox>
                            </children>
@@ -75,17 +76,24 @@
                   </HBox>
                   <StackPane VBox.vgrow="ALWAYS">
                      <children>
-                        <HBox alignment="CENTER" prefHeight="387.0" prefWidth="633.0" styleClass="profileToMapEditor" />
+                        <HBox alignment="CENTER" prefHeight="387.0" prefWidth="633.0" styleClass="profileToMapEditor">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <effect>
+                              <BoxBlur />
+                           </effect></HBox>
                         <Button mnemonicParsing="false" text="To Map Editor" />
                      </children>
                   </StackPane>
                   <StackPane VBox.vgrow="ALWAYS">
                      <children>
                         <HBox alignment="CENTER" prefHeight="387.0" prefWidth="633.0" styleClass="profileToEmployeeManager">
-                           <children>
-                              <Button mnemonicParsing="false" text="To Employee Manager" />
-                           </children>
+                           <effect>
+                              <BoxBlur />
+                           </effect>
                         </HBox>
+                        <Button mnemonicParsing="false" text="To Employee Manager" />
                      </children>
                   </StackPane>
                </children>
@@ -94,7 +102,7 @@
                <children>
                   <HBox alignment="CENTER_LEFT" maxHeight="50.0" prefHeight="50.0" prefWidth="593.0" style="-fx-background-color: #D9D9D9;">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyBold" text="What's New in the Ward" wrappingWidth="282.63148498535156" HBox.hgrow="ALWAYS">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="What's New in the Ward" wrappingWidth="282.63148498535156" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
@@ -118,7 +126,7 @@
                   </HBox>
                </children>
             </VBox>
-            <Text layoutX="14.0" layoutY="699.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyBold" text="14:32" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
+            <Text layoutX="14.0" layoutY="699.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="14:32" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
          </children>
       </AnchorPane>
    </center>

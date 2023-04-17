@@ -17,13 +17,13 @@
                     <children>
                         <HBox alignment="CENTER" prefHeight="217.0" prefWidth="640.0" styleClass="boxShadow">
                             <children>
-                                <VBox prefWidth="440.0" styleClass="loginRectangle" HBox.hgrow="ALWAYS">
+                                <VBox prefWidth="440.0" HBox.hgrow="ALWAYS">
                                     <children>
                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Jerry Smith" VBox.vgrow="ALWAYS" />
                                         <VBox VBox.vgrow="ALWAYS">
                                             <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subtitle" text="Email:" VBox.vgrow="ALWAYS" />
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubtitleBody" text="jerryisgay@gayforgood.org" VBox.vgrow="ALWAYS" />
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Email:" VBox.vgrow="ALWAYS" />
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="jerryisgay@gayforgood.org" VBox.vgrow="ALWAYS" />
                                             </children>
                                         </VBox>
                                         <HBox spacing="30.0" VBox.vgrow="ALWAYS">
@@ -32,14 +32,14 @@
                                                     <children>
                                                         <VBox>
                                                             <children>
-                                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subtitle" text="Job Title:" VBox.vgrow="ALWAYS" />
-                                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubtitleBody" text="Cook" VBox.vgrow="ALWAYS" />
+                                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Job Title:" VBox.vgrow="ALWAYS" />
+                                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Cook" VBox.vgrow="ALWAYS" />
                                                             </children>
                                                         </VBox>
                                                         <VBox layoutX="178.6666717529297" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="178.6666717529297" AnchorPane.topAnchor="0.0">
                                                             <children>
-                                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subtitle" text="Date of Joining:" VBox.vgrow="ALWAYS" />
-                                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubtitleBody" text="4/15/2023" VBox.vgrow="ALWAYS" />
+                                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Date of Joining:" VBox.vgrow="ALWAYS" />
+                                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="4/15/2023" VBox.vgrow="ALWAYS" />
                                                             </children>
                                                         </VBox>
                                                     </children>
@@ -51,13 +51,13 @@
                                         </HBox>
                                         <VBox VBox.vgrow="ALWAYS">
                                             <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subtitle" text="Phone Number:" VBox.vgrow="ALWAYS" />
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="SubtitleBody" text="987-654-3210" VBox.vgrow="ALWAYS" />
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitleSmallBold" text="Phone Number:" VBox.vgrow="ALWAYS" />
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="987-654-3210" VBox.vgrow="ALWAYS" />
                                             </children>
                                         </VBox>
                                     </children>
                                 </VBox>
-                                <HBox alignment="CENTER" maxHeight="200.0" maxWidth="200.0" prefHeight="200.0" prefWidth="200.0" styleClass="map-vbox" HBox.hgrow="ALWAYS">
+                                <HBox alignment="CENTER" maxHeight="200.0" maxWidth="200.0" prefHeight="200.0" prefWidth="200.0" styleClass="boxBackground" HBox.hgrow="ALWAYS">
                                     <children>
                                         <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                                             <image>
@@ -71,13 +71,13 @@
                                 <Insets bottom="5.0" left="12.0" right="12.0" />
                             </padding>
                         </HBox>
-                        <HBox prefHeight="387.0" prefWidth="633.0" styleClass="boxShadow" VBox.vgrow="ALWAYS">
+                        <HBox prefHeight="387.0" prefWidth="633.0" styleClass="boxBackground" VBox.vgrow="ALWAYS">
                             <children>
                                 <VBox HBox.hgrow="ALWAYS">
                                     <children>
                                         <HBox alignment="CENTER" maxHeight="45.0" prefHeight="31.0" prefWidth="633.0" style="-fx-background-color: #D9D9D9;" VBox.vgrow="ALWAYS">
                                             <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyBold" text="My Requests" textAlignment="CENTER" wrappingWidth="215.96484375" HBox.hgrow="ALWAYS" />
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="My Requests" textAlignment="CENTER" wrappingWidth="215.96484375" HBox.hgrow="ALWAYS" />
                                             </children>
                                         </HBox>
                                         <AnchorPane prefHeight="123.0" prefWidth="633.0" VBox.vgrow="ALWAYS">
@@ -88,7 +88,7 @@
                                                             <children>
                                                                 <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                                                     <children>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyBold" text="Mon." textAlignment="CENTER" wrappingWidth="58.6640625" />
+                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Mon." textAlignment="CENTER" wrappingWidth="58.6640625" />
                                                                     </children>
                                                                     <padding>
                                                                         <Insets left="10.0" />
@@ -96,32 +96,32 @@
                                                                 </HBox>
                                                                 <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                                                     <children>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyBold" text="Tue." textAlignment="CENTER" />
+                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Tue." textAlignment="CENTER" />
                                                                     </children>
                                                                 </HBox>
-                                                                <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                                                <HBox alignment="CENTER" styleClass="bodyMediumBold" HBox.hgrow="ALWAYS">
                                                                     <children>
                                                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyBold" text="Wed." textAlignment="CENTER" />
                                                                     </children>
                                                                 </HBox>
                                                                 <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                                                     <children>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyBold" text="Thur." textAlignment="CENTER" />
+                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Thur." textAlignment="CENTER" />
                                                                     </children>
                                                                 </HBox>
                                                                 <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                                                     <children>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyBold" text="Fri." textAlignment="CENTER" />
+                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Fri." textAlignment="CENTER" />
                                                                     </children>
                                                                 </HBox>
                                                                 <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                                                     <children>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyBold" text="Sat." textAlignment="CENTER" />
+                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Sat." textAlignment="CENTER" />
                                                                     </children>
                                                                 </HBox>
                                                                 <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                                                     <children>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyBold" text="Sun." textAlignment="CENTER" />
+                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Sun." textAlignment="CENTER" />
                                                                     </children>
                                                                     <HBox.margin>
                                                                         <Insets right="10.0" />
@@ -190,11 +190,11 @@
                         </HBox>
                     </children>
                 </VBox>
-                <VBox layoutX="698.0" layoutY="26.0" prefHeight="662.0" prefWidth="600.0" styleClass="boxShadow" AnchorPane.bottomAnchor="44.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+                <VBox layoutX="698.0" layoutY="26.0" prefHeight="662.0" prefWidth="600.0" styleClass="boxBackground" AnchorPane.bottomAnchor="44.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                     <children>
                         <HBox alignment="CENTER_LEFT" maxHeight="50.0" prefHeight="50.0" prefWidth="593.0" style="-fx-background-color: #D9D9D9;">
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyBold" text="What's New in the Ward" wrappingWidth="282.63148498535156" HBox.hgrow="ALWAYS">
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="What's New in the Ward" wrappingWidth="282.63148498535156" HBox.hgrow="ALWAYS">
                                     <HBox.margin>
                                         <Insets left="10.0" />
                                     </HBox.margin>
