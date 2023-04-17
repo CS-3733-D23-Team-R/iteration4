@@ -420,7 +420,6 @@ public class MapEditorController {
             ArrayList<LocationName> ln = l.getLocationNames();
             Node n = l.getNode();
             Move m = mapdb.getLatestMoveByLocationName(ln.get(0).getLongName());
-            ArrayList<Edge> edges = mapdb.getEdgesByNode(n.getNodeID());
 
             Circle c = new Circle(n.getXCoord(), n.getYCoord(), 5, Color.RED);
             nodePanes[floor].getChildren().add(c);
@@ -436,13 +435,14 @@ public class MapEditorController {
                             Line l1 = new Line(selectedNode.getXCoord(), selectedNode.getYCoord(), n.getXCoord(), n.getYCoord());
                             updater.addEdge(selectedNode.getNodeID(), n.getNodeID());
                             nodePanes[floor].getChildren().add(l1);
-                            // linesMap.put(selectedNode.getNodeID(), l1);
+                            addLine(n.getNodeID(), l1);
                             addLine(selectedNode.getNodeID(), l1);
                             l1.toBack();
                             selectedNode = null;
                             edgeDialog(false);
                         }
                     } else {
+                        if (event.getButton().equals(MouseButton.PRIMARY)) return;
                         PopOver popOver = new PopOver();
                         final FXMLLoader loader =
                                 new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/MapPopup.fxml"));
@@ -463,6 +463,8 @@ public class MapEditorController {
                     }
                 }
             });
+
+            AtomicBoolean linesCleared = new AtomicBoolean(false);
             c.setOnMouseDragged(dragEvent -> {
                 if (!gesturePane.isGestureEnabled()) {
                     dragging.set(true);
@@ -474,17 +476,19 @@ public class MapEditorController {
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
-                    for (Edge e: n_edges) {
-                        ObservableList<javafx.scene.Node> children = nodePanes[floor].getChildren();
-                        // Line l_1 = linesMap.get(e.getStartNode()).get(0);
-                        // Line l2 = linesMap.get(e.getEndNode()).get(0);
-                        // System.out.println(l_1.toString() + " " + l2.toString());
+                    if (!linesCleared.get()) {
                         nodePanes[floor].getChildren().removeAll(linesMap.get(n.getNodeID()));
-                        //nodePanes[floor].getChildren().removeAll(linesMap.get(e.getEndNode()));
-                        // System.out.println("Contains L1: " + children.contains(l_1) + " Contains L2: " + children.contains(l2));
-                        System.out.println(linesMap.get(1095));
-                        linesMap.remove(e.getStartNode());
-                        linesMap.remove(e.getEndNode());
+                        linesCleared.set(true);
+                    }
+                    for (Edge e: n_edges) {
+                        if (linesMap.containsKey(e.getEndNode())) {
+                            nodePanes[floor].getChildren().remove(linesMap.get(e.getEndNode()).get(0));
+                            linesMap.remove(e.getEndNode());
+                        }
+                        if (linesMap.containsKey(e.getStartNode())) {
+                            nodePanes[floor].getChildren().remove(linesMap.get(e.getStartNode()).get(0));
+                            linesMap.remove(e.getStartNode());
+                        }
                         Line l1;
                         Node startNode;
                         try {
@@ -506,9 +510,9 @@ public class MapEditorController {
                         }
                         l1.setStroke(Color.RED);
                         l1.setStrokeWidth(4);
-                        // linesMap.put(e.getStartNode(), l1);
-                        addLine(e.getStartNode(), l1);
                         nodePanes[floor].getChildren().add(l1);
+                        addLine(e.getStartNode(), l1);
+                        addLine(e.getEndNode(), l1);
                         l1.toBack();
                     }
                 }
@@ -516,7 +520,29 @@ public class MapEditorController {
             c.setOnMouseReleased(dragEvent -> {
                 if (!gesturePane.isGestureEnabled()) {
                     try {
+                        if(linesMap.containsKey(n.getNodeID())) {
+                            nodePanes[floor].getChildren().removeAll(linesMap.get(n.getNodeID()));
+                        }
+                        List<Edge> n_edges = null;
+                        n_edges = mapdb.getEdgesByNode(n.getNodeID());
+                        Line l1;
+                        for(Edge e: n_edges) {
+                            Node startNode = mapdb.getNodeByID(e.getStartNode());
+                            Node endNode = mapdb.getNodeByID(e.getEndNode());
+                            if (n.getNodeID() == e.getStartNode()) {
+                                l1 = new Line(dragEvent.getX(), dragEvent.getY(), endNode.getXCoord(), endNode.getYCoord());
+                            }
+                            else {
+                                l1 = new Line(startNode.getXCoord(), startNode.getYCoord(), dragEvent.getX(), dragEvent.getY());
+                            }
+                            l1.setStroke(Color.RED);
+                            l1.setStrokeWidth(4);
+                            nodePanes[floor].getChildren().add(l1);
+                            l1.toBack();
+                            addLine(n.getNodeID(), l1);
+                        }
                         updater.modifyCoords(n.getNodeID(), (int) dragEvent.getX(), (int) dragEvent.getY());
+                        linesCleared.set(false);
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
@@ -548,5 +574,16 @@ public class MapEditorController {
     public void undoAction() {
         List<UndoData> data = updater.undo();
         UndoData undo = data.get(0);
+        MapDataType type = undo.data().getDataType();
+        switch(type) {
+            case NODE:
+                // do something
+            case EDGE:
+                // do something
+            case MOVE:
+                // do something
+            case LOCATION_NAME:
+                // do something
+        }
     }
 }

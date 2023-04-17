@@ -42,6 +42,7 @@ public class MapStorage {
         edges = mapdb.getEdges();
         locationNames = mapdb.getLocationNames();
         moves = mapdb.getMoves();
+        nodeMap = new HashMap<>();
 
         for (Node n : nodes) {
             // nodeMap.put(n.getNodeID(), n);
