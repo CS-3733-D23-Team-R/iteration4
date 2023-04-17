@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.ItemRequestController">
+   <center>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <VBox layoutX="53.0" prefHeight="167.0" prefWidth="135.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <VBox layoutX="100.0" layoutY="186.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+         </children>
+      </AnchorPane>
+   </center>
+   <left>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefWidth="200.0" styleClass="secondaryRectangle" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="whiteTitle" text="Requests" textOrigin="CENTER" VBox.vgrow="ALWAYS">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS" />
+                                    <VBox VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER_RIGHT" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <MFXComboBox fx:id="requestTypeBox" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets></MFXComboBox>
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </VBox>
+                           </children></VBox>
+                     </children></VBox>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="5.0" stroke="BLACK" strokeType="INSIDE" style="-fx-effect: drop-shadow;" styleClass="horizontal-bar" width="200.0" />
+                  <VBox prefHeight="200.0" prefWidth="100.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="8.0" stroke="BLACK" strokeType="INSIDE" styleClass="horizontal-bar" width="200.0" />
+                  <VBox prefHeight="200.0" prefWidth="100.0" />
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </left>
+</BorderPane>

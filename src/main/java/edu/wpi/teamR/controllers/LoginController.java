@@ -1,6 +1,7 @@
 package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.ItemNotFoundException;
+import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
 import edu.wpi.teamR.navigation.Navigation;
@@ -33,8 +34,10 @@ public class LoginController {
         System.out.println(passwordField.getText());
         User user = AuthenticationDAO.getInstance().getUser(usernameField.getText());
 
-        if (passwordField.getText().equals(user.getPassword())) {
+        if (passwordField.getText().equals(user.getPassword()) && user.getAccessLevel().equals(AccessLevel.Staff)) {
             Navigation.navigate(Screen.MAP_EDITOR);
+        } else if (passwordField.getText().equals(user.getPassword()) && user.getAccessLevel().equals(AccessLevel.Admin)) {
+            Navigation.navigate(Screen.ADMINHOME);
         }
     }
 
