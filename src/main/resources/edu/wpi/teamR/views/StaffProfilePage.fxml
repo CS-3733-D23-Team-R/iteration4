@@ -71,11 +71,11 @@
                                 <Insets bottom="5.0" left="12.0" right="12.0" />
                             </padding>
                         </HBox>
-                        <HBox prefHeight="387.0" prefWidth="633.0" styleClass="boxBackground" VBox.vgrow="ALWAYS">
+                        <HBox prefHeight="387.0" prefWidth="633.0" styleClass="boxShadow" VBox.vgrow="ALWAYS">
                             <children>
                                 <VBox HBox.hgrow="ALWAYS">
                                     <children>
-                                        <HBox alignment="CENTER" maxHeight="45.0" prefHeight="31.0" prefWidth="633.0" style="-fx-background-color: #D9D9D9;" VBox.vgrow="ALWAYS">
+                                        <HBox alignment="CENTER" maxHeight="45.0" prefHeight="45.0" prefWidth="645.0" style="-fx-background-color: #D9D9D9;" VBox.vgrow="ALWAYS">
                                             <children>
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="My Requests" textAlignment="CENTER" wrappingWidth="215.96484375" HBox.hgrow="ALWAYS" />
                                             </children>
@@ -190,7 +190,7 @@
                         </HBox>
                     </children>
                 </VBox>
-                <VBox layoutX="698.0" layoutY="26.0" prefHeight="662.0" prefWidth="600.0" styleClass="boxBackground" AnchorPane.bottomAnchor="44.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+                <VBox layoutX="698.0" layoutY="26.0" prefHeight="662.0" prefWidth="600.0" styleClass="boxShadow" AnchorPane.bottomAnchor="44.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                     <children>
                         <HBox alignment="CENTER_LEFT" maxHeight="50.0" prefHeight="50.0" prefWidth="593.0" style="-fx-background-color: #D9D9D9;">
                             <children>
@@ -218,7 +218,7 @@
                         </HBox>
                     </children>
                 </VBox>
-                <Text layoutX="14.0" layoutY="699.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyBold" text="14:32" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
+                <Text layoutX="14.0" layoutY="699.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="14:32" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
             </children>
         </AnchorPane>
     </center>
