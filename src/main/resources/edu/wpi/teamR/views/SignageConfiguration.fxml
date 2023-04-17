@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane opacity="0.8" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #0279CE;" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.SignageConfigurationController">
+    <center>
+        <AnchorPane BorderPane.alignment="CENTER" />
+    </center>
+    <bottom>
+        <Button fx:id="backButton" mnemonicParsing="false" styleClass="signage-button" text="Back to Signage Page" BorderPane.alignment="BOTTOM_CENTER">
+            <BorderPane.margin>
+                <Insets />
+            </BorderPane.margin>
+        </Button>
+    </bottom>
+</BorderPane>

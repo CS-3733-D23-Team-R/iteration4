@@ -16,6 +16,6 @@ public class SignageController {
 
   @FXML
   public void initialize() {
-    //backButton.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
+    configurationButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGECONFIGURATION));
   }
 }
