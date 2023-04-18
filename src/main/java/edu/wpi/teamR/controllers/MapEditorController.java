@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -237,6 +238,19 @@ public class MapEditorController {
                 throw new RuntimeException(e);
             }
         });
+        /*
+        undoButton.getScene().setOnKeyPressed(event -> {
+            if (event.isControlDown() && event.getCode() == KeyCode.Z) {
+                try {
+                    undoAction();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+         */
+
         locationCheckbox.setOnAction(event -> {
             if (locationCheckbox.isSelected()) {
                 mapPane.getChildren().remove(nodePanes[currentFloor]);

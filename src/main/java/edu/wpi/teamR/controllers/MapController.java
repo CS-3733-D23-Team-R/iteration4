@@ -315,7 +315,7 @@ public class MapController {
                 Text t = new Text("Click to go to next floor");
                 t.setFill(Color.LIMEGREEN);
                 t.setX(n1.getXCoord());
-                t.setY(n1.getYCoord() + 20);
+                t.setY(n1.getYCoord() + 30);
                 paths[drawFloor].getChildren().add(t);
                 t.toBack();
 

@@ -72,12 +72,14 @@
 }
 
 .combo-box {
-    -fx-background-color: #ffffff; /* Background color */
-    -fx-border-color: bwhblue; /* Border color */
-    -fx-border-width: 0px; /* Border width */
-    -fx-font-size: 11px; /* Font size */
-    -fx-text-fill: #000000; /* Text color */
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 20, 0.2), 0, 2, 0, 0);
+    -fx-background-color: #ffffff;
+    -fx-border-color: bwhblue;
+    -fx-border-width: 1px;
+    -fx-font-size: 11px;
+    -fx-text-fill: #000000;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0, 0, 0);
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
 }
 
 .combo-box:hover {
