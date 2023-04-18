@@ -14,7 +14,7 @@ public class User {
     private AccessLevel accessLevel;
 
     public User(String username, String password, String name, String email, String jobTitle, int phoneNum, Date joinDate, AccessLevel accessLevel, String department){
-        this.staffUsername = staffUsername;
+        this.staffUsername = username;
         this.password = password;
         this.name = name;
         this.email = email;

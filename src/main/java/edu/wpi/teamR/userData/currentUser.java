@@ -17,10 +17,16 @@ public class currentUser {
     Date joinDate;
     int phoneNum;
     String jobTitle;
-    public currentUser(String username, String password, AccessLevel accessLevel){ //TODO: update this with alton's new user class
+    public currentUser(String username, String password, AccessLevel accessLevel, String fullname, String email, String department, Date joinDate, int phoneNum, String jobTitle){ //TODO: update this with alton's new user class
         this.username = username;
         this.password = password;
         this.accessLevel = accessLevel;
+        this.fullName = fullname;
+        this.email = email;
+        this.department = department;
+        this.joinDate = joinDate;
+        this.phoneNum = phoneNum;
+        this.jobTitle = jobTitle;
     }
     public boolean comparePass(String passwordAttempt){
         return this.password.equals(passwordAttempt);
