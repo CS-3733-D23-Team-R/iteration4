@@ -19,7 +19,7 @@
 .requestBarSubtitle {
     -fx-fill: primaryLightGrey;
     -fx-font-size: 28;
-    -fx-font-style: 'Lato';
+    -fx-font-family: 'Lato';
 }
 
 .requestBarTitle {

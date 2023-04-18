@@ -10,6 +10,8 @@ import edu.wpi.teamR.requestdb.*;
 import javafx.collections.ObservableListBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -17,7 +19,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import oracle.ucp.common.FailoverStats;
+import org.controlsfx.control.PopOver;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -54,6 +58,9 @@ public class ItemRequestController {
     private Text itemZerotoTen;
     @FXML
     private Text itemThirtyPlus;
+    @FXML ImageView cartButton;
+
+
 
     private RequestType type = RequestType.Meal;
     private Double lowerBound = null;
@@ -141,6 +148,26 @@ public class ItemRequestController {
             e.printStackTrace();
         }
 
+        cartButton.setOnMouseClicked(event -> {
+            try {
+                openCart();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+    }
+
+    private void openCart() throws IOException {
+        final FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/ServiceRequestCart.fxml"));
+        PopOver popover = new PopOver();
+        Parent popup;
+        popup = loader.load();
+        popover.setContentNode(popup);
+        popover.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
+        popover.setAutoHide(true);
+        popover.show(cartButton);
+        System.out.println("opened");
     }
 
     private void addButtonToTable() {
@@ -203,4 +230,5 @@ public class ItemRequestController {
             throw new RuntimeException(e);
         }
     }
+
 }

@@ -11,6 +11,8 @@ public class ShoppingCart {
 
     private static ShoppingCart instance;
 
+
+
     public ShoppingCart() {}
 
     public static ShoppingCart getInstance(){
@@ -39,4 +41,8 @@ public class ShoppingCart {
         items.replace(item, items.get(item) - 1);
     }
     public void clearCart(){ items.clear(); }
+
+
+    //returns the total price of all items in the items shopping cart
+    public double calculateTotal() {return 0;};
 }
