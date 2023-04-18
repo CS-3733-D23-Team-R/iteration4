@@ -59,8 +59,8 @@ public class NewNodePopupController {
     }
 
     public void createNewNode() throws SQLException {
-        mapUpdater.addNode(Integer.parseInt(xField.getText()), Integer.parseInt(xField.getText()), floorCB.getValue(), buildingCB.getValue());
-        nodes.add(new Node(-1, Integer.parseInt(xField.getText()), Integer.parseInt(xField.getText()), floorCB.getValue(), buildingCB.getValue()));
+        mapUpdater.addNode(Integer.parseInt(xField.getText()), Integer.parseInt(yField.getText()), floorCB.getValue(), buildingCB.getValue());
+        nodes.add(new Node(-1, Integer.parseInt(xField.getText()), Integer.parseInt(yField.getText()), floorCB.getValue(), buildingCB.getValue()));
     }
 
     public void setUpdater(MapUpdater updater) {

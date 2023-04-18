@@ -51,7 +51,7 @@ public class MapPopupController {
                 delete();
                 close((PopOver)deleteButton.getScene().getWindow());
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         });
     }

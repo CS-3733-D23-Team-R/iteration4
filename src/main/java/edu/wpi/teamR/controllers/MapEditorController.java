@@ -451,15 +451,17 @@ public class MapEditorController {
 
             setupMapNode(floor, n, c);
 
-            String shortName = ln.get(0).getShortName();
-            if (!shortName.contains("Hall")) {
-                Text t = new Text(ln.get(0).getShortName());
-                t.setX(n.getXCoord() + 10);
-                t.setY(n.getYCoord());
-                t.setFill(Color.RED);
-                locationPanes[floor].getChildren().add(t);
+            if (ln.size() > 0) {
+                String shortName = ln.get(0).getShortName();
+                if (!shortName.contains("Hall")) {
+                    Text t = new Text(ln.get(0).getShortName());
+                    t.setX(n.getXCoord() + 10);
+                    t.setY(n.getYCoord());
+                    t.setFill(Color.RED);
+                    locationPanes[floor].getChildren().add(t);
+                }
+                locationCheckbox.setSelected(true);
             }
-            locationCheckbox.setSelected(true);
         }
     }
 
