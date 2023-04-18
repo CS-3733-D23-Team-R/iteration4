@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ShoppingCart {
-    public HashMap<AvailableItem, Integer> items;
+    public HashMap<AvailableItem, Integer> items = new HashMap<AvailableItem, Integer>();
 
     private static ShoppingCart instance;
 
@@ -25,7 +25,9 @@ public class ShoppingCart {
     }
 
     public void addItem(AvailableItem item, int quantity){
-        items.put(item, quantity);
+        if(!items.containsKey(item)){
+            items.putIfAbsent(item, quantity);
+        } else {incrementItem(item);}
     }
     public void incrementItem(AvailableItem item){
         items.replace(item, items.get(item) + 1);
