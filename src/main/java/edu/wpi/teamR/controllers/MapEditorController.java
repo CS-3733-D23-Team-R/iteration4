@@ -56,7 +56,7 @@ public class MapEditorController {
     @FXML Button redrawButton;
     @FXML Button undoButton;
     @FXML Button editLocationButton;
-    @FXML Button addMoveButton;
+    @FXML Button cancelEdgeButton;
     @FXML Button futureMoveButton;
 
     static File selectedFile;
@@ -314,6 +314,8 @@ public class MapEditorController {
             }
         });
 
+        cancelEdgeButton.setOnAction(event -> edgeDialog(false));
+
         reset();
     }
 
@@ -321,6 +323,11 @@ public class MapEditorController {
         drawEdgesMode=setting;
         edgeHBox.setVisible(setting);
         edgeHBox.setManaged(setting);
+        if (selectedCircle != null) {
+            selectedNode = null;
+            selectedCircle.setFill(Color.RED);
+            selectedCircle = null;
+        }
         dialogText.setText("Select Two Nodes to Draw Edge");
     }
 

@@ -104,7 +104,6 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="344.0" spacing="10.0">
                      <children>
-                        <Button fx:id="addMoveButton" prefHeight="30.0" prefWidth="170.0" text="Add Move" />
                         <Button fx:id="futureMoveButton" prefHeight="30.0" prefWidth="170.0" text="View Future Moves" />
                      </children>
                   </HBox>
@@ -153,11 +152,16 @@
                <children>
                   <HBox fx:id="edgeHBox" alignment="CENTER" prefWidth="200.0" spacing="10.0">
                      <children>
-                        <Text fx:id="dialogText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Select Two Nodes to Draw Edge">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Text>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <Text fx:id="dialogText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Select Two Nodes to Draw Edge">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                              <Button fx:id="cancelEdgeButton" prefHeight="36.0" prefWidth="76.0" text="Cancel" />
+                           </children>
+                        </VBox>
                      </children>
                   </HBox>
                </children>
