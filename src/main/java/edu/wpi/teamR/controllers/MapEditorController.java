@@ -38,7 +38,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import javafx.geometry.Point2D;
 import org.controlsfx.control.PopOver;
@@ -135,6 +134,8 @@ public class MapEditorController {
     HBox edgeHBox;
 
     MapUpdater updater;
+
+    Map<Integer, Circle> circlesMap = new HashMap<>();
     Map<Integer, List<Line>> linesMap = new HashMap<>();
 
     Map<Integer, Node> nodeMap = new HashMap<>();
@@ -231,7 +232,13 @@ public class MapEditorController {
                 throw new RuntimeException(e);
             }
         });
-        undoButton.setOnAction(event -> {undoAction();});
+        undoButton.setOnAction(event -> {
+            try {
+                undoAction();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
         locationCheckbox.setOnAction(event -> {
             if (locationCheckbox.isSelected()) {
                 mapPane.getChildren().remove(nodePanes[currentFloor]);
@@ -343,8 +350,6 @@ public class MapEditorController {
                     Line l1 = new Line(n1.getXCoord(), n1.getYCoord(), n2.getXCoord(), n2.getYCoord());
                     l1.setStroke(Color.RED);
                     l1.setStrokeWidth(4);
-                    //linesMap.put(e.getStartNode(), l1);
-                    //linesMap.put(e.getEndNode(), l1);
                     addLine(e.getStartNode(), l1);
                     addLine(e.getEndNode(), l1);
                     nodePanes[floor].getChildren().add(l1);
@@ -429,6 +434,7 @@ public class MapEditorController {
 
             Circle c = new Circle(n.getXCoord(), n.getYCoord(), 5, Color.RED);
             nodePanes[floor].getChildren().add(c);
+            circlesMap.put(n.getNodeID(), c);
 
             c.setOnMouseClicked(event -> {
                 if (drawEdgesMode) {
@@ -533,7 +539,7 @@ public class MapEditorController {
                         if(linesMap.containsKey(n.getNodeID())) {
                             nodePanes[floor].getChildren().removeAll(linesMap.get(n.getNodeID()));
                         }
-                        List<Edge> n_edges = null;
+                        List<Edge> n_edges;
                         n_edges = mapdb.getEdgesByNode(n.getNodeID());
                         Line l1 = null;
                         for(Edge e: n_edges) {
@@ -581,23 +587,65 @@ public class MapEditorController {
         displayNodesByFloor(currentFloor);
     }
 
-    public void undoAction() {
+    public void undoAction() throws SQLException {
         List<UndoData> data = updater.undo();
+        System.out.println(data);
         UndoData undo = data.get(0);
         MapDataType type = undo.data().getDataType();
-        switch(type) {
-            case NODE:
-                Node node = (Node)(undo.data());
-                Circle c = new Circle(node.getXCoord(), node.getYCoord(), 4, Color.RED);
-            case EDGE:
-                assert (undo.data()) instanceof Edge;
-                Edge edge = (Edge)(undo.data());
-            case MOVE:
-                assert (undo.data()) instanceof Move;
-                Move move = (Move)(undo.data());
-            case LOCATION_NAME:
-                assert (undo.data()) instanceof LocationName;
-                LocationName locationName = (LocationName)(undo.data());
+        switch (type) {
+            case NODE -> {
+                EditType editType = undo.editType();
+                Node node = (Node) (undo.data());
+                switch (editType) {
+                    case ADDITION -> {
+                        Circle add = new Circle(node.getXCoord(), node.getYCoord(), 4, Color.RED);
+                        nodePanes[currentFloor].getChildren().remove(add);
+                        nodes.remove(node);
+                    }
+                    case MODIFICATION -> {
+                        System.out.println(node.getNodeID());
+                        Circle mod = circlesMap.get(node.getNodeID());
+                        mod.setCenterX(node.getXCoord());
+                        mod.setCenterY(node.getYCoord());
+                    }
+                    case DELETION -> {
+                        System.out.println(node.getNodeID());
+                        Circle deleted = new Circle(node.getXCoord(), node.getYCoord(), 4, Color.RED);
+                        nodePanes[currentFloor].getChildren().add(deleted);
+                        nodes.add(node);
+                    }
+                }
+            }
+            case EDGE -> {
+                EditType editType = undo.editType();
+                switch(editType) {
+                    case ADDITION -> {
+                        Edge edge = (Edge) (undo.data());
+                        Node startNode = mapdb.getNodeByID(edge.getStartNode());
+                        Node endNode = mapdb.getNodeByID(edge.getStartNode());
+                        edges.remove(edge);
+                    }
+                    case MODIFICATION -> {
+                    }
+                    case DELETION -> {
+                        Edge edge = (Edge) (undo.data());
+                        Node startNode = mapdb.getNodeByID(edge.getStartNode());
+                        Node endNode = mapdb.getNodeByID(edge.getStartNode());
+                        Line line = new Line(startNode.getXCoord(), startNode.getYCoord(), endNode.getXCoord(), endNode.getYCoord());
+                        line.setStrokeWidth(4);
+                        line.setStroke(Color.RED);
+                        edges.add(edge);
+                    }
+                }
+            }
+            case MOVE -> {
+                Move move = (Move) (undo.data());
+                moves.add(move);
+            }
+            case LOCATION_NAME -> {
+                LocationName locationName = (LocationName) (undo.data());
+                locationNames.add(locationName);
+            }
         }
     }
 
