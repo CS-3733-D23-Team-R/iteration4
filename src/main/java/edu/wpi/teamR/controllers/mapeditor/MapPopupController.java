@@ -87,8 +87,6 @@ public class MapPopupController {
     }
 
     private void delete() throws SQLException {
-        mapUpdater.deleteEdgesByNode(node.getNodeID());
-        mapUpdater.deleteMovesByNode(move.getNodeID());
         mapUpdater.deleteNode(node.getNodeID());
         nodes.remove(node);
     }
