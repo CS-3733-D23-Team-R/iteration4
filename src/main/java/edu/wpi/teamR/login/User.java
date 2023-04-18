@@ -8,12 +8,11 @@ import java.sql.Date;
 @Getter
 @Setter
 public class User {
-    private String staffUsername, password, name, email, jobTitle, department;
-    private int phoneNum;
+    private String staffUsername, password, name, email, jobTitle, department, phoneNum;
     private Date joinDate;
     private AccessLevel accessLevel;
 
-    public User(String username, String password, String name, String email, String jobTitle, int phoneNum, Date joinDate, AccessLevel accessLevel, String department){
+    public User(String staffUsername, String password, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department){
         this.staffUsername = staffUsername;
         this.password = password;
         this.name = name;

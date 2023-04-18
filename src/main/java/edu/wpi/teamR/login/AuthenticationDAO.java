@@ -16,7 +16,7 @@ public class AuthenticationDAO {
         }
         return instance;
     }
-    public User addUser(String staffUsername, String password, String name, String email, String jobTitle, int phoneNum, Date joinDate, AccessLevel accessLevel, String department) throws SQLException, ClassNotFoundException {
+    public User addUser(String staffUsername, String password, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getUserTableSchemaNameTableName()+"(staffUsername,password,name,email,jobTitle,phoneNum,joinDate,accessLevel,department) VALUES (?,?,?,?,?,?,?,?,?)");
         preparedStatement.setString(1, staffUsername);
@@ -24,21 +24,21 @@ public class AuthenticationDAO {
         preparedStatement.setString(3, name);
         preparedStatement.setString(4, email);
         preparedStatement.setString(5, jobTitle);
-        preparedStatement.setInt(6, phoneNum);
+        preparedStatement.setString(6, phoneNum);
         preparedStatement.setDate(7, joinDate);
         preparedStatement.setString(8, accessLevel.toString());
         preparedStatement.setString(9, department);
         preparedStatement.executeUpdate();
         return new User(staffUsername, password, name, email, jobTitle, phoneNum, joinDate, accessLevel, department);
     }
-    public User modifyUserByUsername(String staffUsername, String password, String name, String email, String jobTitle, int phoneNum, Date joinDate, AccessLevel accessLevel, String department) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+    public User modifyUserByUsername(String staffUsername, String password, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department) throws SQLException, ClassNotFoundException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE "+Configuration.getUserTableSchemaNameTableName()+" SET password=?, name=?, email=?, jobTitle=?, phoneNum=?, joinDate=?, accessLevel=?, department=? WHERE staffUsername=?;");
         preparedStatement.setString(1, password);
         preparedStatement.setString(2, name);
         preparedStatement.setString(3, email);
         preparedStatement.setString(4, jobTitle);
-        preparedStatement.setInt(5, phoneNum);
+        preparedStatement.setString(5, phoneNum);
         preparedStatement.setDate(6, joinDate);
         preparedStatement.setString(7, accessLevel.toString());
         preparedStatement.setString(8, department);
@@ -78,7 +78,7 @@ public class AuthenticationDAO {
         String name = resultSet.getString("name");
         String email = resultSet.getString("email");
         String jobTitle = resultSet.getString("jobTitle");
-        int phoneNum = resultSet.getInt("phoneNum");
+        String phoneNum = resultSet.getString("phoneNum");
         Date joinDate = resultSet.getDate("joinDate");
         AccessLevel accessLevel = AccessLevel.valueOf(resultSet.getString("accessLevel"));
         String department = resultSet.getString("department");
@@ -98,7 +98,7 @@ public class AuthenticationDAO {
             String name = resultSet.getString("name");
             String email = resultSet.getString("email");
             String jobTitle = resultSet.getString("jobTitle");
-            int phoneNum = resultSet.getInt("phoneNum");
+            String phoneNum = resultSet.getString("phoneNum");
             Date joinDate = resultSet.getDate("joinDate");
             AccessLevel accessLevel = AccessLevel.valueOf(resultSet.getString("accessLevel"));
             String department = resultSet.getString("department");

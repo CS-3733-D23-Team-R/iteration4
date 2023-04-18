@@ -45,7 +45,7 @@ class AuthenticationDAOTest {
         users = authenticationDAO.getUsers();
         assertEquals(0, users.size());
 
-        user = authenticationDAO.addUser("username1", "password1", "name1", "email1", "jobTitle1", 1234567890, new Date(System.currentTimeMillis()), AccessLevel.Staff, "dept1");
+        user = authenticationDAO.addUser("username1", "password1", "name1", "email1", "jobTitle1", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "dept1");
 
         users = authenticationDAO.getUsers();
         assertEquals(1, users.size());
@@ -69,7 +69,7 @@ class AuthenticationDAOTest {
         users = authenticationDAO.getUsers();
         assertEquals(0, users.size());
 
-        user = authenticationDAO.addUser("username1", "password1", "name1", "email1", "jobTitle1", 1234567890, new Date(System.currentTimeMillis()), AccessLevel.Staff, "dept1");
+        user = authenticationDAO.addUser("username1", "password1", "name1", "email1", "jobTitle1", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "dept1");
 
         users = authenticationDAO.getUsers();
         assertEquals(1, users.size());
@@ -84,7 +84,7 @@ class AuthenticationDAOTest {
         assertEquals(user.getAccessLevel(), user2.getAccessLevel());
         assertEquals(user.getDepartment(), user2.getDepartment());
 
-        user = authenticationDAO.modifyUserByUsername("username1", "password2", "name2", "email2", "jobTitle2", 987654321, new Date(System.currentTimeMillis()-1000000000), AccessLevel.Staff, "dept2");
+        user = authenticationDAO.modifyUserByUsername("username1", "password2", "name2", "email2", "jobTitle2", "987654321", new Date(System.currentTimeMillis()-1000000000), AccessLevel.Staff, "dept2");
 
         users = authenticationDAO.getUsers();
         assertEquals(1, users.size());
@@ -108,17 +108,17 @@ class AuthenticationDAOTest {
         users = authenticationDAO.getUsers();
         assertEquals(0, users.size());
 
-        user = authenticationDAO.addUser("username1", "password1", "name1", "email1", "jobTitle1", 1234567890, new Date(System.currentTimeMillis()), AccessLevel.Staff, "dept1");
+        user = authenticationDAO.addUser("username1", "password1", "name1", "email1", "jobTitle1", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "dept1");
 
         users = authenticationDAO.getUsers();
         assertEquals(1, users.size());
 
-        user = authenticationDAO.addUser("username2", "password1", "name1", "email1", "jobTitle1", 1234567890, new Date(System.currentTimeMillis()), AccessLevel.Staff, "dept1");
+        user = authenticationDAO.addUser("username2", "password1", "name1", "email1", "jobTitle1", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "dept1");
 
         users = authenticationDAO.getUsers();
         assertEquals(2, users.size());
 
-        user = authenticationDAO.addUser("username3", "password1", "name1", "email1", "jobTitle1", 1234567890, new Date(System.currentTimeMillis()), AccessLevel.Staff, "dept1");
+        user = authenticationDAO.addUser("username3", "password1", "name1", "email1", "jobTitle1", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "dept1");
 
         users = authenticationDAO.getUsers();
         assertEquals(3, users.size());
@@ -137,17 +137,17 @@ class AuthenticationDAOTest {
         users = authenticationDAO.getUsers();
         assertEquals(0, users.size());
 
-        user = authenticationDAO.addUser("username1", "password1", "name1", "email1", "jobTitle1", 1234567890, new Date(System.currentTimeMillis()), AccessLevel.Staff, "dept1");
+        user = authenticationDAO.addUser("username1", "password1", "name1", "email1", "jobTitle1", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "dept1");
 
         users = authenticationDAO.getUsers();
         assertEquals(1, users.size());
 
-        user = authenticationDAO.addUser("username2", "password1", "name1", "email1", "jobTitle1", 1234567890, new Date(System.currentTimeMillis()), AccessLevel.Staff, "dept1");
+        user = authenticationDAO.addUser("username2", "password1", "name1", "email1", "jobTitle1", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "dept1");
 
         users = authenticationDAO.getUsers();
         assertEquals(2, users.size());
 
-        user = authenticationDAO.addUser("username3", "password1", "name1", "email1", "jobTitle1", 1234567890, new Date(System.currentTimeMillis()), AccessLevel.Staff, "dept1");
+        user = authenticationDAO.addUser("username3", "password1", "name1", "email1", "jobTitle1", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "dept1");
 
         users = authenticationDAO.getUsers();
         assertEquals(3, users.size());
@@ -181,17 +181,17 @@ class AuthenticationDAOTest {
         users = authenticationDAO.getUsers();
         assertEquals(0, users.size());
 
-        user1 = authenticationDAO.addUser("username1", "password1", "name1", "email1", "jobTitle1", 1234567890, new Date(System.currentTimeMillis()), AccessLevel.Staff, "dept1");
+        user1 = authenticationDAO.addUser("username1", "password1", "name1", "email1", "jobTitle1", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "dept1");
 
         users = authenticationDAO.getUsers();
         assertEquals(1, users.size());
 
-        user2 = authenticationDAO.addUser("username2", "password2", "name2", "email2", "jobTitle2", 1234567899, new Date(System.currentTimeMillis()-1000000), AccessLevel.Staff, "dept2");
+        user2 = authenticationDAO.addUser("username2", "password2", "name2", "email2", "jobTitle2", "1234567899", new Date(System.currentTimeMillis()-1000000), AccessLevel.Staff, "dept2");
 
         users = authenticationDAO.getUsers();
         assertEquals(2, users.size());
 
-        user3 = authenticationDAO.addUser("username3", "password3", "name3", "email3", "jobTitle3", 1234567898, new Date(System.currentTimeMillis()-2000000), AccessLevel.Admin, "dept3");
+        user3 = authenticationDAO.addUser("username3", "password3", "name3", "email3", "jobTitle3", "1234567898", new Date(System.currentTimeMillis()-2000000), AccessLevel.Admin, "dept3");
 
         users = authenticationDAO.getUsers();
         assertEquals(3, users.size());
