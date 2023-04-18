@@ -6,7 +6,6 @@ import edu.wpi.teamR.login.User;
 import edu.wpi.teamR.requestdb.ItemRequest;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,7 +16,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Calendar;
 
@@ -39,10 +37,10 @@ public class EmployeeManagerController {
     @FXML
     MFXTextField name, email, password, phoneNumber, staffUsername, department, jobTitle;
     @FXML
-    MFXComboBox accesslevel;
+    MFXComboBox<String> accesslevel;
     @FXML
     Text missingFields;
-    ObservableList<String> accesslevels = FXCollections.observableArrayList("ADMIN", "STAFF");
+    ObservableList<String> accessLevels = FXCollections.observableArrayList("Admin", "Staff");
     public void initialize() throws SQLException, ClassNotFoundException {
         missingFields.setVisible(false);
         data.setVisible(true);
@@ -58,12 +56,14 @@ public class EmployeeManagerController {
             }
         });
         back.setOnMouseClicked(event -> back());
+        accesslevel.setItems(accessLevels);
         //accesslevel.setItems(accessLevels); TODO: figure out how to add values to the dropdown
         userNameCol.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
         accessLevelCol.setCellValueFactory(new PropertyValueFactory<>("accessLevel"));
-        departmentCol.setCellValueFactory(new PropertyValueFactory<>("jobTitle"));
+        departmentCol.setCellValueFactory(new PropertyValueFactory<>("department"));
+        jobTitleCol.setCellValueFactory(new PropertyValueFactory<>("jobTitle"));
         joinDateCol.setCellValueFactory(new PropertyValueFactory<>("joinDate"));
         phoneNumCol.setCellValueFactory(new PropertyValueFactory<>("phoneNum"));
         for(User aUser : AuthenticationDAO.getInstance().getUsers()){
@@ -103,7 +103,7 @@ public class EmployeeManagerController {
                     name.getText(),
                     email.getText(),
                     jobTitle.getText(),
-                    Integer.parseInt(phoneNumber.getText()),
+                    phoneNumber.getText(),
                     date,
                     AccessLevel.valueOf(accesslevel.getText()),
                     department.getText());
@@ -113,7 +113,7 @@ public class EmployeeManagerController {
                     name.getText(),
                     email.getText(),
                     jobTitle.getText(),
-                    Integer.parseInt(phoneNumber.getText()),
+                    phoneNumber.getText(),
                     date,
                     AccessLevel.valueOf(accesslevel.getText()),
                     department.getText()

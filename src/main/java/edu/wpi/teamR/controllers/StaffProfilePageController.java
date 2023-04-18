@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -31,7 +32,6 @@ public class StaffProfilePageController {
         RequestDatabase requestDatabase = RequestDatabase.getInstance();
         userData thisUserData = userData.getInstance();
         currentUser user = thisUserData.getLoggedIn();
-
         name.setText(user.getFullName());
         email.setText(user.getEmail());
         occupation.setText(user.getJobTitle());
@@ -56,6 +56,16 @@ public class StaffProfilePageController {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
         time.setText(formattedDate);
+
+/*
+        String thisIsYourStaffUsername = "";
+        Timestamp dateOfRequest = new Timestamp(1);
+        SearchList searchList = new SearchList();
+        searchList.addComparison(RequestAttribute.staffUsername, Operation.equalTo, thisIsYourStaffUsername);
+        searchList.addComparison(RequestAttribute.requestDate, Operation.greaterThan, dateOfRequest);
+        ArrayList<ItemRequest> itemRequests = RequestDatabase.getInstance().getItemRequestByAttributes(searchList);
+
+ */
 
         ArrayList<ItemRequest> allRequests = requestDatabase.getItemRequestsByStaffMember(user.getUsername());
         Calendar cal = Calendar.getInstance();
