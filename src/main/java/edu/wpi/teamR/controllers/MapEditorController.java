@@ -563,7 +563,6 @@ public class MapEditorController {
                             }
                         }
                     });
-
                     popOver.show(c);
                 }
             }
