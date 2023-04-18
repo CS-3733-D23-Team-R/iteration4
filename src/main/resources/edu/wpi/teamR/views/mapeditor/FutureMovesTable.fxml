@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="500.0" prefWidth="400.0" stylesheets="@../../styles/tables.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.mapeditor.FutureMovesTableController">
+   <children>
+      <TableView fx:id="movesTable" layoutX="20.0" layoutY="69.0" prefHeight="420.0" prefWidth="360.0">
+        <columns>
+            <TableColumn fx:id="nodeIDColumn" prefWidth="90.0" text="Node ID" />
+          <TableColumn fx:id="locationColumn" prefWidth="150.0" text="Location Name" />
+          <TableColumn fx:id="dateColumn" prefWidth="120.0" text="Move Date" />
+        </columns>
+      </TableView>
+      <DatePicker fx:id="datePicker" layoutX="20.0" layoutY="21.0" prefHeight="32.0" prefWidth="360.0" />
+   </children>
+</AnchorPane>

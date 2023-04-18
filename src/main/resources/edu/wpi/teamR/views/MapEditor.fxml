@@ -102,6 +102,12 @@
                         <Button fx:id="undoButton" prefHeight="30.0" prefWidth="170.0" text="Undo" />
                      </children>
                   </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="344.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="addMoveButton" prefHeight="30.0" prefWidth="170.0" text="Add Move" />
+                        <Button fx:id="futureMoveButton" prefHeight="30.0" prefWidth="170.0" text="View Future Moves" />
+                     </children>
+                  </HBox>
                </children>
                <opaqueInsets>
                   <Insets top="10.0" />

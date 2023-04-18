@@ -56,6 +56,8 @@ public class MapEditorController {
     @FXML Button redrawButton;
     @FXML Button undoButton;
     @FXML Button editLocationButton;
+    @FXML Button addMoveButton;
+    @FXML Button futureMoveButton;
 
     static File selectedFile;
     static File selectedDirectory;
@@ -290,6 +292,22 @@ public class MapEditorController {
                 popupStage.initModality(Modality.APPLICATION_MODAL);
                 popupStage.setTitle("Edit Location");
                 popupStage.setScene(new Scene(popupRoot, 300, 400));
+                popupStage.showAndWait();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        futureMoveButton.setOnAction(event -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/FutureMovesTable.fxml"));
+            try {
+                Parent popupRoot = loader.load();
+                FutureMovesTableController popupController = loader.getController();
+
+                Stage popupStage = new Stage();
+                popupStage.initModality(Modality.APPLICATION_MODAL);
+                popupStage.setTitle("Future Moves");
+                popupStage.setScene(new Scene(popupRoot, 400, 500));
                 popupStage.showAndWait();
             } catch (IOException e) {
                 e.printStackTrace();
