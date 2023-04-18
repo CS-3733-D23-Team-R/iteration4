@@ -4,10 +4,7 @@ import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.mapdb.MapDatabase;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -42,49 +39,31 @@ public class RequestDatabase {
         return new AvailableItemDAO().getAvailableItemsByTypeWithinRangeSortedByPrice(requestType, upperBound, lowerBound, sortOrder);
     }
 
-    // Adds a room request and returns the created RoomRequest object
-    public RoomRequest addRoomRequest(String longname, String staffUsername, String requestReason, Timestamp startTime, int duration) {
-        // TODO: implementation code goes here
-        return null;
+    public RoomRequest addRoomRequest(String longname, String staffUsername, Timestamp startTime, Timestamp endTime) throws SQLException, ClassNotFoundException {
+        return new RoomRequestDAO().addRoomRequest(longname, staffUsername, startTime, endTime);
     }
 
-    // Deletes a room request with the given ID
-    public void deleteRoomRequest(int roomRequestID) {
-        // TODO: implementation code goes here
+    public void deleteRoomRequest(int roomRequestID) throws SQLException, ClassNotFoundException {
+        new RoomRequestDAO().deleteRoomRequest(roomRequestID);
     }
 
-    // Overloaded method to delete a room request with the given ID
-    public void deleteRoomRequest(String roomRequestID) {
-        // TODO: implementation code goes here
+
+    public ArrayList<RoomRequest> getRoomRequests() throws SQLException, ClassNotFoundException {
+        return new RoomRequestDAO().getRoomRequests();
+    }
+    public RoomRequest getRoomRequestByID(int roomRequestID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        return new RoomRequestDAO().getRoomRequestByID(roomRequestID);
     }
 
-    // Returns an ArrayList of all room requests
-    public ArrayList<RoomRequest> getRoomRequests() {
-        // TODO: implementation code goes here
-        return null;
+    public ArrayList<RoomRequest> getRoomRequestsByStaffUsername(String staffUsername) throws SQLException, ClassNotFoundException {
+        return new RoomRequestDAO().getRoomRequestsByStaffUsername(staffUsername);
     }
 
-    // Returns a RoomRequest object with the given ID
-    public RoomRequest getRoomRequestByID(int roomRequestID) {
-        // TODO: implementation code goes here
-        return null;
+    public ArrayList<RoomRequest> getRoomRequestsByLongname(String longname) throws SQLException, ClassNotFoundException {
+        return new RoomRequestDAO().getRoomRequestsByLongname(longname);
     }
 
-    // Returns an ArrayList of room requests made by the given requester name
-    public ArrayList<RoomRequest> getRoomRequestsByRequesterName(String requesterName) {
-        // TODO: implementation code goes here
-        return null;
-    }
-
-    // Returns an ArrayList of room requests made for the given location
-    public ArrayList<RoomRequest> getRoomRequestsByLocation(String location) {
-        // TODO: implementation code goes here
-        return null;
-    }
-
-    // Returns an ArrayList of room requests made for the given date
-    public ArrayList<RoomRequest> getRoomRequestsForDate(LocalDate date) {
-        // TODO: implementation code goes here
-        return null;
+    public ArrayList<RoomRequest> getRoomRequestsByDate(LocalDate date) throws SQLException, ClassNotFoundException {
+        return new RoomRequestDAO().getRoomRequestsByDate(date);
     }
 }

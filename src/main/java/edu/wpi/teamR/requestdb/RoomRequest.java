@@ -9,19 +9,17 @@ import java.sql.Timestamp;
 @Getter
 @Setter(AccessLevel.PACKAGE)
 public class RoomRequest {
-    private int requestID;
-    private String location;
+    private int roomRequestID;
+    private String longname;
+    private String staffUsername;
     private java.sql.Timestamp startTime;
     private java.sql.Timestamp endTime;
-    private String requesterName;
-    private String requestReason;
 
-    public RoomRequest(int requestID, String location, Timestamp startTime, Timestamp endTime, String requesterName, String requestReason) {
-        this.requestID = requestID;
-        this.location = location;
+    public RoomRequest(int roomRequestID, String longname, String staffUsername, Timestamp startTime, Timestamp endTime) {
+        this.roomRequestID = roomRequestID;
+        this.longname = longname;
+        this.staffUsername = staffUsername;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.requesterName = requesterName;
-        this.requestReason = requestReason;
     }
 }

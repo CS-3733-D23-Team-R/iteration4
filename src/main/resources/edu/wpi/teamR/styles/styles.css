@@ -5,6 +5,7 @@
     secondaryYellow: #F6BD38;
     primaryWhite: #F1F1F1;
     darkNeutral: #403C3B;
+    primaryLightGrey: #BDBDBD;
 }
 
 .button {
@@ -242,7 +243,7 @@
     -fx-border-radius: 4px;
 }
 
-.horizontal-bar{
+.horizontal-bar {
     -fx-fill: darkNeutral;
     -fx-stroke: None;
     -fx-effect: DropShadow;
