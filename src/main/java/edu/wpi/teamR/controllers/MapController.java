@@ -276,6 +276,8 @@ public class MapController {
         int startID = idFromName(startLocation);
         int endID = idFromName(endLocation);
 
+        System.out.println("Start ID: " + startID + "End ID: " + endID);
+
         Path mapPath = pathfinder.findPath(startID, endID, accessible);
         ArrayList<Integer> currentPath = mapPath.getPath();
 
@@ -289,9 +291,9 @@ public class MapController {
         createCircle(startNode, currentFloor, startField);
 
         int drawFloor = currentFloor;
-        for (int i = 0; i < mapPath.getPath().size() - 1; i++) {
-            Node n1 = mapdb.getNodeByID(mapPath.getPath().get(i));
-            Node n2 = mapdb.getNodeByID(mapPath.getPath().get(i + 1));
+        for (int i = 0; i < currentPath.size() - 1; i++) {
+            Node n1 = mapdb.getNodeByID(currentPath.get(i));
+            Node n2 = mapdb.getNodeByID(currentPath.get(i + 1));
             if (n1.getFloorNum().equals(nodeFloorNames[drawFloor]) && n2.getFloorNum().equals(nodeFloorNames[drawFloor])) {
                 Line l1 = new Line(n1.getXCoord(), n1.getYCoord(), n2.getXCoord(), n2.getYCoord());
                 l1.setStroke(Color.RED);

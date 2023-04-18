@@ -38,6 +38,7 @@ public class DFSSearch extends SearchAlgorithm{
             path.add(currentNode);
             currentNode = cameFrom.get(currentNode);
         }
+        path.add(currentNode);
 
         return path;
     }
