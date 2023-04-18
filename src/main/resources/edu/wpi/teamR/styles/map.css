@@ -124,11 +124,11 @@
 }
 
 .mfx-date-picker .date-picker-popup .left-arrow .mfx-font-icon {
-    -fx-text-fill: #87ceeb;
+    -mfx-color: #87ceeb;
 }
 
 .mfx-date-picker .date-picker-popup .right-arrow {
-    
+    -mfx-color: #87ceeb;
 }
 
 .mfx-date-picker .date-picker-popup .right-arrow .mfx-ripple-generator {
@@ -176,13 +176,36 @@
 }
 
 .mfx-date-picker .mfx-icon-wrapper .mfx-font-icon {
-    -fx-fill: bwhblue;
+    -mfx-color: #012D5A;
 }
 
 .mfx-date-picker .mfx-icon-wrapper .mfx-font-icon:focused:filled:selected {
-    -fx-fill: bwhblue;
+    -mfx-color: #012D5A;
 }
 
 .mfx-date-picker .date-picker-popup .combo-box:focused .text {
-    -fx-text-fill: bwhblue;
+    -fx-text-fill: #012D5A;
+}
+
+/*CHANGE BORDER*/
+.mfx-date-picker .date-picker-popup .mfx-combo-box {
+    -fx-background-color: transparent;
+    -fx-background-radius: 5;
+    -fx-padding: 5;
+    -fx-border-color: #012D5A;
+}
+
+/*CHANGE ARROW ICON*/
+.mfx-date-picker .date-picker-popup .mfx-combo-box .caret .mfx-font-icon {
+    -mfx-color: #012D5A;
+}
+
+/*CHANGE POPUP TEXT*/
+.mfx-date-picker .date-picker-popup .mfx-combo-box .floating-text {
+    -fx-background-color: white;
+    -fx-text-fill: #012D5A;
+}
+
+.mfx-combo-box:selected:focused:filled:expanded {
+    -fx-text-fill: #012D5A;
 }
