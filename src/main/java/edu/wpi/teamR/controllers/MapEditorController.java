@@ -238,18 +238,6 @@ public class MapEditorController {
                 throw new RuntimeException(e);
             }
         });
-        /*
-        undoButton.getScene().setOnKeyPressed(event -> {
-            if (event.isControlDown() && event.getCode() == KeyCode.Z) {
-                try {
-                    undoAction();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-
-         */
 
         locationCheckbox.setOnAction(event -> {
             if (locationCheckbox.isSelected()) {
@@ -620,7 +608,7 @@ public class MapEditorController {
                         else if (n.getNodeID() == e.getEndNode() && startNode.getFloorNum().equals(nodeFloorNames[floor])){
                             l1 = new Line(startNode.getXCoord(), startNode.getYCoord(), dragEvent.getX(), dragEvent.getY());
                         }
-                        if (l1 != null) {
+                        if (l1 != null && !nodePanes[floor].getChildren().contains(l1)) {
                             l1.setStroke(Color.RED);
                             l1.setStrokeWidth(4);
                             nodePanes[floor].getChildren().add(l1);
@@ -668,6 +656,24 @@ public class MapEditorController {
                             mod.setCenterX(node.getXCoord());
                             mod.setCenterY(node.getYCoord());
                             mapdb.modifyCoords(node.getNodeID(), node.getXCoord(), node.getYCoord());
+
+                            if(linesMap.containsKey(node.getNodeID())) {
+                                nodePanes[currentFloor].getChildren().removeAll(linesMap.get(node.getNodeID()));
+                            }
+                            List<Edge> n_edges;
+                            n_edges = mapdb.getEdgesByNode(node.getNodeID());
+                            for(Edge e: n_edges) {
+                                Node startNode = mapdb.getNodeByID(e.getStartNode());
+                                Node endNode = mapdb.getNodeByID(e.getEndNode());
+                                if (startNode.getFloorNum().equals(endNode.getFloorNum())) {
+                                    Line l1 = new Line(startNode.getXCoord(), startNode.getYCoord(), endNode.getXCoord(), endNode.getYCoord());
+                                    l1.setStroke(Color.RED);
+                                    l1.setStrokeWidth(4);
+                                    nodePanes[currentFloor].getChildren().add(l1);
+                                    l1.toBack();
+                                    addLine(node.getNodeID(), l1);
+                                }
+                            }
                         }
                         case DELETION -> {
                             Circle deleted = new Circle(node.getXCoord(), node.getYCoord(), 4, Color.RED);

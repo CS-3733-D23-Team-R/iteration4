@@ -367,16 +367,18 @@ public class MapController {
             ArrayList<MapLocation> locs = mapdb.getMapLocationsByFloor(f);
             if (locs.size() > 0) {
                 for (MapLocation m: locs) {
-                    String shortName = m.getLocationNames().get(0).getShortName();
-                    if (!shortName.contains("Hall")) {
-                        Text t = new Text();
-                        Node n = m.getNode();
-                        t.setText(shortName);
-                        t.setFill(Color.RED);
-                        t.setX(n.getXCoord() + 10);
-                        t.setY(n.getYCoord());
+                    if (m.getLocationNames().size() > 0) {
+                        String shortName = m.getLocationNames().get(0).getShortName();
+                        if (!shortName.contains("Hall")) {
+                            Text t = new Text();
+                            Node n = m.getNode();
+                            t.setText(shortName);
+                            t.setFill(Color.RED);
+                            t.setX(n.getXCoord() + 10);
+                            t.setY(n.getYCoord());
 
-                        locationPanes[floor].getChildren().add(t);
+                            locationPanes[floor].getChildren().add(t);
+                        }
                     }
                 }
             }
