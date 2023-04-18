@@ -18,6 +18,10 @@ public class Configuration {
     private static final String directionArrowTableName = "directionarrow";
     private static final String serviceRequestTableName = "servicerequest";
     private static final String roomRequestTableName = "roomrequest";
+    private static final String availableMealsTableName = "availableMeals";
+    private static final String availableFurnitureTableName = "availableFurniture";
+    private static final String availableFlowersTableName = "availableFlowers";
+    private static final String availableSuppliesTableName = "availableSupplies";
     private static final String userTableName = "user";
     public static Connection getConnection() throws ClassNotFoundException, SQLException {
         if (connection!=null && !connection.isClosed())
@@ -51,4 +55,8 @@ public class Configuration {
         return schemaName+"."+roomRequestTableName;
     }
     public static String getUserTableSchemaNameTableName(){ return schemaName+"."+userTableName;}
+    public static String getAvailableMealsTableSchemaNameTableName(){ return schemaName+"."+availableMealsTableName;}
+    public static String getAvailableFurnitureTableSchemaNameTableName(){ return schemaName+"."+availableFurnitureTableName;}
+    public static String getAvailableFlowersTableSchemaNameTableName(){ return schemaName+"."+availableFlowersTableName;}
+    public static String getAvailableSuppliesTableSchemaNameTableName(){ return schemaName+"."+availableSuppliesTableName;}
 }

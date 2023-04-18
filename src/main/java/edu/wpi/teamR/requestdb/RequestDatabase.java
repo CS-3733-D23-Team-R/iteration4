@@ -4,10 +4,8 @@ import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.mapdb.MapDatabase;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class RequestDatabase {
@@ -37,86 +35,35 @@ public class RequestDatabase {
         return new ItemRequestDAO().getItemRequestByAttributes(searchList);
     }
 
-    public RoomRequest addRoomRequest(String longName, Timestamp startTime, Timestamp endTime,String requesterName, String requestReason) throws SQLException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
-        RoomRequestDAO Dao = new RoomRequestDAO(connection);
-        RoomRequest output = Dao.addRoomRequest(longName, startTime, endTime, requesterName, requestReason);
-        return output;
+    public ArrayList<AvailableItem> getAvailableItemsByTypeWithinRangeSortedByPrice(RequestType requestType, Double upperBound, Double lowerBound, SortOrder sortOrder) throws SQLException, ClassNotFoundException {
+        return new AvailableItemDAO().getAvailableItemsByTypeWithinRangeSortedByPrice(requestType, upperBound, lowerBound, sortOrder);
     }
 
-    public void deleteRoomRequest(int requestID) throws SQLException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
-        RoomRequestDAO Dao = new RoomRequestDAO(connection);
-        Dao.deleteRoomRequest(requestID);
+    public RoomRequest addRoomRequest(String longname, String staffUsername, Timestamp startTime, Timestamp endTime) throws SQLException, ClassNotFoundException {
+        return new RoomRequestDAO().addRoomRequest(longname, staffUsername, startTime, endTime);
     }
+
+    public void deleteRoomRequest(int roomRequestID) throws SQLException, ClassNotFoundException {
+        new RoomRequestDAO().deleteRoomRequest(roomRequestID);
+    }
+
 
     public ArrayList<RoomRequest> getRoomRequests() throws SQLException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
-        RoomRequestDAO Dao = new RoomRequestDAO(connection);
-        ArrayList<RoomRequest> output = Dao.getRoomRequests();
-        return output;
+        return new RoomRequestDAO().getRoomRequests();
+    }
+    public RoomRequest getRoomRequestByID(int roomRequestID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        return new RoomRequestDAO().getRoomRequestByID(roomRequestID);
     }
 
-    public RoomRequest getRoomRequestByID(int requestID) throws SQLException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
-        RoomRequestDAO Dao = new RoomRequestDAO(connection);
-        RoomRequest output = Dao.getRoomRequestByID(requestID);
-        return output;
+    public ArrayList<RoomRequest> getRoomRequestsByStaffUsername(String staffUsername) throws SQLException, ClassNotFoundException {
+        return new RoomRequestDAO().getRoomRequestsByStaffUsername(staffUsername);
     }
 
-    public ArrayList<RoomRequest> getRoomRequestsByRequesterName(String requesterName) throws SQLException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
-        RoomRequestDAO Dao = new RoomRequestDAO(connection);
-        ArrayList<RoomRequest> output = Dao.getRoomRequestsByRequesterName(requesterName);
-        return output;
+    public ArrayList<RoomRequest> getRoomRequestsByLongname(String longname) throws SQLException, ClassNotFoundException {
+        return new RoomRequestDAO().getRoomRequestsByLongname(longname);
     }
 
-    public ArrayList<RoomRequest> getRoomRequestsByLocation(String location) throws SQLException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
-        RoomRequestDAO Dao = new RoomRequestDAO(connection);
-        ArrayList<RoomRequest> output = Dao.getRoomRequestsByLocation(location);
-        return output;
-    }
-
-    public ArrayList<RoomRequest> getRoomRequestsByStartTime(Timestamp startTime) throws SQLException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
-        RoomRequestDAO Dao = new RoomRequestDAO(connection);
-        ArrayList<RoomRequest> output = Dao.getRoomRequestsByStartTime(startTime);
-        return output;
-    }
-
-    public ArrayList<RoomRequest> getRoomRequestsByEndTime(Timestamp endTime) throws SQLException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
-        RoomRequestDAO Dao = new RoomRequestDAO(connection);
-        ArrayList<RoomRequest> output = Dao.getRoomRequestsByEndTime(endTime);
-        return output;
-    }
-
-    public ArrayList<RoomRequest> getRoomRequestsByRequestReason(String requestReason) throws SQLException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
-        RoomRequestDAO Dao = new RoomRequestDAO(connection);
-        ArrayList<RoomRequest> output = Dao.getRoomRequestsByRequestReason(requestReason);
-        return output;
-    }
-
-    public ArrayList<RoomRequest> getRoomRequestsAfterTime(Timestamp time) throws SQLException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
-        RoomRequestDAO Dao = new RoomRequestDAO(connection);
-        ArrayList<RoomRequest> output = Dao.getRoomRequestsAfterTime(time);
-        return output;
-    }
-
-    public ArrayList<RoomRequest> getRoomRequestsBeforeTime(Timestamp time) throws SQLException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
-        RoomRequestDAO Dao = new RoomRequestDAO(connection);
-        ArrayList<RoomRequest> output = Dao.getRoomRequestsBeforeTime(time);
-        return output;
-    }
-
-    public ArrayList<RoomRequest> getRoomRequestsBetweenTimes(Timestamp firstTime, Timestamp secondTime) throws SQLException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
-        RoomRequestDAO Dao = new RoomRequestDAO(connection);
-        ArrayList<RoomRequest> output = Dao.getRoomRequestsBetweenTimes(firstTime, secondTime);
-        return output;
+    public ArrayList<RoomRequest> getRoomRequestsByDate(LocalDate date) throws SQLException, ClassNotFoundException {
+        return new RoomRequestDAO().getRoomRequestsByDate(date);
     }
 }
