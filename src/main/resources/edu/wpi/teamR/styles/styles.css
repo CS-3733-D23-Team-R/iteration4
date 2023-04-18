@@ -17,6 +17,21 @@
     border-radius: 4px;
 }
 
+.reserveButton {
+    -fx-background-color: bwhblue;
+    -fx-text-fill: white;
+    -fx-font-family: 'Nunito Sans', 'bold';
+    -fx-font-size: 18;
+    -fx-font-weight: 500;
+    -fx-pref-height: 35;
+    -fx-pref-width: 90;
+    border-radius: 4px;
+}
+
+.reserveButtonConfirm {
+    -fx-background-color: secondaryYellow;
+}
+
 .button:pressed {
     -fx-background-color: pressed;
     -fx-text-fill: white;
@@ -25,6 +40,7 @@
     -fx-font-weight: 500;
     border-radius: 4px;
 }
+
 
 .title{
     -fx-font-family: 'Lato', 'bold';
@@ -128,6 +144,10 @@
 
 .flower-title{
     -fx-background-image: url("../images/flowerBackgroundCropped2.png");
+}
+
+.room-title {
+    -fx-background-image: url("../images/RoomRequestHeader.png");
 }
 
 .food_furniture-clear-button{
