@@ -184,6 +184,47 @@ public class MapDatabase {
         return locationNameDao.modifyLocationNameShortName(longName, newShortName);
     }
 
+    public ConferenceRoom addConferenceRoom(String longname, int capacity, boolean isAccessible, boolean hasOutlets, boolean hasScreen) throws SQLException, ClassNotFoundException {
+        return new ConferenceRoomDAO().addConferenceRoom(longname, capacity, isAccessible, hasOutlets, hasScreen);
+    }
+    public void deleteConferenceRoom(String longname) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        new ConferenceRoomDAO().deleteConferenceRoom(longname);
+    }
+
+    public ArrayList<ConferenceRoom> getConferenceRooms() throws SQLException, ClassNotFoundException {
+        return new ConferenceRoomDAO().getConferenceRooms();
+    }
+
+
+    DirectionArrow addDirectionArrow(String longname, int kioskID, Direction direction) throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        return new DirectionArrowDAO(connection).addDirectionArrow(longname, kioskID, direction);
+    }
+
+    void deleteDirectionArrowByLongname(String longname) throws SQLException, ItemNotFoundException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        new DirectionArrowDAO(connection).deleteDirectionArrowByLongname(longname);
+    }
+
+    void deleteDirectionArrowsByKiosk(int kioskID) throws SQLException, ItemNotFoundException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        new DirectionArrowDAO(connection).deleteDirectionArrowsByKiosk(kioskID);
+    }
+
+    ArrayList<DirectionArrow> getDirectionArrows() throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        return new DirectionArrowDAO(connection).getDirectionArrows();
+    }
+
+    ArrayList<DirectionArrow> getDirectionArrowsByKiosk(int kioskID) throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        return new DirectionArrowDAO(connection).getDirectionArrowsByKiosk(kioskID);
+    }
+
+    public ConferenceRoom getConferenceRoomByLongname(String longname) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        return new ConferenceRoomDAO().getConferenceRoomByLongname(longname);
+    }
+
     public ArrayList<MapLocation> getMapLocationsByFloor(String floor) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" node LEFT JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as move on node.nodeid=move.nodeid left join "+Configuration.getLocationNameSchemaNameTableName()+" locationname on move.longname=locationname.longname WHERE floor=? ORDER BY node.nodeID desc;");
         preparedStatement.setString(1, floor);
