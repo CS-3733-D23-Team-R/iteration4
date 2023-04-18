@@ -48,9 +48,9 @@ class RoomRequestDAOTest {
         preparedStatement.executeUpdate();
         Statement statement = Configuration.getConnection().createStatement();
         statement.executeUpdate("delete from "+Configuration.getUserTableSchemaNameTableName()+";");
-        statement.executeUpdate("insert into "+Configuration.getUserTableSchemaNameTableName()+"(staffUsername,password,name,email,accessLevel,department,joindate,phonenum,jobtitle) values ('staff1', '', '', '','Staff','',CURRENT_DATE,1,'');" +
-                "insert into "+Configuration.getUserTableSchemaNameTableName()+"(staffUsername,password,name,email,accessLevel,department,joindate,phonenum,jobtitle) values ('staff2', '', '', '','Staff','',CURRENT_DATE,1,'');" +
-                "insert into "+Configuration.getUserTableSchemaNameTableName()+"(staffUsername,password,name,email,accessLevel,department,joindate,phonenum,jobtitle) values ('staff3', '', '', '','Staff','',CURRENT_DATE,1,'');");
+        statement.executeUpdate("insert into "+Configuration.getUserTableSchemaNameTableName()+"(staffUsername,password,name,email,accessLevel,department,joindate,phonenum,jobtitle) values ('staff1', '', '', '','Staff','',CURRENT_DATE,'1234567890','');" +
+                "insert into "+Configuration.getUserTableSchemaNameTableName()+"(staffUsername,password,name,email,accessLevel,department,joindate,phonenum,jobtitle) values ('staff2', '', '', '','Staff','',CURRENT_DATE,'1234567890','');" +
+                "insert into "+Configuration.getUserTableSchemaNameTableName()+"(staffUsername,password,name,email,accessLevel,department,joindate,phonenum,jobtitle) values ('staff3', '', '', '','Staff','',CURRENT_DATE,'1234567890','');");
         //THIS IS BECAUSE WE HAVEN'T YET INTEGRATED USER TABLE
     }
 
