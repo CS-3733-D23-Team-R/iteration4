@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.DatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,6 +14,6 @@
           <TableColumn fx:id="dateColumn" prefWidth="120.0" text="Move Date" />
         </columns>
       </TableView>
-      <DatePicker fx:id="datePicker" layoutX="20.0" layoutY="21.0" prefHeight="32.0" prefWidth="360.0" />
+      <MFXDatePicker fx:id="datePicker" layoutX="20.0" layoutY="14.0" prefHeight="38.0" prefWidth="360.0" stylesheets="@../../styles/map.css" text="Select Move Date" />
    </children>
 </AnchorPane>

@@ -29,7 +29,7 @@ public class FutureMovesTableController {
     TableColumn<Move, String> locationColumn;
     @FXML TableColumn<Move, Date> dateColumn;
     @FXML
-    DatePicker datePicker;
+    MFXDatePicker datePicker;
 
     MapDatabase mapdb;
     ArrayList<Move> moveList;

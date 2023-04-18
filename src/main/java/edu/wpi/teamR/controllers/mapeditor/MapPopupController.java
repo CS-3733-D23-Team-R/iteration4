@@ -3,6 +3,7 @@ package edu.wpi.teamR.controllers.mapeditor;
 import edu.wpi.teamR.App;
 import edu.wpi.teamR.mapdb.*;
 import edu.wpi.teamR.mapdb.update.MapUpdater;
+import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -23,7 +24,7 @@ public class MapPopupController {
     @FXML
     Text yText;
     @FXML
-    DatePicker moveDatePicker;
+    MFXDatePicker moveDatePicker;
 
     Node node;
     Move move;
