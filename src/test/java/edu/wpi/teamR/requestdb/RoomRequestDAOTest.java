@@ -10,10 +10,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,6 +33,10 @@ class RoomRequestDAOTest {
         roomRequestDAO.deleteAllRoomRequests();
         PreparedStatement preparedStatement = Configuration.getConnection().prepareStatement("DELETE FROM "+Configuration.getConferenceRoomSchemaNameTableName()+";");
         preparedStatement.executeUpdate();
+        preparedStatement = Configuration.getConnection().prepareStatement("DELETE FROM "+Configuration.getLocationNameSchemaNameTableName()+";");
+        preparedStatement.executeUpdate();
+        Statement statement = Configuration.getConnection().createStatement();
+        statement.executeUpdate("delete from "+Configuration.getUserTableSchemaNameTableName()+";");
         Configuration.getConnection().close();
     }
     @BeforeEach
@@ -43,6 +44,14 @@ class RoomRequestDAOTest {
         roomRequestDAO.deleteAllRoomRequests();
         PreparedStatement preparedStatement = Configuration.getConnection().prepareStatement("DELETE FROM "+Configuration.getConferenceRoomSchemaNameTableName()+";");
         preparedStatement.executeUpdate();
+        preparedStatement = Configuration.getConnection().prepareStatement("DELETE FROM "+Configuration.getLocationNameSchemaNameTableName()+";");
+        preparedStatement.executeUpdate();
+        Statement statement = Configuration.getConnection().createStatement();
+        statement.executeUpdate("delete from "+Configuration.getUserTableSchemaNameTableName()+";");
+        statement.executeUpdate("insert into "+Configuration.getUserTableSchemaNameTableName()+"(staffUsername,password,name,email,accessLevel,department,joindate,phonenum,jobtitle) values ('staff1', '', '', '','Staff','',CURRENT_DATE,1,'');" +
+                "insert into "+Configuration.getUserTableSchemaNameTableName()+"(staffUsername,password,name,email,accessLevel,department,joindate,phonenum,jobtitle) values ('staff2', '', '', '','Staff','',CURRENT_DATE,1,'');" +
+                "insert into "+Configuration.getUserTableSchemaNameTableName()+"(staffUsername,password,name,email,accessLevel,department,joindate,phonenum,jobtitle) values ('staff3', '', '', '','Staff','',CURRENT_DATE,1,'');");
+        //THIS IS BECAUSE WE HAVEN'T YET INTEGRATED USER TABLE
     }
 
     @Test
