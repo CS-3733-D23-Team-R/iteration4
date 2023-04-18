@@ -82,7 +82,7 @@ public class MapController {
 
     private AnchorPane mapPane = new AnchorPane();
 
-    HashMap<String, Integer> floorNamesMap = new HashMap<String, Integer>();
+    HashMap<String, Integer> floorNamesMap = new HashMap<>();
 
     private MapDatabase mapdb;
     ArrayList<Node> nodes;
@@ -121,8 +121,20 @@ public class MapController {
         gesturePane.setMinScale(0.25);
         gesturePane.setMaxScale(2);
         resetButton.setOnMouseClicked(event -> reset());
-        floorDownButton.setOnMouseClicked(event -> displayFloorDown());
-        floorUpButton.setOnMouseClicked(event -> displayFloorUp());
+        floorDownButton.setOnMouseClicked(event -> {
+            try {
+                displayFloorDown();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        floorUpButton.setOnMouseClicked(event -> {
+            try {
+                displayFloorUp();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
         clearButton.setOnMouseClicked(event -> clearPath());
         searchButton.setOnMouseClicked(event -> {
             try {
@@ -142,7 +154,13 @@ public class MapController {
         locationNamesCheckbox.setOnAction(event -> {
             if (locationNamesCheckbox.isSelected()) {
                 mapPane.getChildren().add(locationPanes[currentFloor]);
+                try {
+                    displayLocationNames(currentFloor);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             } else {
+                locationPanes[currentFloor].getChildren().clear();
                 mapPane.getChildren().remove(locationPanes[currentFloor]);
             }
         });
@@ -195,7 +213,7 @@ public class MapController {
         displayPath(start, end, isAccessible);
     }
 
-    public void displayFloorUp() {
+    public void displayFloorUp() throws SQLException {
         if (currentFloor < 4) {
             currentFloor++;
             imageView = floorMaps.get(currentFloor);
@@ -203,11 +221,15 @@ public class MapController {
             mapPane.getChildren().add(imageView);
             mapPane.getChildren().add(paths[currentFloor]);
             floorText.setText(floorNames[currentFloor]);
+            locationPanes[currentFloor].getChildren().clear();
+            if (locationNamesCheckbox.isSelected()) {
+                displayLocationNames(currentFloor);
+            }
             reset();
         }
     }
 
-    public void displayFloorDown() {
+    public void displayFloorDown() throws SQLException {
         if (currentFloor > 0) {
             currentFloor--;
             imageView = floorMaps.get(currentFloor);
@@ -215,11 +237,15 @@ public class MapController {
             mapPane.getChildren().add(imageView);
             mapPane.getChildren().add(paths[currentFloor]);
             floorText.setText(floorNames[currentFloor]);
+            locationPanes[currentFloor].getChildren().clear();
+            if (locationNamesCheckbox.isSelected()) {
+                displayLocationNames(currentFloor);
+            }
             reset();
         }
     }
 
-    public void displayFloorNum(int floorNum) {
+    public void displayFloorNum(int floorNum) throws SQLException {
         if (floorNum < 4) {
             currentFloor = floorNum;
             imageView = floorMaps.get(currentFloor);
@@ -227,6 +253,10 @@ public class MapController {
             mapPane.getChildren().add(imageView);
             mapPane.getChildren().add(paths[currentFloor]);
             floorText.setText(floorNames[currentFloor]);
+            locationPanes[currentFloor].getChildren().clear();
+            if (locationNamesCheckbox.isSelected()) {
+                displayLocationNames(currentFloor);
+            }
             reset();
         }
     }
@@ -265,7 +295,13 @@ public class MapController {
                 Rectangle square = new Rectangle(n1.getXCoord(), n1.getYCoord(), 10, 10);
                 square.setFill(Color.LIMEGREEN);
                 int newFloor = floorNamesMap.get(n2.getFloorNum());
-                square.setOnMouseClicked(event -> displayFloorNum(newFloor));
+                square.setOnMouseClicked(event -> {
+                    try {
+                        displayFloorNum(newFloor);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
                 paths[drawFloor].getChildren().add(square);
                 square.toFront();
 
@@ -288,6 +324,9 @@ public class MapController {
     private void createCircle(Node endNode, int drawFloor, SearchableComboBox<String> endField) {
         Circle end = new Circle(endNode.getXCoord(), endNode.getYCoord(), 5, Color.RED);
         Text endText = new Text(endField.getValue());
+        if (locationNamesCheckbox.isSelected()) {
+            endText.setText("");
+        }
         endText.setX(endNode.getXCoord() + 10);
         endText.setY(endNode.getYCoord());
         endText.setFill(Color.RED);
@@ -319,13 +358,17 @@ public class MapController {
             ArrayList<MapLocation> locs = mapdb.getMapLocationsByFloor(f);
             if (locs.size() > 0) {
                 for (MapLocation m: locs) {
-                    Text t = new Text();
-                    Node n = m.getNode();
-                    //t.setText(m.getLocationNames().get(0).getShortName()); //m.getLocationNames().get(0).getShortName()
-                    t.setX(n.getXCoord() + 10);
-                    t.setY(n.getYCoord());
+                    String shortName = m.getLocationNames().get(0).getShortName();
+                    if (!shortName.contains("Hall")) {
+                        Text t = new Text();
+                        Node n = m.getNode();
+                        t.setText(shortName);
+                        t.setFill(Color.RED);
+                        t.setX(n.getXCoord() + 10);
+                        t.setY(n.getYCoord());
 
-                    locationPanes[floor].getChildren().add(t);
+                        locationPanes[floor].getChildren().add(t);
+                    }
                 }
             }
         }
