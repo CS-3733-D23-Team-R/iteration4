@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.ItemRequestController">
+<BorderPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.ItemRequestController">
    <center>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
@@ -44,15 +44,19 @@
                         </ImageView>
                      </children>
                   </StackPane>
-                  <TableView fx:id="itemTable" prefHeight="300.0" prefWidth="400.0">
-                    <columns>
-                      <TableColumn fx:id="itemNameColumn" minWidth="75.0" prefWidth="150.0" text="Product" />
-                      <TableColumn fx:id="itemDetailsColumn" minWidth="75.0" prefWidth="400.0" text="Details" />
-                        <TableColumn fx:id="itemPriceColumn" minWidth="75.0" prefWidth="75.0" text="Price" />
-                        <TableColumn fx:id="itemQuantityColumn" minWidth="47.0" prefWidth="56.0" text="Quantity" />
-                        <TableColumn fx:id="itemAddToCartColumn" minWidth="66.0" prefWidth="94.0" />
-                    </columns>
-                  </TableView>
+                  <AnchorPane VBox.vgrow="ALWAYS">
+                     <children>
+                        <TableView fx:id="itemTable" prefHeight="432.0" prefWidth="949.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+                          <columns>
+                            <TableColumn fx:id="itemNameColumn" minWidth="75.0" prefWidth="150.0" text="Product" />
+                            <TableColumn fx:id="itemDetailsColumn" minWidth="75.0" prefWidth="293.3333435058594" text="Details" />
+                              <TableColumn fx:id="itemPriceColumn" minWidth="75.0" prefWidth="182.0" text="Price" />
+                              <TableColumn fx:id="itemQuantityColumn" minWidth="47.0" prefWidth="154.66668701171875" text="Quantity" />
+                              <TableColumn fx:id="itemAddToCartColumn" minWidth="66.0" prefWidth="166.66670735677087" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
                </children></VBox>
          </children>
       </AnchorPane>
@@ -65,7 +69,7 @@
                   <VBox alignment="CENTER" layoutY="10.0" prefHeight="116.0" prefWidth="158.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarTitle" text="Request" VBox.vgrow="ALWAYS" />
-                        <GridPane>
+                        <GridPane VBox.vgrow="ALWAYS">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -110,7 +114,7 @@
                               <Insets bottom="10.0" left="30.0" right="10.0" top="10.0" />
                            </VBox.margin>
                         </VBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText" text="Min $ ">
                                  <HBox.margin>
@@ -124,7 +128,7 @@
                                  </HBox.margin>
                               </Text>
                               <TextField fx:id="itemMaxField" />
-                              <Button fx:id="minMaxGoButton" ellipsisString="" mnemonicParsing="false" text="Go" textFill="#1e0202" textOverrun="WORD_ELLIPSIS">
+                              <Button fx:id="minMaxGoButton" ellipsisString="" mnemonicParsing="false" prefHeight="15.0" prefWidth="24.0" text="Go" textFill="#1e0202" textOverrun="WORD_ELLIPSIS" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets left="5.0" right="10.0" />
                                  </HBox.margin>

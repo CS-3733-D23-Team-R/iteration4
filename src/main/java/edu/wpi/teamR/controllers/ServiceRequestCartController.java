@@ -28,6 +28,7 @@ import javax.swing.text.html.ImageView;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -51,18 +52,18 @@ public class ServiceRequestCartController {
     Text totalPriceLabel;
     ArrayList<LocationName> locationNames;
 
+    DecimalFormat formatPrice = new DecimalFormat("###.##");
 
 
     @FXML public void initialize() throws SQLException, ClassNotFoundException, ItemNotFoundException {
-        //cartBar.setVisible(false);
-        //cartBar.setManaged(false);
-        //cartSlider.setOnMouseClicked(event -> openCart());
+        //setChoiceboxes();
         userField.setText("Type Your Name");
         paymentField.setText("Charge to Room");
         locationField.setValue("Select a location");
         staffField.setValue("Select a staff member");
+        submitButton.setOnMouseClicked(event -> submit());
         locationNames = App.getMapData().getLocationNames();
-
+        totalPriceLabel.setText("$ " + formatPrice.format(ShoppingCart.getInstance().calculateTotal()));
 
 
         cartPane.getChildren().clear();
@@ -72,9 +73,6 @@ public class ServiceRequestCartController {
             emptyLabel.setStyle("fx-font-size: 24pt; fx-text-fill: white");
             cartPane.getChildren().add(emptyLabel);
         }else {
-            //Text requestCart = new Text("My Requests");
-            //cartPane.getChildren().add(requestCart);
-
             ShoppingCart.getInstance().items.forEach(
                     (item, number) -> {
                         System.out.println(item);
@@ -83,7 +81,6 @@ public class ServiceRequestCartController {
                         cartPane.getChildren().add(productView);
                     }
             );
-
         }
 
     }
@@ -100,11 +97,11 @@ public class ServiceRequestCartController {
         //ImageView imageView = new ImageView(image);
 
         Text productName = new Text(item.getItemName());
-        productName.setStyle("fx-text-fill: white");
+        productName.setStyle("-fx-text-fill: white;");
 
         Text quantity = new Text(String.valueOf(number));
         quantity.setStyle("-fx-padding:5px");
-        quantity.setStyle("fx-text-fill: white");
+        quantity.setStyle("-fx-text-fill: white");
 
         MFXButton plusButton = new MFXButton("+");
         plusButton.setStyle("fx-padding: 5px");
@@ -112,7 +109,7 @@ public class ServiceRequestCartController {
         plusButton.setOnAction(event -> {
             ShoppingCart.getInstance().incrementItem(item);
             quantity.setText(String.valueOf(ShoppingCart.getInstance().items.get(item)));
-            this.totalPriceLabel.setText(String.valueOf(ShoppingCart.getInstance().calculateTotal()));
+            this.totalPriceLabel.setText("$ " + formatPrice.format(ShoppingCart.getInstance().calculateTotal()));
         });
 
         MFXButton minusButton = new MFXButton("-");
@@ -121,7 +118,7 @@ public class ServiceRequestCartController {
         minusButton.setOnAction(event -> {
             ShoppingCart.getInstance().decrementItem(item);
             quantity.setText(String.valueOf(String.valueOf(ShoppingCart.getInstance().items.get(item))));
-            this.totalPriceLabel.setText(String.valueOf(ShoppingCart.getInstance().calculateTotal()));
+            this.totalPriceLabel.setText("$ " + formatPrice.format(ShoppingCart.getInstance().calculateTotal()));
         });
 
         //Text price = new Text(String.valueOf("$"+ ShoppingCart.getInstance().items.get(item).
@@ -132,28 +129,13 @@ public class ServiceRequestCartController {
 
     /*private HBox totalView(float totalPrice){
         HBox layout = new HBox();
-
     }*/
 
-    /*@FXML
-    private void openCart() {
-        if (cartBar.isVisible()) {
-            cartBar.setVisible(false);
-            cartBar.setManaged(false);
-        } else {
-            cartBar.setVisible(true);
-            cartBar.setManaged(true);
-            submitButton.setOnMouseClicked(event -> submit());
-        }
-    }*/
 
     @FXML
     public void submit(){
         locationField.getValue().toString();
         staffField.getValue().toString();
-
-        cartBar.setVisible(false);
-        cartBar.setManaged(false);
 
         Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
         confirmation.setContentText("Request Order Received!");
