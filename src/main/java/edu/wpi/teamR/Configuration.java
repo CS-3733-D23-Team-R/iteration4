@@ -51,6 +51,9 @@ public class Configuration {
     public static String getServiceRequestSchemaNameTableName(){
         return schemaName+"."+serviceRequestTableName;
     }
+    public static String getFlowerRequestSchemaNameTableName() {return "";}
+    public static String getMealRequestSchemaNameTableName() {return "";}
+    public static String getFurnitureRequestSchemaNameTableName() {return "";}
     public static String getRoomRequestSchemaNameTableName(){
         return schemaName+"."+roomRequestTableName;
     }
