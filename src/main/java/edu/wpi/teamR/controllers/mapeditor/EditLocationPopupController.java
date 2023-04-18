@@ -61,6 +61,10 @@ public class EditLocationPopupController {
             }
         });
 
+        shortField.textProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("shortName changed from " + oldValue + " to " + newValue);
+        });
+
         ArrayList<Node> nodes =  mapdb.getNodes();
         ArrayList<Integer> nodeIDs = new ArrayList<>();
         for (Node n: nodes) {
