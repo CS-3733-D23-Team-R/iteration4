@@ -37,7 +37,16 @@ public class MapPopupController {
         nodes = App.getMapData().getNodes();
         mapdb = App.getMapData().getMapdb();
         moveDatePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
-            //handleDatePickerChange(newValue);
+            if (move != null) {
+                LocalDate localDate = Date.valueOf(move.getMoveDate().toLocalDate()).toLocalDate();
+                if (!localDate.equals(newValue)) {
+                    try {
+                        handleDatePickerChange(newValue);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
         });
 
         moveDatePicker.setFocusTraversable(false);
