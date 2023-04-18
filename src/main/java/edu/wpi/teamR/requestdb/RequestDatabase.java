@@ -21,7 +21,11 @@ public class RequestDatabase {
         return new ItemRequestDAO().addItemRequest(requestType, requestStatus, longname, staffUsername, itemType, requesterName, additionalNotes, requestDate);
     }
 
-    public void deleteItemRequest(int requestID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+    public ItemRequest modifyItemRequestByID(int requestID, RequestType requestType, RequestStatus requestStatus, String longname, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        return new ItemRequestDAO().modifyItemRequestByID(requestID, requestType, requestStatus, longname, staffUsername, itemType, requesterName, additionalNotes, requestDate);
+    }
+
+        public void deleteItemRequest(int requestID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
         new ItemRequestDAO().deleteItemRequest(requestID);
     }
 

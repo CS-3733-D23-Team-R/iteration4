@@ -37,6 +37,25 @@ public class ItemRequestDAO {
         if (numRows==0)
             throw new ItemNotFoundException();
     }
+
+    ItemRequest modifyItemRequestByID(int requestID, RequestType requestType, RequestStatus requestStatus, String longname, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE "+Configuration.getServiceRequestSchemaNameTableName()+" SET requestType=?, requestStatus=?, longname=?, staffUsername=?, itemType=?, requesterName=?, additionalNotes=?, requestDate=? WHERE requestID=?");
+        preparedStatement.setString(1, requestType.toString());
+        preparedStatement.setString(2, requestStatus.toString());
+        preparedStatement.setString(3, longname);
+        preparedStatement.setString(4, staffUsername);
+        preparedStatement.setString(5, itemType);
+        preparedStatement.setString(6, requesterName);
+        preparedStatement.setString(7, additionalNotes);
+        preparedStatement.setTimestamp(8, requestDate);
+        preparedStatement.setInt(9, requestID);
+        int rows = preparedStatement.executeUpdate();
+        if (rows==0)
+            throw new ItemNotFoundException();
+        return new ItemRequest(requestID, requestType, requestStatus, longname, staffUsername, requesterName, additionalNotes, additionalNotes, requestDate);
+    }
+
     void deleteAllItemRequests() throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getServiceRequestSchemaNameTableName()+";");
