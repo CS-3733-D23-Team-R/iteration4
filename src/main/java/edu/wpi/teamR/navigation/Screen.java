@@ -13,7 +13,10 @@ public enum Screen {
   MAP_EDITOR("views/MapEditor.fxml"),
   SORT_ORDERS("views/SortOrders.fxml"),
   SCREENSAVER("views/Screensaver.fxml"),
-  SIGNAGECONFIGURATION("views/SignageConfiguration.fxml");
+  SIGNAGECONFIGURATION("views/SignageConfiguration.fxml"),
+  ADMINPROFILEPAGE("views/AdminProfilePage.fxml"),
+  STAFFPROFILEPAGE("views/StaffProfilePage.fxml"),
+  EMPLOYEEMANAGER("views/EmployeeManager.fxml");
 
   private final String filename;
 

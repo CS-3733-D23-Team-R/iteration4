@@ -48,7 +48,7 @@ public class AuthenticationDAO {
     public User getUser(String userID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getUserTableSchemaNameTableName()+" WHERE username='"+userID+"';");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getUserTableSchemaNameTableName()+" WHERE staffusername='"+userID+"';");
         if (resultSet.next()){
             String password = resultSet.getString("password");
             AccessLevel accessLevel = AccessLevel.valueOf(resultSet.getString("accesslevel"));

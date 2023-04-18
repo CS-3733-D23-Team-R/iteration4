@@ -1,8 +1,13 @@
 package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.App;
+import edu.wpi.teamR.ItemNotFoundException;
+import edu.wpi.teamR.login.AccessLevel;
+import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
+import edu.wpi.teamR.userData.currentUser;
+import edu.wpi.teamR.userData.userData;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -17,8 +22,10 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.controlsfx.control.PopOver;
+import edu.wpi.teamR.controllers.LoginController;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class RootController {
   @FXML VBox bwhHome;
@@ -53,7 +60,17 @@ public class RootController {
     instance = this;
 
     bwhHome.setOnMouseClicked(event -> navigate(Screen.HOME));
-    profileButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGE));
+    profileButton.setOnMouseClicked(event -> {
+      try {
+        openProfile();
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      } catch (ClassNotFoundException e) {
+        throw new RuntimeException(e);
+      } catch (ItemNotFoundException e) {
+        throw new RuntimeException(e);
+      }
+    });
     newRequestButton.setOnMouseClicked(event -> openRequest());
     pendingRequestButton.setOnMouseClicked(event -> navigate(Screen.SORT_ORDERS));
     pathfindingButton.setOnMouseClicked(event -> navigate(Screen.MAP));
@@ -79,6 +96,16 @@ public class RootController {
     App.getPrimaryStage().addEventFilter(InputEvent.ANY, ssevent);
 
     transition.play();
+  }
+
+  private void openProfile() throws SQLException, ClassNotFoundException, ItemNotFoundException {
+    userData thisUserData = userData.getInstance();
+    currentUser user = thisUserData.getLoggedIn();
+    if(user.getAccessLevel().equals(AccessLevel.Admin)){
+      Navigation.navigate(Screen.ADMINPROFILEPAGE);
+    } else if(user.getAccessLevel().equals(AccessLevel.Staff)){
+      Navigation.navigate(Screen.STAFFPROFILEPAGE);
+    }
   }
 
   @FXML
