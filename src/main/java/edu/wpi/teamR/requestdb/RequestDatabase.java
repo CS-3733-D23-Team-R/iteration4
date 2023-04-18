@@ -3,6 +3,7 @@ package edu.wpi.teamR.requestdb;
 import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.mapdb.MapDatabase;
+import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.time.LocalDate;

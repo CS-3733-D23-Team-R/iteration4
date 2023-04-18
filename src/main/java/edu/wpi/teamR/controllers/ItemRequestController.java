@@ -4,8 +4,10 @@ import edu.wpi.teamR.Main;
 import edu.wpi.teamR.datahandling.ShoppingCart;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import edu.wpi.teamR.requestdb.*;
+import javafx.collections.ObservableListBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -61,6 +63,8 @@ public class ItemRequestController {
     private Button minMaxGoButton;
 
     private  ArrayList<AvailableItem> items;
+
+    private ObservableList<AvailableItem> obsItems;
 
 
 
@@ -127,11 +131,10 @@ public class ItemRequestController {
 
         addButtonToTable();
 
-
-
         try {
             items = RequestDatabase.getInstance().getAvailableItemsByTypeWithinRangeSortedByPrice(this.type, this.upperBound, this.lowerBound, this.sortOrder);
-            itemTable.getItems().addAll(items);
+            obsItems = FXCollections.observableArrayList(items);
+            itemTable.setItems(obsItems);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -148,20 +151,21 @@ public class ItemRequestController {
 
                     private final Button btn = new Button();
                     {
-                        ImageView imageView = new ImageView(Objects.requireNonNull(Main.class.getResource("images/delete.png")).toExternalForm());
-                        imageView.setPreserveRatio(true);
-                        imageView.setFitHeight(30);
                         btn.getStyleClass().add("food_furniture-clear-button");
-                        btn.setGraphic(imageView);
+                        btn.setText("Add to Cart");
                         btn.setOnAction((ActionEvent event) -> {
                             AvailableItem data = getTableView().getItems().get(getIndex());
-                            itemTable.getItems().remove(data);
+
                             try {
-                                ShoppingCart.getInstance().addItem(data, 1);
+                                ShoppingCart cartInstance = ShoppingCart.getInstance();
+                                cartInstance.addItem(data, 1);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         });
+//                        btn.setOnMouseClicked(event -> {
+//                            btn.set("primaryLightGrey");
+//                        });
                     }
 
                     @Override
@@ -189,28 +193,10 @@ public class ItemRequestController {
     }
 
     private void regenerateTable(){
-//        String testPrintStatement = "Testing query ";
-//        testPrintStatement += "type: " + this.type.toString() + " uppperBound: " + upperBound.toString() + " lowerBound: " + this.lowerBound.toString() + " sort order: " + this.sortOrder.toString();
-//        System.out.println(testPrintStatement);
-//        try {
-//            ArrayList<AvailableItem> items = RequestDatabase.getInstance().getAvailableItemsByTypeWithinRangeSortedByPrice(this.type, this.upperBound, this.lowerBound, this.sortOrder);
-////            System.out.println("database items: ");
-////            System.out.println(items);
-////            for (AvailableItem item : items) {
-////                System.out.println("database item: ");
-////                System.out.println(item.getItemName());
-//            itemTable.getItems().removeAll();
-//            itemTable.getItems().addAll(items);
-////            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
         try {
-            items.clear();
-            items.addAll(RequestDatabase.getInstance().getAvailableItemsByTypeWithinRangeSortedByPrice(this.type, this.upperBound, this.lowerBound, this.sortOrder));
-            itemTable.refresh();
+            items = RequestDatabase.getInstance().getAvailableItemsByTypeWithinRangeSortedByPrice(this.type, this.upperBound, this.lowerBound, this.sortOrder);
+            obsItems = FXCollections.observableArrayList(items);
+            itemTable.setItems(obsItems);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
