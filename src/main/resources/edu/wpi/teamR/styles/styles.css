@@ -231,7 +231,7 @@
 }
 .bodyMedium{
     -fx-font-family: 'Nunito Sans', 'regular';
-    -fx-font-weight: regular;
+    -fx-font-weight: normal;
     -fx-font-size: 21px;
 }
 .boxBackground {

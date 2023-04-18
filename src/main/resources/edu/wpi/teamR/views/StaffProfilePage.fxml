@@ -163,33 +163,13 @@
                         </HBox>
                     </children>
                 </VBox>
-                <VBox layoutX="698.0" layoutY="26.0" prefHeight="662.0" prefWidth="600.0" styleClass="boxShadow" AnchorPane.bottomAnchor="44.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+                <VBox alignment="CENTER" layoutX="698.0" layoutY="26.0" prefHeight="662.0" prefWidth="600.0" AnchorPane.bottomAnchor="44.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                     <children>
-                        <HBox alignment="CENTER_LEFT" maxHeight="50.0" prefHeight="50.0" prefWidth="593.0" style="-fx-background-color: #D9D9D9;">
-                            <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="What's New in the Ward" wrappingWidth="282.63148498535156" HBox.hgrow="ALWAYS">
-                                    <HBox.margin>
-                                        <Insets left="10.0" />
-                                    </HBox.margin>
-                                </Text>
-                                <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
-                                    <children>
-                                        <ImageView fx:id="CreateNewMessage" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
-                                            <image>
-                                                <Image url="@../images/v-icon.png" />
-                                            </image>
-                                            <HBox.margin>
-                                                <Insets right="10.0" />
-                                            </HBox.margin>
-                                        </ImageView>
-                                    </children>
-                                </HBox>
-                            </children>
-                            <VBox.margin>
-                                <Insets />
-                            </VBox.margin>
-                        </HBox>
-                  <VBox fx:id="thread" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS" />
+                  <ImageView fitHeight="662.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
+                     <image>
+                        <Image url="@../images/threadPlaceholder.png" />
+                     </image>
+                  </ImageView>
                     </children>
                 </VBox>
                 <Text fx:id="time" layoutX="14.0" layoutY="699.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="14:32" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />

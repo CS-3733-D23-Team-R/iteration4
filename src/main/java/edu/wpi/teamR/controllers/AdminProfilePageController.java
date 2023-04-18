@@ -24,8 +24,6 @@ public class AdminProfilePageController {
     @FXML Button ToMapEditor, ToEmployeeManager;
     @FXML
     public void initialize(){
-        ToMapEditor.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP_EDITOR));
-        ToEmployeeManager.setOnMouseClicked(event -> {Navigation.navigate(Screen.EMPLOYEEMANAGER);});
         userData thisUserData = userData.getInstance();
         currentUser user = thisUserData.getLoggedIn();
         name.setText(user.getFullName());
@@ -52,5 +50,7 @@ public class AdminProfilePageController {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
         time.setText(formattedDate);
+        ToMapEditor.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP_EDITOR));
+        ToEmployeeManager.setOnMouseClicked(event -> {Navigation.navigate(Screen.EMPLOYEEMANAGER);});
     }
 }
