@@ -3,10 +3,7 @@ package edu.wpi.teamR.controllers;
 import edu.wpi.teamR.App;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.Main;
-import edu.wpi.teamR.controllers.mapeditor.EditLocationPopupController;
-import edu.wpi.teamR.controllers.mapeditor.MapPopupController;
-import edu.wpi.teamR.controllers.mapeditor.NewLocationPopupController;
-import edu.wpi.teamR.controllers.mapeditor.NewNodePopupController;
+import edu.wpi.teamR.controllers.mapeditor.*;
 import edu.wpi.teamR.csv.CSVParameterException;
 import edu.wpi.teamR.csv.CSVWriter;
 import edu.wpi.teamR.mapdb.update.*;
@@ -80,6 +77,7 @@ public class MapEditorController {
     ComboBox<String> tableComboBox;
     @FXML
     MFXCheckbox locationCheckbox;
+    @FXML Text dialogText;
     ObservableList<String> DAOType =
             FXCollections.observableArrayList("Node", "Edge", "LocationName", "Moves");
     ObservableList<String> floors =
@@ -127,6 +125,7 @@ public class MapEditorController {
 
     private MapDatabase mapdb;
     Node selectedNode;
+    Circle selectedCircle;
     boolean drawEdgesMode = false;
     @FXML
     HBox edgeHBox;
@@ -165,7 +164,13 @@ public class MapEditorController {
         });
 
         editButton.setOnAction(event -> gesturePane.setGestureEnabled(false));
-        saveButton.setOnAction(event -> gesturePane.setGestureEnabled(true));
+        saveButton.setOnAction(event -> {
+            try {
+                saveChanges();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         floorComboBox.setOnAction(event -> {
             try {
@@ -203,7 +208,7 @@ public class MapEditorController {
                 popupStage.initModality(Modality.APPLICATION_MODAL);
                 popupStage.setTitle("Create New Node");
                 popupStage.setScene(new Scene(popupRoot, 400, 200));
-                popupStage.showAndWait(); // Show the popup and wait for it to be closed
+                popupStage.showAndWait();
                 redraw();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -283,6 +288,7 @@ public class MapEditorController {
         drawEdgesMode=setting;
         edgeHBox.setVisible(setting);
         edgeHBox.setManaged(setting);
+        dialogText.setText("Select Two Nodes to Draw Edge");
     }
 
     public void changeFloor(int floorNum) throws SQLException, ItemNotFoundException {
@@ -291,7 +297,9 @@ public class MapEditorController {
             imageView = new ImageView(linkArray[currentFloor].toExternalForm());
             mapPane.getChildren().clear();
             mapPane.getChildren().add(imageView);
-            reset();
+            if (selectedNode == null) {
+                reset();
+            }
             redraw();
         }
     }
@@ -366,16 +374,6 @@ public class MapEditorController {
         tableComboBox.setValue(null);
     }
 
-    private void addLine(int nodeID, Line line) {
-        if (linesMap.containsKey(nodeID)) {
-            linesMap.get(nodeID).add(line);
-        } else {
-            ArrayList<Line> lines = new ArrayList<>();
-            lines.add(line);
-            linesMap.put(nodeID, lines);
-        }
-    }
-
     public void openFile() {
         fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
@@ -424,97 +422,88 @@ public class MapEditorController {
             Circle c = new Circle(n.getXCoord(), n.getYCoord(), 5, Color.RED);
             nodePanes[floor].getChildren().add(c);
 
-            AtomicBoolean dragging = new AtomicBoolean(false);
-
             c.setOnMouseClicked(event -> {
-                if (!dragging.get()) {
-                    if (drawEdgesMode) {
-                        if (selectedNode == null) {
-                            selectedNode = n;
-                        } else {
+                if (drawEdgesMode) {
+                    if (selectedNode == null) {
+                        selectedNode = n;
+                        selectedCircle = c;
+                        selectedCircle.setFill(Color.YELLOW);
+                    } else {
+                        if (selectedNode.equals(n)) {
+                            selectedCircle.setFill(Color.RED);
+                            selectedNode = null;
+                            edgeDialog(false);
+                            return;
+                        }
+                        if (selectedNode.getFloorNum().equals(n.getFloorNum())) {
                             Line l1 = new Line(selectedNode.getXCoord(), selectedNode.getYCoord(), n.getXCoord(), n.getYCoord());
-                            updater.addEdge(selectedNode.getNodeID(), n.getNodeID());
+                            l1.setStrokeWidth(4);
+                            l1.setStroke(Color.RED);
                             nodePanes[floor].getChildren().add(l1);
                             addLine(n.getNodeID(), l1);
                             addLine(selectedNode.getNodeID(), l1);
                             l1.toBack();
-                            selectedNode = null;
-                            edgeDialog(false);
+                            selectedCircle.setFill(Color.RED);
                         }
-                    } else {
-                        if (event.getButton().equals(MouseButton.PRIMARY)) return;
-                        PopOver popOver = new PopOver();
-                        final FXMLLoader loader =
-                                new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/MapPopup.fxml"));
-                        Parent popup;
+                        else {
+                            String startNodeType;
+                            String endNodeType;
+                            try {
+                                startNodeType = mapdb.getNodeTypeByNodeID(selectedNode.getNodeID());
+                                endNodeType = mapdb.getNodeTypeByNodeID(n.getNodeID());
+                            } catch (SQLException | ItemNotFoundException e) {
+                                throw new RuntimeException(e);
+                            }
+                            if (!(startNodeType.equals(endNodeType) && (startNodeType.equals("STAI") || startNodeType.equals("ELEV")))) {
+                                dialogText.setText("Cannot create edge!");
+                                selectedNode = null;
+                                return;
+                            }
+                        }
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/EdgeCreatedPopup.fxml"));
                         try {
-                            popup = loader.load();
+                            Parent popupRoot = loader.load();
+                            EdgeCreatedPopupController popupController = loader.getController();
+                            popupController.setText(selectedNode.getNodeID(), n.getNodeID());
+
+                            Stage popupStage = new Stage();
+                            popupStage.initModality(Modality.APPLICATION_MODAL);
+                            popupStage.setTitle("Edge Created");
+                            popupStage.setScene(new Scene(popupRoot, 400, 200));
+                            popupStage.showAndWait();
                         } catch (IOException e) {
                             e.printStackTrace();
-                            throw new RuntimeException(e);
                         }
-                        MapPopupController controller = loader.getController();
-                        controller.showNodeInformation(updater, n, ln.get(0), m);
-
-                        popOver.setContentNode(popup);
-                        popOver.setArrowLocation(PopOver.ArrowLocation.TOP_CENTER);
-                        popOver.setAutoHide(true);
-                        popOver.show(c);
+                        updater.addEdge(selectedNode.getNodeID(), n.getNodeID());
+                        selectedNode = null;
+                        edgeDialog(false);
                     }
+                } else {
+                    if (event.getButton().equals(MouseButton.PRIMARY)) return;
+                    PopOver popOver = new PopOver();
+                    final FXMLLoader loader =
+                            new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/MapPopup.fxml"));
+                    Parent popup;
+                    try {
+                        popup = loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw new RuntimeException(e);
+                    }
+                    MapPopupController controller = loader.getController();
+                    controller.showNodeInformation(updater, n, ln.get(0), m);
+
+                    popOver.setContentNode(popup);
+                    popOver.setArrowLocation(PopOver.ArrowLocation.TOP_CENTER);
+                    popOver.setAutoHide(true);
+                    popOver.show(c);
                 }
             });
 
-            AtomicBoolean linesCleared = new AtomicBoolean(false);
             c.setOnMouseDragged(dragEvent -> {
                 if (!gesturePane.isGestureEnabled()) {
-                    dragging.set(true);
                     c.setCenterX(dragEvent.getX());
                     c.setCenterY(dragEvent.getY());
-                    List<Edge> n_edges = null;
-                    try {
-                        n_edges = mapdb.getEdgesByNode(n.getNodeID());
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                    if (!linesCleared.get()) {
-                        nodePanes[floor].getChildren().removeAll(linesMap.get(n.getNodeID()));
-                        linesCleared.set(true);
-                    }
-                    for (Edge e: n_edges) {
-                        if (linesMap.containsKey(e.getEndNode())) {
-                            nodePanes[floor].getChildren().remove(linesMap.get(e.getEndNode()).get(0));
-                            linesMap.remove(e.getEndNode());
-                        }
-                        if (linesMap.containsKey(e.getStartNode())) {
-                            nodePanes[floor].getChildren().remove(linesMap.get(e.getStartNode()).get(0));
-                            linesMap.remove(e.getStartNode());
-                        }
-                        Line l1;
-                        Node startNode;
-                        try {
-                            startNode = mapdb.getNodeByID(e.getStartNode());
-                        } catch (SQLException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        Node endNode;
-                        try {
-                            endNode = mapdb.getNodeByID(e.getEndNode());
-                        } catch (SQLException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        if (n.getNodeID() == startNode.getNodeID()) {
-                            l1 = new Line(dragEvent.getX(), dragEvent.getY(), endNode.getXCoord(), endNode.getYCoord());
-                        }
-                        else {
-                            l1 = new Line(startNode.getXCoord(), startNode.getYCoord(), dragEvent.getX(), dragEvent.getY());
-                        }
-                        l1.setStroke(Color.RED);
-                        l1.setStrokeWidth(4);
-                        nodePanes[floor].getChildren().add(l1);
-                        addLine(e.getStartNode(), l1);
-                        addLine(e.getEndNode(), l1);
-                        l1.toBack();
-                    }
                 }
             });
             c.setOnMouseReleased(dragEvent -> {
@@ -525,30 +514,30 @@ public class MapEditorController {
                         }
                         List<Edge> n_edges = null;
                         n_edges = mapdb.getEdgesByNode(n.getNodeID());
-                        Line l1;
+                        Line l1 = null;
                         for(Edge e: n_edges) {
                             Node startNode = mapdb.getNodeByID(e.getStartNode());
                             Node endNode = mapdb.getNodeByID(e.getEndNode());
-                            if (n.getNodeID() == e.getStartNode()) {
+                            if (n.getNodeID() == e.getStartNode() && endNode.getFloorNum().equals(nodeFloorNames[floor])) {
                                 l1 = new Line(dragEvent.getX(), dragEvent.getY(), endNode.getXCoord(), endNode.getYCoord());
                             }
-                            else {
+                            else if (n.getNodeID() == e.getEndNode() && startNode.getFloorNum().equals(nodeFloorNames[floor])){
                                 l1 = new Line(startNode.getXCoord(), startNode.getYCoord(), dragEvent.getX(), dragEvent.getY());
                             }
-                            l1.setStroke(Color.RED);
-                            l1.setStrokeWidth(4);
-                            nodePanes[floor].getChildren().add(l1);
-                            l1.toBack();
-                            addLine(n.getNodeID(), l1);
+                            if (l1 != null) {
+                                l1.setStroke(Color.RED);
+                                l1.setStrokeWidth(4);
+                                nodePanes[floor].getChildren().add(l1);
+                                l1.toBack();
+                                addLine(n.getNodeID(), l1);
+                            }
                         }
                         updater.modifyCoords(n.getNodeID(), (int) dragEvent.getX(), (int) dragEvent.getY());
-                        linesCleared.set(false);
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
                 }
             });
-            dragging.set(false);
 
             String shortName = ln.get(0).getShortName();
             if (!shortName.contains("Hall")) {
@@ -577,13 +566,32 @@ public class MapEditorController {
         MapDataType type = undo.data().getDataType();
         switch(type) {
             case NODE:
-                // do something
+                Node node = (Node)(undo.data());
+                Circle c = new Circle(node.getXCoord(), node.getYCoord(), 4, Color.RED);
             case EDGE:
-                // do something
+                assert (undo.data()) instanceof Edge;
+                Edge edge = (Edge)(undo.data());
             case MOVE:
-                // do something
+                assert (undo.data()) instanceof Move;
+                Move move = (Move)(undo.data());
             case LOCATION_NAME:
-                // do something
+                assert (undo.data()) instanceof LocationName;
+                LocationName locationName = (LocationName)(undo.data());
+        }
+    }
+
+    private void saveChanges() throws SQLException {
+        gesturePane.setGestureEnabled(true);
+        //updater.submitUpdates();
+    }
+
+    private void addLine(int nodeID, Line line) {
+        if (linesMap.containsKey(nodeID)) {
+            linesMap.get(nodeID).add(line);
+        } else {
+            ArrayList<Line> lines = new ArrayList<>();
+            lines.add(line);
+            linesMap.put(nodeID, lines);
         }
     }
 }
