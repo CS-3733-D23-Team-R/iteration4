@@ -4,12 +4,16 @@ import edu.wpi.teamR.requestdb.AvailableItem;
 import edu.wpi.teamR.requestdb.ItemRequest;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Set;
 
 public class ShoppingCart {
     public HashMap<AvailableItem, Integer> items = new HashMap<AvailableItem, Integer>();
 
     private static ShoppingCart instance;
+
+
 
     public ShoppingCart() {}
 
@@ -39,4 +43,15 @@ public class ShoppingCart {
         items.replace(item, items.get(item) - 1);
     }
     public void clearCart(){ items.clear(); }
+
+
+    //returns the total price of all items in the items shopping cart
+    public double calculateTotal() {
+        Set<AvailableItem> itemsSet = items.keySet();
+        double total = 0;
+        for (AvailableItem i : itemsSet) {
+            total += i.getItemPrice() * items.get(i);
+        }
+        return total;
+    }
 }

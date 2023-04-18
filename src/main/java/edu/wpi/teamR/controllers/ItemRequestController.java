@@ -10,6 +10,8 @@ import edu.wpi.teamR.requestdb.*;
 import javafx.collections.ObservableListBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -17,7 +19,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import oracle.ucp.common.FailoverStats;
+import org.controlsfx.control.PopOver;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -26,6 +30,17 @@ public class ItemRequestController {
 
 //    @FXML
 //    private ComboBox<String> itemFilterByComboBox;
+    @FXML
+    private ToggleButton flowersButton;
+
+    @FXML
+    private ToggleButton foodButton;
+
+    @FXML
+    private ToggleButton furnitureButton;
+
+    @FXML
+    private ToggleButton suppliesButton;
     @FXML
     private TextField itemMaxField;
     @FXML
@@ -48,12 +63,15 @@ public class ItemRequestController {
     private Text itemThirtytoForty;
     @FXML
     private Text itemTwentytoThirty;
-    @FXML
-    private MFXComboBox<RequestType> itemTypeBox;
+//    @FXML
+//    private MFXComboBox<RequestType> itemTypeBox;
     @FXML
     private Text itemZerotoTen;
     @FXML
     private Text itemThirtyPlus;
+    @FXML ImageView cartButton;
+
+
 
     private RequestType type = RequestType.Meal;
     private Double lowerBound = null;
@@ -70,8 +88,39 @@ public class ItemRequestController {
 
     @FXML public void initialize(){
         ObservableList<RequestType> itemTypeList = FXCollections.observableArrayList();
-        for (RequestType type : RequestType.values()) {itemTypeList.add(type);} //add all request types to combo box
-        itemTypeBox.setItems(itemTypeList);
+//        for (RequestType type : RequestType.values()) {itemTypeList.add(type);} //add all request types to combo box
+//        itemTypeBox.setItems(itemTypeList);
+        furnitureButton.setOnAction(event -> {
+            this.type = RequestType.Furniture;
+            regenerateTable();
+            suppliesButton.setSelected(false);
+            foodButton.setSelected(false);
+            flowersButton.setSelected(false);
+        });
+        foodButton.setOnAction(event -> {
+            this.type = RequestType.Meal;
+            regenerateTable();
+            furnitureButton.setSelected(false);
+            suppliesButton.setSelected(false);
+            flowersButton.setSelected(false);
+        });
+
+        foodButton.setSelected(true);
+
+        flowersButton.setOnAction(event -> {
+            this.type = RequestType.Flower;
+            regenerateTable();
+            furnitureButton.setSelected(false);
+            foodButton.setSelected(false);
+            suppliesButton.setSelected(false);
+        });
+        suppliesButton.setOnAction(event -> {
+            this.type = RequestType.Supplies;
+            regenerateTable();
+            furnitureButton.setSelected(false);
+            foodButton.setSelected(false);
+            flowersButton.setSelected(false);
+        });
 
 //        itemFilterByComboBox.setItems(FXCollections.observableArrayList("Unsorted", "Price: Low to High", "Price: High to Low"));
 
@@ -117,17 +166,18 @@ public class ItemRequestController {
 //            regenerateTable();
 //        });
 
-        itemTypeBox.setOnAction(event -> {
-            RequestType comboType = itemTypeBox.getSelectionModel().getSelectedItem();
-            this.type = comboType;
-            regenerateTable();
-        });
+//        itemTypeBox.setOnAction(event -> {
+//            RequestType comboType = itemTypeBox.getSelectionModel().getSelectedItem();
+//            this.type = comboType;
+//            regenerateTable();
+//        });
 
         minMaxGoButton.setOnAction(event -> {
             this.lowerBound = Double.valueOf(itemMinField.getText());
             this.upperBound = Double.valueOf(itemMaxField.getText());
             regenerateTable();
         });
+
 
         addButtonToTable();
 
@@ -141,6 +191,26 @@ public class ItemRequestController {
             e.printStackTrace();
         }
 
+        cartButton.setOnMouseClicked(event -> {
+            try {
+                openCart();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+    }
+
+    private void openCart() throws IOException {
+        final FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/ServiceRequestCart.fxml"));
+        PopOver popover = new PopOver();
+        Parent popup;
+        popup = loader.load();
+        popover.setContentNode(popup);
+        popover.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
+        popover.setAutoHide(true);
+        popover.show(cartButton);
+        System.out.println("opened");
     }
 
     private void addButtonToTable() {
@@ -203,4 +273,5 @@ public class ItemRequestController {
             throw new RuntimeException(e);
         }
     }
+
 }

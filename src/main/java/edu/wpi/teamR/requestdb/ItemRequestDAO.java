@@ -25,7 +25,7 @@ public class ItemRequestDAO {
         ResultSet resultSet = preparedStatement.getGeneratedKeys();
         int requestID = 0;
         if (resultSet.next())
-            requestID = resultSet.getInt("nodeID");
+            requestID = resultSet.getInt("requestID");
         return new ItemRequest(requestID, requestType, requestStatus, longname, staffUsername, itemType, requesterName, additionalNotes, requestDate);
     }
 
@@ -70,13 +70,17 @@ public class ItemRequestDAO {
         for (Triple<RequestAttribute, Operation, Object> triple : filterRequirements){
             String operationString = "";
 
-            switch (triple.getMiddle()){
-                case lessThan -> operationString = "<";
-                case equalTo -> operationString = "=";
-                case greaterThan -> operationString = ">";
+            if (triple.getRight() == null)
+                operationString = " IS ";
+            else{
+                switch (triple.getMiddle()){
+                    case lessThan -> operationString = "<";
+                    case equalTo -> operationString = "=";
+                    case greaterThan -> operationString = ">";
+                }
             }
 
-            stringBuilder.append("AND "+triple.getLeft().toString()+operationString+"? ");
+            stringBuilder.append("AND ").append(triple.getLeft().toString()).append(operationString).append("? ");
         }
 
         //Add order by segment of statement
@@ -92,7 +96,7 @@ public class ItemRequestDAO {
                 case orderByAsc -> orderDirectionString = " asc";
             }
 
-            stringBuilder.append(triple.getLeft().toString()+orderDirectionString+",");
+            stringBuilder.append(triple.getLeft().toString()).append(orderDirectionString).append(",");
         }
         stringBuilder.deleteCharAt(stringBuilder.length()-1); //remove the last ,
         stringBuilder.append(";");
@@ -104,23 +108,26 @@ public class ItemRequestDAO {
             Object compareValue = filterRequirements.get(j).getRight();
 
             if (compareValue instanceof Integer)
-                preparedStatement.setInt(j, (Integer) compareValue);
+                preparedStatement.setInt(j+1, (Integer) compareValue);
             if (compareValue instanceof RequestType)
-                preparedStatement.setString(j, ((RequestType) compareValue).toString());
+                preparedStatement.setString(j+1, ((RequestType) compareValue).toString());
             if (compareValue instanceof RequestStatus)
-                preparedStatement.setString(j, ((RequestStatus) compareValue).toString());
+                preparedStatement.setString(j+1, ((RequestStatus) compareValue).toString());
             if (compareValue instanceof String)
-                preparedStatement.setString(j, (String) compareValue);
+                preparedStatement.setString(j+1, (String) compareValue);
             if (compareValue instanceof Timestamp)
-                preparedStatement.setTimestamp(j, (Timestamp) compareValue);
+                preparedStatement.setTimestamp(j+1, (Timestamp) compareValue);
+            if (compareValue==null)
+                preparedStatement.setString(j+1, null);
         }
 
         return getItemRequests(preparedStatement);
     }
 
     @NotNull
-    private ArrayList<ItemRequest> getItemRequests(PreparedStatement preparedStatement) throws SQLException {
-        ResultSet resultSet = preparedStatement.executeQuery();
+    private ArrayList<ItemRequest> getItemRequests(PreparedStatement preparedStatement) throws SQLException, ClassNotFoundException {
+        Statement statement = Configuration.getConnection().createStatement();
+        ResultSet resultSet = statement.executeQuery(preparedStatement.toString()); //preparedStatement.executeQuery();
         ArrayList<ItemRequest> itemRequests = new ArrayList<>();
         while (resultSet.next()){
             int requestID = resultSet.getInt("requestID");
