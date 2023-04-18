@@ -5,6 +5,7 @@
     secondaryYellow: #F6BD38;
     primaryWhite: #F1F1F1;
     darkNeutral: #403C3B;
+    primaryLightGrey: #BDBDBD;
 }
 
 .button {
@@ -242,11 +243,12 @@
     -fx-border-radius: 4px;
 }
 
-.horizontal-bar{
+.horizontal-bar {
     -fx-fill: darkNeutral;
     -fx-stroke: None;
     -fx-effect: DropShadow;
     -fx-scale-y: 0.2;
+}
 
 .signage-button:pressed{
     -fx-background-color: pressed;

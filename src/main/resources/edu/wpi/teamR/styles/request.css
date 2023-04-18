@@ -5,10 +5,28 @@
     secondaryYellow: #F6BD38;
     primaryWhite: #F1F1F1;
     darkNeutral: #403C3B;
+    primaryLightGrey: #BDBDBD;
 }
 
 .requestFilterBar {
     -fx-background-color: secondaryBlue;
+}
+
+.requestBarText {
+    -fx-fill: primaryLightGrey;
+}
+
+.requestBarSubtitle {
+    -fx-fill: primaryLightGrey;
+    -fx-font-size: 28;
+    -fx-font-style: 'Lato';
+}
+
+.requestBarTitle {
+    -fx-fill: primaryWhite;
+    -fx-font-family: 'Lato', 'bold';
+    -fx-font-weight: bold;
+    -fx-font-size: 36px;
 }
 
 .requestBackground {
