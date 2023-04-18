@@ -54,7 +54,7 @@ public class MapStorage {
 
     public MapStorage() throws SQLException, ClassNotFoundException {
         mapdb = new MapDatabase();
-        // nodes = mapdb.getNodes();
+        nodes = mapdb.getNodes();
         edges = mapdb.getEdges();
         locationNames = mapdb.getLocationNames();
         moves = mapdb.getMoves();
@@ -78,6 +78,7 @@ public class MapStorage {
 
         }
     }
+    /*
 
     public Node getNodeByID(int nodeID) {
         return nodeMap.get(nodeID);
@@ -102,6 +103,7 @@ public class MapStorage {
 
         }
     }
+    */
 
     public static ImageView getLowerLevel2() {
         return lowerLevel2;

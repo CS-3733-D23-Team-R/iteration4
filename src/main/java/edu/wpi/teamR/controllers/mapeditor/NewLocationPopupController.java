@@ -12,12 +12,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.xml.sax.Locator;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class NewLocationPopupController {
     MapUpdater mapUpdater;
     MapDatabase mapDB;
+    ArrayList<LocationName> locationNames;
 
     @FXML
     TextField longField;
@@ -32,6 +35,7 @@ public class NewLocationPopupController {
 
     public void initialize() {
         this.mapDB = App.getMapData().getMapdb();
+        locationNames = App.getMapData().getLocationNames();
 
         typeBox.setItems(locationTypes);
         addButton.setOnAction(event -> {
@@ -57,7 +61,9 @@ public class NewLocationPopupController {
             loc = null;
         }
         if (loc == null) {
+            LocationName l = new LocationName(longField.getText(), shortField.getText(), typeBox.getValue());
             mapUpdater.addLocationName(longField.getText(), shortField.getText(), typeBox.getValue());
+            locationNames.add(l);
         }
     }
 

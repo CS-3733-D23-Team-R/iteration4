@@ -1,5 +1,6 @@
 package edu.wpi.teamR.controllers.mapeditor;
 
+import edu.wpi.teamR.App;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.mapdb.*;
 import edu.wpi.teamR.mapdb.update.MapUpdater;
@@ -9,10 +10,12 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.controlsfx.control.PopOver;
 
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class MapPopupController {
     @FXML
@@ -25,11 +28,13 @@ public class MapPopupController {
     Node node;
     Move move;
     MapUpdater mapUpdater;
+    ArrayList<Node> nodes;
     LocationName locationName;
     @FXML
     Button deleteButton;
     @FXML
     public void initialize() {
+        nodes = App.getMapData().getNodes();
         moveDatePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 handleDatePickerChange(newValue);
@@ -52,6 +57,7 @@ public class MapPopupController {
         deleteButton.setOnAction(event -> {
             try {
                 delete();
+                close((PopOver)deleteButton.getScene().getWindow());
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -59,8 +65,8 @@ public class MapPopupController {
     }
 
     @FXML
-    public void close(Stage primaryStage) {
-        primaryStage.close();
+    public void close(PopOver primaryStage) {
+        primaryStage.hide();
     }
 
     @FXML public void start(Stage primaryStage) {
@@ -95,5 +101,6 @@ public class MapPopupController {
         mapUpdater.deleteEdgesByNode(node.getNodeID());
         mapUpdater.deleteMovesByNode(move.getNodeID());
         mapUpdater.deleteNode(node.getNodeID());
+        nodes.remove(node);
     }
 }

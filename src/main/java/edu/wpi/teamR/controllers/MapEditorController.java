@@ -124,6 +124,10 @@ public class MapEditorController {
     HashMap<String, Integer> floorNamesMap = new HashMap<>();
 
     private MapDatabase mapdb;
+    ArrayList<Node> nodes;
+    ArrayList<Edge> edges;
+    ArrayList<LocationName> locationNames;
+    ArrayList<Move> moves;
     Node selectedNode;
     Circle selectedCircle;
     boolean drawEdgesMode = false;
@@ -248,6 +252,10 @@ public class MapEditorController {
         try {
             mapdb = App.getMapData().getMapdb();
             updater = new MapUpdater(mapdb);
+            nodes = App.getMapData().getNodes();
+            edges = App.getMapData().getEdges();
+            locationNames = App.getMapData().getLocationNames();
+            moves = App.getMapData().getMoves();
             ArrayList<MapLocation> locations = mapdb.getMapLocationsByFloor(nodeFloorNames[currentFloor]);
             if (locations.size() > 0) {
                 for (MapLocation location : locations) {
@@ -479,24 +487,37 @@ public class MapEditorController {
                         edgeDialog(false);
                     }
                 } else {
-                    if (event.getButton().equals(MouseButton.PRIMARY)) return;
-                    PopOver popOver = new PopOver();
-                    final FXMLLoader loader =
-                            new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/MapPopup.fxml"));
-                    Parent popup;
-                    try {
-                        popup = loader.load();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
-                    MapPopupController controller = loader.getController();
-                    controller.showNodeInformation(updater, n, ln.get(0), m);
+                    if (event.getButton().equals(MouseButton.SECONDARY)) return;
+                    if(gesturePane.isGestureEnabled()) {
+                        PopOver popOver = new PopOver();
+                        final FXMLLoader loader =
+                                new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/MapPopup.fxml"));
+                        Parent popup;
+                        try {
+                            popup = loader.load();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            throw new RuntimeException(e);
+                        }
+                        MapPopupController controller = loader.getController();
+                        controller.showNodeInformation(updater, n, ln.get(0), m);
 
-                    popOver.setContentNode(popup);
-                    popOver.setArrowLocation(PopOver.ArrowLocation.TOP_CENTER);
-                    popOver.setAutoHide(true);
-                    popOver.show(c);
+                        popOver.setContentNode(popup);
+                        popOver.setArrowLocation(PopOver.ArrowLocation.TOP_CENTER);
+                        popOver.setAutoHide(true);
+
+                        popOver.showingProperty().addListener((observable, oldValue, newValue) -> {
+                            if (!newValue) {
+                                if (!nodes.contains(n)) {
+                                    // if node is deleted remove all nodes and edges from map
+                                    nodePanes[floor].getChildren().remove(c);
+                                    nodePanes[floor].getChildren().removeAll(linesMap.get(n.getNodeID()));
+                                }
+                            }
+                        });
+
+                        popOver.show(c);
+                    }
                 }
             });
 

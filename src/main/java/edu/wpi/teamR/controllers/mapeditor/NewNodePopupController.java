@@ -1,6 +1,8 @@
 package edu.wpi.teamR.controllers.mapeditor;
 
+import edu.wpi.teamR.App;
 import edu.wpi.teamR.mapdb.MapDatabase;
+import edu.wpi.teamR.mapdb.Node;
 import edu.wpi.teamR.mapdb.update.MapUpdater;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,9 +13,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class NewNodePopupController {
     MapUpdater mapUpdater;
+    ArrayList<Node> nodes;
 
     @FXML
     TextField xField;
@@ -35,6 +39,8 @@ public class NewNodePopupController {
             FXCollections.observableArrayList("15 Francis", "45 Francis", "BTM", "Shapiro", "Tower");
 
     public void initialize() {
+        nodes = App.getMapData().getNodes();
+
         floorCB.setItems(floors);
         buildingCB.setItems(buildingNames);
         addButton.setOnAction(event -> {
@@ -54,6 +60,7 @@ public class NewNodePopupController {
 
     public void createNewNode() throws SQLException {
         mapUpdater.addNode(Integer.parseInt(xField.getText()), Integer.parseInt(xField.getText()), floorCB.getValue(), buildingCB.getValue());
+        nodes.add(new Node(-1, Integer.parseInt(xField.getText()), Integer.parseInt(xField.getText()), floorCB.getValue(), buildingCB.getValue()));
     }
 
     public void setUpdater(MapUpdater updater) {
