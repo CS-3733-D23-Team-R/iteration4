@@ -67,15 +67,20 @@ public class MapPopupController {
 
     public void showNodeInformation(MapUpdater updater, Node n) throws SQLException {
         node = n;
-        move = mapdb.getMovesByNode(n.getNodeID()).get(0);
+        if (mapdb.getMovesByNode(n.getNodeID()).size() > 0) {
+            move = mapdb.getMovesByNode(n.getNodeID()).get(0);
+            Date moveDate = move.getMoveDate();
+            LocalDate date = moveDate.toLocalDate();
+            moveDatePicker.setValue(date);
+        }
+        else {
+            moveDatePicker.setValue(null);
+        }
         mapUpdater = updater;
         //locationName = ;
         nodeField.setText(Integer.toString(n.getNodeID()));
         xText.setText(Integer.toString(n.getXCoord()));
         yText.setText(Integer.toString(n.getYCoord()));
-        Date moveDate = move.getMoveDate();
-        LocalDate date = moveDate.toLocalDate();
-        moveDatePicker.setValue(date);
     }
 
     private void handleDatePickerChange(LocalDate newValue) throws SQLException {
