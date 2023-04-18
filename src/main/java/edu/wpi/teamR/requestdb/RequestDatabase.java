@@ -1,9 +1,6 @@
 package edu.wpi.teamR.requestdb;
 
-import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.ItemNotFoundException;
-import edu.wpi.teamR.mapdb.MapDatabase;
-import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -38,6 +35,10 @@ public class RequestDatabase {
 
     public ArrayList<AvailableItem> getAvailableItemsByTypeWithinRangeSortedByPrice(RequestType requestType, Double upperBound, Double lowerBound, SortOrder sortOrder) throws SQLException, ClassNotFoundException {
         return new AvailableItemDAO().getAvailableItemsByTypeWithinRangeSortedByPrice(requestType, upperBound, lowerBound, sortOrder);
+    }
+
+    public AvailableItem getAvailableItemByName(String itemName, RequestType requestType) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        return new AvailableItemDAO().getAvailableItemByName(itemName, requestType);
     }
 
     public RoomRequest addRoomRequest(String longname, String staffUsername, Timestamp startTime, Timestamp endTime) throws SQLException, ClassNotFoundException {
