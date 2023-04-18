@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import javafx.animation.Interpolator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -55,6 +56,8 @@ public class MapController {
     @FXML MFXCheckbox textCheckbox;
 
     @FXML MFXCheckbox locationNamesCheckbox;
+    @FXML
+    MFXDatePicker moveDatePicker;
     AnchorPane[] locationPanes = new AnchorPane[5];
 
     ImageView imageView;
@@ -296,7 +299,7 @@ public class MapController {
                 paths[drawFloor].getChildren().add(l1);
             }
             else {
-                Rectangle square = new Rectangle(n1.getXCoord(), n1.getYCoord(), 10, 10);
+                Rectangle square = new Rectangle(n1.getXCoord(), n1.getYCoord(), 12, 12);
                 square.setFill(Color.LIMEGREEN);
                 int newFloor = floorNamesMap.get(n2.getFloorNum());
                 square.setOnMouseClicked(event -> {
