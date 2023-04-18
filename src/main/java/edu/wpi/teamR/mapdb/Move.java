@@ -15,7 +15,7 @@ public class Move implements MapData, CSVReadable, CSVWritable {
     private int nodeID;
     private String longName;
     private Date moveDate;
-    Move(int nodeID, String longName, Date moveDate){
+    public Move(int nodeID, String longName, Date moveDate){
         this.nodeID = nodeID;
         this.longName = longName;
         this.moveDate = moveDate;

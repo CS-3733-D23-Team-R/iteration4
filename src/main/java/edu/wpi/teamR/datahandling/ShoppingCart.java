@@ -1,12 +1,13 @@
 package edu.wpi.teamR.datahandling;
 
+import edu.wpi.teamR.requestdb.AvailableItem;
 import edu.wpi.teamR.requestdb.ItemRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ShoppingCart {
-    public HashMap<ItemRequest, Integer> items;
+    public HashMap<AvailableItem, Integer> items = new HashMap<AvailableItem, Integer>();
 
     private static ShoppingCart instance;
 
@@ -23,16 +24,18 @@ public class ShoppingCart {
         instance = null;
     }
 
-    public void addItem(ItemRequest item, int quantity){
-        items.put(item, quantity);
+    public void addItem(AvailableItem item, int quantity){
+        if(!items.containsKey(item)){
+            items.putIfAbsent(item, quantity);
+        } else {incrementItem(item);}
     }
-    public void incrementItem(ItemRequest item){
+    public void incrementItem(AvailableItem item){
         items.replace(item, items.get(item) + 1);
     }
-    public void deleteItem(ItemRequest item){
+    public void deleteItem(AvailableItem item){
         items.remove(item);
     }
-    public void decrementItem(ItemRequest item) {
+    public void decrementItem(AvailableItem item) {
         items.replace(item, items.get(item) - 1);
     }
     public void clearCart(){ items.clear(); }

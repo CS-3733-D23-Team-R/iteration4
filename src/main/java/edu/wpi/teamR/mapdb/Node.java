@@ -14,7 +14,7 @@ public class Node implements MapData, CSVReadable, CSVWritable {
     private int yCoord;
     private String floorNum, building;
 
-    Node(int nodeID, int xCoord, int yCoord, String floorNum, String building){
+    public Node(int nodeID, int xCoord, int yCoord, String floorNum, String building){
         this.nodeID = nodeID;
         this.xCoord = xCoord;
         this.yCoord = yCoord;
