@@ -1,0 +1,23 @@
+.table-row-cell:odd {
+    -fx-background-color: #f2f2f2;
+}
+.table-row-cell:hover {
+    -fx-background-color: #ddd;
+}
+.highlighted-row {
+    -fx-background-color: yellow;
+}
+
+.highlighted-cell {
+    -fx-font-weight: bold;
+}
+.table-cell {
+    -fx-border-width: 1px;
+    -fx-border-color: #ddd;
+    -fx-padding: 10px;
+}
+.table-header-cell {
+    -fx-font-weight: bold;
+    -fx-font-size: 1.2em;
+    -fx-text-transform: uppercase;
+}

@@ -22,10 +22,10 @@
                      <children>
                         <VBox prefWidth="440.0" styleClass="loginRectangle" HBox.hgrow="ALWAYS">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Rick Sanchez" VBox.vgrow="ALWAYS" />
+                              <Text fx:id="name" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Rick Sanchez" VBox.vgrow="ALWAYS" />
                               <VBox VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Email:" VBox.vgrow="ALWAYS" />
+                                    <Text fx:id="email" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Email:" VBox.vgrow="ALWAYS" />
                                     <Text fx:id="email" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="rickisgay@gayforgood.org" VBox.vgrow="ALWAYS" />
                                  </children>
                               </VBox>

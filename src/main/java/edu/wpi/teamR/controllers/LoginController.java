@@ -33,17 +33,17 @@ public class LoginController {
 
     @FXML
     public void checkLogIn() throws SQLException, ClassNotFoundException, ItemNotFoundException {
-        AuthenticationDAO authenticationDAO = AuthenticationDAO.getInstance();
         userData thisUserData = edu.wpi.teamR.userData.userData.getInstance();
-        User aUser = authenticationDAO.getUserByUsername(usernameField.getText());
-        currentUser User = new currentUser(aUser.getStaffUsername(), aUser.getPassword(), aUser.getAccessLevel()); //TODO: update this with alton's new user class
-        thisUserData.setLoggedIn(User);
         System.out.println(usernameField.getText());
         System.out.println(passwordField.getText());
+        User aUser = AuthenticationDAO.getInstance().getUserByUsername(usernameField.getText());
+        System.out.println(aUser.getStaffUsername() + ":before");
+        currentUser User = new currentUser(aUser.getStaffUsername(), aUser.getPassword(), aUser.getAccessLevel(), aUser.getName(), aUser.getEmail(), aUser.getDepartment(), aUser.getJoinDate(), aUser.getPhoneNum(), aUser.getJobTitle()); //TODO: update this with alton's new user class
+        thisUserData.setLoggedIn(User);
         if(User.comparePass(passwordField.getText())){
-            if(User.getAccessLevel() == AccessLevel.Admin){
+            if(thisUserData.getLoggedIn().getAccessLevel() == AccessLevel.Admin){
                 Navigation.navigate(Screen.ADMINPROFILEPAGE);
-            } else if(User.getAccessLevel() == AccessLevel.Staff){
+            } else if(thisUserData.getLoggedIn().getAccessLevel() == AccessLevel.Staff){
                 Navigation.navigate(Screen.STAFFPROFILEPAGE);
             }
         } else{
