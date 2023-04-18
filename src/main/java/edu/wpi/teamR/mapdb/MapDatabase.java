@@ -106,6 +106,10 @@ public class MapDatabase {
         return moveDao.getMoves();
     }
 
+    public ArrayList<Move> getMovesForDate(Date date) throws SQLException {
+        return moveDao.getMovesForDate(date);
+    }
+
     public ArrayList<Move> getMovesByNode(int nodeID) throws SQLException {
         return moveDao.getMovesByNodeID(nodeID);
     }
