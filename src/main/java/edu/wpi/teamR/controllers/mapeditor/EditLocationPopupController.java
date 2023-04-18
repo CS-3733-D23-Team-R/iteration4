@@ -85,6 +85,7 @@ public class EditLocationPopupController {
         deleteButton.setOnAction(event -> {
             try {
                 mapUpdater.deleteLocationName(locationComboBox.getValue());
+                mapdb.deleteLocationName(locationComboBox.getValue());
                 close((Stage)submitButton.getScene().getWindow());
             } catch (SQLException | ItemNotFoundException e) {
                 throw new RuntimeException(e);
@@ -103,11 +104,13 @@ public class EditLocationPopupController {
 
     public void submitLocationChange() throws SQLException, ItemNotFoundException {
         LocationName ln = mapdb.getLocationNameByLongName(locationComboBox.getValue());
-        if (!ln.getShortName().equals(shortField)) {
+        if (!ln.getShortName().equals(shortField.getText())) {
             mapUpdater.modifyLocationNameShortName(ln.getLongName(), shortField.getText());
+            mapdb.modifyLocationNameShortName(ln.getLongName(), shortField.getText());
         }
         if (!ln.getNodeType().equals(typeComboBox.getValue())) {
             mapUpdater.modifyLocationNameShortName(ln.getLongName(), typeComboBox.getValue());
+            mapdb.modifyLocationNameShortName(ln.getLongName(), typeComboBox.getValue());
         }
     }
 }

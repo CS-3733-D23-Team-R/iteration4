@@ -94,10 +94,12 @@ public class MapPopupController {
         int nodeID = move.getNodeID();
         String longName = move.getLongName();
         mapUpdater.addMove(nodeID, longName, sqlDate);
+        mapdb.addMove(nodeID, longName, sqlDate);
     }
 
     private void delete() throws SQLException {
         mapUpdater.deleteNode(node.getNodeID());
         nodes.remove(node);
+        mapdb.deleteNode(node.getNodeID());
     }
 }

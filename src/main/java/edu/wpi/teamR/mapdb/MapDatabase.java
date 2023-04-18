@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 import static edu.wpi.teamR.mapdb.NodeDAO.parseNodes;
@@ -57,6 +58,12 @@ public class MapDatabase {
 
     public Node addNode(int xCoord, int yCoord, String floorNum, String building) throws SQLException {
         return nodeDao.addNode(xCoord, yCoord, floorNum, building);
+    }
+
+    public void addNode(Node node) throws SQLException {
+        List<Node> list = new ArrayList<>();
+        list.add(node);
+        nodeDao.addNodes(list);
     }
 
     public Node modifyCoords(int nodeID, int newXCoord, int newYCoord) throws SQLException {

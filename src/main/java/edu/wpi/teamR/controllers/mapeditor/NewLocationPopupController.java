@@ -64,6 +64,8 @@ public class NewLocationPopupController {
             LocationName l = new LocationName(longField.getText(), shortField.getText(), typeBox.getValue());
             mapUpdater.addLocationName(longField.getText(), shortField.getText(), typeBox.getValue());
             locationNames.add(l);
+            mapDB.addLocationName(longField.getText(), shortField.getText(), typeBox.getValue());
+
         }
     }
 

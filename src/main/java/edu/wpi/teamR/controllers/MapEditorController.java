@@ -392,6 +392,11 @@ public class MapEditorController {
                     l1.setOnMouseClicked(event -> {
                         if (!gesturePane.isGestureEnabled()) {
                             updater.deleteEdge(n1.getNodeID(), n2.getNodeID());
+                            try {
+                                mapdb.deleteEdge(n1.getNodeID(), n2.getNodeID());
+                            } catch (SQLException ex) {
+                                throw new RuntimeException(ex);
+                            }
                             updater.endAction();
                             linesMap.remove(e.getStartNode());
                             linesMap.remove(e.getEndNode());
@@ -543,6 +548,11 @@ public class MapEditorController {
                         e.printStackTrace();
                     }
                     updater.addEdge(selectedNode.getNodeID(), n.getNodeID());
+                    try {
+                        mapdb.addEdge(selectedNode.getNodeID(), n.getNodeID());
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
                     updater.endAction();
                     selectedNode = null;
                     edgeDialog(false);
@@ -619,6 +629,7 @@ public class MapEditorController {
                         }
                     }
                     updater.modifyCoords(n.getNodeID(), (int) dragEvent.getX(), (int) dragEvent.getY());
+                    mapdb.modifyCoords(n.getNodeID(), (int) dragEvent.getX(), (int) dragEvent.getY());
                     updater.endAction();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
@@ -650,11 +661,13 @@ public class MapEditorController {
                             Circle add = circlesMap.get(node.getNodeID());
                             nodePanes[currentFloor].getChildren().remove(add);
                             nodes.remove(node);
+                            mapdb.deleteNode(node.getNodeID());
                         }
                         case MODIFICATION -> {
                             Circle mod = circlesMap.get(node.getNodeID());
                             mod.setCenterX(node.getXCoord());
                             mod.setCenterY(node.getYCoord());
+                            mapdb.modifyCoords(node.getNodeID(), node.getXCoord(), node.getYCoord());
                         }
                         case DELETION -> {
                             Circle deleted = new Circle(node.getXCoord(), node.getYCoord(), 4, Color.RED);
@@ -663,6 +676,7 @@ public class MapEditorController {
 
                             nodePanes[currentFloor].getChildren().add(deleted);
                             nodes.add(node);
+                            mapdb.addNode(node);
                         }
                     }
                 }
@@ -674,6 +688,7 @@ public class MapEditorController {
                             nodePanes[currentFloor].getChildren().removeAll(linesMap.get(edge.getStartNode()));
                             nodePanes[currentFloor].getChildren().removeAll(linesMap.get(edge.getEndNode()));
                             edges.remove(edge);
+                            mapdb.deleteEdge(edge.getStartNode(), edge.getEndNode());
                         }
                         case MODIFICATION -> {
                         }
@@ -685,6 +700,7 @@ public class MapEditorController {
                             line.setStrokeWidth(4);
                             line.setStroke(Color.RED);
                             edges.add(edge);
+                            mapdb.addEdge(edge.getStartNode(), edge.getEndNode());
                         }
                     }
                 }
@@ -694,17 +710,20 @@ public class MapEditorController {
                     switch(editType) {
                         case ADDITION -> {
                             moves.remove(move);
+                            mapdb.deleteMove(move.getNodeID(), move.getLongName(), move.getMoveDate());
                         }
                         case MODIFICATION -> {
                         }
                         case DELETION -> {
                             moves.add(move);
+                            mapdb.addMove(move.getNodeID(), move.getLongName(), move.getMoveDate());
                         }
                     }
                 }
                 case LOCATION_NAME -> {
                     LocationName locationName = (LocationName) (undo.data());
                     locationNames.add(locationName);
+                    mapdb.addLocationName(locationName.getLongName(), locationName.getShortName(), locationName.getNodeType());
                 }
             }
         }

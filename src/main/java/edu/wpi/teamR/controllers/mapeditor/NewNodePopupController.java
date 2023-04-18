@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class NewNodePopupController {
     MapUpdater mapUpdater;
     ArrayList<Node> nodes;
+    MapDatabase mapdb;
 
     @FXML
     TextField xField;
@@ -40,7 +41,7 @@ public class NewNodePopupController {
 
     public void initialize() {
         nodes = App.getMapData().getNodes();
-
+        mapdb = App.getMapData().getMapdb();
         floorCB.setItems(floors);
         buildingCB.setItems(buildingNames);
         addButton.setOnAction(event -> {
@@ -61,6 +62,7 @@ public class NewNodePopupController {
     public void createNewNode() throws SQLException {
         mapUpdater.addNode(Integer.parseInt(xField.getText()), Integer.parseInt(yField.getText()), floorCB.getValue(), buildingCB.getValue());
         nodes.add(new Node(-1, Integer.parseInt(xField.getText()), Integer.parseInt(yField.getText()), floorCB.getValue(), buildingCB.getValue()));
+        mapdb.addNode(Integer.parseInt(xField.getText()), Integer.parseInt(yField.getText()), floorCB.getValue(), buildingCB.getValue());
     }
 
     public void setUpdater(MapUpdater updater) {
