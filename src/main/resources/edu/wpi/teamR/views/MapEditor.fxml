@@ -19,7 +19,7 @@
       <AnchorPane fx:id="anchorPane" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <GesturePane fx:id="gesturePane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="350.0" styleClass="map-vbox">
+            <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="360.0" styleClass="map-vbox">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Map Editor">
                      <font>
@@ -38,7 +38,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="319.0" spacing="10.0">
                      <children>
-                        <Button fx:id="newNodeButton" prefHeight="30.0" prefWidth="165.0" text="New Node">
+                        <Button fx:id="newNodeButton" prefHeight="30.0" prefWidth="170.0" text="New Node">
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -47,7 +47,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="newEdgeButton" prefHeight="30.0" prefWidth="165.0" text="New Edge">
+                        <Button fx:id="newEdgeButton" prefHeight="30.0" prefWidth="170.0" text="New Edge">
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -60,7 +60,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="319.0" spacing="10.0">
                      <children>
-                        <Button fx:id="newLocationButton" prefHeight="30.0" prefWidth="165.0" text="New Location">
+                        <Button fx:id="newLocationButton" prefHeight="30.0" prefWidth="170.0" text="New Location">
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -69,7 +69,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="newMoveButton" prefHeight="30.0" prefWidth="165.0" text="New Move">
+                        <Button fx:id="newMoveButton" prefHeight="30.0" prefWidth="170.0" text="New Move">
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -92,26 +92,21 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="344.0" spacing="10.0">
                      <children>
-                        <Button fx:id="editButton" prefHeight="30.0" prefWidth="165.0" text="Enable Edit Mode" />
-                        <Button fx:id="saveButton" prefHeight="30.0" prefWidth="165.0" text="Save Edits" />
+                        <Button fx:id="editButton" prefHeight="30.0" prefWidth="170.0" text="Edit Nodes/Edges" />
+                        <Button fx:id="editLocationButton" prefHeight="36.0" prefWidth="170.0" text="Edit Location Name" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="344.0" spacing="10.0">
                      <children>
-                        <Button fx:id="redrawButton" prefHeight="30.0" prefWidth="165.0" text="Redraw" />
-                        <Button fx:id="undoButton" prefHeight="30.0" prefWidth="165.0" text="Undo" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="344.0" spacing="10.0">
-                     <children>
-                        <Button fx:id="editLocationButton" prefHeight="36.0" prefWidth="180.0" text="Edit Location Name" />
+                        <Button fx:id="saveButton" prefHeight="30.0" prefWidth="170.0" text="Save Edits" />
+                        <Button fx:id="undoButton" prefHeight="30.0" prefWidth="170.0" text="Undo" />
                      </children>
                   </HBox>
                </children>
                <opaqueInsets>
                   <Insets top="10.0" />
                </opaqueInsets></VBox>
-            <VBox layoutX="966.0" layoutY="608.0" prefWidth="300.0" spacing="5.0" styleClass="map-vbox" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
+            <VBox alignment="CENTER" layoutX="966.0" layoutY="608.0" prefWidth="300.0" spacing="5.0" styleClass="map-vbox" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
                <children>
                   <HBox alignment="CENTER" prefWidth="200.0" spacing="10.0">
                      <children>
@@ -145,6 +140,7 @@
                         </Button>
                      </children>
                   </HBox>
+                  <Button fx:id="redrawButton" text="Redraw" />
                </children>
             </VBox>
             <VBox layoutX="490.0" layoutY="14.0" prefWidth="300.0" spacing="20.0" styleClass="map-vbox">

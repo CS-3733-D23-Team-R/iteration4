@@ -172,7 +172,7 @@ public class MapEditorController {
         saveButton.setOnAction(event -> {
             try {
                 saveChanges();
-            } catch (SQLException e) {
+            } catch (SQLException | ItemNotFoundException e) {
                 throw new RuntimeException(e);
             }
         });
@@ -347,7 +347,7 @@ public class MapEditorController {
                 Node n2 = mapdb.getNodeByID(e.getEndNode());
 
                 if (n1.getFloorNum().equals(n2.getFloorNum())) {
-                    Line l1 = new Line(n1.getXCoord(), n1.getYCoord(), n2.getXCoord(), n2.getYCoord());
+                    final Line l1 = new Line(n1.getXCoord(), n1.getYCoord(), n2.getXCoord(), n2.getYCoord());
                     l1.setStroke(Color.RED);
                     l1.setStrokeWidth(4);
                     addLine(e.getStartNode(), l1);
@@ -356,17 +356,12 @@ public class MapEditorController {
                     l1.toBack();
 
                     l1.setOnMouseClicked(event -> {
-                        if (event.getButton().equals(MouseButton.PRIMARY)){
-                            System.out.println(e.getStartNode() + " " + e.getEndNode());
-                            return;
-                        }
                         if (!gesturePane.isGestureEnabled()) {
-                            nodePanes[floor].getChildren().remove(l1);
                             updater.deleteEdge(n1.getNodeID(), n2.getNodeID());
                             linesMap.remove(e.getStartNode());
                             linesMap.remove(e.getEndNode());
                             nodePanes[floor].getChildren().remove(l1);
-                            System.out.println("Edge removed");
+                            nodePanes[floor].requestLayout();
                         }
                     });
                 }
@@ -426,145 +421,17 @@ public class MapEditorController {
         tableComboBox.setValue(null);
     }
 
-    public void drawNode(MapLocation l, int floor) throws SQLException, ItemNotFoundException {
+    public void drawNode(MapLocation l, int floor) {
         if (floor < 4) {
             ArrayList<LocationName> ln = l.getLocationNames();
             Node n = l.getNode();
-            Move m = mapdb.getLatestMoveByLocationName(ln.get(0).getLongName());
+            //Move m = mapdb.getLatestMoveByLocationName(ln.get(0).getLongName());
 
             Circle c = new Circle(n.getXCoord(), n.getYCoord(), 5, Color.RED);
             nodePanes[floor].getChildren().add(c);
             circlesMap.put(n.getNodeID(), c);
 
-            c.setOnMouseClicked(event -> {
-                if (drawEdgesMode) {
-                    if (selectedNode == null) {
-                        selectedNode = n;
-                        selectedCircle = c;
-                        selectedCircle.setFill(Color.YELLOW);
-                    } else {
-                        if (selectedNode.equals(n)) {
-                            selectedCircle.setFill(Color.RED);
-                            selectedNode = null;
-                            edgeDialog(false);
-                            return;
-                        }
-                        if (selectedNode.getFloorNum().equals(n.getFloorNum())) {
-                            Line l1 = new Line(selectedNode.getXCoord(), selectedNode.getYCoord(), n.getXCoord(), n.getYCoord());
-                            l1.setStrokeWidth(4);
-                            l1.setStroke(Color.RED);
-                            nodePanes[floor].getChildren().add(l1);
-                            addLine(n.getNodeID(), l1);
-                            addLine(selectedNode.getNodeID(), l1);
-                            l1.toBack();
-                            selectedCircle.setFill(Color.RED);
-                        }
-                        else {
-                            String startNodeType;
-                            String endNodeType;
-                            try {
-                                startNodeType = mapdb.getNodeTypeByNodeID(selectedNode.getNodeID());
-                                endNodeType = mapdb.getNodeTypeByNodeID(n.getNodeID());
-                            } catch (SQLException | ItemNotFoundException e) {
-                                throw new RuntimeException(e);
-                            }
-                            if (!(startNodeType.equals(endNodeType) && (startNodeType.equals("STAI") || startNodeType.equals("ELEV")))) {
-                                dialogText.setText("Cannot create edge!");
-                                selectedNode = null;
-                                return;
-                            }
-                        }
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/EdgeCreatedPopup.fxml"));
-                        try {
-                            Parent popupRoot = loader.load();
-                            EdgeCreatedPopupController popupController = loader.getController();
-                            popupController.setText(selectedNode.getNodeID(), n.getNodeID());
-
-                            Stage popupStage = new Stage();
-                            popupStage.initModality(Modality.APPLICATION_MODAL);
-                            popupStage.setTitle("Edge Created");
-                            popupStage.setScene(new Scene(popupRoot, 400, 200));
-                            popupStage.showAndWait();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        updater.addEdge(selectedNode.getNodeID(), n.getNodeID());
-                        selectedNode = null;
-                        edgeDialog(false);
-                    }
-                } else {
-                    if (event.getButton().equals(MouseButton.SECONDARY)) return;
-                    if(gesturePane.isGestureEnabled()) {
-                        PopOver popOver = new PopOver();
-                        final FXMLLoader loader =
-                                new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/MapPopup.fxml"));
-                        Parent popup;
-                        try {
-                            popup = loader.load();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            throw new RuntimeException(e);
-                        }
-                        MapPopupController controller = loader.getController();
-                        controller.showNodeInformation(updater, n, ln.get(0), m);
-
-                        popOver.setContentNode(popup);
-                        popOver.setArrowLocation(PopOver.ArrowLocation.TOP_CENTER);
-                        popOver.setAutoHide(true);
-
-                        popOver.showingProperty().addListener((observable, oldValue, newValue) -> {
-                            if (!newValue) {
-                                if (!nodes.contains(n)) {
-                                    // if node is deleted remove all nodes and edges from map
-                                    nodePanes[floor].getChildren().remove(c);
-                                    nodePanes[floor].getChildren().removeAll(linesMap.get(n.getNodeID()));
-                                }
-                            }
-                        });
-
-                        popOver.show(c);
-                    }
-                }
-            });
-
-            c.setOnMouseDragged(dragEvent -> {
-                if (!gesturePane.isGestureEnabled()) {
-                    c.setCenterX(dragEvent.getX());
-                    c.setCenterY(dragEvent.getY());
-                }
-            });
-            c.setOnMouseReleased(dragEvent -> {
-                if (!gesturePane.isGestureEnabled()) {
-                    try {
-                        if(linesMap.containsKey(n.getNodeID())) {
-                            nodePanes[floor].getChildren().removeAll(linesMap.get(n.getNodeID()));
-                        }
-                        List<Edge> n_edges;
-                        n_edges = mapdb.getEdgesByNode(n.getNodeID());
-                        Line l1 = null;
-                        for(Edge e: n_edges) {
-                            Node startNode = mapdb.getNodeByID(e.getStartNode());
-                            Node endNode = mapdb.getNodeByID(e.getEndNode());
-                            if (n.getNodeID() == e.getStartNode() && endNode.getFloorNum().equals(nodeFloorNames[floor])) {
-                                l1 = new Line(dragEvent.getX(), dragEvent.getY(), endNode.getXCoord(), endNode.getYCoord());
-                            }
-                            else if (n.getNodeID() == e.getEndNode() && startNode.getFloorNum().equals(nodeFloorNames[floor])){
-                                l1 = new Line(startNode.getXCoord(), startNode.getYCoord(), dragEvent.getX(), dragEvent.getY());
-                            }
-                            if (l1 != null) {
-                                l1.setStroke(Color.RED);
-                                l1.setStrokeWidth(4);
-                                nodePanes[floor].getChildren().add(l1);
-                                l1.toBack();
-                                addLine(n.getNodeID(), l1);
-                            }
-                        }
-                        updater.modifyCoords(n.getNodeID(), (int) dragEvent.getX(), (int) dragEvent.getY());
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            });
+            setupMapNode(floor, n, c);
 
             String shortName = ln.get(0).getShortName();
             if (!shortName.contains("Hall")) {
@@ -576,6 +443,150 @@ public class MapEditorController {
             }
             locationCheckbox.setSelected(true);
         }
+    }
+
+    private void setupMapNode(int floor, Node n, Circle c) {
+        c.setOnMouseClicked(event -> {
+            if (drawEdgesMode) {
+                if (selectedNode == null) {
+                    selectedNode = n;
+                    selectedCircle = c;
+                    selectedCircle.setFill(Color.YELLOW);
+                } else {
+                    if (selectedNode.equals(n)) {
+                        selectedCircle.setFill(Color.RED);
+                        selectedNode = null;
+                        edgeDialog(false);
+                        return;
+                    }
+                    if (selectedNode.getFloorNum().equals(n.getFloorNum())) {
+                        Line l1 = new Line(selectedNode.getXCoord(), selectedNode.getYCoord(), n.getXCoord(), n.getYCoord());
+                        l1.setStrokeWidth(4);
+                        l1.setStroke(Color.RED);
+                        nodePanes[floor].getChildren().add(l1);
+                        addLine(n.getNodeID(), l1);
+                        addLine(selectedNode.getNodeID(), l1);
+                        l1.toBack();
+                        selectedCircle.setFill(Color.RED);
+                        l1.setOnMouseClicked(evt -> {
+                            if (!gesturePane.isGestureEnabled()) {
+                                linesMap.remove(n.getNodeID());
+                                nodePanes[floor].getChildren().remove(l1);
+                                System.out.println("Edge removed");
+                            }
+                        });
+                    }
+                    else {
+                        String startNodeType;
+                        String endNodeType;
+                        try {
+                            startNodeType = mapdb.getNodeTypeByNodeID(selectedNode.getNodeID());
+                            endNodeType = mapdb.getNodeTypeByNodeID(n.getNodeID());
+                        } catch (SQLException | ItemNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
+                        if (!(startNodeType.equals(endNodeType) && (startNodeType.equals("STAI") || startNodeType.equals("ELEV")))) {
+                            dialogText.setText("Cannot create edge!");
+                            selectedNode = null;
+                            return;
+                        }
+                    }
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/EdgeCreatedPopup.fxml"));
+                    try {
+                        Parent popupRoot = loader.load();
+                        EdgeCreatedPopupController popupController = loader.getController();
+                        popupController.setText(selectedNode.getNodeID(), n.getNodeID());
+
+                        Stage popupStage = new Stage();
+                        popupStage.initModality(Modality.APPLICATION_MODAL);
+                        popupStage.setTitle("Edge Created");
+                        popupStage.setScene(new Scene(popupRoot, 400, 200));
+                        popupStage.showAndWait();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    updater.addEdge(selectedNode.getNodeID(), n.getNodeID());
+                    selectedNode = null;
+                    edgeDialog(false);
+                }
+            } else {
+                if (event.getButton().equals(MouseButton.SECONDARY)) return;
+                if(gesturePane.isGestureEnabled()) {
+                    PopOver popOver = new PopOver();
+                    final FXMLLoader loader =
+                            new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/MapPopup.fxml"));
+                    Parent popup;
+                    try {
+                        popup = loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw new RuntimeException(e);
+                    }
+                    MapPopupController controller = loader.getController();
+                    try {
+                        controller.showNodeInformation(updater, n);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    popOver.setContentNode(popup);
+                    popOver.setArrowLocation(PopOver.ArrowLocation.TOP_CENTER);
+                    popOver.setAutoHide(true);
+                    int initialSize = nodes.size();
+
+                    popOver.showingProperty().addListener((observable, oldValue, newValue) -> {
+                        if (!newValue) {
+                            if (nodes.size() < initialSize) { //!nodes.contains(n)
+                                // if node is deleted remove all nodes and edges from map
+                                nodePanes[floor].getChildren().remove(c);
+                                nodePanes[floor].getChildren().removeAll(linesMap.get(n.getNodeID()));
+                            }
+                        }
+                    });
+
+                    popOver.show(c);
+                }
+            }
+        });
+
+        c.setOnMouseDragged(dragEvent -> {
+            if (!gesturePane.isGestureEnabled()) {
+                c.setCenterX(dragEvent.getX());
+                c.setCenterY(dragEvent.getY());
+            }
+        });
+        c.setOnMouseReleased(dragEvent -> {
+            if (!gesturePane.isGestureEnabled()) {
+                try {
+                    if(linesMap.containsKey(n.getNodeID())) {
+                        nodePanes[floor].getChildren().removeAll(linesMap.get(n.getNodeID()));
+                    }
+                    List<Edge> n_edges;
+                    n_edges = mapdb.getEdgesByNode(n.getNodeID());
+                    Line l1 = null;
+                    for(Edge e: n_edges) {
+                        Node startNode = mapdb.getNodeByID(e.getStartNode());
+                        Node endNode = mapdb.getNodeByID(e.getEndNode());
+                        if (n.getNodeID() == e.getStartNode() && endNode.getFloorNum().equals(nodeFloorNames[floor])) {
+                            l1 = new Line(dragEvent.getX(), dragEvent.getY(), endNode.getXCoord(), endNode.getYCoord());
+                        }
+                        else if (n.getNodeID() == e.getEndNode() && startNode.getFloorNum().equals(nodeFloorNames[floor])){
+                            l1 = new Line(startNode.getXCoord(), startNode.getYCoord(), dragEvent.getX(), dragEvent.getY());
+                        }
+                        if (l1 != null) {
+                            l1.setStroke(Color.RED);
+                            l1.setStrokeWidth(4);
+                            nodePanes[floor].getChildren().add(l1);
+                            l1.toBack();
+                            addLine(n.getNodeID(), l1);
+                        }
+                    }
+                    updater.modifyCoords(n.getNodeID(), (int) dragEvent.getX(), (int) dragEvent.getY());
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
     }
 
     public void redraw() throws SQLException, ItemNotFoundException {
@@ -590,68 +601,81 @@ public class MapEditorController {
     public void undoAction() throws SQLException {
         List<UndoData> data = updater.undo();
         System.out.println(data);
-        UndoData undo = data.get(0);
-        MapDataType type = undo.data().getDataType();
-        switch (type) {
-            case NODE -> {
-                EditType editType = undo.editType();
-                Node node = (Node) (undo.data());
-                switch (editType) {
-                    case ADDITION -> {
-                        Circle add = new Circle(node.getXCoord(), node.getYCoord(), 4, Color.RED);
-                        nodePanes[currentFloor].getChildren().remove(add);
-                        nodes.remove(node);
-                    }
-                    case MODIFICATION -> {
-                        System.out.println(node.getNodeID());
-                        Circle mod = circlesMap.get(node.getNodeID());
-                        mod.setCenterX(node.getXCoord());
-                        mod.setCenterY(node.getYCoord());
-                    }
-                    case DELETION -> {
-                        System.out.println(node.getNodeID());
-                        Circle deleted = new Circle(node.getXCoord(), node.getYCoord(), 4, Color.RED);
-                        nodePanes[currentFloor].getChildren().add(deleted);
-                        nodes.add(node);
-                    }
-                }
-            }
-            case EDGE -> {
-                EditType editType = undo.editType();
-                switch(editType) {
-                    case ADDITION -> {
-                        Edge edge = (Edge) (undo.data());
-                        Node startNode = mapdb.getNodeByID(edge.getStartNode());
-                        Node endNode = mapdb.getNodeByID(edge.getStartNode());
-                        edges.remove(edge);
-                    }
-                    case MODIFICATION -> {
-                    }
-                    case DELETION -> {
-                        Edge edge = (Edge) (undo.data());
-                        Node startNode = mapdb.getNodeByID(edge.getStartNode());
-                        Node endNode = mapdb.getNodeByID(edge.getStartNode());
-                        Line line = new Line(startNode.getXCoord(), startNode.getYCoord(), endNode.getXCoord(), endNode.getYCoord());
-                        line.setStrokeWidth(4);
-                        line.setStroke(Color.RED);
-                        edges.add(edge);
+        for (UndoData undo: data) {
+            MapDataType type = undo.data().getDataType();
+            switch (type) {
+                case NODE -> {
+                    EditType editType = undo.editType();
+                    Node node = (Node) (undo.data());
+                    switch (editType) {
+                        case ADDITION -> {
+                            Circle add = circlesMap.get(node.getNodeID());
+                            nodePanes[currentFloor].getChildren().remove(add);
+                            nodes.remove(node);
+                        }
+                        case MODIFICATION -> {
+                            Circle mod = circlesMap.get(node.getNodeID());
+                            mod.setCenterX(node.getXCoord());
+                            mod.setCenterY(node.getYCoord());
+                        }
+                        case DELETION -> {
+                            Circle deleted = new Circle(node.getXCoord(), node.getYCoord(), 4, Color.RED);
+
+                            setupMapNode(currentFloor, node, deleted);
+
+                            nodePanes[currentFloor].getChildren().add(deleted);
+                            nodes.add(node);
+                        }
                     }
                 }
-            }
-            case MOVE -> {
-                Move move = (Move) (undo.data());
-                moves.add(move);
-            }
-            case LOCATION_NAME -> {
-                LocationName locationName = (LocationName) (undo.data());
-                locationNames.add(locationName);
+                case EDGE -> {
+                    EditType editType = undo.editType();
+                    switch(editType) {
+                        case ADDITION -> {
+                            Edge edge = (Edge) (undo.data());
+                            nodePanes[currentFloor].getChildren().removeAll(linesMap.get(edge.getStartNode()));
+                            nodePanes[currentFloor].getChildren().removeAll(linesMap.get(edge.getEndNode()));
+                            edges.remove(edge);
+                        }
+                        case MODIFICATION -> {
+                        }
+                        case DELETION -> {
+                            Edge edge = (Edge) (undo.data());
+                            Node startNode = mapdb.getNodeByID(edge.getStartNode());
+                            Node endNode = mapdb.getNodeByID(edge.getStartNode());
+                            Line line = new Line(startNode.getXCoord(), startNode.getYCoord(), endNode.getXCoord(), endNode.getYCoord());
+                            line.setStrokeWidth(4);
+                            line.setStroke(Color.RED);
+                            edges.add(edge);
+                        }
+                    }
+                }
+                case MOVE -> {
+                    Move move = (Move) (undo.data());
+                    EditType editType = undo.editType();
+                    switch(editType) {
+                        case ADDITION -> {
+                            moves.remove(move);
+                        }
+                        case MODIFICATION -> {
+                        }
+                        case DELETION -> {
+                            moves.add(move);
+                        }
+                    }
+                }
+                case LOCATION_NAME -> {
+                    LocationName locationName = (LocationName) (undo.data());
+                    locationNames.add(locationName);
+                }
             }
         }
     }
 
-    private void saveChanges() throws SQLException {
+    private void saveChanges() throws SQLException, ItemNotFoundException {
         gesturePane.setGestureEnabled(true);
-        //updater.submitUpdates();
+        updater.submitUpdates();
+        redraw();
     }
 
     private void addLine(int nodeID, Line line) {

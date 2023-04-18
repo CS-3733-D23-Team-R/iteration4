@@ -1,13 +1,11 @@
 package edu.wpi.teamR.controllers.mapeditor;
 
 import edu.wpi.teamR.App;
-import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.mapdb.*;
 import edu.wpi.teamR.mapdb.update.MapUpdater;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.controlsfx.control.PopOver;
@@ -21,20 +19,23 @@ public class MapPopupController {
     @FXML
     Text nodeField;
     @FXML
-    TextField locField;
+    Text xText;
+    @FXML
+    Text yText;
     @FXML
     DatePicker moveDatePicker;
 
     Node node;
     Move move;
     MapUpdater mapUpdater;
+    MapDatabase mapdb;
     ArrayList<Node> nodes;
-    LocationName locationName;
     @FXML
     Button deleteButton;
     @FXML
     public void initialize() {
         nodes = App.getMapData().getNodes();
+        mapdb = App.getMapData().getMapdb();
         moveDatePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 handleDatePickerChange(newValue);
@@ -43,16 +44,7 @@ public class MapPopupController {
             }
         });
 
-        locField.textProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                updateLocationName();
-            } catch (SQLException | ItemNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
         moveDatePicker.setFocusTraversable(false);
-        locField.setFocusTraversable(false);
 
         deleteButton.setOnAction(event -> {
             try {
@@ -73,15 +65,15 @@ public class MapPopupController {
         primaryStage.show();
     }
 
-    public void showNodeInformation(MapUpdater updater, Node n, LocationName l, Move m) {
+    public void showNodeInformation(MapUpdater updater, Node n) throws SQLException {
         node = n;
-        move = m;
+        move = mapdb.getMovesByNode(n.getNodeID()).get(0);
         mapUpdater = updater;
-        locationName = l;
+        //locationName = ;
         nodeField.setText(Integer.toString(n.getNodeID()));
-        locField.setText(l.getShortName());
-
-        Date moveDate = m.getMoveDate();
+        xText.setText(Integer.toString(n.getXCoord()));
+        yText.setText(Integer.toString(n.getYCoord()));
+        Date moveDate = move.getMoveDate();
         LocalDate date = moveDate.toLocalDate();
         moveDatePicker.setValue(date);
     }
@@ -91,10 +83,6 @@ public class MapPopupController {
         int nodeID = move.getNodeID();
         String longName = move.getLongName();
         mapUpdater.addMove(nodeID, longName, sqlDate);
-    }
-
-    private void updateLocationName() throws SQLException, ItemNotFoundException {
-        mapUpdater.modifyLocationNameShortName(locationName.getLongName(), locField.getText());
     }
 
     private void delete() throws SQLException {
