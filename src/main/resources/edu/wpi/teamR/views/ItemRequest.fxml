@@ -1,54 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/request.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.ItemRequestController">
+<BorderPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.ItemRequestController">
    <center>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
             <VBox layoutX="53.0" prefHeight="400.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <AnchorPane prefHeight="150.0" prefWidth="400.0" styleClass="requestBackground" />
-                  <TableView fx:id="itemTable" prefHeight="300.0" prefWidth="400.0">
-                    <columns>
-                      <TableColumn fx:id="itemNameColumn" minWidth="75.0" prefWidth="75.0" text="Product" />
-                      <TableColumn fx:id="itemDetailsColumn" minWidth="75.0" prefWidth="150.0" text="Details" />
-                        <TableColumn fx:id="itemPriceColumn" minWidth="75.0" prefWidth="75.0" text="Price" />
-                        <TableColumn fx:id="itemQuantityColumn" minWidth="47.0" prefWidth="56.0" text="Quantity" />
-                        <TableColumn fx:id="itemAddToCartColumn" minWidth="66.0" prefWidth="94.0" />
-                    </columns>
-                  </TableView>
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <AnchorPane prefHeight="150.0" prefWidth="400.0" styleClass="requestBackground" />
+                        <ImageView fitHeight="116.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
+                              <image>
+                                  <Image url="@../images/serviceRequests/trapezoid.png" />
+                              </image>
+                        </ImageView>
+                        <ImageView fx:id="cartButton" fitHeight="69.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
+                            <image>
+                                 <Image url="@../images/serviceRequests/cart.png" />
+                            </image>
+                           <StackPane.margin>
+                              <Insets right="2.0" top="25.0" />
+                           </StackPane.margin>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+                  <AnchorPane VBox.vgrow="ALWAYS">
+                     <children>
+                        <TableView fx:id="itemTable" prefHeight="432.0" prefWidth="949.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+                          <columns>
+                            <TableColumn fx:id="itemNameColumn" minWidth="75.0" prefWidth="150.0" text="Product" />
+                            <TableColumn fx:id="itemDetailsColumn" minWidth="75.0" prefWidth="293.3333435058594" text="Details" />
+                              <TableColumn fx:id="itemPriceColumn" minWidth="75.0" prefWidth="182.0" text="Price" />
+                              <TableColumn fx:id="itemQuantityColumn" minWidth="47.0" prefWidth="154.66668701171875" text="Quantity" />
+                              <TableColumn fx:id="itemAddToCartColumn" minWidth="66.0" prefWidth="166.66670735677087" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
                </children></VBox>
          </children>
       </AnchorPane>
    </center>
    <left>
-      <SplitPane dividerPositions="0.3, 0.8" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0" styleClass="requestFilterBar" stylesheets="@../styles/request.css" BorderPane.alignment="CENTER">
+      <SplitPane dividerPositions="0.4" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0" styleClass="requestFilterBar" stylesheets="@../styles/request.css" BorderPane.alignment="CENTER">
         <items>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
                   <VBox alignment="CENTER" layoutY="10.0" prefHeight="116.0" prefWidth="158.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarTitle" text="Request" />
-                        <AnchorPane VBox.vgrow="ALWAYS">
-                           <VBox.margin>
-                              <Insets top="25.0" />
-                           </VBox.margin>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarTitle" text="Request" VBox.vgrow="ALWAYS" />
+                        <GridPane VBox.vgrow="ALWAYS">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
                            <children>
-                              <MFXComboBox fx:id="itemTypeBox" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="107.0" styleClass="combo-box" text="Type" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0" />
+                              <Button fx:id="mealTypeButton" mnemonicParsing="false" styleClass="inverseButton" text="Food" />
+                              <Button fx:id="furnitureTypeButton" mnemonicParsing="false" styleClass="inverseButton" text="Furniture" GridPane.columnIndex="1" />
+                              <Button fx:id="suppliesTypeButton" mnemonicParsing="false" styleClass="inverseButton" text="Supplies" GridPane.rowIndex="1" />
+                              <Button fx:id="flowerTypeButton" mnemonicParsing="false" styleClass="inverseButton" text="Flowers" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
-                        </AnchorPane>
+                           <VBox.margin>
+                              <Insets left="10.0" top="10.0" />
+                           </VBox.margin>
+                        </GridPane>
+                        <MFXComboBox fx:id="itemTypeBox" />
                      </children>
                   </VBox>
                </children>
@@ -74,7 +114,7 @@
                               <Insets bottom="10.0" left="30.0" right="10.0" top="10.0" />
                            </VBox.margin>
                         </VBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText" text="Min $ ">
                                  <HBox.margin>
@@ -88,7 +128,7 @@
                                  </HBox.margin>
                               </Text>
                               <TextField fx:id="itemMaxField" />
-                              <Button fx:id="minMaxGoButton" ellipsisString="" mnemonicParsing="false" text="Go" textFill="#1e0202" textOverrun="WORD_ELLIPSIS">
+                              <Button fx:id="minMaxGoButton" ellipsisString="" mnemonicParsing="false" prefHeight="15.0" prefWidth="24.0" text="Go" textFill="#1e0202" textOverrun="WORD_ELLIPSIS" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets left="5.0" right="10.0" />
                                  </HBox.margin>
@@ -101,8 +141,11 @@
                      </children>
                   </VBox>
                </children></AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
         </items>
       </SplitPane>
    </left>
+   <stylesheets>
+      <URL value="@../styles/request.css" />
+      <URL value="@../styles/styles.css" />
+   </stylesheets>
 </BorderPane>
