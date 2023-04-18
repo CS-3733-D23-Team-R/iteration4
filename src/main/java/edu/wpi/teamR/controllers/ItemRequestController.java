@@ -31,6 +31,17 @@ public class ItemRequestController {
 //    @FXML
 //    private ComboBox<String> itemFilterByComboBox;
     @FXML
+    private ToggleButton flowersButton;
+
+    @FXML
+    private ToggleButton foodButton;
+
+    @FXML
+    private ToggleButton furnitureButton;
+
+    @FXML
+    private ToggleButton suppliesButton;
+    @FXML
     private TextField itemMaxField;
     @FXML
     private TextField itemMinField;
@@ -52,8 +63,8 @@ public class ItemRequestController {
     private Text itemThirtytoForty;
     @FXML
     private Text itemTwentytoThirty;
-    @FXML
-    private MFXComboBox<RequestType> itemTypeBox;
+//    @FXML
+//    private MFXComboBox<RequestType> itemTypeBox;
     @FXML
     private Text itemZerotoTen;
     @FXML
@@ -77,8 +88,39 @@ public class ItemRequestController {
 
     @FXML public void initialize(){
         ObservableList<RequestType> itemTypeList = FXCollections.observableArrayList();
-        for (RequestType type : RequestType.values()) {itemTypeList.add(type);} //add all request types to combo box
-        itemTypeBox.setItems(itemTypeList);
+//        for (RequestType type : RequestType.values()) {itemTypeList.add(type);} //add all request types to combo box
+//        itemTypeBox.setItems(itemTypeList);
+        furnitureButton.setOnAction(event -> {
+            this.type = RequestType.Furniture;
+            regenerateTable();
+            suppliesButton.setSelected(false);
+            foodButton.setSelected(false);
+            flowersButton.setSelected(false);
+        });
+        foodButton.setOnAction(event -> {
+            this.type = RequestType.Meal;
+            regenerateTable();
+            furnitureButton.setSelected(false);
+            suppliesButton.setSelected(false);
+            flowersButton.setSelected(false);
+        });
+
+        foodButton.setSelected(true);
+
+        flowersButton.setOnAction(event -> {
+            this.type = RequestType.Flower;
+            regenerateTable();
+            furnitureButton.setSelected(false);
+            foodButton.setSelected(false);
+            suppliesButton.setSelected(false);
+        });
+        suppliesButton.setOnAction(event -> {
+            this.type = RequestType.Supplies;
+            regenerateTable();
+            furnitureButton.setSelected(false);
+            foodButton.setSelected(false);
+            flowersButton.setSelected(false);
+        });
 
 //        itemFilterByComboBox.setItems(FXCollections.observableArrayList("Unsorted", "Price: Low to High", "Price: High to Low"));
 
@@ -124,17 +166,18 @@ public class ItemRequestController {
 //            regenerateTable();
 //        });
 
-        itemTypeBox.setOnAction(event -> {
-            RequestType comboType = itemTypeBox.getSelectionModel().getSelectedItem();
-            this.type = comboType;
-            regenerateTable();
-        });
+//        itemTypeBox.setOnAction(event -> {
+//            RequestType comboType = itemTypeBox.getSelectionModel().getSelectedItem();
+//            this.type = comboType;
+//            regenerateTable();
+//        });
 
         minMaxGoButton.setOnAction(event -> {
             this.lowerBound = Double.valueOf(itemMinField.getText());
             this.upperBound = Double.valueOf(itemMaxField.getText());
             regenerateTable();
         });
+
 
         addButtonToTable();
 

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -8,14 +7,12 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
@@ -68,27 +65,26 @@
                <children>
                   <VBox alignment="CENTER" layoutY="10.0" prefHeight="116.0" prefWidth="158.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarTitle" text="Request" VBox.vgrow="ALWAYS" />
-                        <GridPane VBox.vgrow="ALWAYS">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
+                        <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
                            <children>
-                              <Button fx:id="mealTypeButton" mnemonicParsing="false" styleClass="inverseButton" text="Food" />
-                              <Button fx:id="furnitureTypeButton" mnemonicParsing="false" styleClass="inverseButton" text="Furniture" GridPane.columnIndex="1" />
-                              <Button fx:id="suppliesTypeButton" mnemonicParsing="false" styleClass="inverseButton" text="Supplies" GridPane.rowIndex="1" />
-                              <Button fx:id="flowerTypeButton" mnemonicParsing="false" styleClass="inverseButton" text="Flowers" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarTitle" text="Request" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="30.0" top="20.0" />
+                                       </VBox.margin>
+                                    </Text>
+                                    <ToggleButton fx:id="foodButton" mnemonicParsing="false" prefWidth="120.0" text="Food" />
+                                    <ToggleButton fx:id="furnitureButton" mnemonicParsing="false" prefWidth="120.0" text="Furniture" />
+                                    <ToggleButton fx:id="suppliesButton" mnemonicParsing="false" prefWidth="120.0" text="Supplies" />
+                                    <ToggleButton fx:id="flowersButton" mnemonicParsing="false" prefWidth="120.0" text="Flowers" />
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </HBox.margin>
+                              </VBox>
                            </children>
-                           <VBox.margin>
-                              <Insets left="10.0" top="10.0" />
-                           </VBox.margin>
-                        </GridPane>
-                        <MFXComboBox fx:id="itemTypeBox" />
+                        </HBox>
                      </children>
                   </VBox>
                </children>
