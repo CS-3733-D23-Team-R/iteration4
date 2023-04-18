@@ -32,3 +32,7 @@
 .requestBackground {
     -fx-background-image: url(" ../images/brigham-women-s-hospital-welcomes-first-patients-new-facility-17989-10740071.jpeg");
 }
+
+.buttonWithPadding {
+
+}

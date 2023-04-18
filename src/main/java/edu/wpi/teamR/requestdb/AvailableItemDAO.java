@@ -1,6 +1,7 @@
 package edu.wpi.teamR.requestdb;
 
 import edu.wpi.teamR.Configuration;
+import edu.wpi.teamR.ItemNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -48,5 +49,27 @@ public class AvailableItemDAO {
             availableItems.add(new AvailableItem(itemName, requestType, itemPrice, imageReference));
         }
         return availableItems;
+    }
+
+    AvailableItem getAvailableItemByName(String itemName, RequestType requestType) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        String searchTableString = "";
+        if (requestType == RequestType.Meal)
+            searchTableString = Configuration.getAvailableMealsTableSchemaNameTableName();
+        else if (requestType == RequestType.Furniture)
+            searchTableString = Configuration.getAvailableFurnitureTableSchemaNameTableName();
+        else if (requestType == RequestType.Flower)
+            searchTableString = Configuration.getAvailableFlowersTableSchemaNameTableName();
+        else if (requestType == RequestType.Supplies)
+            searchTableString = Configuration.getAvailableSuppliesTableSchemaNameTableName();
+
+        Connection connection = Configuration.getConnection();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM " + searchTableString + " WHERE  itemName='" + itemName + "';");
+        if (!resultSet.next())
+            throw new ItemNotFoundException();
+        String _itemName = resultSet.getString("itemName");
+        double itemPrice = resultSet.getDouble("itemPrice");
+        String imageReference = resultSet.getString("imageReference");
+        return new AvailableItem(_itemName, requestType, itemPrice, imageReference);
     }
 }
