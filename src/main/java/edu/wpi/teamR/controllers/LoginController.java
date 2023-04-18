@@ -35,8 +35,8 @@ public class LoginController {
     public void checkLogIn() throws SQLException, ClassNotFoundException, ItemNotFoundException {
         AuthenticationDAO authenticationDAO = AuthenticationDAO.getInstance();
         userData thisUserData = edu.wpi.teamR.userData.userData.getInstance();
-        User aUser = authenticationDAO.getUser(usernameField.getText());
-        currentUser User = new currentUser(aUser.getUsername(), aUser.getPassword(), aUser.getAccessLevel()); //TODO: update this with alton's new user class
+        User aUser = authenticationDAO.getUserByUsername(usernameField.getText());
+        currentUser User = new currentUser(aUser.getStaffUsername(), aUser.getPassword(), aUser.getAccessLevel()); //TODO: update this with alton's new user class
         thisUserData.setLoggedIn(User);
         System.out.println(usernameField.getText());
         System.out.println(passwordField.getText());
