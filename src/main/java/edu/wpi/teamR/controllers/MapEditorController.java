@@ -392,6 +392,7 @@ public class MapEditorController {
                     l1.setOnMouseClicked(event -> {
                         if (!gesturePane.isGestureEnabled()) {
                             updater.deleteEdge(n1.getNodeID(), n2.getNodeID());
+                            updater.endAction();
                             linesMap.remove(e.getStartNode());
                             linesMap.remove(e.getEndNode());
                             nodePanes[floor].getChildren().remove(l1);
@@ -542,6 +543,7 @@ public class MapEditorController {
                         e.printStackTrace();
                     }
                     updater.addEdge(selectedNode.getNodeID(), n.getNodeID());
+                    updater.endAction();
                     selectedNode = null;
                     edgeDialog(false);
                 }
@@ -617,6 +619,7 @@ public class MapEditorController {
                         }
                     }
                     updater.modifyCoords(n.getNodeID(), (int) dragEvent.getX(), (int) dragEvent.getY());
+                    updater.endAction();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
