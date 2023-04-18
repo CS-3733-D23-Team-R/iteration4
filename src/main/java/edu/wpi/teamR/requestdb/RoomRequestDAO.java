@@ -33,6 +33,13 @@ class RoomRequestDAO {
         Connection connection = Configuration.getConnection();
         PreparedStatement sqlDelete = connection.prepareStatement("DELETE FROM "+ Configuration.getRoomRequestSchemaNameTableName() + " WHERE requestID=?;");
         sqlDelete.setInt(1, roomRequestID);
+        sqlDelete.executeUpdate();
+    }
+
+    void deleteAllRoomRequests() throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement sqlDelete = connection.prepareStatement("DELETE FROM "+ Configuration.getRoomRequestSchemaNameTableName() + ";");
+        sqlDelete.executeUpdate();
     }
 
 
