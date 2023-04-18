@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="helpWindow" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.HelpController">
+<AnchorPane fx:id="helpWindow" prefHeight="600.0" prefWidth="800.0" styleClass="help-background" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.HelpController">
    <children>
-      <TextArea layoutX="50.0" layoutY="82.0" prefHeight="467.0" prefWidth="700.0" text="Home: Return to the home page.&#10;&#10;Profile: Displays information about the profile this application is currently logged in as.&#10;&#10;New Service Request: Request to book a conference room, or request meals or furniture to&#10;be delivered to your room at a set time.&#10;&#10;Pending Service Requests: View service requests that have been placed and are waiting&#10;to be filled.&#10;&#10;Pathfinding: View a full map of the hospital and get easy directions from any point in the&#10;building.&#10;&#10;Logout: Return to the login menu.">
-         <font>
-            <Font name="Times New Roman" size="18.0" />
-         </font>
-      </TextArea>
-      <Label layoutX="245.0" layoutY="14.0" text="About the Kiosk System">
+      <Label layoutX="198.0" layoutY="14.0" styleClass="title" stylesheets="@../styles/styles.css" text="About the Kiosk System">
          <font>
             <Font name="Times New Roman Bold" size="30.0" />
          </font>
       </Label>
+      <VBox layoutX="50.0" layoutY="86.0" prefHeight="500.0" prefWidth="700.0" spacing="25.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Home: Return to the home page." wrappingWidth="700.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Profile: Displays information about the profile this application is currently logged in as." wrappingWidth="700.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="New Service Request: Request to book a conference room, or request meals or furniture to be delivered to your room at a set time." wrappingWidth="700.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Pending Service Requests: View service requests that have been placed and are waiting to be filled." wrappingWidth="700.0" />
+            <Text lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Pathfinding: View a full map of the hospital and get easy directions from any point in the building." wrappingWidth="700.0" />
+            <Text lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Logout: Return to the login menu." wrappingWidth="700.0" />
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
