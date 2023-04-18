@@ -215,11 +215,15 @@ public class MapEditorController {
                 popupStage.setTitle("Create New Node");
                 popupStage.setScene(new Scene(popupRoot, 400, 200));
                 popupStage.showAndWait();
-                redraw();
+
+                Node newNode = nodes.get(nodes.size()-1);
+                Circle newCircle = new Circle(newNode.getXCoord(), newNode.getYCoord(), 4, Color.RED);
+                nodePanes[currentFloor].getChildren().add(newCircle);
+                circlesMap.put(newNode.getNodeID(), newCircle);
+
+                setupMapNode(currentFloor, newNode, newCircle);
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (SQLException | ItemNotFoundException e) {
-                throw new RuntimeException(e);
             }
         });
 

@@ -215,15 +215,17 @@ public class MapController {
 
     public void displayFloorUp() throws SQLException {
         if (currentFloor < 4) {
+            locationPanes[currentFloor].getChildren().clear();
             currentFloor++;
             imageView = floorMaps.get(currentFloor);
             mapPane.getChildren().clear();
             mapPane.getChildren().add(imageView);
             mapPane.getChildren().add(paths[currentFloor]);
             floorText.setText(floorNames[currentFloor]);
-            locationPanes[currentFloor].getChildren().clear();
             if (locationNamesCheckbox.isSelected()) {
+                System.out.println(locationNamesCheckbox.isSelected());
                 displayLocationNames(currentFloor);
+                mapPane.getChildren().add(locationPanes[currentFloor]);
             }
             reset();
         }
@@ -231,15 +233,16 @@ public class MapController {
 
     public void displayFloorDown() throws SQLException {
         if (currentFloor > 0) {
+            locationPanes[currentFloor].getChildren().clear();
             currentFloor--;
             imageView = floorMaps.get(currentFloor);
             mapPane.getChildren().clear();
             mapPane.getChildren().add(imageView);
             mapPane.getChildren().add(paths[currentFloor]);
             floorText.setText(floorNames[currentFloor]);
-            locationPanes[currentFloor].getChildren().clear();
             if (locationNamesCheckbox.isSelected()) {
                 displayLocationNames(currentFloor);
+                mapPane.getChildren().add(locationPanes[currentFloor]);
             }
             reset();
         }
@@ -247,15 +250,16 @@ public class MapController {
 
     public void displayFloorNum(int floorNum) throws SQLException {
         if (floorNum < 4) {
+            locationPanes[currentFloor].getChildren().clear();
             currentFloor = floorNum;
             imageView = floorMaps.get(currentFloor);
             mapPane.getChildren().clear();
             mapPane.getChildren().add(imageView);
             mapPane.getChildren().add(paths[currentFloor]);
             floorText.setText(floorNames[currentFloor]);
-            locationPanes[currentFloor].getChildren().clear();
             if (locationNamesCheckbox.isSelected()) {
                 displayLocationNames(currentFloor);
+                mapPane.getChildren().add(locationPanes[currentFloor]);
             }
             reset();
         }
@@ -353,7 +357,7 @@ public class MapController {
     }
 
     public void displayLocationNames(int floor) throws SQLException {
-        if (floor < 4) {
+        if (floor <= 4) {
             String f = nodeFloorNames[floor];
             ArrayList<MapLocation> locs = mapdb.getMapLocationsByFloor(f);
             if (locs.size() > 0) {
