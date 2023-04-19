@@ -288,7 +288,7 @@ public class ItemRequestController {
         }
     }
 
-    public void changeBackground() {
+    private void changeBackground() {
         switch (this.type) {
             case Supplies:
                 requestPageBackground.getStyleClass().clear();
@@ -308,7 +308,7 @@ public class ItemRequestController {
         }
     }
 
-    public void clearFilters(){
+    private void clearFilters(){
         this.upperBound = null;
         this.lowerBound = null;
         itemMaxField.clear();
