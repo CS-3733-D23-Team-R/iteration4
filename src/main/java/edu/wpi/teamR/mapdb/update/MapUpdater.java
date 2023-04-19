@@ -63,7 +63,10 @@ public class MapUpdater {
     }
 
     public List<UndoData> undo() {
-        if (currentAction != null) actionQueue.addFirst(currentAction);
+        if (currentAction != null) {
+            actionQueue.addFirst(currentAction);
+            currentAction = null;
+        }
         if (actionQueue.isEmpty())
             return new ArrayList<>();
         return actionQueue.removeFirst().getUndoData();
