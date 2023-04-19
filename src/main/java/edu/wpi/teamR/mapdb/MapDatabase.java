@@ -4,6 +4,8 @@ import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.csv.CSVParameterException;
 import edu.wpi.teamR.csv.CSVReader;
+import edu.wpi.teamR.requestdb.ItemRequestDAO;
+import edu.wpi.teamR.requestdb.RoomRequestDAO;
 
 import java.io.IOException;
 import java.sql.*;
@@ -21,6 +23,10 @@ public class MapDatabase {
     private EdgeDAO edgeDao;
     private MoveDAO moveDao;
     private LocationNameDAO locationNameDao;
+    private DirectionArrowDAO directionArrowDAO;
+    private ConferenceRoomDAO conferenceRoomDAO;
+    private ItemRequestDAO itemRequestDAO;
+    private RoomRequestDAO roomRequestDAO;
 
     public MapDatabase() throws SQLException, ClassNotFoundException {
         this.connection = Configuration.getConnection();
@@ -28,6 +34,10 @@ public class MapDatabase {
         this.edgeDao = new EdgeDAO(connection);
         this.moveDao = new MoveDAO(connection);
         this.locationNameDao = new LocationNameDAO(connection);
+        this.directionArrowDAO = new DirectionArrowDAO(connection);
+        this.conferenceRoomDAO = new ConferenceRoomDAO();
+        this.itemRequestDAO = new ItemRequestDAO();
+        this.roomRequestDAO = new RoomRequestDAO();
     }
 
     // old code for making mapDatabase singleton
@@ -300,7 +310,7 @@ public class MapDatabase {
         return mapLocations;
     }
 
-    public ArrayList<? extends MapData> readCSV(String path, Class<? extends MapData> _class) throws IOException, CSVParameterException, SQLException {
+    public ArrayList<? extends MapData> readCSV(String path, Class<? extends MapData> _class) throws IOException, CSVParameterException, SQLException, ClassNotFoundException {
         String[] fullName = _class.getName().split("[.]");
         String name = fullName[fullName.length - 1];
         switch (name) {
@@ -335,6 +345,10 @@ public class MapDatabase {
                 CSVReader<LocationName> reader = new CSVReader<>(path, LocationName.class);
                 ArrayList<LocationName> locs = reader.parseCSV();
                 moveDao.deleteAllMoves();
+                directionArrowDAO.deleteAllDirectionArrows();
+                roomRequestDAO.deleteAllRoomRequests();
+                conferenceRoomDAO.deleteAllConferenceRooms();
+                itemRequestDAO.deleteAllItemRequests();
                 locationNameDao.deleteAllLocationNames();
                 for (LocationName l : locs) {
                     locationNameDao.addLocationName(l.getLongName(), l.getShortName(), l.getNodeType());

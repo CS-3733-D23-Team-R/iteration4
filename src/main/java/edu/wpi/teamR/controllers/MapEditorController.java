@@ -157,7 +157,8 @@ public class MapEditorController {
             try {
                 importCSV();
             } catch (IOException | NoSuchMethodException | IllegalAccessException | InstantiationException |
-                     InvocationTargetException | CSVParameterException | SQLException | ItemNotFoundException e) {
+                     InvocationTargetException | CSVParameterException | SQLException | ItemNotFoundException |
+                     ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         });
@@ -397,7 +398,7 @@ public class MapEditorController {
         }
     }
 
-    public void importCSV () throws IOException, CSVParameterException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException, SQLException, ItemNotFoundException {
+    public void importCSV () throws IOException, CSVParameterException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException, SQLException, ItemNotFoundException, ClassNotFoundException {
         openFile();
         String choice = tableComboBox.getValue();
         switch (choice) {
@@ -575,7 +576,9 @@ public class MapEditorController {
                             if (!nodes.contains(n) || nodes.size() < initialSize) { //!nodes.contains(n)
                                 // if node is deleted remove all nodes and edges from map
                                 nodePanes[floor].getChildren().remove(c);
-                                nodePanes[floor].getChildren().removeAll(linesMap.get(n.getNodeID()));
+                                if(linesMap.containsKey(n.getNodeID())) {
+                                    nodePanes[floor].getChildren().removeAll(linesMap.get(n.getNodeID()));
+                                }
                             }
                         }
                     });
@@ -644,6 +647,7 @@ public class MapEditorController {
                 case NODE -> {
                     EditType editType = undo.editType();
                     Node node = (Node) (undo.data());
+                    nodes.add(node);
                     switch (editType) {
                         case ADDITION -> {
                             Circle add = circlesMap.get(node.getNodeID());
@@ -706,9 +710,10 @@ public class MapEditorController {
                 }
                 case EDGE -> {
                     EditType editType = undo.editType();
+                    Edge edge = (Edge) (undo.data());
+                    edges.add(edge);
                     switch(editType) {
                         case ADDITION -> {
-                            Edge edge = (Edge) (undo.data());
                             nodePanes[currentFloor].getChildren().removeAll(linesMap.get(edge.getStartNode()));
                             nodePanes[currentFloor].getChildren().removeAll(linesMap.get(edge.getEndNode()));
                             edges.remove(edge);
@@ -717,7 +722,6 @@ public class MapEditorController {
                         case MODIFICATION -> {
                         }
                         case DELETION -> {
-                            Edge edge = (Edge) (undo.data());
                             Node startNode = mapdb.getNodeByID(edge.getStartNode());
                             Node endNode = mapdb.getNodeByID(edge.getStartNode());
                             Line line = new Line(startNode.getXCoord(), startNode.getYCoord(), endNode.getXCoord(), endNode.getYCoord());
@@ -731,6 +735,7 @@ public class MapEditorController {
                 case MOVE -> {
                     Move move = (Move) (undo.data());
                     EditType editType = undo.editType();
+                    moves.add(move);
                     switch(editType) {
                         case ADDITION -> {
                             moves.remove(move);

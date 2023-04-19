@@ -7,9 +7,9 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-class RoomRequestDAO {
+public class RoomRequestDAO {
 
-    RoomRequestDAO() {}
+    public RoomRequestDAO() {}
 
     RoomRequest addRoomRequest(String longname, String staffUsername, Timestamp startTime, Timestamp endTime) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
@@ -36,7 +36,7 @@ class RoomRequestDAO {
         sqlDelete.executeUpdate();
     }
 
-    void deleteAllRoomRequests() throws SQLException, ClassNotFoundException {
+    public void deleteAllRoomRequests() throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement sqlDelete = connection.prepareStatement("DELETE FROM "+ Configuration.getRoomRequestSchemaNameTableName() + ";");
         sqlDelete.executeUpdate();

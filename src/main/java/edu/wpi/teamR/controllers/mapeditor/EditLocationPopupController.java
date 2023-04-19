@@ -84,13 +84,17 @@ public class EditLocationPopupController {
 
         deleteButton.setOnAction(event -> {
             try {
-                mapUpdater.deleteLocationName(locationComboBox.getValue());
+                //mapUpdater.deleteLocationName(locationComboBox.getValue());
+                mapUpdater.deleteMovesByLocationName(locationComboBox.getValue());
                 mapdb.deleteMovesByLocationName(locationComboBox.getValue());
-                mapdb.deleteLocationName(locationComboBox.getValue());
-                mapdb.deleteAllDirectionArrows();
+                /*
+                mapdb.deleteDirectionArrowByLongname(locationComboBox.getValue());
                 mapdb.deleteAllConferenceRooms();
+                mapdb.deleteLocationName(locationComboBox.getValue());
+
+                 */
                 close((Stage)submitButton.getScene().getWindow());
-            } catch (SQLException | ItemNotFoundException | ClassNotFoundException e) {
+            } catch (SQLException | ItemNotFoundException e) {
                 throw new RuntimeException(e);
             }
         });
