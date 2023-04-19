@@ -675,8 +675,8 @@ public class MapEditorController {
                     edges.add(edge);
                     switch(editType) {
                         case ADDITION -> {
-                            nodePanes[currentFloor].getChildren().removeAll(linesMap.get(edge.getStartNode()));
-                            nodePanes[currentFloor].getChildren().removeAll(linesMap.get(edge.getEndNode()));
+                            List<Line> line_list = linesMap.get(edge.getStartNode());
+                            nodePanes[currentFloor].getChildren().remove(line_list.get(line_list.size()-1));
                             edges.remove(edge);
                             mapdb.deleteEdge(edge.getStartNode(), edge.getEndNode());
                         }
