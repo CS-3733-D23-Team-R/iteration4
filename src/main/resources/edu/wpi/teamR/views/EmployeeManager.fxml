@@ -82,15 +82,15 @@
                      <children>
                         <TableView fx:id="theTable" editable="true" focusTraversable="false" prefHeight="627.0" prefWidth="1280.0" stylesheets="@../styles/tables.css" VBox.vgrow="ALWAYS">
                           <columns>
-                            <TableColumn fx:id="userNameCol" editable="false" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="staffUsername" />
-                              <TableColumn fx:id="nameCol" editable="false" prefWidth="114.66667175292969" text="Name" />
-                              <TableColumn fx:id="emailCol" editable="false" prefWidth="134.0" text="Email" />
-                              <TableColumn fx:id="accessLevelCol" editable="false" prefWidth="183.99990844726562" text="AccessLevel" />
-                              <TableColumn fx:id="departmentCol" editable="false" prefWidth="142.66668701171875" text="Department" />
-                              <TableColumn fx:id="jobTitleCol" editable="false" prefWidth="122.0" text="Job Title" />
-                              <TableColumn fx:id="joinDateCol" editable="false" minWidth="0.0" prefWidth="111.33343505859375" text="Join Date" />
-                              <TableColumn fx:id="phoneNumCol" editable="false" prefWidth="223.9998779296875" text="Phone Number" />
-                              <TableColumn fx:id="deleteCol" editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="Delete?" />
+                            <TableColumn fx:id="userNameCol" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="staffUsername" />
+                              <TableColumn fx:id="nameCol" prefWidth="114.66667175292969" text="Name" />
+                              <TableColumn fx:id="emailCol" prefWidth="134.0" text="Email" />
+                              <TableColumn fx:id="accessLevelCol" prefWidth="183.99990844726562" text="AccessLevel" />
+                              <TableColumn fx:id="departmentCol" prefWidth="142.66668701171875" text="Department" />
+                              <TableColumn fx:id="jobTitleCol" prefWidth="122.0" text="Job Title" />
+                              <TableColumn fx:id="joinDateCol" minWidth="0.0" prefWidth="111.33343505859375" text="Join Date" />
+                              <TableColumn fx:id="phoneNumCol" prefWidth="116.0" text="Phone Number" />
+                              <TableColumn fx:id="deleteCol" maxWidth="79.3333740234375" minWidth="80.0" prefWidth="79.3333740234375" text="Delete?" />
                           </columns>
                            <VBox.margin>
                               <Insets />

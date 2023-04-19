@@ -87,8 +87,16 @@ public class SignageConfigurationController {
         arrowBox.setItems(directionList);
 
         deleteButton();
-        submitButton.setOnMouseClicked(event -> submit());
-        refreshButton.setOnMouseClicked(event -> {
+        submitButton.setOnMouseClicked(event -> {
+            try {
+                submit();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        refreshButton.setOnMouseClicked((event -> {
             try {
                 refresh();
             } catch (SQLException e) {
@@ -96,7 +104,7 @@ public class SignageConfigurationController {
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
-        });
+        }));
         backButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
     }
 
@@ -141,7 +149,7 @@ public class SignageConfigurationController {
         deleteColumn.setCellFactory(cellFactory);
     }
 
-    private void submit(){
+    private void submit() throws SQLException, ClassNotFoundException {
         String loc = locationBox.getValue();
         Direction arrow = arrowBox.getValue();
         int id = Integer.parseInt(idField.getText());
@@ -156,6 +164,7 @@ public class SignageConfigurationController {
         locationBox.setValue(null);
         arrowBox.setValue(null);
         idField.clear();
+        refresh();
     }
 
     private void refresh() throws SQLException, ClassNotFoundException {
