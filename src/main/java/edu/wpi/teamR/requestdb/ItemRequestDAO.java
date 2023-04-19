@@ -56,7 +56,7 @@ public class ItemRequestDAO {
         return new ItemRequest(requestID, requestType, requestStatus, longname, staffUsername, requesterName, additionalNotes, additionalNotes, requestDate);
     }
 
-    void deleteAllItemRequests() throws SQLException, ClassNotFoundException {
+    public void deleteAllItemRequests() throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getServiceRequestSchemaNameTableName()+";");
         preparedStatement.executeUpdate();
