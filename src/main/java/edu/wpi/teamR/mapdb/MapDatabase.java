@@ -215,6 +215,22 @@ public class MapDatabase {
         return new DirectionArrowDAO(connection).getDirectionArrowsByKiosk(kioskID);
     }
 
+    public Node getNodeFromLocationName(String locationame) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT nodeID, xCoord, yCoord, Building, floor FROM (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() AND longname=? group by longname) as foo NATURAL JOIN "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN "+Configuration.getNodeSchemaNameTableName()+";");
+        preparedStatement.setString(1, locationame);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            int nodeID = resultSet.getInt("nodeid");
+            int xCoord = resultSet.getInt("xCoord");
+            int yCoord = resultSet.getInt("yCoord");
+            String building = resultSet.getString("building");
+            String floor = resultSet.getString("floor");
+            return new Node(nodeID, xCoord, yCoord, building, floor);
+        }
+        throw new ItemNotFoundException();
+    }
+
     public ConferenceRoom getConferenceRoomByLongname(String longname) throws SQLException, ClassNotFoundException, ItemNotFoundException {
         return new ConferenceRoomDAO().getConferenceRoomByLongname(longname);
     }
