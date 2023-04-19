@@ -44,8 +44,8 @@ public class SortOrdersController {
     public void initialize() throws SQLException, ClassNotFoundException {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("requestID"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("requesterName"));
-        locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
-        staffMemberColumn.setCellValueFactory(new PropertyValueFactory<>("staffMember"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory<>("longname"));
+        staffMemberColumn.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
         staffMemberColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         notesColumn.setCellValueFactory(new PropertyValueFactory<>("additionalNotes"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("requestDate"));
@@ -62,7 +62,17 @@ public class SortOrdersController {
             ItemRequest request = event.getRowValue();
             request.setStaffMember(event.getNewValue());
             try {
-                RequestDatabase.getInstance().modifyItemRequestByID(request.getRequestID(), request.getRequesterName(),request.getLocation(), event.getNewValue(), request.getAdditionalNotes(), request.getRequestDate(), request.getRequestStatus(),request.getItemType());
+                //RequestDatabase.getInstance().modifyItemRequestByID(request.getRequestID(), request.getRequesterName(),request.getLongname(), event.getNewValue(), request.getAdditionalNotes(), request.getRequestDate(), request.getRequestStatus(),request.getItemType());
+                RequestDatabase.getInstance().modifyItemRequestByID(
+                request.getRequestID(),
+                request.getRequestType(),
+                request.getRequestStatus(),
+                request.getLongname(),
+                        event.getNewValue(),
+                request.getItemType(),
+                request.getRequesterName(),
+                request.getAdditionalNotes(),
+                request.getRequestDate());
             } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -76,8 +86,16 @@ public class SortOrdersController {
                     try {
                         RequestStatus status = changeStatusButton.getSelectionModel().getSelectedItem();
                         request.setRequestStatus(status);
-                        RequestDatabase.getInstance().modifyItemRequestByID(request.getRequestID(), request.getRequesterName(), request.getLocation(), request.getStaffMember(), request.getAdditionalNotes(), request.getRequestDate(), status, request.getItemType());
-                    } catch (Exception e) {
+                        RequestDatabase.getInstance().modifyItemRequestByID(
+                                request.getRequestID(),
+                                request.getRequestType(),
+                                status,
+                                request.getLongname(),
+                                request.getStaffUsername(),
+                                request.getItemType(),
+                                request.getRequesterName(),
+                                request.getAdditionalNotes(),
+                                request.getRequestDate());                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 });
@@ -154,7 +172,7 @@ public class SortOrdersController {
                             ItemRequest data = getTableView().getItems().get(getIndex());
                             requestTable.getItems().remove(data);
                             try {
-                                RequestDatabase.getInstance().deleteItemRequestByID(data.getRequestID());
+                                RequestDatabase.getInstance().deleteItemRequest(data.getRequestID());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

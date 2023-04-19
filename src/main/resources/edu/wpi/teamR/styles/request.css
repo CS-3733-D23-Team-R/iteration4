@@ -1,0 +1,38 @@
+.root {
+    bwhblue: #012D5A;
+    pressed: #BDBDBD;
+    secondaryBlue: #0067B1;
+    secondaryYellow: #F6BD38;
+    primaryWhite: #F1F1F1;
+    darkNeutral: #403C3B;
+    primaryLightGrey: #BDBDBD;
+}
+
+.requestFilterBar {
+    -fx-background-color: secondaryBlue;
+}
+
+.requestBarText {
+    -fx-fill: primaryLightGrey;
+}
+
+.requestBarSubtitle {
+    -fx-fill: primaryLightGrey;
+    -fx-font-size: 28;
+    -fx-font-family: 'Lato';
+}
+
+.requestBarTitle {
+    -fx-fill: primaryWhite;
+    -fx-font-family: 'Lato', 'bold';
+    -fx-font-weight: bold;
+    -fx-font-size: 36px;
+}
+
+.requestBackground {
+    -fx-background-image: url(" ../images/brigham-women-s-hospital-welcomes-first-patients-new-facility-17989-10740071.jpeg");
+}
+
+.buttonWithPadding {
+
+}

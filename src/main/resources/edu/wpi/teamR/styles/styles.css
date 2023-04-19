@@ -1,6 +1,11 @@
 .root {
     bwhblue: #012D5A;
     pressed: #BDBDBD;
+    secondaryBlue: #0067B1;
+    secondaryYellow: #F6BD38;
+    primaryWhite: #F1F1F1;
+    darkNeutral: #403C3B;
+    primaryLightGrey: #BDBDBD;
 }
 
 .button {
@@ -12,6 +17,21 @@
     border-radius: 4px;
 }
 
+.reserveButton {
+    -fx-background-color: bwhblue;
+    -fx-text-fill: white;
+    -fx-font-family: 'Nunito Sans', 'bold';
+    -fx-font-size: 18;
+    -fx-font-weight: 500;
+    -fx-pref-height: 35;
+    -fx-pref-width: 90;
+    border-radius: 4px;
+}
+
+.reserveButtonConfirm {
+    -fx-background-color: secondaryYellow;
+}
+
 .button:pressed {
     -fx-background-color: pressed;
     -fx-text-fill: white;
@@ -20,6 +40,7 @@
     -fx-font-weight: 500;
     border-radius: 4px;
 }
+
 
 .title{
     -fx-font-family: 'Lato', 'bold';
@@ -102,6 +123,10 @@
     -fx-background-position: center;
 }
 
+.secondaryRectangle {
+    -fx-background-color: secondaryBlue;
+}
+
 .homeBackground {
     -fx-background-color: #F3F3F3;
     -fx-background-repeat: stretch;
@@ -119,6 +144,10 @@
 
 .flower-title{
     -fx-background-image: url("../images/flowerBackgroundCropped2.png");
+}
+
+.room-title {
+    -fx-background-image: url("../images/RoomRequestHeader.png");
 }
 
 .food_furniture-clear-button{
@@ -166,6 +195,7 @@
 }
 
 .whiteTitle{
+    -fx-fill: primaryWhite;
     -fx-font-family: 'Lato', 'bold';
     -fx-font-weight: bold;
     -fx-font-size: 36px;
@@ -211,6 +241,24 @@
     -fx-font-size: 16;
     -fx-text-fill: white;
 }
+.subtitleSmallBold {
+    -fx-font-family: 'Roboto', 'bold';
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
+}
+.boxShadow{
+    -fx-background-color:  #FBF7F5;
+    -fx-border-color: BLACK;
+    -fx-border-insets: 0;
+    -fx-border-width: 0;
+    -fx-border-style: solid;
+    -fx-effect: dropshadow(three-pass-box, gray, 10, 0, 0, 5);
+}
+.bodyMediumBold{
+    -fx-font-family: 'Nunito Sans', 'bold';
+    -fx-font-weight: bold;
+    -fx-font-size: 21px;
+}
 
 .signage-title{
     -fx-font-family: 'Lato', 'regular';
@@ -224,13 +272,26 @@
     -fx-font-size: 24px;
 }
 
-.signage-button{
+.signage-button {
     -fx-background-color: white;
     -fx-text-fill: bwhblue;
     -fx-font-family: "Nunito Sans";
     -fx-font-size: 12;
     -fx-font-weight: 700;
     -fx-border-radius: 4px;
+}
+
+.bodyMedium{
+    -fx-font-family: 'Nunito Sans', 'regular';
+    -fx-font-weight: normal;
+    -fx-font-size: 21px;
+}
+
+.horizontal-bar {
+    -fx-fill: darkNeutral;
+    -fx-stroke: None;
+    -fx-effect: DropShadow;
+    -fx-scale-y: 0.2;
 }
 
 .signage-button:pressed{
@@ -240,6 +301,25 @@
     -fx-font-size: 12;
     -fx-font-weight: 700;
     -fx-border-radius: 4px;
+}
+.boxBackground {
+    -fx-background-color:  #FBF7F5;
+    -fx-border-color: BLACK;
+    -fx-border-insets: 0;
+    -fx-border-width: 3;
+    -fx-border-style: solid;
+}
+.profileToMapEditor{
+    -fx-background-image: url("../images/blurredmap.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+.profileToEmployeeManager{
+    -fx-background-image: url("../images/blurredemployeemanagerbutton.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
 }
 
 .signage-configuration-button{

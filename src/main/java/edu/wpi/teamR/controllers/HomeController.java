@@ -27,7 +27,7 @@ public class HomeController {
 
   @FXML
   public void initialize() {
-    loginButton.setOnAction(event -> Navigation.navigate(Screen.MAP_EDITOR));
+    loginButton.setOnAction(event -> Navigation.navigate(Screen.LOGIN));
 
     LocalDate date = LocalDate.now();
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
