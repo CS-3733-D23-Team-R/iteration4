@@ -98,6 +98,8 @@ public class ItemRequestController {
 
         clearFiltersButton.setOnAction(event -> clearFilters());
 
+        changeBackground();
+
         furnitureButton.setOnAction(event -> {
             this.type = RequestType.Furniture;
             regenerateTable();
@@ -286,8 +288,8 @@ public class ItemRequestController {
         }
     }
 
-    public void changeBackground(){
-        switch(this.type){
+    public void changeBackground() {
+        switch (this.type) {
             case Supplies:
                 requestPageBackground.getStyleClass().clear();
                 requestPageBackground.getStyleClass().add("supplies-title");
@@ -304,7 +306,8 @@ public class ItemRequestController {
                 requestPageBackground.getStyleClass().clear();
                 requestPageBackground.getStyleClass().add("meal-title");
         }
-        /*
+    }
+
     public void clearFilters(){
         this.upperBound = null;
         this.lowerBound = null;
@@ -312,7 +315,5 @@ public class ItemRequestController {
         itemMinField.clear();
         regenerateTable();
     }
-
-         */
 
 }
