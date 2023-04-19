@@ -67,7 +67,6 @@ public class RootController {
   @FXML
   public void initialize() {
     instance = this;
-
     bwhHome.setOnMouseClicked(event -> navigate(Screen.HOME));
     profileButton.setOnMouseClicked(event -> {
       try {
@@ -110,8 +109,9 @@ public class RootController {
 
   private void openProfile() throws SQLException, ClassNotFoundException, ItemNotFoundException {
     UserData thisUserData = UserData.getInstance();
-    if (!thisUserData.isLoggedIn())
+    if (!thisUserData.isLoggedIn()){
       return;
+    }
     CurrentUser user = thisUserData.getLoggedIn();
     if(user.getAccessLevel().equals(AccessLevel.Admin)){
       Navigation.navigate(Screen.ADMINPROFILEPAGE);

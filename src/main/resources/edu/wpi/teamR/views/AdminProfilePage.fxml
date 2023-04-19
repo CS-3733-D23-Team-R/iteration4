@@ -64,7 +64,7 @@
                            <children>
                               <ImageView fx:id="ProfilePicture" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                                  <image>
-                                    <Image url="@../images/Rick_Sanchez-0%201.png" />
+                                    <Image url="@../images/profile.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -130,7 +130,7 @@
                <children>
                   <ImageView fitHeight="648.0" fitWidth="552.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/threadPlaceholder.png" />
+                        <Image url="@../images/wipthread.png" />
                      </image>
                   </ImageView>
                </children>
