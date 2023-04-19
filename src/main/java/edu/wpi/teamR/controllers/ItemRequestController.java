@@ -304,6 +304,7 @@ public class ItemRequestController {
                 requestPageBackground.getStyleClass().clear();
                 requestPageBackground.getStyleClass().add("meal-title");
         }
+        /*
     public void clearFilters(){
         this.upperBound = null;
         this.lowerBound = null;
@@ -311,5 +312,7 @@ public class ItemRequestController {
         itemMinField.clear();
         regenerateTable();
     }
+
+         */
 
 }
