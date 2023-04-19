@@ -2,9 +2,11 @@ package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.Main;
+import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.requestdb.ItemRequest;
 import edu.wpi.teamR.requestdb.RequestDatabase;
 import edu.wpi.teamR.requestdb.RequestStatus;
+import edu.wpi.teamR.userData.userData;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -56,49 +58,55 @@ public class SortOrdersController {
         for (ItemRequest request : RequestDatabase.getInstance().getItemRequests()) {
             requestTable.getItems().add(request);
         }
-
-
-        staffMemberColumn.setOnEditCommit(event -> {
-            ItemRequest request = event.getRowValue();
-            request.setStaffMember(event.getNewValue());
-            try {
-                //RequestDatabase.getInstance().modifyItemRequestByID(request.getRequestID(), request.getRequesterName(),request.getLongname(), event.getNewValue(), request.getAdditionalNotes(), request.getRequestDate(), request.getRequestStatus(),request.getItemType());
-                RequestDatabase.getInstance().modifyItemRequestByID(
-                request.getRequestID(),
-                request.getRequestType(),
-                request.getRequestStatus(),
-                request.getLongname(),
-                        event.getNewValue(),
-                request.getItemType(),
-                request.getRequesterName(),
-                request.getAdditionalNotes(),
-                request.getRequestDate());
-            } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        if(userData.getInstance().getLoggedIn().getAccessLevel() != AccessLevel.Admin) {
+            staffMemberColumn.setEditable(false);
+        }
+            staffMemberColumn.setOnEditCommit(event -> {
+                ItemRequest request = event.getRowValue();
+                request.setStaffMember(event.getNewValue());
+                try {
+                    //RequestDatabase.getInstance().modifyItemRequestByID(request.getRequestID(), request.getRequesterName(),request.getLongname(), event.getNewValue(), request.getAdditionalNotes(), request.getRequestDate(), request.getRequestStatus(),request.getItemType());
+                    RequestDatabase.getInstance().modifyItemRequestByID(
+                            request.getRequestID(),
+                            request.getRequestType(),
+                            request.getRequestStatus(),
+                            request.getLongname(),
+                            event.getNewValue(),
+                            request.getItemType(),
+                            request.getRequesterName(),
+                            request.getAdditionalNotes(),
+                            request.getRequestDate());
+                } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            });
 
         statusColumn.setCellFactory(column -> new TableCell<>() {
             private final ComboBox<RequestStatus> changeStatusButton = new ComboBox<RequestStatus>(statusList);
             {
-                changeStatusButton.setOnAction(event -> {
-                    ItemRequest request = (ItemRequest) getTableView().getItems().get(getIndex());
-                    try {
-                        RequestStatus status = changeStatusButton.getSelectionModel().getSelectedItem();
-                        request.setRequestStatus(status);
-                        RequestDatabase.getInstance().modifyItemRequestByID(
-                                request.getRequestID(),
-                                request.getRequestType(),
-                                status,
-                                request.getLongname(),
-                                request.getStaffUsername(),
-                                request.getItemType(),
-                                request.getRequesterName(),
-                                request.getAdditionalNotes(),
-                                request.getRequestDate());                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
+                if(userData.getInstance().isLoggedIn() && userData.getInstance().getLoggedIn().getAccessLevel() != AccessLevel.Admin) {
+                   changeStatusButton.setDisable(true);
+                }
+                    changeStatusButton.setOnAction(event -> {
+                        ItemRequest request = (ItemRequest) getTableView().getItems().get(getIndex());
+                        try {
+                            RequestStatus status = changeStatusButton.getSelectionModel().getSelectedItem();
+                            request.setRequestStatus(status);
+                            RequestDatabase.getInstance().modifyItemRequestByID(
+                                    request.getRequestID(),
+                                    request.getRequestType(),
+                                    status,
+                                    request.getLongname(),
+                                    request.getStaffUsername(),
+                                    request.getItemType(),
+                                    request.getRequesterName(),
+                                    request.getAdditionalNotes(),
+                                    request.getRequestDate());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+
             }
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -168,7 +176,10 @@ public class SortOrdersController {
                         imageView.setFitHeight(30);
                         btn.getStyleClass().add("food_furniture-clear-button");
                         btn.setGraphic(imageView);
-                        btn.setOnAction((ActionEvent event) -> {
+                        if(userData.getInstance().getLoggedIn().getAccessLevel() != AccessLevel.Admin) {
+                            btn.setDisable(true);
+                        }
+                            btn.setOnAction((ActionEvent event) -> {
                             ItemRequest data = getTableView().getItems().get(getIndex());
                             requestTable.getItems().remove(data);
                             try {

@@ -27,12 +27,21 @@ import edu.wpi.teamR.controllers.LoginController;
 
 import java.io.IOException;
 import java.sql.SQLException;
+/*TODO
+    add signage page in place of sort orders
+      if admin is signage config
+      find icon
+    add log out functionality
+    remove log in button functionality if logged in
+    add log out button if logged in
 
+
+ */
 public class RootController {
   @FXML VBox bwhHome;
   @FXML VBox profileButton;
   @FXML VBox newRequestButton;
-  @FXML VBox pendingRequestButton;
+  @FXML VBox signagePageButton;
   @FXML VBox pathfindingButton;
   @FXML VBox helpButton;
   @FXML VBox logoutButton;
@@ -49,6 +58,8 @@ public class RootController {
   ImageView profileIcon;
   @FXML
   Circle circle;
+
+  @FXML Text signageText;
 
   PauseTransition transition;
 
@@ -73,7 +84,13 @@ public class RootController {
       }
     });
     newRequestButton.setOnMouseClicked(event -> navigate(Screen.ITEMREQUEST));
-    pendingRequestButton.setOnMouseClicked(event -> navigate(Screen.SORT_ORDERS));
+    if(userData.getInstance().getLoggedIn().getAccessLevel() != AccessLevel.Admin) {
+      signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGECONFIGURATION));
+      signageText.setText("Edit\nSignage");
+    }
+    else {
+      signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGE));
+    }
     pathfindingButton.setOnMouseClicked(event -> navigate(Screen.MAP));
     exitButton.setOnMouseClicked(event -> Platform.exit());
 

@@ -6,6 +6,7 @@ import edu.wpi.teamR.mapdb.ConferenceRoom;
 import edu.wpi.teamR.mapdb.MapDatabase;
 import edu.wpi.teamR.requestdb.RequestDatabase;
 import edu.wpi.teamR.requestdb.RoomRequest;
+import edu.wpi.teamR.userData.userData;
 import io.github.palexdev.materialfx.controls.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -29,10 +30,9 @@ import java.util.Objects;
         room floor
     clean up FXML page
     ISSUES:
-        Not connected to staff ID
         No actual way to get here yet
         kinda looks bland
-        Floors not hooked up
+
 
     SELECT * FROM iteration2.conferenceroom;
  */
@@ -227,7 +227,7 @@ ArrayList<String> timeArray = new ArrayList<>();
                             btn.setOnAction(null);
                             try {
                                 ConferenceRoom room = getTableView().getItems().get(getIndex());
-                                RequestDatabase.getInstance().addRoomRequest(room.getLongname(), "admin", startTime, endTime);
+                                RequestDatabase.getInstance().addRoomRequest(room.getLongname(), userData.getInstance().getLoggedIn().getUsername(), startTime, endTime);
                             } catch (SQLException e) {
                                 throw new RuntimeException(e);
                             } catch (ClassNotFoundException e) {
