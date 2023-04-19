@@ -179,6 +179,7 @@
 
 .homeBackground{
     -fx-background-color: #012D5A;
+    -fx-font-size: 18;
 }
 
 .homeTitle{
