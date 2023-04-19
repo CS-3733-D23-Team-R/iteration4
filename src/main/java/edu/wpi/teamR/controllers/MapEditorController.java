@@ -572,7 +572,7 @@ public class MapEditorController {
 
                     popOver.showingProperty().addListener((observable, oldValue, newValue) -> {
                         if (!newValue) {
-                            if (nodes.size() < initialSize) { //!nodes.contains(n)
+                            if (!nodes.contains(n) || nodes.size() < initialSize) { //!nodes.contains(n)
                                 // if node is deleted remove all nodes and edges from map
                                 nodePanes[floor].getChildren().remove(c);
                                 nodePanes[floor].getChildren().removeAll(linesMap.get(n.getNodeID()));
@@ -681,6 +681,24 @@ public class MapEditorController {
                             setupMapNode(currentFloor, node, deleted);
 
                             nodePanes[currentFloor].getChildren().add(deleted);
+
+                            if(linesMap.containsKey(node.getNodeID())) {
+                                nodePanes[currentFloor].getChildren().removeAll(linesMap.get(node.getNodeID()));
+                            }
+                            List<Edge> n_edges;
+                            n_edges = mapdb.getEdgesByNode(node.getNodeID());
+                            for(Edge e: n_edges) {
+                                Node startNode = mapdb.getNodeByID(e.getStartNode());
+                                Node endNode = mapdb.getNodeByID(e.getEndNode());
+                                if (startNode.getFloorNum().equals(endNode.getFloorNum())) {
+                                    Line l1 = new Line(startNode.getXCoord(), startNode.getYCoord(), endNode.getXCoord(), endNode.getYCoord());
+                                    l1.setStroke(Color.RED);
+                                    l1.setStrokeWidth(4);
+                                    nodePanes[currentFloor].getChildren().add(l1);
+                                    l1.toBack();
+                                    addLine(node.getNodeID(), l1);
+                                }
+                            }
                             nodes.add(node);
                             mapdb.addNode(node);
                         }

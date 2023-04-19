@@ -55,6 +55,7 @@ public class FutureMovesTableController {
 
     public void updateTable() {
         movesTable.getItems().clear();
+        movesTable.refresh();
         //get moves by date
         //add to table
     }

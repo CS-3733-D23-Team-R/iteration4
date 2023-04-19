@@ -218,6 +218,11 @@ public class MapDatabase {
         new DirectionArrowDAO(connection).deleteDirectionArrowsByKiosk(kioskID);
     }
 
+    public void deleteAllDirectionArrows() throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        new DirectionArrowDAO(connection).deleteAllDirectionArrows();
+    }
+
     public ArrayList<DirectionArrow> getDirectionArrows() throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         return new DirectionArrowDAO(connection).getDirectionArrows();
@@ -230,6 +235,11 @@ public class MapDatabase {
 
     public ConferenceRoom getConferenceRoomByLongname(String longname) throws SQLException, ClassNotFoundException, ItemNotFoundException {
         return new ConferenceRoomDAO().getConferenceRoomByLongname(longname);
+    }
+
+    public void deleteAllConferenceRooms() throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        new ConferenceRoomDAO().deleteAllConferenceRooms();
     }
 
     public ArrayList<MapLocation> getMapLocationsByFloor(String floor) throws SQLException {
