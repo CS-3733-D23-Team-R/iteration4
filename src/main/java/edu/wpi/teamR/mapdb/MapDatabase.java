@@ -4,10 +4,15 @@ import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.csv.CSVParameterException;
 import edu.wpi.teamR.csv.CSVReader;
+import edu.wpi.teamR.requestdb.ItemRequestDAO;
+import edu.wpi.teamR.requestdb.RoomRequestDAO;
 
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 import static edu.wpi.teamR.mapdb.NodeDAO.parseNodes;
 
@@ -18,6 +23,10 @@ public class MapDatabase {
     private EdgeDAO edgeDao;
     private MoveDAO moveDao;
     private LocationNameDAO locationNameDao;
+    private DirectionArrowDAO directionArrowDAO;
+    private ConferenceRoomDAO conferenceRoomDAO;
+    private ItemRequestDAO itemRequestDAO;
+    private RoomRequestDAO roomRequestDAO;
 
     public MapDatabase() throws SQLException, ClassNotFoundException {
         this.connection = Configuration.getConnection();
@@ -25,6 +34,10 @@ public class MapDatabase {
         this.edgeDao = new EdgeDAO(connection);
         this.moveDao = new MoveDAO(connection);
         this.locationNameDao = new LocationNameDAO(connection);
+        this.directionArrowDAO = new DirectionArrowDAO(connection);
+        this.conferenceRoomDAO = new ConferenceRoomDAO();
+        this.itemRequestDAO = new ItemRequestDAO();
+        this.roomRequestDAO = new RoomRequestDAO();
     }
 
     // old code for making mapDatabase singleton
@@ -55,6 +68,12 @@ public class MapDatabase {
 
     public Node addNode(int xCoord, int yCoord, String floorNum, String building) throws SQLException {
         return nodeDao.addNode(xCoord, yCoord, floorNum, building);
+    }
+
+    public void addNode(Node node) throws SQLException {
+        List<Node> list = new ArrayList<>();
+        list.add(node);
+        nodeDao.addNodes(list);
     }
 
     public Node modifyCoords(int nodeID, int newXCoord, int newYCoord) throws SQLException {
@@ -102,6 +121,10 @@ public class MapDatabase {
 
     public ArrayList<Move> getMoves() throws SQLException {
         return moveDao.getMoves();
+    }
+
+    public ArrayList<Move> getMovesForDate(Date date) throws SQLException {
+        return moveDao.getMovesForDate(date);
     }
 
     public ArrayList<Move> getMovesByNode(int nodeID) throws SQLException {
@@ -190,41 +213,68 @@ public class MapDatabase {
     }
 
 
-    DirectionArrow addDirectionArrow(String longname, int kioskID, Direction direction) throws SQLException, ClassNotFoundException {
+    public DirectionArrow addDirectionArrow(String longname, int kioskID, Direction direction) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         return new DirectionArrowDAO(connection).addDirectionArrow(longname, kioskID, direction);
     }
 
-    void deleteDirectionArrowByLongname(String longname) throws SQLException, ItemNotFoundException, ClassNotFoundException {
+    public void deleteDirectionArrowByLongname(String longname) throws SQLException, ItemNotFoundException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         new DirectionArrowDAO(connection).deleteDirectionArrowByLongname(longname);
     }
 
-    void deleteDirectionArrowsByKiosk(int kioskID) throws SQLException, ItemNotFoundException, ClassNotFoundException {
+    public void deleteDirectionArrowsByKiosk(int kioskID) throws SQLException, ItemNotFoundException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         new DirectionArrowDAO(connection).deleteDirectionArrowsByKiosk(kioskID);
     }
 
-    ArrayList<DirectionArrow> getDirectionArrows() throws SQLException, ClassNotFoundException {
+    public void deleteAllDirectionArrows() throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        new DirectionArrowDAO(connection).deleteAllDirectionArrows();
+    }
+
+    public ArrayList<DirectionArrow> getDirectionArrows() throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         return new DirectionArrowDAO(connection).getDirectionArrows();
     }
 
-    ArrayList<DirectionArrow> getDirectionArrowsByKiosk(int kioskID) throws SQLException, ClassNotFoundException {
+    public ArrayList<DirectionArrow> getDirectionArrowsByKiosk(int kioskID) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         return new DirectionArrowDAO(connection).getDirectionArrowsByKiosk(kioskID);
+    }
+
+    public Node getNodeFromLocationName(String locationame) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT nodeID, xCoord, yCoord, Building, floor FROM (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() AND longname=? group by longname) as foo NATURAL JOIN "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN "+Configuration.getNodeSchemaNameTableName()+";");
+        preparedStatement.setString(1, locationame);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            int nodeID = resultSet.getInt("nodeid");
+            int xCoord = resultSet.getInt("xCoord");
+            int yCoord = resultSet.getInt("yCoord");
+            String building = resultSet.getString("building");
+            String floor = resultSet.getString("floor");
+            return new Node(nodeID, xCoord, yCoord, floor, building);
+        }
+        throw new ItemNotFoundException();
     }
 
     public ConferenceRoom getConferenceRoomByLongname(String longname) throws SQLException, ClassNotFoundException, ItemNotFoundException {
         return new ConferenceRoomDAO().getConferenceRoomByLongname(longname);
     }
 
+    public void deleteAllConferenceRooms() throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        new ConferenceRoomDAO().deleteAllConferenceRooms();
+    }
+
     public ArrayList<MapLocation> getMapLocationsByFloor(String floor) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" node LEFT JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as move on node.nodeid=move.nodeid left join "+Configuration.getLocationNameSchemaNameTableName()+" locationname on move.longname=locationname.longname ORDER BY node.nodeID desc;");
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" node LEFT JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as move on node.nodeid=move.nodeid left join "+Configuration.getLocationNameSchemaNameTableName()+" locationname on move.longname=locationname.longname WHERE floor=? ORDER BY node.nodeID desc;");
+        preparedStatement.setString(1, floor);
         ResultSet resultSet = preparedStatement.executeQuery();
 
         ArrayList<MapLocation> mapLocations = new ArrayList<>();
-        Node lastNode = new Node(-1, 0, 0, "", ""); //need to initialize so that it doesm't error
+        Node lastNode = new Node(-100, 0, 0, "", "");
         Node currentNode;
         ArrayList<LocationName> locationNames = new ArrayList<>();
         LocationName locationName;
@@ -242,16 +292,15 @@ public class MapDatabase {
 
             boolean noLocationNameForNode = longName==null && shortName==null && nodeType==null;
             boolean continuingLastNode = lastNode.getNodeID()==nodeID;
-            if (continuingLastNode){
-                if (!noLocationNameForNode) {
+            boolean noLastNode = lastNode.getNodeID()==-100;
+            if (continuingLastNode&&!noLocationNameForNode){
+                locationNames.add(locationName);
+            } else if (!continuingLastNode){
+                if (!noLastNode)
+                    mapLocations.add(new MapLocation(lastNode, locationNames));
+                locationNames = new ArrayList<LocationName>();
+                if (!noLocationNameForNode)
                     locationNames.add(locationName);
-                }
-            } else {
-                mapLocations.add(new MapLocation(lastNode, locationNames)); //if you've reached the end of the list of locations then you're ready to add it
-                locationNames = new ArrayList<>(); //reset list for the next node
-                if (!noLocationNameForNode) {
-                    locationNames.add(locationName); //add first entry for the next node
-                }
             }
 
             lastNode = currentNode;
@@ -261,7 +310,7 @@ public class MapDatabase {
         return mapLocations;
     }
 
-    public ArrayList<? extends MapData> readCSV(String path, Class<? extends MapData> _class) throws IOException, CSVParameterException, SQLException {
+    public ArrayList<? extends MapData> readCSV(String path, Class<? extends MapData> _class) throws IOException, CSVParameterException, SQLException, ClassNotFoundException {
         String[] fullName = _class.getName().split("[.]");
         String name = fullName[fullName.length - 1];
         switch (name) {
@@ -296,6 +345,10 @@ public class MapDatabase {
                 CSVReader<LocationName> reader = new CSVReader<>(path, LocationName.class);
                 ArrayList<LocationName> locs = reader.parseCSV();
                 moveDao.deleteAllMoves();
+                directionArrowDAO.deleteAllDirectionArrows();
+                roomRequestDAO.deleteAllRoomRequests();
+                conferenceRoomDAO.deleteAllConferenceRooms();
+                itemRequestDAO.deleteAllItemRequests();
                 locationNameDao.deleteAllLocationNames();
                 for (LocationName l : locs) {
                     locationNameDao.addLocationName(l.getLongName(), l.getShortName(), l.getNodeType());

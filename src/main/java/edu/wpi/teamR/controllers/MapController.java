@@ -3,16 +3,14 @@ package edu.wpi.teamR.controllers;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.App;
 import edu.wpi.teamR.mapdb.MapDatabase;
-import edu.wpi.teamR.navigation.Navigation;
-import edu.wpi.teamR.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import javafx.animation.Interpolator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,14 +22,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import net.kurobako.gesturefx.*;
 import edu.wpi.teamR.pathfinding.*;
 import edu.wpi.teamR.mapdb.*;
 import org.controlsfx.control.SearchableComboBox;
-
-import javax.xml.stream.Location;
 
 public class MapController {
     @FXML
@@ -46,7 +44,7 @@ public class MapController {
     @FXML
     SearchableComboBox<String> endField;
     @FXML
-    SearchableComboBox<String> algorithm;
+    SearchableComboBox<String> algorithmChoicebox;
 
     @FXML BorderPane borderPane;
     @FXML AnchorPane anchorPane;
@@ -58,6 +56,8 @@ public class MapController {
     @FXML MFXCheckbox textCheckbox;
 
     @FXML MFXCheckbox locationNamesCheckbox;
+    @FXML
+    MFXDatePicker moveDatePicker;
     AnchorPane[] locationPanes = new AnchorPane[5];
 
     ImageView imageView;
@@ -85,7 +85,7 @@ public class MapController {
 
     private AnchorPane mapPane = new AnchorPane();
 
-    HashMap<String, Integer> floorNamesMap = new HashMap<String, Integer>();
+    HashMap<String, Integer> floorNamesMap = new HashMap<>();
 
     private MapDatabase mapdb;
     ArrayList<Node> nodes;
@@ -95,6 +95,8 @@ public class MapController {
 
     ObservableList<String> algorithms =
             FXCollections.observableArrayList("A-Star", "Breadth-First Search", "Depth-First Search");
+
+    Pathfinder pathfinder;
 
     @FXML
     public void initialize() throws Exception {
@@ -122,8 +124,20 @@ public class MapController {
         gesturePane.setMinScale(0.25);
         gesturePane.setMaxScale(2);
         resetButton.setOnMouseClicked(event -> reset());
-        floorDownButton.setOnMouseClicked(event -> displayFloorDown());
-        floorUpButton.setOnMouseClicked(event -> displayFloorUp());
+        floorDownButton.setOnMouseClicked(event -> {
+            try {
+                displayFloorDown();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        floorUpButton.setOnMouseClicked(event -> {
+            try {
+                displayFloorUp();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
         clearButton.setOnMouseClicked(event -> clearPath());
         searchButton.setOnMouseClicked(event -> {
             try {
@@ -143,12 +157,20 @@ public class MapController {
         locationNamesCheckbox.setOnAction(event -> {
             if (locationNamesCheckbox.isSelected()) {
                 mapPane.getChildren().add(locationPanes[currentFloor]);
+                try {
+                    displayLocationNames(currentFloor);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             } else {
+                locationPanes[currentFloor].getChildren().clear();
                 mapPane.getChildren().remove(locationPanes[currentFloor]);
             }
         });
 
-        algorithm.setItems(algorithms);
+        pathfinder = new Pathfinder(mapdb);
+        algorithmChoicebox.setItems(algorithms);
+        algorithmChoicebox.setValue("A-Star");
     }
 
     // Reset to original zoom
@@ -194,72 +216,124 @@ public class MapController {
         displayPath(start, end, isAccessible);
     }
 
-    public void displayFloorUp() {
+    public void displayFloorUp() throws SQLException {
         if (currentFloor < 4) {
+            locationPanes[currentFloor].getChildren().clear();
             currentFloor++;
             imageView = floorMaps.get(currentFloor);
             mapPane.getChildren().clear();
             mapPane.getChildren().add(imageView);
             mapPane.getChildren().add(paths[currentFloor]);
             floorText.setText(floorNames[currentFloor]);
+            if (locationNamesCheckbox.isSelected()) {
+                System.out.println(locationNamesCheckbox.isSelected());
+                displayLocationNames(currentFloor);
+                mapPane.getChildren().add(locationPanes[currentFloor]);
+            }
             reset();
         }
     }
 
-    public void displayFloorDown() {
+    public void displayFloorDown() throws SQLException {
         if (currentFloor > 0) {
+            locationPanes[currentFloor].getChildren().clear();
             currentFloor--;
             imageView = floorMaps.get(currentFloor);
             mapPane.getChildren().clear();
             mapPane.getChildren().add(imageView);
             mapPane.getChildren().add(paths[currentFloor]);
             floorText.setText(floorNames[currentFloor]);
+            if (locationNamesCheckbox.isSelected()) {
+                displayLocationNames(currentFloor);
+                mapPane.getChildren().add(locationPanes[currentFloor]);
+            }
             reset();
         }
     }
 
-    public void displayFloorNum(int floorNum) {
+    public void displayFloorNum(int floorNum) throws SQLException {
         if (floorNum < 4) {
+            locationPanes[currentFloor].getChildren().clear();
             currentFloor = floorNum;
             imageView = floorMaps.get(currentFloor);
             mapPane.getChildren().clear();
             mapPane.getChildren().add(imageView);
             mapPane.getChildren().add(paths[currentFloor]);
             floorText.setText(floorNames[currentFloor]);
+            if (locationNamesCheckbox.isSelected()) {
+                displayLocationNames(currentFloor);
+                mapPane.getChildren().add(locationPanes[currentFloor]);
+            }
             reset();
         }
     }
 
     public void displayPath(String startLocation, String endLocation, Boolean accessible) throws Exception, ItemNotFoundException {
         clearPath();
+        updatePathfindingAlgorithm(algorithmChoicebox.getValue());
         mapPane.getChildren().add(paths[currentFloor]);
 
         int startID = idFromName(startLocation);
         int endID = idFromName(endLocation);
 
-        Pathfinder pathfinder = new Pathfinder(mapdb);
+        System.out.println("Start ID: " + startID + "End ID: " + endID);
+
         Path mapPath = pathfinder.findPath(startID, endID, accessible);
         ArrayList<Integer> currentPath = mapPath.getPath();
 
         Node startNode = mapdb.getNodeByID(startID);
         Node endNode = mapdb.getNodeByID(endID);
 
-        if (startNode.getFloorNum() != nodeFloorNames[currentFloor]){
+        if (!startNode.getFloorNum().equals(nodeFloorNames[currentFloor])){
             displayFloorNum(floorNamesMap.get(startNode.getFloorNum()));
         }
 
         createCircle(startNode, currentFloor, startField);
 
         int drawFloor = currentFloor;
-        for (int i = 0; i < mapPath.getPath().size() - 1; i++) {
-            Node n1 = mapdb.getNodeByID(mapPath.getPath().get(i));
-            Node n2 = mapdb.getNodeByID(mapPath.getPath().get(i + 1));
+        for (int i = 0; i < currentPath.size() - 1; i++) {
+            Node n1 = mapdb.getNodeByID(currentPath.get(i));
+            Node n2 = mapdb.getNodeByID(currentPath.get(i + 1));
             if (n1.getFloorNum().equals(nodeFloorNames[drawFloor]) && n2.getFloorNum().equals(nodeFloorNames[drawFloor])) {
                 Line l1 = new Line(n1.getXCoord(), n1.getYCoord(), n2.getXCoord(), n2.getYCoord());
+                l1.setStroke(Color.RED);
+                l1.setStrokeWidth(4);
                 paths[drawFloor].getChildren().add(l1);
             }
             else {
-                drawFloor = floorNamesMap.get(n2.getFloorNum());
+                Rectangle square = new Rectangle(n1.getXCoord(), n1.getYCoord(), 20, 20);
+                square.setFill(Color.LIMEGREEN);
+                int newFloor = floorNamesMap.get(n2.getFloorNum());
+                square.setOnMouseClicked(event -> {
+                    try {
+                        displayFloorNum(newFloor);
+                        gesturePane.zoomTo(1, 1, new Point2D(n2.getXCoord(), n2.getYCoord()));
+                        gesturePane.centreOn(new Point2D(n2.getXCoord(), n2.getYCoord()));
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+                paths[drawFloor].getChildren().add(square);
+                square.toFront();
+
+                Text t = new Text("Click to go to next floor");
+                t.setFill(Color.LIMEGREEN);
+                t.setX(n1.getXCoord());
+                t.setY(n1.getYCoord() + 30);
+                paths[drawFloor].getChildren().add(t);
+                t.toBack();
+
+                t.setOnMouseClicked(event -> {
+                    try {
+                        displayFloorNum(newFloor);
+                        gesturePane.zoomTo(1, 1, new Point2D(n2.getXCoord(), n2.getYCoord()));
+                        gesturePane.centreOn(new Point2D(n2.getXCoord(), n2.getYCoord()));
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+                drawFloor = newFloor;
             }
         }
         createCircle(endNode, drawFloor, endField);
@@ -271,6 +345,9 @@ public class MapController {
     private void createCircle(Node endNode, int drawFloor, SearchableComboBox<String> endField) {
         Circle end = new Circle(endNode.getXCoord(), endNode.getYCoord(), 5, Color.RED);
         Text endText = new Text(endField.getValue());
+        if (locationNamesCheckbox.isSelected()) {
+            endText.setText("");
+        }
         endText.setX(endNode.getXCoord() + 10);
         endText.setY(endNode.getYCoord());
         endText.setFill(Color.RED);
@@ -291,25 +368,41 @@ public class MapController {
             }
         }
         ObservableList<String> choices = FXCollections.observableArrayList(names);
+        FXCollections.sort(choices);
         startField.setItems(choices);
         endField.setItems(choices);
     }
 
     public void displayLocationNames(int floor) throws SQLException {
-        if (floor < 4) {
+        if (floor <= 4) {
             String f = nodeFloorNames[floor];
             ArrayList<MapLocation> locs = mapdb.getMapLocationsByFloor(f);
             if (locs.size() > 0) {
                 for (MapLocation m: locs) {
-                    Text t = new Text();
-                    Node n = m.getNode();
-                    //t.setText(m.getLocationNames().get(0).getShortName()); //m.getLocationNames().get(0).getShortName()
-                    t.setX(n.getXCoord() + 10);
-                    t.setY(n.getYCoord());
+                    if (m.getLocationNames().size() > 0) {
+                        String shortName = m.getLocationNames().get(0).getShortName();
+                        if (!shortName.contains("Hall")) {
+                            Text t = new Text();
+                            Node n = m.getNode();
+                            t.setText(shortName);
+                            t.setFill(Color.RED);
+                            t.setX(n.getXCoord() + 10);
+                            t.setY(n.getYCoord());
 
-                    locationPanes[floor].getChildren().add(t);
+                            locationPanes[floor].getChildren().add(t);
+                        }
+                    }
                 }
             }
+        }
+    }
+
+    private void updatePathfindingAlgorithm(String algo) {
+        switch (algo) {
+            case "A-Star" -> pathfinder.setAlgorithm(Algorithm.Astar);
+            case "Breadth-First Search" -> pathfinder.setAlgorithm(Algorithm.BFS);
+            case "Depth-First Search" -> pathfinder.setAlgorithm(Algorithm.DFS);
+            default -> System.out.println("Error - invalid pathfinding algorithm.");
         }
     }
 }
