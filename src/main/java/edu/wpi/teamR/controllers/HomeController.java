@@ -1,8 +1,10 @@
 package edu.wpi.teamR.controllers;
 
+import edu.wpi.teamR.login.User;
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
 
+import edu.wpi.teamR.userData.UserData;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -27,7 +29,10 @@ public class HomeController {
 
   @FXML
   public void initialize() {
-    loginButton.setOnAction(event -> Navigation.navigate(Screen.LOGIN));
+    loginButton.setOnAction(event -> {
+        if (!UserData.getInstance().isLoggedIn())
+            Navigation.navigate(Screen.LOGIN);
+    });
 
     LocalDate date = LocalDate.now();
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");

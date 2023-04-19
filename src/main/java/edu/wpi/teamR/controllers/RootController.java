@@ -81,6 +81,7 @@ public class RootController {
         throw new RuntimeException(e);
       }
     });
+    logoutButton.setOnMouseClicked(event -> logout());
     newRequestButton.setOnMouseClicked(event -> navigate(Screen.ITEMREQUEST));
     if(UserData.getInstance().getLoggedIn().getAccessLevel() != AccessLevel.Admin) {
       signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGECONFIGURATION));
@@ -190,7 +191,10 @@ public class RootController {
   }
 
   @FXML private void logout(){
-    ShoppingCart.getInstance().clearCart();
-    Navigation.navigate(Screen.HOME);
+    if (UserData.getInstance().isLoggedIn()) {
+      UserData.getInstance().logout();
+      ShoppingCart.getInstance().clearCart();
+      Navigation.navigate(Screen.HOME);
+    }
   }
 }
