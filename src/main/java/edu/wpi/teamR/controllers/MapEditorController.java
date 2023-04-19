@@ -657,26 +657,6 @@ public class MapEditorController {
                             mod.setCenterX(node.getXCoord());
                             mod.setCenterY(node.getYCoord());
                             mapdb.modifyCoords(node.getNodeID(), node.getXCoord(), node.getYCoord());
-
-                            /*
-                            if(linesMap.containsKey(node.getNodeID())) {
-                                nodePanes[currentFloor].getChildren().removeAll(linesMap.get(node.getNodeID()));
-                            }
-                            List<Edge> n_edges;
-                            n_edges = mapdb.getEdgesByNode(node.getNodeID());
-                            for(Edge e: n_edges) {
-                                Node startNode = mapdb.getNodeByID(e.getStartNode());
-                                Node endNode = mapdb.getNodeByID(e.getEndNode());
-                                if (startNode.getFloorNum().equals(endNode.getFloorNum())) {
-                                    Line l1 = new Line(startNode.getXCoord(), startNode.getYCoord(), endNode.getXCoord(), endNode.getYCoord());
-                                    l1.setStroke(Color.RED);
-                                    l1.setStrokeWidth(4);
-                                    nodePanes[currentFloor].getChildren().add(l1);
-                                    l1.toBack();
-                                    addLine(node.getNodeID(), l1);
-                                }
-                            }
-                            */
                         }
                         case DELETION -> {
                             Circle deleted = new Circle(node.getXCoord(), node.getYCoord(), 4, Color.RED);
@@ -684,27 +664,6 @@ public class MapEditorController {
                             setupMapNode(currentFloor, node, deleted);
 
                             nodePanes[currentFloor].getChildren().add(deleted);
-
-                            /*
-                            if(linesMap.containsKey(node.getNodeID())) {
-                                nodePanes[currentFloor].getChildren().removeAll(linesMap.get(node.getNodeID()));
-                            }
-                            List<Edge> n_edges;
-                            n_edges = mapdb.getEdgesByNode(node.getNodeID());
-                            for(Edge e: n_edges) {
-                                Node startNode = mapdb.getNodeByID(e.getStartNode());
-                                Node endNode = mapdb.getNodeByID(e.getEndNode());
-                                if (startNode.getFloorNum().equals(endNode.getFloorNum())) {
-                                    Line l1 = new Line(startNode.getXCoord(), startNode.getYCoord(), endNode.getXCoord(), endNode.getYCoord());
-                                    l1.setStroke(Color.RED);
-                                    l1.setStrokeWidth(4);
-                                    nodePanes[currentFloor].getChildren().add(l1);
-                                    l1.toBack();
-                                    addLine(node.getNodeID(), l1);
-                                }
-                            }
-
-                             */
                             nodes.add(node);
                             mapdb.addNode(node);
                         }
@@ -722,13 +681,28 @@ public class MapEditorController {
                             mapdb.deleteEdge(edge.getStartNode(), edge.getEndNode());
                         }
                         case MODIFICATION -> {
-                        }
-                        case DELETION -> {
                             Node startNode = mapdb.getNodeByID(edge.getStartNode());
-                            Node endNode = mapdb.getNodeByID(edge.getStartNode());
+                            Node endNode = mapdb.getNodeByID(edge.getEndNode());
+                            if (linesMap.containsKey(edge.getStartNode())) {
+                                nodePanes[currentFloor].getChildren().removeAll(linesMap.get(edge.getStartNode()));
+                            }
+                            if (linesMap.containsKey(edge.getEndNode())) {
+                                nodePanes[currentFloor].getChildren().removeAll(linesMap.get(edge.getEndNode()));
+                            }
                             Line line = new Line(startNode.getXCoord(), startNode.getYCoord(), endNode.getXCoord(), endNode.getYCoord());
                             line.setStrokeWidth(4);
                             line.setStroke(Color.RED);
+                            nodePanes[currentFloor].getChildren().add(line);
+                            edges.add(edge);
+                            mapdb.addEdge(edge.getStartNode(), edge.getEndNode());
+                        }
+                        case DELETION -> {
+                            Node startNode = mapdb.getNodeByID(edge.getStartNode());
+                            Node endNode = mapdb.getNodeByID(edge.getEndNode());
+                            Line line = new Line(startNode.getXCoord(), startNode.getYCoord(), endNode.getXCoord(), endNode.getYCoord());
+                            line.setStrokeWidth(4);
+                            line.setStroke(Color.RED);
+                            nodePanes[currentFloor].getChildren().add(line);
                             edges.add(edge);
                             mapdb.addEdge(edge.getStartNode(), edge.getEndNode());
                         }
