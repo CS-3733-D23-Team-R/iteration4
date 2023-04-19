@@ -164,6 +164,10 @@
     -fx-background-image: url("../images/flowerBackgroundCropped2.png");
 }
 
+.supplies-title{
+    -fx-background-image: url("../images/suppliesHeader.png");
+}
+
 .room-title {
     -fx-background-image: url("../images/RoomRequestHeader.png");
 }

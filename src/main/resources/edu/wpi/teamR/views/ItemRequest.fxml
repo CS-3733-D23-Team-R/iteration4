@@ -24,9 +24,9 @@
          <children>
             <VBox layoutX="53.0" prefHeight="400.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <StackPane prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                  <StackPane prefHeight="0.0" prefWidth="1059.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <AnchorPane fx:id="requestPageBackground" prefHeight="150.0" prefWidth="400.0" styleClass="requestBackground" />
+                        <AnchorPane fx:id="requestPageBackground" maxHeight="200.0" prefHeight="90.0" prefWidth="1059.0" styleClass="requestBackground" />
                         <ImageView fitHeight="129.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
                               <image>
                                   <Image url="@../images/serviceRequests/trapezoid.png" />
@@ -41,6 +41,9 @@
                            </StackPane.margin>
                         </ImageView>
                      </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
                   </StackPane>
                   <AnchorPane VBox.vgrow="ALWAYS">
                      <children>

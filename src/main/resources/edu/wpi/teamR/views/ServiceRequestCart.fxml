@@ -122,7 +122,7 @@
                               <Insets left="5.0" />
                            </HBox.margin>
                         </ImageView>
-                        <MFXTextField fx:id="notesField" prefHeight="63.0" prefWidth="205.0" text="Type Any Notes" HBox.hgrow="ALWAYS">
+                        <MFXTextField fx:id="notesField" floatingText="Type Any Notes" prefHeight="63.0" prefWidth="205.0" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
