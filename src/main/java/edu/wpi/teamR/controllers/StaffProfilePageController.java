@@ -1,7 +1,6 @@
 package edu.wpi.teamR.controllers;
 
-import edu.wpi.teamR.requestdb.ItemRequest;
-import edu.wpi.teamR.requestdb.RequestDatabase;
+import edu.wpi.teamR.requestdb.*;
 import edu.wpi.teamR.userData.currentUser;
 import edu.wpi.teamR.userData.userData;
 import javafx.animation.KeyFrame;
@@ -27,7 +26,7 @@ public class StaffProfilePageController {
 
     ImageView CreateNewMessage;
 
-    public void initialize() throws SQLException, ClassNotFoundException {
+    public void initialize() throws SQLException, ClassNotFoundException, SearchException {
         RequestDatabase requestDatabase = RequestDatabase.getInstance();
         userData thisUserData = userData.getInstance();
         currentUser user = thisUserData.getLoggedIn();
@@ -55,7 +54,7 @@ public class StaffProfilePageController {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
         time.setText(formattedDate);
-/*
+
         String thisIsYourStaffUsername = user.getUsername();
         Timestamp dateOfRequest = new Timestamp(1);
         SearchList searchList = new SearchList();
@@ -63,15 +62,13 @@ public class StaffProfilePageController {
         searchList.addComparison(RequestAttribute.requestDate, Operation.greaterThan, dateOfRequest);
         ArrayList<ItemRequest> itemRequests = RequestDatabase.getInstance().getItemRequestByAttributes(searchList);
 
- */
-        ArrayList<ItemRequest> itemRequests = new ArrayList<>();
         Calendar cal = Calendar.getInstance();
         for(ItemRequest aRequest : itemRequests){
             java.util.Date aDate = aRequest.getRequestDate();
             String name = aRequest.getRequesterName();
             cal.setTime(aDate);
             Text aText = new Text();
-            aText.setText(name + "/n" + aRequest.getItemType() + "/n" + aDate.toString());
+            aText.setText(name + "\n" + aRequest.getItemType() + "\n" + aDate.toString());
             aText.setStrokeType(StrokeType.OUTSIDE);
             aText.setStrokeWidth(0.0);
             aText.setId("bodyMedium");

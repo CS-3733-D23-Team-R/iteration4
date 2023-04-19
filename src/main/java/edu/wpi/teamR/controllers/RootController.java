@@ -2,6 +2,7 @@ package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.App;
 import edu.wpi.teamR.ItemNotFoundException;
+import edu.wpi.teamR.datahandling.ShoppingCart;
 import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.navigation.Navigation;
