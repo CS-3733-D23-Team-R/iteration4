@@ -4,13 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter@Setter
-public class userData {
-    static userData instance;
-    currentUser loggedIn;
-    private userData(){}
-    public static userData getInstance(){
+public class UserData {
+    static UserData instance;
+    CurrentUser loggedIn;
+    private UserData(){}
+    public static UserData getInstance(){
         if(instance == null){
-            instance = new userData();
+            instance = new UserData();
         }
         return instance;
     }

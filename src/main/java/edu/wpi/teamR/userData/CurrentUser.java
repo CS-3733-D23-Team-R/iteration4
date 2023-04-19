@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.sql.Date;
 
 @Getter@Setter
-public class currentUser {
+public class CurrentUser {
     String username;
     private String password;
     AccessLevel accessLevel;
@@ -17,7 +17,7 @@ public class currentUser {
     Date joinDate;
     int phoneNum;
     String jobTitle;
-    public currentUser(String username, String password, AccessLevel accessLevel, String fullname, String email, String department, Date joinDate, int phoneNum, String jobTitle){ //TODO: update this with alton's new user class
+    public CurrentUser(String username, String password, AccessLevel accessLevel, String fullname, String email, String department, Date joinDate, int phoneNum, String jobTitle){ //TODO: update this with alton's new user class
         this.username = username;
         this.password = password;
         this.accessLevel = accessLevel;

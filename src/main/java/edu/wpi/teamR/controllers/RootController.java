@@ -4,11 +4,10 @@ import edu.wpi.teamR.App;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.datahandling.ShoppingCart;
 import edu.wpi.teamR.login.AccessLevel;
-import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
-import edu.wpi.teamR.userData.currentUser;
-import edu.wpi.teamR.userData.userData;
+import edu.wpi.teamR.userData.CurrentUser;
+import edu.wpi.teamR.userData.UserData;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -23,7 +22,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.controlsfx.control.PopOver;
-import edu.wpi.teamR.controllers.LoginController;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -87,6 +85,13 @@ public class RootController {
       }
     });
     newRequestButton.setOnMouseClicked(event -> navigate(Screen.ITEMREQUEST));
+    if(UserData.getInstance().getLoggedIn().getAccessLevel() != AccessLevel.Admin) {
+      signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGECONFIGURATION));
+      signageText.setText("Edit\nSignage");
+    }
+    else {
+      signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGE));
+    }
     pathfindingButton.setOnMouseClicked(event -> navigate(Screen.MAP));
     exitButton.setOnMouseClicked(event -> Platform.exit());
 
@@ -113,8 +118,8 @@ public class RootController {
   }
 
   private void openProfile() throws SQLException, ClassNotFoundException, ItemNotFoundException {
-    userData thisUserData = userData.getInstance();
-    currentUser user = thisUserData.getLoggedIn();
+    UserData thisUserData = UserData.getInstance();
+    CurrentUser user = thisUserData.getLoggedIn();
     if(user.getAccessLevel().equals(AccessLevel.Admin)){
       Navigation.navigate(Screen.ADMINPROFILEPAGE);
     } else if(user.getAccessLevel().equals(AccessLevel.Staff)){

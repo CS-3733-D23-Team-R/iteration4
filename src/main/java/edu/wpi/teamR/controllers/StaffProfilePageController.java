@@ -1,8 +1,8 @@
 package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.requestdb.*;
-import edu.wpi.teamR.userData.currentUser;
-import edu.wpi.teamR.userData.userData;
+import edu.wpi.teamR.userData.CurrentUser;
+import edu.wpi.teamR.userData.UserData;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -30,8 +30,8 @@ public class StaffProfilePageController {
 
     public void initialize() throws SQLException, ClassNotFoundException, SearchException {
         RequestDatabase requestDatabase = RequestDatabase.getInstance();
-        userData thisUserData = userData.getInstance();
-        currentUser user = thisUserData.getLoggedIn();
+        UserData thisUserData = UserData.getInstance();
+        CurrentUser user = thisUserData.getLoggedIn();
         /*
         viewAllRequests.setOnAction();
          */

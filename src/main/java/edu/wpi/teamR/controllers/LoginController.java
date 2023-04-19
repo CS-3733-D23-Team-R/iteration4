@@ -6,13 +6,12 @@ import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
-import edu.wpi.teamR.userData.userData;
+import edu.wpi.teamR.userData.CurrentUser;
+import edu.wpi.teamR.userData.UserData;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
 import java.sql.SQLException;
-import edu.wpi.teamR.userData.userData;
-import edu.wpi.teamR.userData.currentUser;
 
 import static edu.wpi.teamR.navigation.Navigation.navigate;
 
@@ -35,9 +34,9 @@ public class LoginController {
 
     @FXML
     public void checkLogIn() throws SQLException, ClassNotFoundException, ItemNotFoundException {
-        userData thisUserData = edu.wpi.teamR.userData.userData.getInstance();
+        UserData thisUserData = UserData.getInstance();
         User aUser = AuthenticationDAO.getInstance().getUserByUsername(usernameField.getText());
-        currentUser User = new currentUser(aUser.getStaffUsername(), aUser.getPassword(), aUser.getAccessLevel(), aUser.getName(), aUser.getEmail(), aUser.getDepartment(), aUser.getJoinDate(), Integer.parseInt(aUser.getPhoneNum()), aUser.getJobTitle()); //TODO: update this with alton's new user class
+        CurrentUser User = new CurrentUser(aUser.getStaffUsername(), aUser.getPassword(), aUser.getAccessLevel(), aUser.getName(), aUser.getEmail(), aUser.getDepartment(), aUser.getJoinDate(), Integer.parseInt(aUser.getPhoneNum()), aUser.getJobTitle()); //TODO: update this with alton's new user class
         thisUserData.setLoggedIn(User);
         if(User.comparePass(passwordField.getText())){
             if(thisUserData.getLoggedIn().getAccessLevel() == AccessLevel.Admin){
