@@ -63,7 +63,12 @@ public class MapUpdater {
     }
 
     public List<UndoData> undo() {
-        if (currentAction != null) actionQueue.addFirst(currentAction);
+        if (currentAction != null) {
+            actionQueue.addFirst(currentAction);
+            currentAction = null;
+        }
+        if (actionQueue.isEmpty())
+            return new ArrayList<>();
         return actionQueue.removeFirst().getUndoData();
     }
 
@@ -80,6 +85,18 @@ public class MapUpdater {
             throw new RuntimeException(e);
         }
         return n;
+    }
+
+    public void addNode(Node node) {
+        if (currentAction == null) currentAction = new UpdateAction();
+        Method m;
+        cur_temp_id--;
+        try {
+            m = mapdb.getClass().getMethod("addNode", Node.class);
+            currentAction.addUpdate(m, new Object[]{node}, node, EditType.ADDITION);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Node modifyCoords(int nodeID, int xCoord, int yCoord) throws SQLException {

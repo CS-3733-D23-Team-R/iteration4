@@ -34,6 +34,15 @@ public class MoveDAO {
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE nodeID = "+nodeID+";");
         return parseMoves(temp, resultSet);
     }
+
+    ArrayList<Move> getMovesForDate(Date date) throws SQLException {
+        ArrayList<Move> temp = new ArrayList<Move>();
+        PreparedStatement preparedStatement = aConnection.prepareStatement("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<? group by longname) as foo;");
+        preparedStatement.setDate(1, date);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return parseMoves(temp, resultSet);
+    }
+
     Move getLatestMoveByNodeID(int nodeID) throws SQLException {
         Statement statement = aConnection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE date=(select max(date) FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE nodeID = "+nodeID+" AND date<now()) AND nodeID = "+nodeID+";");

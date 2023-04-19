@@ -1,6 +1,9 @@
-package edu.wpi.teamR.controllers;
+package edu.wpi.teamR.controllers.mapeditor;
 
+import edu.wpi.teamR.App;
 import edu.wpi.teamR.mapdb.MapDatabase;
+import edu.wpi.teamR.mapdb.Node;
+import edu.wpi.teamR.mapdb.update.MapUpdater;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,9 +13,12 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class NewNodePopupController {
-    MapDatabase mapDB;
+    MapUpdater mapUpdater;
+    ArrayList<Node> nodes;
+    MapDatabase mapdb;
 
     @FXML
     TextField xField;
@@ -34,6 +40,8 @@ public class NewNodePopupController {
             FXCollections.observableArrayList("15 Francis", "45 Francis", "BTM", "Shapiro", "Tower");
 
     public void initialize() {
+        nodes = App.getMapData().getNodes();
+        mapdb = App.getMapData().getMapdb();
         floorCB.setItems(floors);
         buildingCB.setItems(buildingNames);
         addButton.setOnAction(event -> {
@@ -52,10 +60,12 @@ public class NewNodePopupController {
     }
 
     public void createNewNode() throws SQLException {
-        mapDB.addNode(Integer.parseInt(xField.getText()), Integer.parseInt(xField.getText()), floorCB.getValue(), buildingCB.getValue());
+        nodes.add(new Node(-1, Integer.parseInt(xField.getText()), Integer.parseInt(yField.getText()), floorCB.getValue(), buildingCB.getValue()));
+        Node n = mapdb.addNode(Integer.parseInt(xField.getText()), Integer.parseInt(yField.getText()), floorCB.getValue(), buildingCB.getValue());
+        mapUpdater.addNode(n);
     }
 
-    public void setMapDB(MapDatabase mdb) {
-        mapDB = mdb;
+    public void setUpdater(MapUpdater updater) {
+        mapUpdater = updater;
     }
 }
