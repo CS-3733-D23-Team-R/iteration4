@@ -314,6 +314,9 @@ public class MapController {
                     }
                 });
                 paths[drawFloor].getChildren().add(square);
+                Rectangle nextFloorRect = new Rectangle(n2.getXCoord(), n2.getYCoord(), 20, 20);
+                nextFloorRect.setFill(Color.LIMEGREEN);
+                paths[floorNamesMap.get(n2.getFloorNum())].getChildren().add(nextFloorRect);
                 square.toFront();
 
                 Text t = new Text("Click to go to next floor");
