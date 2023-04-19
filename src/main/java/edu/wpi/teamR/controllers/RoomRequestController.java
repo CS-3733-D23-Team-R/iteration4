@@ -4,7 +4,6 @@ import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.Main;
 import edu.wpi.teamR.mapdb.ConferenceRoom;
 import edu.wpi.teamR.mapdb.MapDatabase;
-import edu.wpi.teamR.requestdb.ItemRequest;
 import edu.wpi.teamR.requestdb.RequestDatabase;
 import edu.wpi.teamR.requestdb.RoomRequest;
 import io.github.palexdev.materialfx.controls.*;
@@ -19,7 +18,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
-
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -30,6 +28,11 @@ import java.util.Objects;
     make table display all textual info
         room floor
     clean up FXML page
+    ISSUES:
+        Not connected to staff ID
+        No actual way to get here yet
+        kinda looks bland
+        Floors not hooked up
 
     SELECT * FROM iteration2.conferenceroom;
  */
@@ -65,7 +68,6 @@ ArrayList<String> timeArray = new ArrayList<>();
             throw new RuntimeException(e);
         }
     }
-
     @FXML
     public void initialize() throws SQLException, ClassNotFoundException {
         fillArray();
@@ -89,7 +91,15 @@ ArrayList<String> timeArray = new ArrayList<>();
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<ConferenceRoom, String> data) {
                 ConferenceRoom conferenceRoom = data.getValue();
-                return new SimpleStringProperty(conferenceRoom.getLongname());
+                try {
+                    return new SimpleStringProperty(mapDatabase.getNodeFromLocationName(conferenceRoom.getLongname()).getFloorNum());
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                } catch (ItemNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         capacityCol.setCellValueFactory(new PropertyValueFactory<>("capacity"));
