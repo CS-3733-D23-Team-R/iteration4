@@ -6,6 +6,7 @@ import edu.wpi.teamR.Main;
 import edu.wpi.teamR.controllers.mapeditor.*;
 import edu.wpi.teamR.csv.CSVParameterException;
 import edu.wpi.teamR.csv.CSVWriter;
+import edu.wpi.teamR.datahandling.MapStorage;
 import edu.wpi.teamR.mapdb.update.*;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import javafx.collections.FXCollections;
@@ -258,6 +259,7 @@ public class MapEditorController {
         gesturePane.setMaxScale(2);
 
         try {
+            App.setMapData(new MapStorage());
             mapdb = App.getMapData().getMapdb();
             updater = new MapUpdater(mapdb);
             nodes = App.getMapData().getNodes();
