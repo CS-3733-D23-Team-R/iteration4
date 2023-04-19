@@ -281,6 +281,8 @@ public class ItemRequestController {
     public void clearFilters(){
         this.upperBound = null;
         this.lowerBound = null;
+        itemMaxField.clear();
+        itemMinField.clear();
         regenerateTable();
     }
 
