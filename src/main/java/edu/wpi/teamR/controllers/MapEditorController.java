@@ -572,13 +572,10 @@ public class MapEditorController {
                     int initialSize = nodes.size();
 
                     popOver.showingProperty().addListener((observable, oldValue, newValue) -> {
-                        if (!newValue) {
-                            if (!nodes.contains(n) || nodes.size() < initialSize) { //!nodes.contains(n)
-                                // if node is deleted remove all nodes and edges from map
-                                nodePanes[floor].getChildren().remove(c);
-                                if(linesMap.containsKey(n.getNodeID())) {
-                                    nodePanes[floor].getChildren().removeAll(linesMap.get(n.getNodeID()));
-                                }
+                        if (controller.isDeleteButtonPressed()) {
+                            nodePanes[floor].getChildren().remove(c);
+                            if(linesMap.containsKey(n.getNodeID())) {
+                                nodePanes[floor].getChildren().removeAll(linesMap.get(n.getNodeID()));
                             }
                         }
                     });
@@ -661,6 +658,7 @@ public class MapEditorController {
                             mod.setCenterY(node.getYCoord());
                             mapdb.modifyCoords(node.getNodeID(), node.getXCoord(), node.getYCoord());
 
+                            /*
                             if(linesMap.containsKey(node.getNodeID())) {
                                 nodePanes[currentFloor].getChildren().removeAll(linesMap.get(node.getNodeID()));
                             }
@@ -678,6 +676,7 @@ public class MapEditorController {
                                     addLine(node.getNodeID(), l1);
                                 }
                             }
+                            */
                         }
                         case DELETION -> {
                             Circle deleted = new Circle(node.getXCoord(), node.getYCoord(), 4, Color.RED);
@@ -686,6 +685,7 @@ public class MapEditorController {
 
                             nodePanes[currentFloor].getChildren().add(deleted);
 
+                            /*
                             if(linesMap.containsKey(node.getNodeID())) {
                                 nodePanes[currentFloor].getChildren().removeAll(linesMap.get(node.getNodeID()));
                             }
@@ -703,6 +703,8 @@ public class MapEditorController {
                                     addLine(node.getNodeID(), l1);
                                 }
                             }
+
+                             */
                             nodes.add(node);
                             mapdb.addNode(node);
                         }

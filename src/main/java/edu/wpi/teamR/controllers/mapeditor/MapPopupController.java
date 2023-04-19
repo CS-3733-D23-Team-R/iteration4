@@ -33,6 +33,8 @@ public class MapPopupController {
     ArrayList<Node> nodes;
     @FXML
     Button deleteButton;
+
+    Boolean isDeleted = false;
     @FXML
     public void initialize() {
         nodes = App.getMapData().getNodes();
@@ -103,5 +105,10 @@ public class MapPopupController {
         mapdb.deleteMovesByNode(node.getNodeID());
         mapdb.deleteEdgesByNode(node.getNodeID());
         mapdb.deleteNode(node.getNodeID());
+        isDeleted = true;
+    }
+
+    public boolean isDeleteButtonPressed() {
+        return isDeleted;
     }
 }
