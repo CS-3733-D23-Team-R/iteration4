@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.StaffProfilePageController">
+    <center>
+        <AnchorPane BorderPane.alignment="CENTER">
+            <children>
+                <VBox layoutX="14.0" layoutY="14.0" spacing="12.0" AnchorPane.bottomAnchor="44.66666666666663" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="626.0" AnchorPane.topAnchor="14.0">
+                    <children>
+                        <HBox alignment="CENTER" prefHeight="217.0" prefWidth="640.0" styleClass="boxShadow">
+                            <children>
+                                <VBox prefWidth="440.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Text fx:id="name" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Jerry Smith" VBox.vgrow="ALWAYS" />
+                                        <VBox VBox.vgrow="ALWAYS">
+                                            <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Email:" VBox.vgrow="ALWAYS" />
+                                                <Text fx:id="email" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="jerryisgay@gayforgood.org" VBox.vgrow="ALWAYS" />
+                                            </children>
+                                        </VBox>
+                                        <HBox spacing="30.0" VBox.vgrow="ALWAYS">
+                                            <children>
+                                                <AnchorPane HBox.hgrow="ALWAYS">
+                                                    <children>
+                                                        <VBox>
+                                                            <children>
+                                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Job Title:" VBox.vgrow="ALWAYS" />
+                                                                <Text fx:id="occupation" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Cook" VBox.vgrow="ALWAYS" />
+                                                            </children>
+                                                        </VBox>
+                                                        <VBox layoutX="178.6666717529297" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="178.6666717529297" AnchorPane.topAnchor="0.0">
+                                                            <children>
+                                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Date of Joining:" VBox.vgrow="ALWAYS" />
+                                                                <Text fx:id="DateOfJoining" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="4/15/2023" VBox.vgrow="ALWAYS" />
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                </AnchorPane>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets />
+                                            </VBox.margin>
+                                        </HBox>
+                                        <VBox VBox.vgrow="ALWAYS">
+                                            <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitleSmallBold" text="Phone Number:" VBox.vgrow="ALWAYS" />
+                                                <Text fx:id="phone" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="987-654-3210" VBox.vgrow="ALWAYS" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </VBox>
+                                <HBox alignment="CENTER" maxHeight="200.0" maxWidth="200.0" prefHeight="200.0" prefWidth="200.0" styleClass="boxBackground" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <ImageView fx:id="ProfilePicture" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                                            <image>
+                                                <Image url="@../images/Jerry_Smith_(Rick_and_Morty)%201.png" />
+                                            </image>
+                                        </ImageView>
+                                    </children>
+                                </HBox>
+                            </children>
+                            <padding>
+                                <Insets bottom="5.0" left="12.0" right="12.0" />
+                            </padding>
+                        </HBox>
+                        <HBox prefHeight="387.0" prefWidth="633.0" styleClass="boxShadow" VBox.vgrow="ALWAYS">
+                            <children>
+                                <VBox HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <HBox alignment="CENTER" maxHeight="45.0" prefHeight="45.0" prefWidth="645.0" style="-fx-background-color: #D9D9D9;" VBox.vgrow="ALWAYS">
+                                            <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="My Requests" textAlignment="CENTER" wrappingWidth="215.96484375" HBox.hgrow="ALWAYS" />
+                                            </children>
+                                        </HBox>
+                                        <AnchorPane prefHeight="123.0" prefWidth="633.0" VBox.vgrow="ALWAYS">
+                                            <children>
+                                                <VBox prefWidth="634.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                    <children>
+                                                        <HBox alignment="CENTER" prefHeight="37.0" spacing="40.0" style="-fx-border-style: hidden hidden solid hidden; -fx-border-color: black;" VBox.vgrow="ALWAYS">
+                                                            <children>
+                                                                <HBox alignment="CENTER" prefWidth="91.4285714" HBox.hgrow="ALWAYS">
+                                                                    <children>
+                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Mon." textAlignment="CENTER" wrappingWidth="58.6640625" HBox.hgrow="ALWAYS" />
+                                                                    </children>
+                                                                    <padding>
+                                                                        <Insets left="10.0" />
+                                                                    </padding>
+                                                                </HBox>
+                                                                <HBox alignment="CENTER" prefWidth="91.4285714" HBox.hgrow="ALWAYS">
+                                                                    <children>
+                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Tue." textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox alignment="CENTER" prefWidth="91.4285714" styleClass="bodyMediumBold" HBox.hgrow="ALWAYS">
+                                                                    <children>
+                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyBold" text="Wed." textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox alignment="CENTER" prefWidth="91.4285714" HBox.hgrow="ALWAYS">
+                                                                    <children>
+                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Thur." textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox alignment="CENTER" prefWidth="91.4285714" HBox.hgrow="ALWAYS">
+                                                                    <children>
+                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Fri." textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox alignment="CENTER" prefWidth="91.4285714" HBox.hgrow="ALWAYS">
+                                                                    <children>
+                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Sat." textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox alignment="CENTER" prefWidth="91.4285714" HBox.hgrow="ALWAYS">
+                                                                    <children>
+                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Sun." textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                                                                    </children>
+                                                                    <HBox.margin>
+                                                                        <Insets right="10.0" />
+                                                                    </HBox.margin>
+                                                                </HBox>
+                                                            </children>
+                                                            <padding>
+                                                                <Insets top="-1.0" />
+                                                            </padding>
+                                                        </HBox>
+                                                        <HBox alignment="CENTER" spacing="35.0" VBox.vgrow="ALWAYS">
+                                                            <children>
+                                                                <VBox fx:id="monday" alignment="CENTER" prefHeight="37.0" prefWidth="91.4285714" HBox.hgrow="ALWAYS">
+                                                                    <padding>
+                                                                        <Insets bottom="-1.0" />
+                                                                    </padding>
+                                                                </VBox>
+                                                                <VBox fx:id="tuesday" alignment="CENTER" prefHeight="37.0" prefWidth="91.4285714" HBox.hgrow="ALWAYS" />
+                                                                <VBox fx:id="wednesday" alignment="CENTER" prefHeight="37.0" prefWidth="91.4285714" HBox.hgrow="ALWAYS" />
+                                                                <VBox fx:id="thursday" alignment="CENTER" prefHeight="37.0" prefWidth="91.4285714" HBox.hgrow="ALWAYS" />
+                                                                <VBox fx:id="friday" alignment="CENTER" prefHeight="37.0" prefWidth="91.4285714" HBox.hgrow="ALWAYS" />
+                                                                <VBox fx:id="saturday" alignment="CENTER" prefHeight="37.0" prefWidth="91.4285714" HBox.hgrow="ALWAYS" />
+                                                                <VBox fx:id="sunday" alignment="CENTER" prefHeight="37.0" prefWidth="91.4285714" HBox.hgrow="ALWAYS" />
+                                                            </children>
+                                                            <padding>
+                                                                <Insets top="-1.0" />
+                                                            </padding>
+                                                        </HBox>
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </AnchorPane>
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                </VBox>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+                <VBox alignment="CENTER" layoutX="698.0" layoutY="26.0" prefHeight="662.0" prefWidth="600.0" AnchorPane.bottomAnchor="44.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+                    <children>
+                  <ImageView fitHeight="662.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
+                     <image>
+                        <Image url="@../images/threadPlaceholder.png" />
+                     </image>
+                  </ImageView>
+                    </children>
+                </VBox>
+                <Text fx:id="time" layoutX="14.0" layoutY="699.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="14:32" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>

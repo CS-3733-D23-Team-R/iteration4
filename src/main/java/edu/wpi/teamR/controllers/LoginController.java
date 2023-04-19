@@ -6,10 +6,13 @@ import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
+import edu.wpi.teamR.userData.userData;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
 import java.sql.SQLException;
+import edu.wpi.teamR.userData.userData;
+import edu.wpi.teamR.userData.currentUser;
 
 public class LoginController {
 
@@ -30,14 +33,18 @@ public class LoginController {
 
     @FXML
     public void checkLogIn() throws SQLException, ClassNotFoundException, ItemNotFoundException {
-        System.out.println(usernameField.getText());
-        System.out.println(passwordField.getText());
-        User user = AuthenticationDAO.getInstance().getUser(usernameField.getText());
-
-        if (passwordField.getText().equals(user.getPassword()) && user.getAccessLevel().equals(AccessLevel.Staff)) {
-            Navigation.navigate(Screen.MAP_EDITOR);
-        } else if (passwordField.getText().equals(user.getPassword()) && user.getAccessLevel().equals(AccessLevel.Admin)) {
-            Navigation.navigate(Screen.ADMINHOME);
+        userData thisUserData = edu.wpi.teamR.userData.userData.getInstance();
+        User aUser = AuthenticationDAO.getInstance().getUserByUsername(usernameField.getText());
+        currentUser User = new currentUser(aUser.getStaffUsername(), aUser.getPassword(), aUser.getAccessLevel(), aUser.getName(), aUser.getEmail(), aUser.getDepartment(), aUser.getJoinDate(), Integer.parseInt(aUser.getPhoneNum()), aUser.getJobTitle()); //TODO: update this with alton's new user class
+        thisUserData.setLoggedIn(User);
+        if(User.comparePass(passwordField.getText())){
+            if(thisUserData.getLoggedIn().getAccessLevel() == AccessLevel.Admin){
+                Navigation.navigate(Screen.ADMINPROFILEPAGE);
+            } else if(thisUserData.getLoggedIn().getAccessLevel() == AccessLevel.Staff){
+                Navigation.navigate(Screen.STAFFPROFILEPAGE);
+            }
+        } else{
+            System.out.println("incorrect password");
         }
     }
 
