@@ -55,7 +55,8 @@ public class App extends Application {
   }
 
   @Override
-  public void stop() {
+  public void stop() throws SQLException {
     log.info("Shutting Down");
+    Configuration.getConnection().close();
   }
 }

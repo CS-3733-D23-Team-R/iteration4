@@ -193,8 +193,8 @@ public class RootController {
     }
   }
   public void setSignagePage(){
-    signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGECONFIGURATION));
-    signageText.setText("  Edit\nSignage");
+    //signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGECONFIGURATION));
+    //signageText.setText("  Edit\nSignage");
     signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGE));
   }
 }
