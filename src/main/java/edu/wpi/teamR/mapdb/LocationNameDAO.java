@@ -7,13 +7,10 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class LocationNameDAO {
-    private Connection aConnection;
-    LocationNameDAO(Connection connection) throws SQLException, ClassNotFoundException {
-        aConnection = connection;
-    }
     ArrayList<LocationName> getLocations() throws SQLException {
+        Connection connection = Configuration.getConnection();
         ArrayList<LocationName> temp = new ArrayList<LocationName>();
-        Statement statement = aConnection.createStatement();
+        Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+";");
         return parseLocationNames(temp, resultSet);
     }
@@ -30,13 +27,15 @@ public class LocationNameDAO {
     }
 
     ArrayList<LocationName> getLocationsByNodeType(String nodeType) throws SQLException {
+        Connection connection = Configuration.getConnection();
         ArrayList<LocationName> temp = new ArrayList<LocationName>();
-        Statement statement = aConnection.createStatement();
+        Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE nodeType = '"+nodeType+"';");
         return parseLocationNames(temp, resultSet);
     }
     LocationName getLocationByLongName(String longName) throws SQLException, ItemNotFoundException {
-        Statement statement = aConnection.createStatement();
+        Connection connection = Configuration.getConnection();
+        Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE longname = '"+longName+"';");
         if (resultSet.next()) {
             LocationName aLocationName = new LocationName(resultSet.getString("longname"), resultSet.getString("shortname"), resultSet.getString("nodetype"));
@@ -47,25 +46,26 @@ public class LocationNameDAO {
 
     }
     LocationName modifyLocationNameType(String longName, String newType) throws SQLException {
-        Statement statement = aConnection.createStatement();
+        Connection connection = Configuration.getConnection();
+        Statement statement = connection.createStatement();
         statement.executeUpdate("UPDATE "+Configuration.getLocationNameSchemaNameTableName()+" SET nodeType = '"+newType+"' WHERE longname = '"+longName+"';");
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE longname = '"+longName+"';");
         resultSet.next();
-        LocationName aLocationName = new LocationName(resultSet.getString("longname"), resultSet.getString("shortname"), resultSet.getString("nodetype"));
-        return aLocationName;
+        return new LocationName(resultSet.getString("longname"), resultSet.getString("shortname"), resultSet.getString("nodetype"));
     }
     LocationName modifyLocationNameShortName(String longName, String newShortName) throws SQLException {
-        Statement statement = aConnection.createStatement();
+        Connection connection = Configuration.getConnection();
+        Statement statement = connection.createStatement();
         statement.executeUpdate("UPDATE "+Configuration.getLocationNameSchemaNameTableName()+" SET shortname = '"+newShortName+"' WHERE longname = '"+longName+"';");
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE longname = '"+longName+"';");
         resultSet.next();
-        LocationName aLocationName = new LocationName(resultSet.getString("longname"), resultSet.getString("shortname"), resultSet.getString("nodetype"));
 
-        return aLocationName;
+        return new LocationName(resultSet.getString("longname"), resultSet.getString("shortname"), resultSet.getString("nodetype"));
     }
 
     LocationName addLocationName(String longName, String shortName, String nodeType) throws SQLException {
-        PreparedStatement preparedStatement = aConnection.prepareStatement("INSERT INTO "+Configuration.getLocationNameSchemaNameTableName()+"(longname, shortname, nodetype) VALUES(?,?,?);");
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getLocationNameSchemaNameTableName()+"(longname, shortname, nodetype) VALUES(?,?,?);");
         preparedStatement.setString(1, longName);
         preparedStatement.setString(2, shortName);
         preparedStatement.setString(3, nodeType);
@@ -74,12 +74,14 @@ public class LocationNameDAO {
     }
 
     void deleteAllLocationNames() throws SQLException {
-        PreparedStatement preparedStatement = aConnection.prepareStatement("DELETE FROM "+Configuration.getLocationNameSchemaNameTableName()+";");
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getLocationNameSchemaNameTableName()+";");
         preparedStatement.executeUpdate();
     }
 
     void deleteLocationName(String longname) throws SQLException {
-        PreparedStatement preparedStatement = aConnection.prepareStatement("DELETE FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE longname=?;");
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE longname=?;");
         preparedStatement.setString(1, longname);
         preparedStatement.executeUpdate();
     }

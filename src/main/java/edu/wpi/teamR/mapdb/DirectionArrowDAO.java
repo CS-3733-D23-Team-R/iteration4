@@ -9,9 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class DirectionArrowDAO {
-    DirectionArrowDAO(Connection connection){
-        ;
-    }
 
     DirectionArrow addDirectionArrow(String longname, int kioskID, Direction direction) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
