@@ -307,6 +307,8 @@ public class MapController {
                 square.setOnMouseClicked(event -> {
                     try {
                         displayFloorNum(newFloor);
+                        gesturePane.zoomTo(1, 1, new Point2D(n2.getXCoord(), n2.getYCoord()));
+                        gesturePane.centreOn(new Point2D(n2.getXCoord(), n2.getYCoord()));
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
@@ -324,6 +326,8 @@ public class MapController {
                 t.setOnMouseClicked(event -> {
                     try {
                         displayFloorNum(newFloor);
+                        gesturePane.zoomTo(1, 1, new Point2D(n2.getXCoord(), n2.getYCoord()));
+                        gesturePane.centreOn(new Point2D(n2.getXCoord(), n2.getYCoord()));
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
