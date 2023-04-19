@@ -26,7 +26,7 @@
                <children>
                   <StackPane prefHeight="0.0" prefWidth="1059.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <AnchorPane fx:id="requestPageBackground" maxHeight="200.0" prefHeight="90.0" prefWidth="1059.0" styleClass="requestBackground" />
+                        <AnchorPane fx:id="requestPageBackground" maxHeight="175.0" prefHeight="90.0" prefWidth="1059.0" styleClass="requestBackground" StackPane.alignment="TOP_CENTER" />
                         <ImageView fitHeight="129.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
                               <image>
                                   <Image url="@../images/serviceRequests/trapezoid.png" />
@@ -47,7 +47,7 @@
                   </StackPane>
                   <AnchorPane VBox.vgrow="ALWAYS">
                      <children>
-                        <TableView fx:id="itemTable" prefHeight="432.0" prefWidth="949.0" stylesheets="@../styles/tables.css" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+                        <TableView fx:id="itemTable" prefHeight="560.6666666666666" prefWidth="1058.6666666666667" stylesheets="@../styles/tables.css" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
                           <columns>
                             <TableColumn fx:id="itemNameColumn" minWidth="75.0" prefWidth="264.88888931274414" text="Product" />
                             <TableColumn fx:id="itemDetailsColumn" minWidth="75.0" prefWidth="414.888916015625" text="Details" />
