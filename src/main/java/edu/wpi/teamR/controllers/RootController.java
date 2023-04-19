@@ -84,6 +84,7 @@ public class RootController {
         throw new RuntimeException(e);
       }
     });
+    logoutButton.setOnMouseClicked(event -> logout());
     newRequestButton.setOnMouseClicked(event -> navigate(Screen.ITEMREQUEST));
     pathfindingButton.setOnMouseClicked(event -> navigate(Screen.MAP));
     exitButton.setOnMouseClicked(event -> Platform.exit());
@@ -112,6 +113,8 @@ public class RootController {
 
   private void openProfile() throws SQLException, ClassNotFoundException, ItemNotFoundException {
     UserData thisUserData = UserData.getInstance();
+    if (!thisUserData.isLoggedIn())
+      return;
     CurrentUser user = thisUserData.getLoggedIn();
     if(user.getAccessLevel().equals(AccessLevel.Admin)){
       Navigation.navigate(Screen.ADMINPROFILEPAGE);
@@ -186,8 +189,11 @@ public class RootController {
   }
 
   @FXML private void logout(){
-    ShoppingCart.getInstance().clearCart();
-    Navigation.navigate(Screen.HOME);
+    if (UserData.getInstance().isLoggedIn()) {
+      UserData.getInstance().logout();
+      ShoppingCart.getInstance().clearCart();
+      Navigation.navigate(Screen.HOME);
+    }
   }
   public void setSignagePage(){
     signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGECONFIGURATION));
