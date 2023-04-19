@@ -20,11 +20,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class StaffProfilePageController {
     @FXML Text name, email, occupation, DateOfJoining, phone, time;
-    @FXML VBox monday, tuesday, wednesday, thursday, friday, saturday, sunday, thread;
+    @FXML VBox monday, tuesday, wednesday, thursday, friday, saturday, sunday;
 
     ImageView CreateNewMessage;
 
@@ -56,9 +55,8 @@ public class StaffProfilePageController {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
         time.setText(formattedDate);
-
 /*
-        String thisIsYourStaffUsername = "";
+        String thisIsYourStaffUsername = user.getUsername();
         Timestamp dateOfRequest = new Timestamp(1);
         SearchList searchList = new SearchList();
         searchList.addComparison(RequestAttribute.staffUsername, Operation.equalTo, thisIsYourStaffUsername);
@@ -66,10 +64,9 @@ public class StaffProfilePageController {
         ArrayList<ItemRequest> itemRequests = RequestDatabase.getInstance().getItemRequestByAttributes(searchList);
 
  */
-
-        ArrayList<ItemRequest> allRequests = requestDatabase.getItemRequestsByStaffMember(user.getUsername());
+        ArrayList<ItemRequest> itemRequests = new ArrayList<>();
         Calendar cal = Calendar.getInstance();
-        for(ItemRequest aRequest : allRequests){
+        for(ItemRequest aRequest : itemRequests){
             java.util.Date aDate = aRequest.getRequestDate();
             String name = aRequest.getRequesterName();
             cal.setTime(aDate);

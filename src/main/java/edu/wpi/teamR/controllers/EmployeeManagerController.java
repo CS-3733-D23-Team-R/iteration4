@@ -1,23 +1,28 @@
 package edu.wpi.teamR.controllers;
 
+import edu.wpi.teamR.Main;
 import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
-import edu.wpi.teamR.requestdb.ItemRequest;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.util.Callback;
 
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class EmployeeManagerController {
     @FXML
@@ -27,7 +32,7 @@ public class EmployeeManagerController {
     @FXML
     TableColumn<User, Integer> phoneNumCol;
     @FXML
-    TableColumn<ItemRequest, Void> deleteCol;
+    TableColumn<User, Void> deleteCol;
     @FXML
     Button createUser;
     @FXML
@@ -47,6 +52,7 @@ public class EmployeeManagerController {
         addUser.setVisible(false);
         createUser.setVisible(true);
         createUser.setOnMouseClicked(event -> createUser());
+        addButtonToTable();
         clear.setOnMouseClicked(event -> clear());
         submit.setOnMouseClicked(event -> {
             try {
@@ -57,7 +63,6 @@ public class EmployeeManagerController {
         });
         back.setOnMouseClicked(event -> back());
         accesslevel.setItems(accessLevels);
-        //accesslevel.setItems(accessLevels); TODO: figure out how to add values to the dropdown
         userNameCol.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
@@ -129,5 +134,44 @@ public class EmployeeManagerController {
         addUser.setVisible(false);
         data.setVisible(true);
         createUser.setVisible(true);
+    }
+    private void addButtonToTable() {
+        Callback<TableColumn<User, Void>, TableCell<User, Void>> cellFactory = new Callback<TableColumn<User, Void>, TableCell<User, Void>>() {
+            @Override
+            public TableCell<User, Void> call(final TableColumn<User, Void> param) {
+                return new TableCell<User, Void>() {
+
+                    private final Button btn = new Button();
+                    {
+                        ImageView imageView = new ImageView(Objects.requireNonNull(Main.class.getResource("images/delete.png")).toExternalForm());
+                        imageView.setPreserveRatio(true);
+                        imageView.setFitHeight(30);
+                        btn.getStyleClass().add("food_furniture-clear-button");
+                        btn.setGraphic(imageView);
+                        btn.setOnAction((ActionEvent event) -> {
+                            User data = getTableView().getItems().get(getIndex());
+                            theTable.getItems().remove(data);
+                            try {
+                                AuthenticationDAO.getInstance().deleteUserByUsername(data.getStaffUsername());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+            }
+        };
+
+        deleteCol.setCellFactory(cellFactory);
     }
 }
