@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
@@ -70,6 +71,8 @@ public class ItemRequestController {
     @FXML
     private Text itemThirtyPlus;
     @FXML ImageView cartButton;
+    @FXML
+    AnchorPane requestPageBackground;
     @FXML Button clearFiltersButton;
 
 
@@ -88,6 +91,7 @@ public class ItemRequestController {
 
 
     @FXML public void initialize(){
+
         ObservableList<RequestType> itemTypeList = FXCollections.observableArrayList();
 //        for (RequestType type : RequestType.values()) {itemTypeList.add(type);} //add all request types to combo box
 //        itemTypeBox.setItems(itemTypeList);
@@ -97,6 +101,7 @@ public class ItemRequestController {
         furnitureButton.setOnAction(event -> {
             this.type = RequestType.Furniture;
             regenerateTable();
+            changeBackground();
             suppliesButton.setSelected(false);
             foodButton.setSelected(false);
             flowersButton.setSelected(false);
@@ -104,6 +109,7 @@ public class ItemRequestController {
         foodButton.setOnAction(event -> {
             this.type = RequestType.Meal;
             regenerateTable();
+            changeBackground();
             furnitureButton.setSelected(false);
             suppliesButton.setSelected(false);
             flowersButton.setSelected(false);
@@ -114,6 +120,7 @@ public class ItemRequestController {
         flowersButton.setOnAction(event -> {
             this.type = RequestType.Flower;
             regenerateTable();
+            changeBackground();
             furnitureButton.setSelected(false);
             foodButton.setSelected(false);
             suppliesButton.setSelected(false);
@@ -121,6 +128,7 @@ public class ItemRequestController {
         suppliesButton.setOnAction(event -> {
             this.type = RequestType.Supplies;
             regenerateTable();
+            changeBackground();
             furnitureButton.setSelected(false);
             foodButton.setSelected(false);
             flowersButton.setSelected(false);
@@ -278,9 +286,29 @@ public class ItemRequestController {
         }
     }
 
+    public void changeBackground(){
+        switch(this.type){
+            case Supplies:
+                requestPageBackground.getStyleClass().clear();
+                requestPageBackground.getStyleClass().add("supplies-title");
+                break;
+            case Flower:
+                requestPageBackground.getStyleClass().clear();
+                requestPageBackground.getStyleClass().add("flower-title");
+                break;
+            case Furniture:
+                requestPageBackground.getStyleClass().clear();
+                requestPageBackground.getStyleClass().add("furniture-title");
+                break;
+            default:
+                requestPageBackground.getStyleClass().clear();
+                requestPageBackground.getStyleClass().add("meal-title");
+        }
     public void clearFilters(){
         this.upperBound = null;
         this.lowerBound = null;
+        itemMaxField.clear();
+        itemMinField.clear();
         regenerateTable();
     }
 

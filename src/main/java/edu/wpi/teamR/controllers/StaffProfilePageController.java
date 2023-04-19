@@ -26,7 +26,7 @@ import javafx.scene.control.Button;
 public class StaffProfilePageController {
     @FXML Text name, email, occupation, DateOfJoining, phone, time;
     @FXML VBox monday, tuesday, wednesday, thursday, friday, saturday, sunday;
-    @FXML Button viewAllRequests;
+    @FXML Button viewAllRequests, goToConferenceRooms;
 
     ImageView CreateNewMessage;
 
@@ -34,6 +34,7 @@ public class StaffProfilePageController {
         RequestDatabase requestDatabase = RequestDatabase.getInstance();
         UserData thisUserData = UserData.getInstance();
         CurrentUser user = thisUserData.getLoggedIn();
+        goToConferenceRooms.setOnMouseClicked(event -> {Navigation.navigate(Screen.ROOM_REQUEST);});
         viewAllRequests.setOnMouseClicked(event -> {Navigation.navigate(Screen.SORT_ORDERS);});
         name.setText(user.getFullName());
         email.setText(user.getEmail());
