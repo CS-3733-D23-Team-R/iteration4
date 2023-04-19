@@ -226,7 +226,7 @@ public class MapDatabase {
             int yCoord = resultSet.getInt("yCoord");
             String building = resultSet.getString("building");
             String floor = resultSet.getString("floor");
-            return new Node(nodeID, xCoord, yCoord, building, floor);
+            return new Node(nodeID, xCoord, yCoord, floor, building);
         }
         throw new ItemNotFoundException();
     }

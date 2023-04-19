@@ -62,7 +62,17 @@ public class SortOrdersController {
             ItemRequest request = event.getRowValue();
             request.setStaffMember(event.getNewValue());
             try {
-                RequestDatabase.getInstance().modifyItemRequestByID(request.getRequestID(), request.getRequesterName(),request.getLongname(), event.getNewValue(), request.getAdditionalNotes(), request.getRequestDate(), request.getRequestStatus(),request.getItemType());
+                //RequestDatabase.getInstance().modifyItemRequestByID(request.getRequestID(), request.getRequesterName(),request.getLongname(), event.getNewValue(), request.getAdditionalNotes(), request.getRequestDate(), request.getRequestStatus(),request.getItemType());
+                RequestDatabase.getInstance().modifyItemRequestByID(
+                request.getRequestID(),
+                request.getRequestType(),
+                request.getRequestStatus(),
+                request.getLongname(),
+                        event.getNewValue(),
+                request.getItemType(),
+                request.getRequesterName(),
+                request.getAdditionalNotes(),
+                request.getRequestDate());
             } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -76,8 +86,16 @@ public class SortOrdersController {
                     try {
                         RequestStatus status = changeStatusButton.getSelectionModel().getSelectedItem();
                         request.setRequestStatus(status);
-                        RequestDatabase.getInstance().modifyItemRequestByID(request.getRequestID(), request.getRequesterName(), request.getLongname(), request.getStaffUsername(), request.getAdditionalNotes(), request.getRequestDate(), status, request.getItemType());
-                    } catch (Exception e) {
+                        RequestDatabase.getInstance().modifyItemRequestByID(
+                                request.getRequestID(),
+                                request.getRequestType(),
+                                status,
+                                request.getLongname(),
+                                request.getStaffUsername(),
+                                request.getItemType(),
+                                request.getRequesterName(),
+                                request.getAdditionalNotes(),
+                                request.getRequestDate());                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 });
