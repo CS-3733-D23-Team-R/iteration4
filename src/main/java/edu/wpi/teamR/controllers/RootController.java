@@ -71,7 +71,7 @@ public class RootController {
         throw new RuntimeException(e);
       }
     });
-    newRequestButton.setOnMouseClicked(event -> openRequest());
+    newRequestButton.setOnMouseClicked(event -> navigate(Screen.ITEMREQUEST));
     pendingRequestButton.setOnMouseClicked(event -> navigate(Screen.SORT_ORDERS));
     pathfindingButton.setOnMouseClicked(event -> navigate(Screen.MAP));
     exitButton.setOnMouseClicked(event -> Platform.exit());
@@ -119,35 +119,35 @@ public class RootController {
     helpPopup.setAutoHide(true);
     helpPopup.show(helpButton);
   }
-  @FXML
-  private void openRequest(){
-    if (sidebarVBox.isVisible()) {
-      sidebarVBox.setVisible(false);
-      sidebarVBox.setManaged(false);
-    }
-    else {
-      sidebarVBox.setVisible(true);
-      sidebarVBox.setManaged(true);
-      flowerDelivery.setOnMouseClicked(event -> flowerRequest());
-      furnitureDelivery.setOnMouseClicked(event -> furnitureRequest());
-      mealDelivery.setOnMouseClicked(event -> mealRequest());
-    }
-  }
-
-  @FXML private void mealRequest() {
-    RequestController.requestType = new RequestTypeMeal();
-    navigate(Screen.MEAL_REQUEST);
-  }
-
-  @FXML private void flowerRequest() {
-    RequestController.requestType = new RequestTypeFlower();
-    navigate(Screen.FLOWER_REQUEST);
-  }
-
-  @FXML private void furnitureRequest() {
-    RequestController.requestType = new RequestTypeFurniture();
-    navigate(Screen.FURNITURE_REQUEST);
-  }
+//  @FXML
+//  private void openRequest(){
+//    if (sidebarVBox.isVisible()) {
+//      sidebarVBox.setVisible(false);
+//      sidebarVBox.setManaged(false);
+//    }
+//    else {
+//      sidebarVBox.setVisible(true);
+//      sidebarVBox.setManaged(true);
+//      flowerDelivery.setOnMouseClicked(event -> flowerRequest());
+//      furnitureDelivery.setOnMouseClicked(event -> furnitureRequest());
+//      mealDelivery.setOnMouseClicked(event -> mealRequest());
+//    }
+//  }
+////
+//  @FXML private void mealRequest() {
+//    RequestController.requestType = new RequestTypeMeal();
+//    navigate(Screen.MEAL_REQUEST);
+//  }
+//
+//  @FXML private void flowerRequest() {
+//    RequestController.requestType = new RequestTypeFlower();
+//    navigate(Screen.FLOWER_REQUEST);
+//  }
+//
+//  @FXML private void furnitureRequest() {
+//    RequestController.requestType = new RequestTypeFurniture();
+//    navigate(Screen.FURNITURE_REQUEST);
+//  }
 
   /* This is a little buggy and could be worked on more. */
   private void timeout() {
@@ -171,5 +171,10 @@ public class RootController {
     rootHbox.setVisible(true);
     rootHbox.setManaged(true);
     App.getPrimaryStage().addEventFilter(InputEvent.ANY, ssevent);
+  }
+
+  @FXML private void logout(){
+    ShoppingCart.getInstance().clearCart();
+    Navigation.navigate(Screen.HOME);
   }
 }

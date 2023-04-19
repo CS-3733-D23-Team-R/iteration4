@@ -7,16 +7,18 @@ public enum Screen {
   MEAL_REQUEST("views/DeliveryRequest.fxml"),
   FURNITURE_REQUEST("views/DeliveryRequest.fxml"),
   FLOWER_REQUEST("views/DeliveryRequest.fxml"),
+  ROOM_REQUEST("views/ConfrenceRoom.fxml"),
   MAP("views/Map.fxml"),
   LOGIN("views/Login.fxml"),
   ADMINHOME("views/AdminHome.fxml"),
   MAP_EDITOR("views/MapEditor.fxml"),
   SORT_ORDERS("views/SortOrders.fxml"),
   SCREENSAVER("views/Screensaver.fxml"),
-  SIGNAGECONFIGURATION("views/SignageConfiguration.fxml"),
   ADMINPROFILEPAGE("views/AdminProfilePage.fxml"),
   STAFFPROFILEPAGE("views/StaffProfilePage.fxml"),
-  EMPLOYEEMANAGER("views/EmployeeManager.fxml");
+  EMPLOYEEMANAGER("views/EmployeeManager.fxml"),
+  ITEMREQUEST("views/ItemRequest.fxml"),
+  SIGNAGECONFIGURATION("views/SignageConfiguration.fxml");
 
   private final String filename;
 
