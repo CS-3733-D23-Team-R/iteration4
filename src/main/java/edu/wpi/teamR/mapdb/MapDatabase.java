@@ -18,6 +18,7 @@ import static edu.wpi.teamR.mapdb.NodeDAO.parseNodes;
 
 public class MapDatabase {
     //    private MapDatabase instance;
+    private Connection connection;
     private NodeDAO nodeDao;
     private EdgeDAO edgeDao;
     private MoveDAO moveDao;
@@ -28,10 +29,11 @@ public class MapDatabase {
     private RoomRequestDAO roomRequestDAO;
 
     public MapDatabase() throws SQLException, ClassNotFoundException {
-        this.nodeDao = new NodeDAO();
-        this.edgeDao = new EdgeDAO();
-        this.moveDao = new MoveDAO();
-        this.locationNameDao = new LocationNameDAO();
+        this.connection = Configuration.getConnection();
+        this.nodeDao = new NodeDAO(connection);
+        this.edgeDao = new EdgeDAO(connection);
+        this.moveDao = new MoveDAO(connection);
+        this.locationNameDao = new LocationNameDAO(connection);
         this.directionArrowDAO = new DirectionArrowDAO();
         this.conferenceRoomDAO = new ConferenceRoomDAO();
         this.itemRequestDAO = new ItemRequestDAO();
@@ -58,7 +60,6 @@ public class MapDatabase {
     }
 
     public ArrayList<Node> getNodesByType(String type) throws SQLException { //TODO: GET CHECKED
-        Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" NATURAL JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as foo natural join "+Configuration.getLocationNameSchemaNameTableName()+" WHERE nodetype=? ORDER BY nodeID;");
         preparedStatement.setString(1, type);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -92,8 +93,6 @@ public class MapDatabase {
     }
 
     public ArrayList<Edge> getEdgesByFloor(String floor) throws SQLException {
-        Connection connection = Configuration.getConnection();
-
         ArrayList<Edge> temp = new ArrayList<>();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("select startnode,endnode from "+Configuration.getNodeSchemaNameTableName()+" join "+Configuration.getEdgeSchemaNameTableName()+" on node.nodeid = edge.startnode or node.nodeid = edge.endnode where floor = '"+floor+"';");
@@ -133,7 +132,6 @@ public class MapDatabase {
     }
 
     public Move getLatestMoveByLocationName(String longName) throws SQLException, ItemNotFoundException { //TODO: GET CHECKED
-        Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE date=(select max(date) FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE longname = ? AND date<now()) AND longname = ?;");
         preparedStatement.setString(1, longName);
         preparedStatement.setString(2, longName);
@@ -180,7 +178,6 @@ public class MapDatabase {
     }
 
     public String getNodeTypeByNodeID(int nodeID) throws SQLException, ItemNotFoundException {
-        Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT nodetype from (SELECT * FROM (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() AND nodeid=? group by longname) as foo ORDER BY date desc limit 1) as foo NATURAL JOIN "+Configuration.getLocationNameSchemaNameTableName()+";");
         preparedStatement.setInt(1, nodeID);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -272,7 +269,6 @@ public class MapDatabase {
     }
 
     public ArrayList<MapLocation> getMapLocationsByFloor(String floor) throws SQLException {
-        Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" node LEFT JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as move on node.nodeid=move.nodeid left join "+Configuration.getLocationNameSchemaNameTableName()+" locationname on move.longname=locationname.longname WHERE floor=? ORDER BY node.nodeID desc;");
         preparedStatement.setString(1, floor);
         ResultSet resultSet = preparedStatement.executeQuery();
