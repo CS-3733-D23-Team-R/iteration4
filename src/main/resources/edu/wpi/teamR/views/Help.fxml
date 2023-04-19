@@ -1,21 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="helpWindow" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.HelpController">
+<AnchorPane fx:id="helpWindow" prefHeight="600.0" prefWidth="800.0" styleClass="help-background" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.HelpController">
    <children>
-      <TextArea layoutX="50.0" layoutY="82.0" prefHeight="467.0" prefWidth="700.0" text="Directions: Show the signage page with directions on how to get to other departments in the&#10;hospital from this hallway.&#10;&#10;Furniture Delivery Service Request: Request furniture to be delivered to your room at a set &#10;time.&#10;&#10;Meal Delivery Service Request: Request a meal to be delivered to your room at a set time.&#10;&#10;Hospital Map: View the graphical path from your current location to your destination on a &#10;map of the hospital.&#10;&#10;Log-In: Log in with your hospital account using the button located on the bottom-left corner &#10;of the homepage to access the features listed below.&#10;&#10;Service Request Updates: Update service requests through the tables under their respective &#10;buttons.&#10;&#10;Location Information Updates: Update location information through the Nodes, Moves, &#10;Location Names, and Edges tables to change navigation information. You can also do &#10;these updates by importing CSV files containing data.&#10;&#10;Exit: Close the application.">
-         <font>
-            <Font name="Times New Roman" size="18.0" />
-         </font>
-      </TextArea>
-      <Label layoutX="245.0" layoutY="14.0" text="About the Kiosk System">
+      <Label layoutX="198.0" layoutY="14.0" styleClass="title" stylesheets="@../styles/styles.css" text="About the Kiosk System">
          <font>
             <Font name="Times New Roman Bold" size="30.0" />
          </font>
       </Label>
+      <VBox layoutX="150.0" layoutY="86.0" prefHeight="500.0" prefWidth="600.0" spacing="25.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Home: Return to the home page." wrappingWidth="550.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Profile: Displays information about the profile this application is currently logged in as." wrappingWidth="550.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="New Service Request: Request to book a conference room, or request meals or furniture to be delivered to your room at a set time." wrappingWidth="550.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Signage: Show relevant directions to important locations in the hospital." wrappingWidth="550.0" />
+            <Text lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Pathfinding: View a full map of the hospital and get easy directions from any point in the building." wrappingWidth="550.0" />
+            <Text lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Logout: Return to the login menu." wrappingWidth="550.0" />
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </VBox>
+      <VBox alignment="TOP_CENTER" layoutX="74.0" layoutY="86.0" prefHeight="500.0" prefWidth="75.0">
+         <children>
+            <ImageView fitHeight="75.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
+               <image>
+                  <Image url="@../images/helpPopup/hospitalLogoBlack.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="75.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
+               <image>
+                  <Image url="@../images/helpPopup/profileBlack.png" />
+               </image>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </ImageView>
+            <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
+               <image>
+                  <Image url="@../images/helpPopup/new_srBlack.png" />
+               </image>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </ImageView>
+            <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
+               <image>
+                  <Image url="@../images/helpPopup/signageBlack.png" />
+               </image>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </ImageView>
+            <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
+               <image>
+                  <Image url="@../images/helpPopup/pathfindingBlack.png" />
+               </image>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </ImageView>
+            <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
+               <image>
+                  <Image url="@../images/helpPopup/logoutBlack.png" />
+               </image>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </ImageView>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
