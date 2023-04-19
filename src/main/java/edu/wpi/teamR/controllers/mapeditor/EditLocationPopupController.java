@@ -4,8 +4,10 @@ import edu.wpi.teamR.App;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.mapdb.LocationName;
 import edu.wpi.teamR.mapdb.MapDatabase;
+import edu.wpi.teamR.mapdb.Move;
 import edu.wpi.teamR.mapdb.Node;
 import edu.wpi.teamR.mapdb.update.MapUpdater;
+import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import javax.xml.stream.Location;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -32,6 +35,11 @@ public class EditLocationPopupController {
     Button submitButton;
     @FXML
     Button deleteButton;
+
+    Node node;
+    Move move;
+    @FXML
+    MFXDatePicker datePicker;
 
     ObservableList<String> locationTypes =
             FXCollections.observableArrayList("HALL", "LABS", "ELEV", "SERV", "CONF", "STAI", "INFO", "REST", "DEPT", "BATH", "EXIT", "RETL");
@@ -56,7 +64,11 @@ public class EditLocationPopupController {
                 LocationName ln = mapdb.getLocationNameByLongName(newValue);
                 shortField.setText(ln.getShortName());
                 typeComboBox.setValue(ln.getNodeType());
-            } catch (SQLException | ItemNotFoundException e) {
+                node = mapdb.getNodeFromLocationName(ln.getLongName());
+                nodeComboBox.setValue(node.getNodeID());
+                move = mapdb.getMovesByNode(node.getNodeID()).get(0);
+                datePicker.setValue(move.getMoveDate().toLocalDate());
+            } catch (SQLException | ItemNotFoundException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         });
@@ -114,6 +126,7 @@ public class EditLocationPopupController {
         if (!ln.getShortName().equals(shortField.getText())) {
             mapUpdater.modifyLocationNameShortName(ln.getLongName(), shortField.getText());
             mapdb.modifyLocationNameShortName(ln.getLongName(), shortField.getText());
+            mapdb.addMove(nodeComboBox.getValue(), ln.getLongName(), Date.valueOf(datePicker.getValue()));
         }
         if (!ln.getNodeType().equals(typeComboBox.getValue())) {
             mapUpdater.modifyLocationNameShortName(ln.getLongName(), typeComboBox.getValue());
