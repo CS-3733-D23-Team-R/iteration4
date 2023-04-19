@@ -301,7 +301,7 @@ public class MapController {
                 paths[drawFloor].getChildren().add(l1);
             }
             else {
-                Rectangle square = new Rectangle(n1.getXCoord(), n1.getYCoord(), 12, 12);
+                Rectangle square = new Rectangle(n1.getXCoord(), n1.getYCoord(), 20, 20);
                 square.setFill(Color.LIMEGREEN);
                 int newFloor = floorNamesMap.get(n2.getFloorNum());
                 square.setOnMouseClicked(event -> {
@@ -320,6 +320,14 @@ public class MapController {
                 t.setY(n1.getYCoord() + 30);
                 paths[drawFloor].getChildren().add(t);
                 t.toBack();
+
+                t.setOnMouseClicked(event -> {
+                    try {
+                        displayFloorNum(newFloor);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
 
                 drawFloor = newFloor;
             }

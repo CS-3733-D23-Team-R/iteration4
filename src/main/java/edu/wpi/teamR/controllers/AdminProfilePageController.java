@@ -19,14 +19,15 @@ import java.time.format.DateTimeFormatter;
 
 public class AdminProfilePageController {
     @FXML Text name, email, occupation, DateOfJoining, phone, time;
-    @FXML VBox thread;
     ImageView ProfilePicture;
-    @FXML Button ToMapEditor, ToEmployeeManager;
+    @FXML Button ToMapEditor, ToEmployeeManager, toServiceRequest, toConferenceRoomEditor;
     @FXML
     public void initialize(){
         UserData thisUserData = UserData.getInstance();
         CurrentUser user = thisUserData.getLoggedIn();
         name.setText(user.getFullName());
+        toServiceRequest.setOnMouseClicked(event -> {Navigation.navigate(Screen.SORT_ORDERS);});
+        toConferenceRoomEditor.setOnMouseClicked(event -> {Navigation.navigate(Screen.ROOM_REQUEST);});
         email.setText(user.getEmail());
         occupation.setText(user.getJobTitle());
         DateOfJoining.setText(user.getJoinDate().toString());
