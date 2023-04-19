@@ -26,8 +26,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 /*TODO: RoomRequestController-master
-    make table display all textual info
-        room floor
     clean up FXML page
     ISSUES:
         No actual way to get here yet

@@ -20,6 +20,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Callback;
+import io.github.palexdev.materialfx.skins.legacy.MFXLegacyTableViewSkin;
 
 import java.sql.SQLException;
 import java.util.Objects;
@@ -56,9 +57,7 @@ public class SortOrdersController {
         for (ItemRequest request : RequestDatabase.getInstance().getItemRequests()) {
             requestTable.getItems().add(request);
         }
-        if(UserData.getInstance().getLoggedIn().getAccessLevel() != AccessLevel.Admin) {
-            staffMemberColumn.setEditable(false);
-        }
+
             staffMemberColumn.setOnEditCommit(event -> {
                 ItemRequest request = event.getRowValue();
                 request.setStaffMember(event.getNewValue());
@@ -82,9 +81,6 @@ public class SortOrdersController {
         statusColumn.setCellFactory(column -> new TableCell<>() {
             private final ComboBox<RequestStatus> changeStatusButton = new ComboBox<RequestStatus>(statusList);
             {
-                if(UserData.getInstance().isLoggedIn() && UserData.getInstance().getLoggedIn().getAccessLevel() != AccessLevel.Admin) {
-                   changeStatusButton.setDisable(true);
-                }
                     changeStatusButton.setOnAction(event -> {
                         ItemRequest request = (ItemRequest) getTableView().getItems().get(getIndex());
                         try {
@@ -174,9 +170,6 @@ public class SortOrdersController {
                         imageView.setFitHeight(30);
                         btn.getStyleClass().add("food_furniture-clear-button");
                         btn.setGraphic(imageView);
-                        if(UserData.getInstance().getLoggedIn().getAccessLevel() != AccessLevel.Admin) {
-                            btn.setDisable(true);
-                        }
                             btn.setOnAction((ActionEvent event) -> {
                             ItemRequest data = getTableView().getItems().get(getIndex());
                             requestTable.getItems().remove(data);

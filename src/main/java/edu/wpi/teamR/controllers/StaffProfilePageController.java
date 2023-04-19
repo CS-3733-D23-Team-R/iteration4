@@ -1,5 +1,7 @@
 package edu.wpi.teamR.controllers;
 
+import edu.wpi.teamR.navigation.Navigation;
+import edu.wpi.teamR.navigation.Screen;
 import edu.wpi.teamR.requestdb.*;
 import edu.wpi.teamR.userData.CurrentUser;
 import edu.wpi.teamR.userData.UserData;
@@ -11,8 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-
-import java.awt.*;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -20,6 +20,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import javafx.scene.control.Button;
 
 public class StaffProfilePageController {
     @FXML Text name, email, occupation, DateOfJoining, phone, time;
@@ -32,9 +34,7 @@ public class StaffProfilePageController {
         RequestDatabase requestDatabase = RequestDatabase.getInstance();
         UserData thisUserData = UserData.getInstance();
         CurrentUser user = thisUserData.getLoggedIn();
-        /*
-        viewAllRequests.setOnAction();
-         */
+        viewAllRequests.setOnMouseClicked(event -> {Navigation.navigate(Screen.SORT_ORDERS);});
         name.setText(user.getFullName());
         email.setText(user.getEmail());
         occupation.setText(user.getJobTitle());
@@ -72,7 +72,7 @@ public class StaffProfilePageController {
 
         Calendar cal = Calendar.getInstance();
         for(ItemRequest aRequest : itemRequests){
-            java.util.Date aDate = aRequest.getRequestDate();
+            Date aDate = aRequest.getRequestDate();
             String name = aRequest.getRequesterName();
             cal.setTime(aDate);
             Text aText = new Text();

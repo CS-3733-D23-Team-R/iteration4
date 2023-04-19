@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.effect.BoxBlur?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -76,24 +76,52 @@
                   </HBox>
                   <StackPane VBox.vgrow="ALWAYS">
                      <children>
-                        <HBox alignment="CENTER" prefHeight="387.0" prefWidth="633.0" styleClass="profileToMapEditor">
+                        <HBox alignment="CENTER" prefHeight="387.0" prefWidth="633.0">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
-                           <effect>
-                              <BoxBlur />
-                           </effect></HBox>
-                        <Button fx:id="ToMapEditor" mnemonicParsing="false" text="To Map Editor" />
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Button fx:id="toServiceRequest" mnemonicParsing="false" text="Pending Service Requests" />
+                                 </children>
+                                 <styleClass>
+                                    <String fx:value="profileToServiceRequests" />
+                                    <String fx:value="boxShadow" />
+                                 </styleClass>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Button fx:id="ToMapEditor" mnemonicParsing="false" text="To Map Editor" />
+                                 </children>
+                                 <styleClass>
+                                    <String fx:value="profileToMapEditor" />
+                                    <String fx:value="boxShadow" />
+                                 </styleClass>
+                              </VBox>
+                           </children></HBox>
                      </children>
                   </StackPane>
                   <StackPane VBox.vgrow="ALWAYS">
                      <children>
-                        <HBox alignment="CENTER" prefHeight="387.0" prefWidth="633.0" styleClass="profileToEmployeeManager">
-                           <effect>
-                              <BoxBlur />
-                           </effect>
+                        <HBox prefHeight="368.0" prefWidth="640.0">
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Button fx:id="ToEmployeeManager" mnemonicParsing="false" text="To Employee Manager" />
+                                 </children>
+                                 <styleClass>
+                                    <String fx:value="profileToEmployeeManager" />
+                                    <String fx:value="boxShadow" />
+                                 </styleClass>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="profileToConferenceRoom" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Button fx:id="toConferenceRoomEditor" mnemonicParsing="false" text="To Conference Room Editor" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                           </children>
                         </HBox>
-                        <Button fx:id="ToEmployeeManager" mnemonicParsing="false" text="To Employee Manager" />
                      </children>
                   </StackPane>
                </children>

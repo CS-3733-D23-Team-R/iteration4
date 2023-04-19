@@ -1,6 +1,7 @@
 .root {
     bwhblue: #012D5A;
     pressed: #BDBDBD;
+    error: #A31621;
 }
 
 .map-vbox {
@@ -33,6 +34,15 @@
     -fx-font-weight: 700;
     border-radius: 4px;
 }
+.delete-button {
+    -fx-background-color: error;
+    -fx-text-fill: white;
+    -fx-font-family: 'Nunito Sans', 'bold';
+    -fx-font-size: 16;
+    -fx-font-weight: 700;
+    border-radius: 4px;
+}
+
 
 .body{
     -fx-font-family: 'Nunito Sans', 'regular';
@@ -62,46 +72,147 @@
 }
 
 .combo-box {
-    -fx-background-color: #ffffff; /* Background color */
-    -fx-border-color: bwhblue; /* Border color */
-    -fx-border-width: 0px; /* Border width */
-    -fx-font-size: 11px; /* Font size */
-    -fx-text-fill: #000000; /* Text color */
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 20, 0.2), 0, 2, 0, 0); /* Drop shadow effect */
+    -fx-background-color: #ffffff;
+    -fx-border-color: bwhblue;
+    -fx-border-width: 0px;
+    -fx-font-size: 11px;
+    -fx-text-fill: #000000;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0, 0, 0);
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
 }
 
-/* Style for ComboBox in table view when hovered */
 .combo-box:hover {
-    -fx-background-color: #eeeeee; /* Background color when hovered */
+    -fx-background-color: #eeeeee;
 }
 
-/* Style for ComboBox in table view when pressed */
 .combo-box:pressed {
-    -fx-background-color: #e0e0e0; /* Background color when pressed */
+    -fx-background-color: #e0e0e0;
 }
 
-/* Style for ComboBox arrow button */
 .combo-box .arrow-button {
-    -fx-background-color: transparent; /* Background color */
-    -fx-background-insets: 0; /* Background insets */
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
 }
 
-/* Style for ComboBox arrow button when hovered */
 .combo-box .arrow-button:hover {
-    -fx-background-color: #eeeeee; /* Background color when hovered */
+    -fx-background-color: #eeeeee;
 }
 
-/* Style for ComboBox arrow button when pressed */
 .combo-box .arrow-button:pressed {
-    -fx-background-color: #e0e0e0; /* Background color when pressed */
+    -fx-background-color: #e0e0e0;
 }
 
-/* Style for ComboBox arrow button when focused */
 .combo-box .arrow-button:focused {
-    -fx-effect:dropshadow(three-pass-box, rgba(66, 165, 245, 0.4), 0, 0, 0, 0); /* Drop shadow effect when focused */
+    -fx-effect:dropshadow(three-pass-box, rgba(66, 165, 245, 0.4), 0, 0, 0, 0);
 }
 
-/* Style for ComboBox arrow icon */
 .combo-box .arrow-button .arrow {
-    -fx-fill: #000000; /* Icon color */
+    -fx-fill: #000000;
+}
+
+.location-name-text {
+    -fx-effect: dropshadow(gaussian, rgba(66, 165, 245, 0.4), 0, 0, 0, 0);
+    -fx-text-fill: red;
+}
+
+.mfx-date-picker {
+    -fx-text-fill: #000000;
+    -fx-border-color: #012D5A;
+}
+
+.mfx-date-picker .date-picker-popup {
+    -fx-border-color: #87ceeb;
+}
+
+.mfx-date-picker .date-picker-popup .left-arrow .mfx-font-icon {
+    -mfx-color: #87ceeb;
+}
+
+.mfx-date-picker .date-picker-popup .right-arrow {
+    -mfx-color: #87ceeb;
+}
+
+.mfx-date-picker .date-picker-popup .right-arrow .mfx-ripple-generator {
+    -fx-background-color: #87ceeb;
+}
+
+.mfx-date-picker .date-picker-popup .months-combo {
+    -fx-text-fill: #000000;
+}
+
+.mfx-date-picker .date-picker-popup .months-combo,
+.mfx-date-picker .date-picker-popup .years-combo {
+    -fx-text-fill: #000000;
+}
+
+/* Selected styles */
+.mfx-date-picker .date-picker-popup .combo-box .list-view .list-cell:focused,
+.mfx-date-picker .date-picker-popup .combo-box .list-view .list-cell:focused .text {
+    -fx-background-color: #0072C6;
+    -fx-text-fill: #ffffff;
+}
+
+
+.mfx-date-picker .date-picker-popup .years-combo {
+    -fx-text-fill: #000000;
+}
+
+.mfx-date-picker .date-picker-popup .week-day {
+    -fx-text-fill: #000000;
+}
+
+.mfx-date-picker .date-picker-popup .mfx-date-cell {
+    -fx-text-fill: #000000;
+    -fx-border-color: #87ceeb;
+}
+
+.mfx-date-picker .date-picker-popup .mfx-date-cell:selected {
+    -fx-text-fill: white;
+    -fx-background-color: #87ceeb;
+    -fx-border-color: #87ceeb;
+}
+
+.mfx-date-picker .date-picker-popup .months-combo {
+    -fx-text-fill: black;
+}
+
+.mfx-date-picker .mfx-icon-wrapper .mfx-font-icon {
+    -mfx-color: #012D5A;
+}
+
+.mfx-date-picker .mfx-icon-wrapper .mfx-font-icon:focused:filled:selected {
+    -mfx-color: #012D5A;
+}
+
+.mfx-date-picker .date-picker-popup .combo-box:focused .text {
+    -fx-text-fill: #012D5A;
+}
+
+/*CHANGE BORDER*/
+.mfx-date-picker .date-picker-popup .mfx-combo-box {
+    -fx-background-color: transparent;
+    -fx-background-radius: 5;
+    -fx-padding: 5;
+    -fx-border-color: #012D5A;
+}
+
+/*CHANGE ARROW ICON*/
+.mfx-date-picker .date-picker-popup .mfx-combo-box .caret .mfx-font-icon {
+    -mfx-color: #012D5A;
+}
+
+/*CHANGE POPUP TEXT*/
+.mfx-date-picker .date-picker-popup .mfx-combo-box .floating-text {
+    -fx-background-color: white;
+    -fx-text-fill: #012D5A;
+}
+
+.mfx-combo-box:selected:focused:filled:expanded {
+    -fx-text-fill: #012D5A;
+}
+
+.mfx-date-picker .date-picker-popup .content:selected {
+    -fx-background-color: #f0f8ff;
+    -fx-text-fill: #000000;
 }

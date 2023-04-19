@@ -26,7 +26,7 @@ public class AvailableItemDAO {
 
         String lowerBoundString = "1=1"; //only remove if lowerBound is a number
         if (lowerBound!=null)
-            lowerBoundString = "itemPrice<"+lowerBound;
+            lowerBoundString = "itemPrice>"+lowerBound;
 
         String sortOrderString = "";
         if (sortOrder == SortOrder.unsorted)

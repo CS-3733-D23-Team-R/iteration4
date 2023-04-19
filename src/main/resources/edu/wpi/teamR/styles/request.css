@@ -13,11 +13,19 @@
 }
 
 .requestBarText {
-    -fx-fill: primaryLightGrey;
+    -fx-fill: White;
+    -fx-font-size: 20;
+    -fx-font-family: 'Lato';
+}
+
+.requestBarText2 {
+    -fx-fill: White;
+    -fx-font-size: 14;
+    -fx-font-family: 'Lato';
 }
 
 .requestBarSubtitle {
-    -fx-fill: primaryLightGrey;
+    -fx-fill: White;
     -fx-font-size: 28;
     -fx-font-family: 'Lato';
 }

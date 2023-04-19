@@ -32,11 +32,7 @@ import static edu.wpi.teamR.navigation.Navigation.navigate;
     add signage page in place of sort orders
       if admin is signage config
       find icon
-    add log out functionality
-    remove log in button functionality if logged in
-    add log out button if logged in
-
-
+    add way to access conference room request
  */
 public class RootController {
   @FXML VBox bwhHome;
@@ -87,6 +83,7 @@ public class RootController {
     logoutButton.setOnMouseClicked(event -> logout());
     newRequestButton.setOnMouseClicked(event -> navigate(Screen.ITEMREQUEST));
     pathfindingButton.setOnMouseClicked(event -> navigate(Screen.MAP));
+    signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGE));
     exitButton.setOnMouseClicked(event -> Platform.exit());
 
     helpButton.setOnMouseClicked(
@@ -197,7 +194,7 @@ public class RootController {
   }
   public void setSignagePage(){
     signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGECONFIGURATION));
-    signageText.setText("Edit\nSignage");
+    signageText.setText("  Edit\nSignage");
     signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGE));
   }
 }

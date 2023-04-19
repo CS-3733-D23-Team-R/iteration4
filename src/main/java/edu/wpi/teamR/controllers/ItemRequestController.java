@@ -73,6 +73,7 @@ public class ItemRequestController {
     @FXML ImageView cartButton;
     @FXML
     AnchorPane requestPageBackground;
+    @FXML Button clearFiltersButton;
 
 
 
@@ -94,6 +95,9 @@ public class ItemRequestController {
         ObservableList<RequestType> itemTypeList = FXCollections.observableArrayList();
 //        for (RequestType type : RequestType.values()) {itemTypeList.add(type);} //add all request types to combo box
 //        itemTypeBox.setItems(itemTypeList);
+
+        clearFiltersButton.setOnAction(event -> clearFilters());
+
         furnitureButton.setOnAction(event -> {
             this.type = RequestType.Furniture;
             regenerateTable();
@@ -263,11 +267,11 @@ public class ItemRequestController {
     }
 
     private void textHover(Text text){
-        text.setFill(Color.WHITE);
+        text.setFill(Color.valueOf("F6BD38"));
     }
 
     private void textStopHover(Text text){
-        text.setFill(Color.valueOf("#BDBDBD"));
+        text.setFill(Color.WHITE);
     }
 
     private void regenerateTable(){
@@ -300,6 +304,12 @@ public class ItemRequestController {
                 requestPageBackground.getStyleClass().clear();
                 requestPageBackground.getStyleClass().add("meal-title");
         }
+    public void clearFilters(){
+        this.upperBound = null;
+        this.lowerBound = null;
+        itemMaxField.clear();
+        itemMinField.clear();
+        regenerateTable();
     }
 
 }
