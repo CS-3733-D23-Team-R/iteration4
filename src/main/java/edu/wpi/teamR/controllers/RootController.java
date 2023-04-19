@@ -85,13 +85,6 @@ public class RootController {
       }
     });
     newRequestButton.setOnMouseClicked(event -> navigate(Screen.ITEMREQUEST));
-    if(UserData.getInstance().getLoggedIn().getAccessLevel() != AccessLevel.Admin) {
-      signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGECONFIGURATION));
-      signageText.setText("Edit\nSignage");
-    }
-    else {
-      signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGE));
-    }
     pathfindingButton.setOnMouseClicked(event -> navigate(Screen.MAP));
     exitButton.setOnMouseClicked(event -> Platform.exit());
 
