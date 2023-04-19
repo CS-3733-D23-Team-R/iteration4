@@ -12,6 +12,7 @@ import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.awt.*;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -23,6 +24,7 @@ import java.util.Calendar;
 public class StaffProfilePageController {
     @FXML Text name, email, occupation, DateOfJoining, phone, time;
     @FXML VBox monday, tuesday, wednesday, thursday, friday, saturday, sunday;
+    @FXML Button viewAllRequests;
 
     ImageView CreateNewMessage;
 
@@ -30,11 +32,17 @@ public class StaffProfilePageController {
         RequestDatabase requestDatabase = RequestDatabase.getInstance();
         userData thisUserData = userData.getInstance();
         currentUser user = thisUserData.getLoggedIn();
+        /*
+        viewAllRequests.setOnAction();
+         */
         name.setText(user.getFullName());
         email.setText(user.getEmail());
         occupation.setText(user.getJobTitle());
         DateOfJoining.setText(user.getJoinDate().toString());
-        phone.setText(Integer.toString(user.getPhoneNum()));
+        String num = Integer.toString(user.getPhoneNum());
+        String formattedPhoneNumber = num.replaceAll("(\\d{3})(\\d{3})(\\d{4})", "($1)-$2-$3");
+        phone.setText(formattedPhoneNumber);
+
         LocalDate date = LocalDate.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
         String formattedDate = date.format(dateTimeFormatter);

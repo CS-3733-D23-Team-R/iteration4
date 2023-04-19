@@ -30,7 +30,9 @@ public class AdminProfilePageController {
         email.setText(user.getEmail());
         occupation.setText(user.getJobTitle());
         DateOfJoining.setText(user.getJoinDate().toString());
-        phone.setText(Integer.toString(user.getPhoneNum()));
+        String num = Integer.toString(user.getPhoneNum());
+        String formattedPhoneNumber = num.replaceAll("(\\d{3})(\\d{3})(\\d{4})", "($1)-$2-$3");
+        phone.setText(formattedPhoneNumber);
         LocalDate date = LocalDate.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
         String formattedDate = date.format(dateTimeFormatter);
