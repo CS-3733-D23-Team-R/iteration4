@@ -44,8 +44,8 @@ public class SortOrdersController {
     public void initialize() throws SQLException, ClassNotFoundException {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("requestID"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("requesterName"));
-        locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
-        staffMemberColumn.setCellValueFactory(new PropertyValueFactory<>("staffMember"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory<>("longname"));
+        staffMemberColumn.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
         staffMemberColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         notesColumn.setCellValueFactory(new PropertyValueFactory<>("additionalNotes"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("requestDate"));
