@@ -113,6 +113,8 @@ public class RootController {
 
   private void openProfile() throws SQLException, ClassNotFoundException, ItemNotFoundException {
     UserData thisUserData = UserData.getInstance();
+    if (!thisUserData.isLoggedIn())
+      return;
     CurrentUser user = thisUserData.getLoggedIn();
     if(user.getAccessLevel().equals(AccessLevel.Admin)){
       Navigation.navigate(Screen.ADMINPROFILEPAGE);

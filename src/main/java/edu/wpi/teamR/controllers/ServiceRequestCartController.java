@@ -90,8 +90,6 @@ public class ServiceRequestCartController {
         }else {
             ShoppingCart.getInstance().items.forEach(
                     (item, number) -> {
-                        System.out.println(item);
-                        System.out.println(number);
                         HBox productView = shoppingCartView(item,number);
                         cartPane.getChildren().add(productView);
                     }
@@ -132,9 +130,11 @@ public class ServiceRequestCartController {
         minusButton.setStyle("fx-padding: 5px");
         minusButton.setUserData(item.getItemName());
         minusButton.setOnAction(event -> {
-            ShoppingCart.getInstance().decrementItem(item);
-            quantity.setText(String.valueOf(String.valueOf(ShoppingCart.getInstance().items.get(item))));
-            this.totalPriceLabel.setText("$ " + formatPrice.format(ShoppingCart.getInstance().calculateTotal()));
+            if(cartInstance.getItemQuantity(item) != 0) {
+                ShoppingCart.getInstance().decrementItem(item);
+                quantity.setText(String.valueOf(String.valueOf(ShoppingCart.getInstance().items.get(item))));
+                this.totalPriceLabel.setText("$ " + formatPrice.format(ShoppingCart.getInstance().calculateTotal()));
+            }
         });
 
         //Text price = new Text(String.valueOf("$"+ ShoppingCart.getInstance().items.get(item).
@@ -155,10 +155,12 @@ public class ServiceRequestCartController {
 
     @FXML
     public void submit() throws SQLException, ClassNotFoundException {
-        String location = locationField.getValue().toString();
-        String staff = staffField.getValue().toString();
-        String requestor = userField.getValue().toString();
-        String additionalNotes = notesField.getText();
+        try {
+            String location = locationField.getValue().toString();
+            String staff = staffField.getValue().toString();
+            String requestor = userField.getValue().toString();
+            String additionalNotes = notesField.getText();
+
 
         for (AvailableItem itemInHash : cartInstance.items.keySet()){
             for(int i = 0; i<cartInstance.items.get(itemInHash); i++){
@@ -169,6 +171,10 @@ public class ServiceRequestCartController {
         Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
         confirmation.setContentText("Request Order Received!");
         confirmation.show();
+
+        } catch (NullPointerException e) {
+            System.out.println("Request Submitted without Full Fields");
+        }
     }
 
     void setLocationChoiceboxes(){

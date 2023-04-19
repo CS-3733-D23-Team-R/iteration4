@@ -44,6 +44,10 @@ public class ShoppingCart {
     }
     public void clearCart(){ items.clear(); }
 
+    public int getItemQuantity(AvailableItem item){
+        return items.get(item);
+    }
+
 
     //returns the total price of all items in the items shopping cart
     public double calculateTotal() {
