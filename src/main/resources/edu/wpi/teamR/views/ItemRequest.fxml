@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.ItemRequestController">
@@ -23,33 +24,32 @@
          <children>
             <VBox layoutX="53.0" prefHeight="400.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                  <StackPane prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <AnchorPane prefHeight="150.0" prefWidth="400.0" styleClass="requestBackground" />
-                        <ImageView fitHeight="116.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
+                        <AnchorPane fx:id="requestPageBackground" prefHeight="150.0" prefWidth="400.0" styleClass="requestBackground" />
+                        <ImageView fitHeight="129.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
                               <image>
                                   <Image url="@../images/serviceRequests/trapezoid.png" />
                               </image>
                         </ImageView>
-                        <ImageView fx:id="cartButton" fitHeight="69.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
+                        <ImageView fx:id="cartButton" fitHeight="54.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
                             <image>
                                  <Image url="@../images/serviceRequests/cart.png" />
                             </image>
                            <StackPane.margin>
-                              <Insets right="2.0" top="25.0" />
+                              <Insets right="5.0" top="40.0" />
                            </StackPane.margin>
                         </ImageView>
                      </children>
                   </StackPane>
                   <AnchorPane VBox.vgrow="ALWAYS">
                      <children>
-                        <TableView fx:id="itemTable" prefHeight="432.0" prefWidth="949.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+                        <TableView fx:id="itemTable" prefHeight="432.0" prefWidth="949.0" stylesheets="@../styles/tables.css" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
                           <columns>
-                            <TableColumn fx:id="itemNameColumn" minWidth="75.0" prefWidth="150.0" text="Product" />
-                            <TableColumn fx:id="itemDetailsColumn" minWidth="75.0" prefWidth="293.3333435058594" text="Details" />
-                              <TableColumn fx:id="itemPriceColumn" minWidth="75.0" prefWidth="182.0" text="Price" />
-                              <TableColumn fx:id="itemQuantityColumn" minWidth="47.0" prefWidth="154.66668701171875" text="Quantity" />
-                              <TableColumn fx:id="itemAddToCartColumn" minWidth="66.0" prefWidth="166.66670735677087" />
+                            <TableColumn fx:id="itemNameColumn" minWidth="75.0" prefWidth="264.88888931274414" text="Product" />
+                            <TableColumn fx:id="itemDetailsColumn" minWidth="75.0" prefWidth="414.888916015625" text="Details" />
+                              <TableColumn fx:id="itemPriceColumn" minWidth="75.0" prefWidth="194.0" text="Price" />
+                              <TableColumn fx:id="itemAddToCartColumn" minWidth="66.0" prefWidth="126.66656494140625" />
                           </columns>
                         </TableView>
                      </children>
@@ -59,7 +59,7 @@
       </AnchorPane>
    </center>
    <left>
-      <SplitPane dividerPositions="0.4" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0" styleClass="requestFilterBar" stylesheets="@../styles/request.css" BorderPane.alignment="CENTER">
+      <SplitPane dividerPositions="0.4" orientation="VERTICAL" prefHeight="720.0" prefWidth="221.0" styleClass="requestFilterBar" stylesheets="@../styles/request.css" BorderPane.alignment="CENTER">
         <items>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
@@ -67,17 +67,17 @@
                      <children>
                         <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
                            <children>
-                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                              <VBox prefHeight="300.0" prefWidth="157.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarTitle" text="Request" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
-                                          <Insets bottom="30.0" top="20.0" />
+                                          <Insets bottom="10.0" top="10.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <ToggleButton fx:id="foodButton" mnemonicParsing="false" prefWidth="120.0" text="Food" />
-                                    <ToggleButton fx:id="furnitureButton" mnemonicParsing="false" prefWidth="120.0" text="Furniture" />
-                                    <ToggleButton fx:id="suppliesButton" mnemonicParsing="false" prefWidth="120.0" text="Supplies" />
-                                    <ToggleButton fx:id="flowersButton" mnemonicParsing="false" prefWidth="120.0" text="Flowers" />
+                                    <ToggleButton fx:id="foodButton" mnemonicParsing="false" prefWidth="120.0" styleClass="inverseButton" text="Food" VBox.vgrow="ALWAYS" />
+                                    <ToggleButton fx:id="furnitureButton" mnemonicParsing="false" prefWidth="120.0" styleClass="inverseButton" text="Furniture" VBox.vgrow="ALWAYS" />
+                                    <ToggleButton fx:id="suppliesButton" mnemonicParsing="false" prefWidth="120.0" styleClass="inverseButton" text="Supplies" VBox.vgrow="ALWAYS" />
+                                    <ToggleButton fx:id="flowersButton" mnemonicParsing="false" prefWidth="120.0" styleClass="inverseButton" text="Flowers" VBox.vgrow="ALWAYS" />
                                  </children>
                                  <HBox.margin>
                                     <Insets left="20.0" right="20.0" />
@@ -93,46 +93,58 @@
                <children>
                   <VBox prefHeight="172.0" prefWidth="158.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarSubtitle" text="Price">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarSubtitle" text="Filters" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets left="15.0" top="15.0" />
                            </VBox.margin>
                         </Text>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
+                        <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Text fx:id="itemZerotoTen" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText" text="\$0 - $10" />
-                              <Text fx:id="itemTentoTwenty" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText" text="\$10 - $20" />
-                              <Text fx:id="itemTwentytoThirty" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText" text="\$20 - $30" />
-                              <Text fx:id="itemThirtytoForty" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText" text="\$30 - $40" />
-                              <Text fx:id="itemThirtyPlus" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText" text="\$30+" />
+                              <Text fx:id="itemZerotoTen" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText" text="\$0 - $10" VBox.vgrow="ALWAYS" />
+                              <Text fx:id="itemTentoTwenty" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText" text="\$10 - $20" VBox.vgrow="ALWAYS" />
+                              <Text fx:id="itemTwentytoThirty" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText" text="\$20 - $30" VBox.vgrow="ALWAYS" />
+                              <Text fx:id="itemThirtytoForty" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText" text="\$30 - $40" VBox.vgrow="ALWAYS" />
+                              <Text fx:id="itemThirtyPlus" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText" text="\$30+" VBox.vgrow="ALWAYS" />
                            </children>
                            <VBox.margin>
-                              <Insets bottom="10.0" left="30.0" right="10.0" top="10.0" />
+                              <Insets left="30.0" right="10.0" top="10.0" />
                            </VBox.margin>
                         </VBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                        <HBox alignment="CENTER" prefHeight="122.0" prefWidth="219.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText" text="Min $ ">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText2" text="Min $ " HBox.hgrow="ALWAYS">
                                  <HBox.margin>
-                                    <Insets left="10.0" right="5.0" />
+                                    <Insets left="5.0" />
                                  </HBox.margin>
                               </Text>
-                              <TextField fx:id="itemMinField" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText" text="Max $ ">
+                              <TextField fx:id="itemMinField" prefHeight="25.0" prefWidth="30.0" HBox.hgrow="ALWAYS" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText2" text="Max $ " HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </Text>
+                              <TextField fx:id="itemMaxField" prefHeight="25.0" prefWidth="30.0" HBox.hgrow="ALWAYS" />
+                              <Button fx:id="minMaxGoButton" ellipsisString="" mnemonicParsing="false" prefHeight="39.0" prefWidth="56.0" text="Go" textFill="#1e0202" textOverrun="WORD_ELLIPSIS" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets left="5.0" right="5.0" />
                                  </HBox.margin>
-                              </Text>
-                              <TextField fx:id="itemMaxField" />
-                              <Button fx:id="minMaxGoButton" ellipsisString="" mnemonicParsing="false" prefHeight="15.0" prefWidth="24.0" text="Go" textFill="#1e0202" textOverrun="WORD_ELLIPSIS" HBox.hgrow="ALWAYS">
-                                 <HBox.margin>
-                                    <Insets left="5.0" right="10.0" />
-                                 </HBox.margin>
+                                 <font>
+                                    <Font size="8.0" />
+                                 </font>
                               </Button>
                            </children>
                            <VBox.margin>
                               <Insets bottom="15.0" />
                            </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Button fx:id="clearFiltersButton" mnemonicParsing="false" styleClass="signage-configuration-button" text="Clear filters" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
                         </HBox>
                      </children>
                   </VBox>

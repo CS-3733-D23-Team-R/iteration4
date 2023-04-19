@@ -70,6 +70,7 @@ public class ItemRequestController {
     @FXML
     private Text itemThirtyPlus;
     @FXML ImageView cartButton;
+    @FXML Button clearFiltersButton;
 
 
 
@@ -90,6 +91,9 @@ public class ItemRequestController {
         ObservableList<RequestType> itemTypeList = FXCollections.observableArrayList();
 //        for (RequestType type : RequestType.values()) {itemTypeList.add(type);} //add all request types to combo box
 //        itemTypeBox.setItems(itemTypeList);
+
+        clearFiltersButton.setOnAction(event -> clearFilters());
+
         furnitureButton.setOnAction(event -> {
             this.type = RequestType.Furniture;
             regenerateTable();
@@ -255,11 +259,11 @@ public class ItemRequestController {
     }
 
     private void textHover(Text text){
-        text.setFill(Color.WHITE);
+        text.setFill(Color.valueOf("F6BD38"));
     }
 
     private void textStopHover(Text text){
-        text.setFill(Color.valueOf("#BDBDBD"));
+        text.setFill(Color.WHITE);
     }
 
     private void regenerateTable(){
@@ -272,6 +276,12 @@ public class ItemRequestController {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void clearFilters(){
+        this.upperBound = null;
+        this.lowerBound = null;
+        regenerateTable();
     }
 
 }
