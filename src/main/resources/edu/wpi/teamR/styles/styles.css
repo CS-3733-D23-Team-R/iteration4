@@ -340,3 +340,16 @@
     -fx-font-weight: 700;
     -fx-border-radius: 4px;
 }
+.profileToConferenceRoom{
+    -fx-background-image: url("../images/blurredconferenceroom.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.profileToServiceRequests{
+    -fx-background-image: url("../images/blurredprofletopendingservicerequest.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
