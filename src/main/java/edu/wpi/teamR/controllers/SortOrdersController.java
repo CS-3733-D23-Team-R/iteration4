@@ -6,8 +6,7 @@ import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.requestdb.ItemRequest;
 import edu.wpi.teamR.requestdb.RequestDatabase;
 import edu.wpi.teamR.requestdb.RequestStatus;
-import edu.wpi.teamR.userData.userData;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
+import edu.wpi.teamR.userData.UserData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,7 +20,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Callback;
-import io.github.palexdev.materialfx.skins.legacy.MFXLegacyTableViewSkin;
 
 import java.sql.SQLException;
 import java.util.Objects;
@@ -58,7 +56,7 @@ public class SortOrdersController {
         for (ItemRequest request : RequestDatabase.getInstance().getItemRequests()) {
             requestTable.getItems().add(request);
         }
-        if(userData.getInstance().getLoggedIn().getAccessLevel() != AccessLevel.Admin) {
+        if(UserData.getInstance().getLoggedIn().getAccessLevel() != AccessLevel.Admin) {
             staffMemberColumn.setEditable(false);
         }
             staffMemberColumn.setOnEditCommit(event -> {
@@ -84,7 +82,7 @@ public class SortOrdersController {
         statusColumn.setCellFactory(column -> new TableCell<>() {
             private final ComboBox<RequestStatus> changeStatusButton = new ComboBox<RequestStatus>(statusList);
             {
-                if(userData.getInstance().isLoggedIn() && userData.getInstance().getLoggedIn().getAccessLevel() != AccessLevel.Admin) {
+                if(UserData.getInstance().isLoggedIn() && UserData.getInstance().getLoggedIn().getAccessLevel() != AccessLevel.Admin) {
                    changeStatusButton.setDisable(true);
                 }
                     changeStatusButton.setOnAction(event -> {
@@ -176,7 +174,7 @@ public class SortOrdersController {
                         imageView.setFitHeight(30);
                         btn.getStyleClass().add("food_furniture-clear-button");
                         btn.setGraphic(imageView);
-                        if(userData.getInstance().getLoggedIn().getAccessLevel() != AccessLevel.Admin) {
+                        if(UserData.getInstance().getLoggedIn().getAccessLevel() != AccessLevel.Admin) {
                             btn.setDisable(true);
                         }
                             btn.setOnAction((ActionEvent event) -> {

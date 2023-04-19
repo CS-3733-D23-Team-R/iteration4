@@ -2,8 +2,8 @@ package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
-import edu.wpi.teamR.userData.currentUser;
-import edu.wpi.teamR.userData.userData;
+import edu.wpi.teamR.userData.CurrentUser;
+import edu.wpi.teamR.userData.UserData;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -24,8 +24,8 @@ public class AdminProfilePageController {
     @FXML Button ToMapEditor, ToEmployeeManager;
     @FXML
     public void initialize(){
-        userData thisUserData = userData.getInstance();
-        currentUser user = thisUserData.getLoggedIn();
+        UserData thisUserData = UserData.getInstance();
+        CurrentUser user = thisUserData.getLoggedIn();
         name.setText(user.getFullName());
         email.setText(user.getEmail());
         occupation.setText(user.getJobTitle());

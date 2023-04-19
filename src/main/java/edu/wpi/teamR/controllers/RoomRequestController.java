@@ -6,7 +6,7 @@ import edu.wpi.teamR.mapdb.ConferenceRoom;
 import edu.wpi.teamR.mapdb.MapDatabase;
 import edu.wpi.teamR.requestdb.RequestDatabase;
 import edu.wpi.teamR.requestdb.RoomRequest;
-import edu.wpi.teamR.userData.userData;
+import edu.wpi.teamR.userData.UserData;
 import io.github.palexdev.materialfx.controls.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -227,7 +227,7 @@ ArrayList<String> timeArray = new ArrayList<>();
                             btn.setOnAction(null);
                             try {
                                 ConferenceRoom room = getTableView().getItems().get(getIndex());
-                                RequestDatabase.getInstance().addRoomRequest(room.getLongname(), userData.getInstance().getLoggedIn().getUsername(), startTime, endTime);
+                                RequestDatabase.getInstance().addRoomRequest(room.getLongname(), UserData.getInstance().getLoggedIn().getUsername(), startTime, endTime);
                             } catch (SQLException e) {
                                 throw new RuntimeException(e);
                             } catch (ClassNotFoundException e) {
