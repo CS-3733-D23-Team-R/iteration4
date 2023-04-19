@@ -14,4 +14,6 @@ public class userData {
         }
         return instance;
     }
+    public void logout(){loggedIn = null;}
+    public boolean isLoggedIn(){ return loggedIn!=null;}
 }
