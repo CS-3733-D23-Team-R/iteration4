@@ -25,6 +25,9 @@ import org.controlsfx.control.PopOver;
 
 import java.io.IOException;
 import java.sql.SQLException;
+
+import static edu.wpi.teamR.navigation.Navigation.navigate;
+
 /*TODO
     add signage page in place of sort orders
       if admin is signage config
@@ -83,13 +86,6 @@ public class RootController {
     });
     logoutButton.setOnMouseClicked(event -> logout());
     newRequestButton.setOnMouseClicked(event -> navigate(Screen.ITEMREQUEST));
-    if(UserData.getInstance().getLoggedIn().getAccessLevel() != AccessLevel.Admin) {
-      signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGECONFIGURATION));
-      signageText.setText("Edit\nSignage");
-    }
-    else {
-      signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGE));
-    }
     pathfindingButton.setOnMouseClicked(event -> navigate(Screen.MAP));
     exitButton.setOnMouseClicked(event -> Platform.exit());
 
@@ -196,5 +192,10 @@ public class RootController {
       ShoppingCart.getInstance().clearCart();
       Navigation.navigate(Screen.HOME);
     }
+  }
+  public void setSignagePage(){
+    signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGECONFIGURATION));
+    signageText.setText("Edit\nSignage");
+    signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGE));
   }
 }
