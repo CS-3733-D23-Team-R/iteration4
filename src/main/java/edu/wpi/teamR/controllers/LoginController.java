@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import edu.wpi.teamR.userData.userData;
 import edu.wpi.teamR.userData.currentUser;
 
+import static edu.wpi.teamR.navigation.Navigation.navigate;
+
 public class LoginController {
 
     @FXML MFXTextField usernameField;
@@ -39,9 +41,10 @@ public class LoginController {
         thisUserData.setLoggedIn(User);
         if(User.comparePass(passwordField.getText())){
             if(thisUserData.getLoggedIn().getAccessLevel() == AccessLevel.Admin){
-                Navigation.navigate(Screen.ADMINPROFILEPAGE);
+                RootController.getInstance().setSignagePage();
+                navigate(Screen.ADMINPROFILEPAGE);
             } else if(thisUserData.getLoggedIn().getAccessLevel() == AccessLevel.Staff){
-                Navigation.navigate(Screen.STAFFPROFILEPAGE);
+                navigate(Screen.STAFFPROFILEPAGE);
             }
         } else{
             System.out.println("incorrect password");
