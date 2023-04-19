@@ -23,10 +23,14 @@ public class Configuration {
     private static final String availableFlowersTableName = "availableFlowers";
     private static final String availableSuppliesTableName = "availableSupplies";
     private static final String userTableName = "user";
-    public static Connection getConnection() throws ClassNotFoundException, SQLException {
+    public static Connection getConnection() throws SQLException {
         if (connection!=null && !connection.isClosed())
             return Configuration.connection;
-        Class.forName("org.postgresql.Driver");
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         return DriverManager.getConnection(connectionURL, username, password);
     }
     public static void changeSchemaName(String schemaName) { Configuration.schemaName = schemaName; }
