@@ -21,8 +21,8 @@ public class App extends Application {
 
   @Setter @Getter private static Stage primaryStage;
   @Setter @Getter private static BorderPane rootPane;
-  @Getter
-  static MapStorage mapData;
+  @Setter @Getter
+  public static MapStorage mapData;
 
   @Override
   public void init() {
@@ -55,7 +55,12 @@ public class App extends Application {
   }
 
   @Override
-  public void stop() {
+  public void stop() throws SQLException, ClassNotFoundException {
     log.info("Shutting Down");
+    closeConnection();
+  }
+
+  public void closeConnection() throws SQLException {
+    Configuration.getConnection().close();
   }
 }

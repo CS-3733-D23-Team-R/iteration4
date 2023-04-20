@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -16,66 +16,68 @@
             <Font name="Times New Roman Bold" size="30.0" />
          </font>
       </Label>
-      <VBox layoutX="150.0" layoutY="86.0" prefHeight="500.0" prefWidth="600.0" spacing="25.0">
+      <VBox layoutX="74.0" layoutY="86.0" spacing="15.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Home: Return to the home page." wrappingWidth="550.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Profile: Displays information about the profile this application is currently logged in as." wrappingWidth="550.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="New Service Request: Request to book a conference room, or request meals or furniture to be delivered to your room at a set time." wrappingWidth="550.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Signage: Show relevant directions to important locations in the hospital." wrappingWidth="550.0" />
-            <Text lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Pathfinding: View a full map of the hospital and get easy directions from any point in the building." wrappingWidth="550.0" />
-            <Text lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Logout: Return to the login menu." wrappingWidth="550.0" />
-         </children>
-         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </padding>
-      </VBox>
-      <VBox alignment="TOP_CENTER" layoutX="74.0" layoutY="86.0" prefHeight="500.0" prefWidth="75.0">
-         <children>
-            <ImageView fitHeight="75.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
-               <image>
-                  <Image url="@../images/helpPopup/hospitalLogoBlack.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="75.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
-               <image>
-                  <Image url="@../images/helpPopup/profileBlack.png" />
-               </image>
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </ImageView>
-            <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
-               <image>
-                  <Image url="@../images/helpPopup/new_srBlack.png" />
-               </image>
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </ImageView>
-            <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
-               <image>
-                  <Image url="@../images/helpPopup/signageBlack.png" />
-               </image>
-               <VBox.margin>
-                  <Insets top="20.0" />
-               </VBox.margin>
-            </ImageView>
-            <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
-               <image>
-                  <Image url="@../images/helpPopup/pathfindingBlack.png" />
-               </image>
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </ImageView>
-            <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
-               <image>
-                  <Image url="@../images/helpPopup/logoutBlack.png" />
-               </image>
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </ImageView>
+            <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/helpPopup/hospitalLogoBlack.png" />
+                     </image>
+                  </ImageView>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Home: Return to the home page." wrappingWidth="550.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/helpPopup/profileBlack.png" />
+                     </image>
+                  </ImageView>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Profile: Displays information about the profile this application is currently logged in as." wrappingWidth="550.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/helpPopup/new_srBlack.png" />
+                     </image>
+                  </ImageView>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="New Service Request: Request meals, furniture, flowers, or office supplies to be delivered to your room at a set time." wrappingWidth="550.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/helpPopup/signageBlack.png" />
+                     </image>
+                  </ImageView>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Signage: Show relevant directions to important locations in the hospital." wrappingWidth="550.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/helpPopup/pathfindingBlack.png" />
+                     </image>
+                  </ImageView>
+                  <Text lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Pathfinding: View a full map of the hospital and get easy directions from any point in the building." wrappingWidth="550.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/helpPopup/logoutBlack.png" />
+                     </image>
+                  </ImageView>
+                  <Text lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Logout: Sign out of your account." wrappingWidth="550.0" />
+               </children>
+            </HBox>
          </children>
       </VBox>
    </children>

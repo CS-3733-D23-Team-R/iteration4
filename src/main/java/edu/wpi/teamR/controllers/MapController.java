@@ -2,6 +2,7 @@ package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.App;
+import edu.wpi.teamR.datahandling.MapStorage;
 import edu.wpi.teamR.mapdb.MapDatabase;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 
@@ -100,6 +101,7 @@ public class MapController {
 
     @FXML
     public void initialize() throws Exception {
+        App.setMapData(new MapStorage());
         mapdb = App.getMapData().getMapdb();
         nodes = App.getMapData().getNodes();
         edges = App.getMapData().getEdges();
@@ -314,6 +316,9 @@ public class MapController {
                     }
                 });
                 paths[drawFloor].getChildren().add(square);
+                Rectangle nextFloorRect = new Rectangle(n2.getXCoord(), n2.getYCoord(), 20, 20);
+                nextFloorRect.setFill(Color.LIMEGREEN);
+                paths[floorNamesMap.get(n2.getFloorNum())].getChildren().add(nextFloorRect);
                 square.toFront();
 
                 Text t = new Text("Click to go to next floor");

@@ -127,7 +127,7 @@ public class RootController {
             new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/Help.fxml"));
     Parent help = loader.load();
     helpPopup.setContentNode(help);
-    helpPopup.setArrowLocation(PopOver.ArrowLocation.TOP_CENTER);
+    helpPopup.setArrowLocation(PopOver.ArrowLocation.LEFT_CENTER);
     helpPopup.setAutoHide(true);
     helpPopup.show(helpButton);
   }
@@ -193,8 +193,8 @@ public class RootController {
     }
   }
   public void setSignagePage(){
-    signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGECONFIGURATION));
-    signageText.setText("  Edit\nSignage");
+    //signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGECONFIGURATION));
+    //signageText.setText("  Edit\nSignage");
     signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGE));
   }
 }

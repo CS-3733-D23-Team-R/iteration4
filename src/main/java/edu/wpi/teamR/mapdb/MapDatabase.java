@@ -34,7 +34,7 @@ public class MapDatabase {
         this.edgeDao = new EdgeDAO(connection);
         this.moveDao = new MoveDAO(connection);
         this.locationNameDao = new LocationNameDAO(connection);
-        this.directionArrowDAO = new DirectionArrowDAO(connection);
+        this.directionArrowDAO = new DirectionArrowDAO();
         this.conferenceRoomDAO = new ConferenceRoomDAO();
         this.itemRequestDAO = new ItemRequestDAO();
         this.roomRequestDAO = new RoomRequestDAO();
@@ -215,32 +215,32 @@ public class MapDatabase {
 
     public DirectionArrow addDirectionArrow(String longname, int kioskID, Direction direction) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
-        return new DirectionArrowDAO(connection).addDirectionArrow(longname, kioskID, direction);
+        return new DirectionArrowDAO().addDirectionArrow(longname, kioskID, direction);
     }
 
     public void deleteDirectionArrowByLongname(String longname) throws SQLException, ItemNotFoundException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
-        new DirectionArrowDAO(connection).deleteDirectionArrowByLongname(longname);
+        new DirectionArrowDAO().deleteDirectionArrowByLongname(longname);
     }
 
     public void deleteDirectionArrowsByKiosk(int kioskID) throws SQLException, ItemNotFoundException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
-        new DirectionArrowDAO(connection).deleteDirectionArrowsByKiosk(kioskID);
+        new DirectionArrowDAO().deleteDirectionArrowsByKiosk(kioskID);
     }
 
     public void deleteAllDirectionArrows() throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
-        new DirectionArrowDAO(connection).deleteAllDirectionArrows();
+        new DirectionArrowDAO().deleteAllDirectionArrows();
     }
 
     public ArrayList<DirectionArrow> getDirectionArrows() throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
-        return new DirectionArrowDAO(connection).getDirectionArrows();
+        return new DirectionArrowDAO().getDirectionArrows();
     }
 
     public ArrayList<DirectionArrow> getDirectionArrowsByKiosk(int kioskID) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
-        return new DirectionArrowDAO(connection).getDirectionArrowsByKiosk(kioskID);
+        return new DirectionArrowDAO().getDirectionArrowsByKiosk(kioskID);
     }
 
     public Node getNodeFromLocationName(String locationame) throws SQLException, ClassNotFoundException, ItemNotFoundException {

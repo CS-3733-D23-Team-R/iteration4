@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextField?>
@@ -37,6 +38,12 @@
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location Type:" HBox.hgrow="ALWAYS" />
                         <ComboBox fx:id="typeComboBox" prefWidth="150.0" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Move Date:" HBox.hgrow="ALWAYS" />
+                        <MFXDatePicker fx:id="datePicker" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" VBox.vgrow="ALWAYS">
