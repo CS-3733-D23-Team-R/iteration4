@@ -8,6 +8,11 @@
     primaryLightGrey: #BDBDBD;
 }
 
+/*
+    This will apply to all components of type button
+    (or that share the same style class)!
+    To set this choose the style class in Scenebuilder.
+*/
 .button {
     -fx-background-color: bwhblue;
     -fx-text-fill: white;
@@ -17,14 +22,17 @@
     border-radius: 4px;
 }
 
-.reserveButton {
+/*
+    This will apply to only a singular component!
+    this is determined by the fx:id in
+    Scenebuilder.
+*/
+#reserveButton {
     -fx-background-color: bwhblue;
     -fx-text-fill: white;
     -fx-font-family: 'Nunito Sans', 'bold';
     -fx-font-size: 18;
     -fx-font-weight: 500;
-    -fx-pref-height: 35;
-    -fx-pref-width: 90;
     border-radius: 4px;
 }
 

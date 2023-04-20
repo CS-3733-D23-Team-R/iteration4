@@ -2,6 +2,7 @@ package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.App;
+import edu.wpi.teamR.datahandling.MapStorage;
 import edu.wpi.teamR.mapdb.MapDatabase;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 
@@ -100,6 +101,7 @@ public class MapController {
 
     @FXML
     public void initialize() throws Exception {
+        App.setMapData(new MapStorage());
         mapdb = App.getMapData().getMapdb();
         nodes = App.getMapData().getNodes();
         edges = App.getMapData().getEdges();
