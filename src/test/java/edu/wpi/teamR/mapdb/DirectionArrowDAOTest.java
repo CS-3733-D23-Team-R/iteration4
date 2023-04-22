@@ -20,10 +20,10 @@ class DirectionArrowDAOTest {
 
     @BeforeAll
     static void startup() throws SQLException, ClassNotFoundException {
-        Configuration.changeSchemaName("iteration2test");
+        Configuration.changeSchemaToTest();
         connection = Configuration.getConnection();
         locationNameDAO = new LocationNameDAO(connection);
-        directionArrowDAO = new DirectionArrowDAO(connection);
+        directionArrowDAO = new DirectionArrowDAO();
     }
     @AfterAll
     static void end() throws SQLException, ClassNotFoundException {

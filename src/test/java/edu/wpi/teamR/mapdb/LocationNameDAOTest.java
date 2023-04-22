@@ -19,7 +19,7 @@ class LocationNameDAOTest {
     private static Connection connection;
     @BeforeAll
     static void starterFunction() throws SQLException, ClassNotFoundException {
-        Configuration.changeSchemaName("iteration1test");
+        Configuration.changeSchemaToTest();
         connection = Configuration.getConnection();
         locationNameDAO = new LocationNameDAO(connection);
     }

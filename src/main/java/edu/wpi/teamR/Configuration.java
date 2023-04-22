@@ -9,7 +9,8 @@ public class Configuration {
     private static final String username = "teamr";
     private static final String password = "teamr150";
     private static Connection connection;
-    private static String schemaName = "iteration2";
+    private static String schemaName = "iteration3";
+    private static String testSchemaName = "iteration3test";
     private static final String nodeTableName = "node";
     private static final String edgeTableName = "edge";
     private static final String moveTableName = "move";
@@ -33,7 +34,9 @@ public class Configuration {
         }
         return DriverManager.getConnection(connectionURL, username, password);
     }
-    public static void changeSchemaName(String schemaName) { Configuration.schemaName = schemaName; }
+    public static void changeSchemaToTest() {
+        Configuration.schemaName = Configuration.testSchemaName;
+    }
     public static String getNodeSchemaNameTableName(){
         return schemaName+"."+nodeTableName;
     }

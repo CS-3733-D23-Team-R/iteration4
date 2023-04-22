@@ -2,6 +2,8 @@ package edu.wpi.teamR.requestdb;
 
 import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.ItemNotFoundException;
+import edu.wpi.teamR.login.AccessLevel;
+import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.mapdb.ConferenceRoomDAO;
 import edu.wpi.teamR.mapdb.LocationNameDAO;
 import edu.wpi.teamR.mapdb.MapDatabase;
@@ -13,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,41 +22,37 @@ class RoomRequestDAOTest {
 
     private static RoomRequestDAO roomRequestDAO;
     private static MapDatabase mapDatabase;
+    private static AuthenticationDAO authenticationDAO;
+
 
     @BeforeAll
     static void startup() throws SQLException, ClassNotFoundException {
-        Configuration.changeSchemaName("iteration2test");
+        Configuration.changeSchemaToTest();
         roomRequestDAO = new RoomRequestDAO();
         mapDatabase = new MapDatabase();
+        authenticationDAO = AuthenticationDAO.getInstance();
     }
     @AfterAll
     static void end() throws SQLException, ClassNotFoundException {
         roomRequestDAO.deleteAllRoomRequests();
-        PreparedStatement preparedStatement = Configuration.getConnection().prepareStatement("DELETE FROM "+Configuration.getConferenceRoomSchemaNameTableName()+";");
-        preparedStatement.executeUpdate();
-        preparedStatement = Configuration.getConnection().prepareStatement("DELETE FROM "+Configuration.getLocationNameSchemaNameTableName()+";");
-        preparedStatement.executeUpdate();
-        Statement statement = Configuration.getConnection().createStatement();
-        statement.executeUpdate("delete from "+Configuration.getUserTableSchemaNameTableName()+";");
-        Configuration.getConnection().close();
+        mapDatabase.deleteAllConferenceRooms();
+        mapDatabase.deleteAllLocationNames();
+        authenticationDAO.deleteALLUsers();
     }
     @BeforeEach
     void reset() throws SQLException, ClassNotFoundException {
         roomRequestDAO.deleteAllRoomRequests();
-        PreparedStatement preparedStatement = Configuration.getConnection().prepareStatement("DELETE FROM "+Configuration.getConferenceRoomSchemaNameTableName()+";");
-        preparedStatement.executeUpdate();
-        preparedStatement = Configuration.getConnection().prepareStatement("DELETE FROM "+Configuration.getLocationNameSchemaNameTableName()+";");
-        preparedStatement.executeUpdate();
-        Statement statement = Configuration.getConnection().createStatement();
-        statement.executeUpdate("delete from "+Configuration.getUserTableSchemaNameTableName()+";");
-        statement.executeUpdate("insert into "+Configuration.getUserTableSchemaNameTableName()+"(staffUsername,password,name,email,accessLevel,department,joindate,phonenum,jobtitle) values ('staff1', '', '', '','Staff','',CURRENT_DATE,'1234567890','');" +
-                "insert into "+Configuration.getUserTableSchemaNameTableName()+"(staffUsername,password,name,email,accessLevel,department,joindate,phonenum,jobtitle) values ('staff2', '', '', '','Staff','',CURRENT_DATE,'1234567890','');" +
-                "insert into "+Configuration.getUserTableSchemaNameTableName()+"(staffUsername,password,name,email,accessLevel,department,joindate,phonenum,jobtitle) values ('staff3', '', '', '','Staff','',CURRENT_DATE,'1234567890','');");
-        //THIS IS BECAUSE WE HAVEN'T YET INTEGRATED USER TABLE
+        mapDatabase.deleteAllConferenceRooms();
+        mapDatabase.deleteAllLocationNames();
+        authenticationDAO.deleteALLUsers();
     }
 
     @Test
     void addRoomRequest() throws SQLException, ClassNotFoundException {
+        authenticationDAO.addUser("staff1", "", "", "", "", "1234567890", new java.sql.Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        authenticationDAO.addUser("staff2", "", "", "", "", "1234567890", new java.sql.Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        authenticationDAO.addUser("staff3", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+
         Timestamp timestamp1, timestamp2;
         timestamp1 = new Timestamp(System.currentTimeMillis()-1000);
         timestamp2 = new Timestamp(System.currentTimeMillis()+1000);
@@ -81,6 +78,10 @@ class RoomRequestDAOTest {
 
     @Test
     void deleteRoomRequest() throws SQLException, ClassNotFoundException {
+        authenticationDAO.addUser("staff1", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        authenticationDAO.addUser("staff2", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        authenticationDAO.addUser("staff3", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+
         Timestamp timestamp1, timestamp2;
         timestamp1 = new Timestamp(System.currentTimeMillis()-1000);
         timestamp2 = new Timestamp(System.currentTimeMillis()+1000);
@@ -109,6 +110,10 @@ class RoomRequestDAOTest {
 
     @Test
     void getRoomRequestByID() throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        authenticationDAO.addUser("staff1", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        authenticationDAO.addUser("staff2", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        authenticationDAO.addUser("staff3", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+
         Timestamp timestamp1, timestamp2;
         timestamp1 = new Timestamp(System.currentTimeMillis()-1000);
         timestamp2 = new Timestamp(System.currentTimeMillis()+1000);
@@ -135,6 +140,10 @@ class RoomRequestDAOTest {
 
     @Test
     void getRoomRequestsByStaffUsername() throws SQLException, ClassNotFoundException {
+        authenticationDAO.addUser("staff1", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        authenticationDAO.addUser("staff2", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        authenticationDAO.addUser("staff3", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+
         Timestamp timestamp1, timestamp2;
         timestamp1 = new Timestamp(System.currentTimeMillis()-1000);
         timestamp2 = new Timestamp(System.currentTimeMillis()+1000);
@@ -167,6 +176,9 @@ class RoomRequestDAOTest {
 
     @Test
     void getRoomRequestsByLongname() throws SQLException, ClassNotFoundException {
+        authenticationDAO.addUser("staff1", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        authenticationDAO.addUser("staff2", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        authenticationDAO.addUser("staff3", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
 
         Timestamp timestamp1, timestamp2;
         timestamp1 = new Timestamp(System.currentTimeMillis()-1000);
@@ -197,13 +209,4 @@ class RoomRequestDAOTest {
         assertEquals("staff3", roomRequests.get(0).getStaffUsername());
 
     }
-//    leaving for rn because massive pain
-//    @Test
-//    void getRoomRequestsByDate() {
-//
-//        Calendar calendar = java.util.Calendar.getInstance();
-//        calendar.set(Calendar.DAY_OF_YEAR, 100);
-//        java.util.Date date = calendar.getTime();
-//
-//    }
 }

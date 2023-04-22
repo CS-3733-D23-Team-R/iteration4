@@ -59,7 +59,7 @@ public class MapDatabase {
         return nodeDao.getNodesByFloor(floor);
     }
 
-    public ArrayList<Node> getNodesByType(String type) throws SQLException { //TODO: GET CHECKED
+    public ArrayList<Node> getNodesByType(String type) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" NATURAL JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as foo natural join "+Configuration.getLocationNameSchemaNameTableName()+" WHERE nodetype=? ORDER BY nodeID;");
         preparedStatement.setString(1, type);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -82,6 +82,10 @@ public class MapDatabase {
 
     public void deleteNode(int nodeID) throws SQLException {
         nodeDao.deleteNode(nodeID);
+    }
+
+    void deleteAllNodes() throws SQLException {
+        nodeDao.deleteAllNodes();
     }
 
     public ArrayList<Edge> getEdges() throws SQLException {
@@ -117,6 +121,9 @@ public class MapDatabase {
 
     public ArrayList<Integer> getAdjacentNodeIDsByNodeID(int nodeID) throws SQLException {
         return edgeDao.getAdjacentNodeIDsByNodeID(nodeID);
+    }
+    public void deleteAllEdges() throws SQLException {
+        edgeDao.deleteAllEdges();
     }
 
     public ArrayList<Move> getMoves() throws SQLException {
@@ -157,12 +164,20 @@ public class MapDatabase {
         moveDao.deleteMove(nodeID, longname, moveDate);
     }
 
+    void deleteAllMoves() throws SQLException {
+        moveDao.deleteAllMoves();
+    }
+
     public LocationName addLocationName(String longname, String shortname, String nodetype) throws SQLException {
         return locationNameDao.addLocationName(longname, shortname, nodetype);
     }
 
     public void deleteLocationName(String longname) throws SQLException {
         locationNameDao.deleteLocationName(longname);
+    }
+
+    public void deleteAllLocationNames() throws SQLException {
+        locationNameDao.deleteAllLocationNames();
     }
 
     public void deleteMovesByLocationName(String longName) throws SQLException {

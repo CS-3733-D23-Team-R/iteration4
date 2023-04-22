@@ -2,6 +2,8 @@ package edu.wpi.teamR.requestdb;
 
 import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.ItemNotFoundException;
+import edu.wpi.teamR.login.AccessLevel;
+import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.mapdb.MapDatabase;
 import oracle.ucp.proxy.annotation.Pre;
 import org.junit.jupiter.api.AfterAll;
@@ -9,10 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,39 +20,35 @@ class ItemRequestDAOTest {
 
     private static MapDatabase mapDatabase;
     private static ItemRequestDAO itemRequestDAO;
+    private static AuthenticationDAO authenticationDAO;
 
     @BeforeAll
     static void starterFunction() throws SQLException, ClassNotFoundException {
-        Configuration.changeSchemaName("iteration2test");
+        Configuration.changeSchemaToTest();
         mapDatabase = new MapDatabase();
         itemRequestDAO = new ItemRequestDAO();
+        authenticationDAO = AuthenticationDAO.getInstance();
     }
     @BeforeEach
     void deleteOldData() throws SQLException, ClassNotFoundException {
         itemRequestDAO.deleteAllItemRequests();
-        PreparedStatement preparedStatement = Configuration.getConnection().prepareStatement("DELETE FROM "+Configuration.getUserTableSchemaNameTableName()+";");
-        preparedStatement.executeUpdate();
-        preparedStatement = Configuration.getConnection().prepareStatement("DELETE FROM "+Configuration.getLocationNameSchemaNameTableName()+";");
-        preparedStatement.executeUpdate();
-
-        Statement statement = Configuration.getConnection().createStatement();
-        statement.executeUpdate("insert into "+Configuration.getUserTableSchemaNameTableName()+"(staffUsername,password,name,email,accessLevel,department,joindate,phonenum,jobtitle) values ('staff1', '', '', '','Staff','',CURRENT_DATE,'1234567890','');" +
-                "insert into "+Configuration.getUserTableSchemaNameTableName()+"(staffUsername,password,name,email,accessLevel,department,joindate,phonenum,jobtitle) values ('staff2', '', '', '','Staff','',CURRENT_DATE,'1234567890','');" +
-                "insert into "+Configuration.getUserTableSchemaNameTableName()+"(staffUsername,password,name,email,accessLevel,department,joindate,phonenum,jobtitle) values ('staff3', '', '', '','Staff','',CURRENT_DATE,'1234567890','');");
-        //THIS IS BECAUSE WE HAVEN'T YET INTEGRATED USER TABLE
+        authenticationDAO.deleteALLUsers();
+        mapDatabase.deleteAllLocationNames();
     }
 
     @AfterAll
     static void clearDataDeleteConnection() throws SQLException, ClassNotFoundException {
         itemRequestDAO.deleteAllItemRequests();
-        PreparedStatement preparedStatement = Configuration.getConnection().prepareStatement("DELETE FROM "+Configuration.getUserTableSchemaNameTableName()+";");
-        preparedStatement.executeUpdate();
-        preparedStatement = Configuration.getConnection().prepareStatement("DELETE FROM "+Configuration.getLocationNameSchemaNameTableName()+";");
-        preparedStatement.executeUpdate();
+        authenticationDAO.deleteALLUsers();
+        mapDatabase.deleteAllLocationNames();
+        Configuration.getConnection().close();
     }
 
     @Test
     void addItemRequest() throws SQLException, ClassNotFoundException {
+        authenticationDAO.addUser("staff1", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        authenticationDAO.addUser("staff2", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        authenticationDAO.addUser("staff3", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
 
         ArrayList<ItemRequest> itemRequests;
         ItemRequest itemRequest1, itemRequest2;
@@ -80,6 +75,10 @@ class ItemRequestDAOTest {
 
     @Test
     void deleteItemRequest() throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        authenticationDAO.addUser("staff1", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        authenticationDAO.addUser("staff2", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        authenticationDAO.addUser("staff3", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+
         ArrayList<ItemRequest> itemRequests;
         ItemRequest itemRequest1, itemRequest2, itemRequest3;
 
@@ -108,6 +107,10 @@ class ItemRequestDAOTest {
 
     @Test
     void deleteAllItemRequests() throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        authenticationDAO.addUser("staff1", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        authenticationDAO.addUser("staff2", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        authenticationDAO.addUser("staff3", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+
         ArrayList<ItemRequest> itemRequests;
         ItemRequest itemRequest1, itemRequest2, itemRequest3;
 
@@ -127,13 +130,12 @@ class ItemRequestDAOTest {
         assertEquals(0, itemRequests.size());
     }
 
-//    Already covered in other tests
-//    @Test
-//    void getItemRequests() {
-//    }
-
     @Test
     void getItemRequestByAttributes() throws SQLException, ClassNotFoundException, SearchException {
+        authenticationDAO.addUser("staff1", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        authenticationDAO.addUser("staff2", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        authenticationDAO.addUser("staff3", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+
         ArrayList<ItemRequest> itemRequests;
         ItemRequest itemRequest1, itemRequest2, itemRequest3, itemRequest4, itemRequest5, itemRequest6;
         SearchList searchList;

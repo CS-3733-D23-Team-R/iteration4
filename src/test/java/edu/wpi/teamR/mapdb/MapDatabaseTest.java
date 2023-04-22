@@ -24,7 +24,7 @@ class MapDatabaseTest {
     static private LocationNameDAO locationNameDAO;
     @BeforeAll
     static void starterFunction() throws SQLException, ClassNotFoundException {
-        Configuration.changeSchemaName("iteration1test");
+        Configuration.changeSchemaToTest();
         connection = Configuration.getConnection();
         nodeDAO = new NodeDAO(connection);
         edgeDAO = new EdgeDAO(connection);
