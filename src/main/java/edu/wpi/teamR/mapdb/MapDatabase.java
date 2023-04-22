@@ -6,6 +6,7 @@ import edu.wpi.teamR.csv.CSVParameterException;
 import edu.wpi.teamR.csv.CSVReader;
 import edu.wpi.teamR.requestdb.ItemRequestDAO;
 import edu.wpi.teamR.requestdb.RoomRequestDAO;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.sql.*;
@@ -18,15 +19,15 @@ import static edu.wpi.teamR.mapdb.NodeDAO.parseNodes;
 
 public class MapDatabase {
     //    private MapDatabase instance;
-    private Connection connection;
-    private NodeDAO nodeDao;
-    private EdgeDAO edgeDao;
-    private MoveDAO moveDao;
-    private LocationNameDAO locationNameDao;
-    private DirectionArrowDAO directionArrowDAO;
-    private ConferenceRoomDAO conferenceRoomDAO;
-    private ItemRequestDAO itemRequestDAO;
-    private RoomRequestDAO roomRequestDAO;
+    private final Connection connection;
+    private final NodeDAO nodeDao;
+    private final EdgeDAO edgeDao;
+    private final MoveDAO moveDao;
+    private final LocationNameDAO locationNameDao;
+    private final DirectionArrowDAO directionArrowDAO;
+    private final ConferenceRoomDAO conferenceRoomDAO;
+    private final ItemRequestDAO itemRequestDAO;
+    private final RoomRequestDAO roomRequestDAO;
 
     public MapDatabase() throws SQLException, ClassNotFoundException {
         this.connection = Configuration.getConnection();
@@ -39,13 +40,6 @@ public class MapDatabase {
         this.itemRequestDAO = new ItemRequestDAO();
         this.roomRequestDAO = new RoomRequestDAO();
     }
-
-    // old code for making mapDatabase singleton
-//    public MapDatabase getInstance() {
-//        if (instance != null)
-//            instance = new MapDatabase();
-//        return instance;
-//    }
 
     public ArrayList<Node> getNodes() throws SQLException {
         return nodeDao.getNodes();
@@ -138,7 +132,7 @@ public class MapDatabase {
         return moveDao.getMovesByNodeID(nodeID);
     }
 
-    public Move getLatestMoveByLocationName(String longName) throws SQLException, ItemNotFoundException { //TODO: GET CHECKED
+    public Move getLatestMoveByLocationName(String longName) throws SQLException, ItemNotFoundException {
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE date=(select max(date) FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE longname = ? AND date<now()) AND longname = ?;");
         preparedStatement.setString(1, longName);
         preparedStatement.setString(2, longName);
@@ -229,32 +223,26 @@ public class MapDatabase {
 
 
     public DirectionArrow addDirectionArrow(String longname, int kioskID, Direction direction) throws SQLException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
         return new DirectionArrowDAO().addDirectionArrow(longname, kioskID, direction);
     }
 
     public void deleteDirectionArrowByLongname(String longname) throws SQLException, ItemNotFoundException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
         new DirectionArrowDAO().deleteDirectionArrowByLongname(longname);
     }
 
     public void deleteDirectionArrowsByKiosk(int kioskID) throws SQLException, ItemNotFoundException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
         new DirectionArrowDAO().deleteDirectionArrowsByKiosk(kioskID);
     }
 
     public void deleteAllDirectionArrows() throws SQLException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
         new DirectionArrowDAO().deleteAllDirectionArrows();
     }
 
     public ArrayList<DirectionArrow> getDirectionArrows() throws SQLException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
         return new DirectionArrowDAO().getDirectionArrows();
     }
 
     public ArrayList<DirectionArrow> getDirectionArrowsByKiosk(int kioskID) throws SQLException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
         return new DirectionArrowDAO().getDirectionArrowsByKiosk(kioskID);
     }
 
@@ -279,7 +267,6 @@ public class MapDatabase {
     }
 
     public void deleteAllConferenceRooms() throws SQLException, ClassNotFoundException {
-        Connection connection = Configuration.getConnection();
         new ConferenceRoomDAO().deleteAllConferenceRooms();
     }
 
@@ -288,6 +275,20 @@ public class MapDatabase {
         preparedStatement.setString(1, floor);
         ResultSet resultSet = preparedStatement.executeQuery();
 
+        return getMapLocations(floor, resultSet);
+    }
+
+    public ArrayList<MapLocation> getMapLocationsByFloorForDate(String floor, Date date) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" node LEFT JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<? group by longname) as foo) as move on node.nodeid=move.nodeid left join "+Configuration.getLocationNameSchemaNameTableName()+" locationname on move.longname=locationname.longname WHERE floor=? ORDER BY node.nodeID desc;");
+        preparedStatement.setDate(1, date);
+        preparedStatement.setString(2, floor);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        return getMapLocations(floor, resultSet);
+    }
+
+    @NotNull
+    private ArrayList<MapLocation> getMapLocations(String floor, ResultSet resultSet) throws SQLException {
         ArrayList<MapLocation> mapLocations = new ArrayList<>();
         Node lastNode = new Node(-100, 0, 0, "", "");
         Node currentNode;
