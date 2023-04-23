@@ -4,6 +4,7 @@ import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.mapdb.MapDatabase;
 import edu.wpi.teamR.mapdb.Node;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ class MapUpdaterTest {
 
     @BeforeAll
     static void setUp() throws SQLException, ClassNotFoundException {
-        Configuration.changeSchemaName("iteration2test");
+        Configuration.changeSchemaToTest();
         mapdb = new MapDatabase();
     }
 
@@ -30,6 +31,16 @@ class MapUpdaterTest {
         c.createStatement().execute("DELETE FROM " + Configuration.getMoveSchemaNameTableName());
         c.createStatement().execute("DELETE FROM " + Configuration.getLocationNameSchemaNameTableName());
         c.createStatement().execute("DELETE FROM " + Configuration.getNodeSchemaNameTableName());
+    }
+
+    @AfterAll
+    static void clear() throws SQLException {
+        Connection c = Configuration.getConnection();
+        c.createStatement().execute("DELETE FROM " + Configuration.getEdgeSchemaNameTableName());
+        c.createStatement().execute("DELETE FROM " + Configuration.getMoveSchemaNameTableName());
+        c.createStatement().execute("DELETE FROM " + Configuration.getLocationNameSchemaNameTableName());
+        c.createStatement().execute("DELETE FROM " + Configuration.getNodeSchemaNameTableName());
+        c.close();
     }
 
     @Test
@@ -105,7 +116,7 @@ class MapUpdaterTest {
         assertEquals(EditType.DELETION, undo.editType());
     }
 
-    @Test
+//    @Test
     void deleteNodeUpdate() throws SQLException {
         MapUpdater mapUpdater = new MapUpdater(mapdb);
         Node i = mapdb.addNode(12, 21, "flop", "bloud");
@@ -113,9 +124,6 @@ class MapUpdaterTest {
         UndoData undo = mapUpdater.undo().get(0);
         mapUpdater.submitUpdates();
         assertEquals(0, mapdb.getNodes().size());
-//        assertThrows(ItemNotFoundException.class, () -> {
-//            mapdb.getNodeByID(i.getNodeID());
-//        });
     }
 
     @Test

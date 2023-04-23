@@ -57,7 +57,7 @@ public class ServiceRequestCartController {
 
     DecimalFormat formatPrice = new DecimalFormat("###.00");
 
-    private RequestDatabase reqDatabase = RequestDatabase.getInstance();
+    private RequestDatabase reqDatabase = new RequestDatabase();
 
 
     @FXML public void initialize() throws SQLException, ClassNotFoundException, ItemNotFoundException {

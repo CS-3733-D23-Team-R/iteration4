@@ -7,16 +7,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class RequestDatabase {
-    private static RequestDatabase instance;
-
-    private RequestDatabase() {}
-
-    public static RequestDatabase getInstance() {
-        if (instance == null)
-            instance = new RequestDatabase();
-        return instance;
-    }
-
     public ItemRequest addItemRequest(RequestType requestType, RequestStatus requestStatus, String longname, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) throws SQLException, ClassNotFoundException {
         return new ItemRequestDAO().addItemRequest(requestType, requestStatus, longname, staffUsername, itemType, requesterName, additionalNotes, requestDate);
     }

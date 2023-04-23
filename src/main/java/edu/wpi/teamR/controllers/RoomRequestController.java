@@ -225,7 +225,7 @@ ArrayList<String> timeArray = new ArrayList<>();
                             btn.setOnAction(null);
                             try {
                                 ConferenceRoom room = getTableView().getItems().get(getIndex());
-                                RequestDatabase.getInstance().addRoomRequest(room.getLongname(), UserData.getInstance().getLoggedIn().getUsername(), startTime, endTime);
+                                new RequestDatabase().addRoomRequest(room.getLongname(), UserData.getInstance().getLoggedIn().getUsername(), startTime, endTime);
                             } catch (SQLException e) {
                                 throw new RuntimeException(e);
                             } catch (ClassNotFoundException e) {
@@ -249,7 +249,7 @@ ArrayList<String> timeArray = new ArrayList<>();
     }
 
     public boolean isAvailable(ConferenceRoom conferenceRoom) throws SQLException, ClassNotFoundException {
-        for(RoomRequest roomRequest: RequestDatabase.getInstance().getRoomRequestsByLongname(conferenceRoom.getLongname())){
+        for(RoomRequest roomRequest: new RequestDatabase().getRoomRequestsByLongname(conferenceRoom.getLongname())){
             Timestamp requestStart = roomRequest.getStartTime();
             Timestamp requestEnd = roomRequest.getEndTime();
             if((requestStart.after(startTime) && requestStart.before(endTime)) ||

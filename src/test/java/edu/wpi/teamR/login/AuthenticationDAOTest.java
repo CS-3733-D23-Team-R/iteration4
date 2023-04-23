@@ -24,7 +24,7 @@ class AuthenticationDAOTest {
 
     @BeforeAll
     static void startup() throws SQLException, ClassNotFoundException {
-        Configuration.changeSchemaName("iteration2test");
+        Configuration.changeSchemaToTest();
         authenticationDAO = new AuthenticationDAO();
     }
     @AfterAll

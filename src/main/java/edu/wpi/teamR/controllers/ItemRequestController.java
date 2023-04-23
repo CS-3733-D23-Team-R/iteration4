@@ -196,7 +196,7 @@ public class ItemRequestController {
         addButtonToTable();
 
         try {
-            items = RequestDatabase.getInstance().getAvailableItemsByTypeWithinRangeSortedByPrice(this.type, this.upperBound, this.lowerBound, this.sortOrder);
+            items = new RequestDatabase().getAvailableItemsByTypeWithinRangeSortedByPrice(this.type, this.upperBound, this.lowerBound, this.sortOrder);
             obsItems = FXCollections.observableArrayList(items);
             itemTable.setItems(obsItems);
         } catch (SQLException e) {
@@ -278,7 +278,7 @@ public class ItemRequestController {
 
     private void regenerateTable(){
         try {
-            items = RequestDatabase.getInstance().getAvailableItemsByTypeWithinRangeSortedByPrice(this.type, this.upperBound, this.lowerBound, this.sortOrder);
+            items = new RequestDatabase().getAvailableItemsByTypeWithinRangeSortedByPrice(this.type, this.upperBound, this.lowerBound, this.sortOrder);
             obsItems = FXCollections.observableArrayList(items);
             itemTable.setItems(obsItems);
         } catch (SQLException e) {

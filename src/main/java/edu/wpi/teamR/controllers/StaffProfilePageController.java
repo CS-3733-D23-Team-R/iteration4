@@ -31,7 +31,7 @@ public class StaffProfilePageController {
     ImageView CreateNewMessage;
 
     public void initialize() throws SQLException, ClassNotFoundException, SearchException {
-        RequestDatabase requestDatabase = RequestDatabase.getInstance();
+        RequestDatabase requestDatabase = new RequestDatabase();
         UserData thisUserData = UserData.getInstance();
         CurrentUser user = thisUserData.getLoggedIn();
         goToConferenceRooms.setOnMouseClicked(event -> {Navigation.navigate(Screen.ROOM_REQUEST);});
@@ -69,7 +69,7 @@ public class StaffProfilePageController {
         SearchList searchList = new SearchList();
         searchList.addComparison(RequestAttribute.staffUsername, Operation.equalTo, thisIsYourStaffUsername);
         searchList.addComparison(RequestAttribute.requestDate, Operation.greaterThan, dateOfRequest);
-        ArrayList<ItemRequest> itemRequests = RequestDatabase.getInstance().getItemRequestByAttributes(searchList);
+        ArrayList<ItemRequest> itemRequests = new RequestDatabase().getItemRequestByAttributes(searchList);
 
         Calendar cal = Calendar.getInstance();
         for(ItemRequest aRequest : itemRequests){

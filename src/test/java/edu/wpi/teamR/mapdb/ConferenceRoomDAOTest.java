@@ -21,9 +21,9 @@ class ConferenceRoomDAOTest {
 
     @BeforeAll
     static void startup() throws SQLException, ClassNotFoundException {
-        Configuration.changeSchemaName("iteration2test");
+        Configuration.changeSchemaToTest();
         Connection connection = Configuration.getConnection();
-        locationNameDAO = new LocationNameDAO(connection);
+        locationNameDAO = new LocationNameDAO();
         conferenceRoomDAO = new ConferenceRoomDAO();
     }
     @AfterAll
