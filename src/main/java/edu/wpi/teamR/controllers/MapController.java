@@ -126,20 +126,6 @@ public class MapController {
         gesturePane.setMinScale(0.25);
         gesturePane.setMaxScale(2);
         resetButton.setOnMouseClicked(event -> reset());
-        floorDownButton.setOnMouseClicked(event -> {
-            try {
-                displayFloorDown();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        floorUpButton.setOnMouseClicked(event -> {
-            try {
-                displayFloorUp();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        });
         clearButton.setOnMouseClicked(event -> clearPath());
         searchButton.setOnMouseClicked(event -> {
             try {
@@ -214,43 +200,8 @@ public class MapController {
      */
         String start = startField.getValue();
         String end = endField.getValue();
-        Boolean isAccessible = accessibleCheckbox.isPressed();
+        Boolean isAccessible = accessibleCheckbox.isSelected();
         displayPath(start, end, isAccessible);
-    }
-
-    public void displayFloorUp() throws SQLException {
-        if (currentFloor < 4) {
-            locationPanes[currentFloor].getChildren().clear();
-            currentFloor++;
-            imageView = floorMaps.get(currentFloor);
-            mapPane.getChildren().clear();
-            mapPane.getChildren().add(imageView);
-            mapPane.getChildren().add(paths[currentFloor]);
-            floorText.setText(floorNames[currentFloor]);
-            if (locationNamesCheckbox.isSelected()) {
-                System.out.println(locationNamesCheckbox.isSelected());
-                displayLocationNames(currentFloor);
-                mapPane.getChildren().add(locationPanes[currentFloor]);
-            }
-            reset();
-        }
-    }
-
-    public void displayFloorDown() throws SQLException {
-        if (currentFloor > 0) {
-            locationPanes[currentFloor].getChildren().clear();
-            currentFloor--;
-            imageView = floorMaps.get(currentFloor);
-            mapPane.getChildren().clear();
-            mapPane.getChildren().add(imageView);
-            mapPane.getChildren().add(paths[currentFloor]);
-            floorText.setText(floorNames[currentFloor]);
-            if (locationNamesCheckbox.isSelected()) {
-                displayLocationNames(currentFloor);
-                mapPane.getChildren().add(locationPanes[currentFloor]);
-            }
-            reset();
-        }
     }
 
     public void displayFloorNum(int floorNum) throws SQLException {

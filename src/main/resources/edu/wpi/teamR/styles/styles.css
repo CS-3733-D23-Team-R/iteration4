@@ -393,3 +393,9 @@
     -fx-background-size: cover;
     -fx-background-position: center;
 }
+
+.card_subtext{
+    -fx-font-family: 'Nunito Sans', 'regular';
+    -fx-font-weight: NORMAL;
+    -fx-font-size: 18;
+}
