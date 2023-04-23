@@ -1,7 +1,7 @@
 package edu.wpi.teamR.mapdb;
 
-import edu.wpi.teamR.csv.CSVReadable;
-import edu.wpi.teamR.csv.CSVWritable;
+import edu.wpi.teamR.archive.CSVReadable;
+import edu.wpi.teamR.archive.CSVWritable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,14 +1,17 @@
-package edu.wpi.teamR.csv;
+package edu.wpi.teamR.archive;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 public class CSVWriter<T extends CSVWritable> {
 
     public void writeCSV(String filename, List<T> data) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
+        OutputStream out = new FileOutputStream(filename);
+        writeCSV(out, data);
+    }
+
+    public void writeCSV(OutputStream out, List<T> data) throws IOException {
+        Writer writer = new OutputStreamWriter(out);
         writer.write(data.get(0).getCSVColumns());
         writer.write("\n");
         for (T d : data) {
