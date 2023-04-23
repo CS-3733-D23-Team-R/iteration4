@@ -9,8 +9,11 @@ import edu.wpi.teamR.navigation.Screen;
 import edu.wpi.teamR.userData.CurrentUser;
 import edu.wpi.teamR.userData.UserData;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
+
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 
 import static edu.wpi.teamR.navigation.Navigation.navigate;
@@ -18,7 +21,8 @@ import static edu.wpi.teamR.navigation.Navigation.navigate;
 public class LoginController {
 
     @FXML MFXTextField usernameField;
-    @FXML MFXTextField passwordField;
+    @FXML
+    MFXPasswordField passwordField;
     @FXML MFXButton loginButton;
 
     @FXML
