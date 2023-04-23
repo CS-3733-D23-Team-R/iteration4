@@ -12,10 +12,9 @@ public class SignageController {
     primaryStage.show();
   }
 
-  @FXML Button configurationButton;
 
   @FXML
   public void initialize() {
-    configurationButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGECONFIGURATION));
+
   }
 }
