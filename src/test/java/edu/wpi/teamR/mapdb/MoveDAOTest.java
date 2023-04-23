@@ -26,9 +26,9 @@ class MoveDAOTest {
     static void starterFunction() throws SQLException, ClassNotFoundException {
         Configuration.changeSchemaToTest();
         connection = Configuration.getConnection();
-        locationNameDAO = new LocationNameDAO(connection);
-        nodeDAO = new NodeDAO(connection);
-        moveDAO = new MoveDAO(connection);
+        locationNameDAO = new LocationNameDAO();
+        nodeDAO = new NodeDAO();
+        moveDAO = new MoveDAO();
     }
 
     @BeforeEach

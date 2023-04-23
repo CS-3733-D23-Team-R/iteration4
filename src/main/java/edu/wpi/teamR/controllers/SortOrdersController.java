@@ -54,7 +54,7 @@ public class SortOrdersController {
         requestTypeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         addButtonToTable();
 
-        for (ItemRequest request : RequestDatabase.getInstance().getItemRequests()) {
+        for (ItemRequest request : new RequestDatabase().getItemRequests()) {
             requestTable.getItems().add(request);
         }
 
@@ -63,7 +63,7 @@ public class SortOrdersController {
                 request.setStaffMember(event.getNewValue());
                 try {
                     //RequestDatabase.getInstance().modifyItemRequestByID(request.getRequestID(), request.getRequesterName(),request.getLongname(), event.getNewValue(), request.getAdditionalNotes(), request.getRequestDate(), request.getRequestStatus(),request.getItemType());
-                    RequestDatabase.getInstance().modifyItemRequestByID(
+                    new RequestDatabase().modifyItemRequestByID(
                             request.getRequestID(),
                             request.getRequestType(),
                             request.getRequestStatus(),
@@ -86,7 +86,7 @@ public class SortOrdersController {
                         try {
                             RequestStatus status = changeStatusButton.getSelectionModel().getSelectedItem();
                             request.setRequestStatus(status);
-                            RequestDatabase.getInstance().modifyItemRequestByID(
+                            new RequestDatabase().modifyItemRequestByID(
                                     request.getRequestID(),
                                     request.getRequestType(),
                                     status,
@@ -174,7 +174,7 @@ public class SortOrdersController {
                             ItemRequest data = getTableView().getItems().get(getIndex());
                             requestTable.getItems().remove(data);
                             try {
-                                RequestDatabase.getInstance().deleteItemRequest(data.getRequestID());
+                                new RequestDatabase().deleteItemRequest(data.getRequestID());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

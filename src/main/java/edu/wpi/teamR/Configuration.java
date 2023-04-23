@@ -32,7 +32,8 @@ public class Configuration {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        return DriverManager.getConnection(connectionURL, username, password);
+        Configuration.connection = DriverManager.getConnection(connectionURL, username, password);
+        return Configuration.connection;
     }
     public static void changeSchemaToTest() {
         Configuration.schemaName = Configuration.testSchemaName;

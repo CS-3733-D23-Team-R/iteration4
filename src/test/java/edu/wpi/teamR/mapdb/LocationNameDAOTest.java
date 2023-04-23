@@ -21,7 +21,7 @@ class LocationNameDAOTest {
     static void starterFunction() throws SQLException, ClassNotFoundException {
         Configuration.changeSchemaToTest();
         connection = Configuration.getConnection();
-        locationNameDAO = new LocationNameDAO(connection);
+        locationNameDAO = new LocationNameDAO();
     }
     @BeforeEach
     void deleteOldData() throws SQLException {

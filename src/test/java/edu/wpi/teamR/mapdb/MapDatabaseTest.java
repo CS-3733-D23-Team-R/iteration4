@@ -26,10 +26,10 @@ class MapDatabaseTest {
     static void starterFunction() throws SQLException, ClassNotFoundException {
         Configuration.changeSchemaToTest();
         connection = Configuration.getConnection();
-        nodeDAO = new NodeDAO(connection);
-        edgeDAO = new EdgeDAO(connection);
-        moveDAO = new MoveDAO(connection);
-        locationNameDAO = new LocationNameDAO(connection);
+        nodeDAO = new NodeDAO();
+        edgeDAO = new EdgeDAO();
+        moveDAO = new MoveDAO();
+        locationNameDAO = new LocationNameDAO();
         mapDatabase = new MapDatabase();
     }
 

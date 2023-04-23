@@ -22,7 +22,7 @@ class DirectionArrowDAOTest {
     static void startup() throws SQLException, ClassNotFoundException {
         Configuration.changeSchemaToTest();
         connection = Configuration.getConnection();
-        locationNameDAO = new LocationNameDAO(connection);
+        locationNameDAO = new LocationNameDAO();
         directionArrowDAO = new DirectionArrowDAO();
     }
     @AfterAll

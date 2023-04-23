@@ -18,8 +18,6 @@ import java.util.Objects;
 import static edu.wpi.teamR.mapdb.NodeDAO.parseNodes;
 
 public class MapDatabase {
-    //    private MapDatabase instance;
-    private final Connection connection;
     private final NodeDAO nodeDao;
     private final EdgeDAO edgeDao;
     private final MoveDAO moveDao;
@@ -30,11 +28,10 @@ public class MapDatabase {
     private final RoomRequestDAO roomRequestDAO;
 
     public MapDatabase() throws SQLException, ClassNotFoundException {
-        this.connection = Configuration.getConnection();
-        this.nodeDao = new NodeDAO(connection);
-        this.edgeDao = new EdgeDAO(connection);
-        this.moveDao = new MoveDAO(connection);
-        this.locationNameDao = new LocationNameDAO(connection);
+        this.nodeDao = new NodeDAO();
+        this.edgeDao = new EdgeDAO();
+        this.moveDao = new MoveDAO();
+        this.locationNameDao = new LocationNameDAO();
         this.directionArrowDAO = new DirectionArrowDAO();
         this.conferenceRoomDAO = new ConferenceRoomDAO();
         this.itemRequestDAO = new ItemRequestDAO();
@@ -54,6 +51,7 @@ public class MapDatabase {
     }
 
     public ArrayList<Node> getNodesByType(String type) throws SQLException {
+        Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" NATURAL JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as foo natural join "+Configuration.getLocationNameSchemaNameTableName()+" WHERE nodetype=? ORDER BY nodeID;");
         preparedStatement.setString(1, type);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -91,6 +89,7 @@ public class MapDatabase {
     }
 
     public ArrayList<Edge> getEdgesByFloor(String floor) throws SQLException {
+        Connection connection = Configuration.getConnection();
         ArrayList<Edge> temp = new ArrayList<>();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("select startnode,endnode from "+Configuration.getNodeSchemaNameTableName()+" join "+Configuration.getEdgeSchemaNameTableName()+" on node.nodeid = edge.startnode or node.nodeid = edge.endnode where floor = '"+floor+"';");
@@ -133,6 +132,7 @@ public class MapDatabase {
     }
 
     public Move getLatestMoveByLocationName(String longName) throws SQLException, ItemNotFoundException {
+        Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE date=(select max(date) FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE longname = ? AND date<now()) AND longname = ?;");
         preparedStatement.setString(1, longName);
         preparedStatement.setString(2, longName);
@@ -187,6 +187,7 @@ public class MapDatabase {
     }
 
     public String getNodeTypeByNodeID(int nodeID) throws SQLException, ItemNotFoundException {
+        Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT nodetype from (SELECT * FROM (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() AND nodeid=? group by longname) as foo ORDER BY date desc limit 1) as foo NATURAL JOIN "+Configuration.getLocationNameSchemaNameTableName()+";");
         preparedStatement.setInt(1, nodeID);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -211,39 +212,39 @@ public class MapDatabase {
     }
 
     public ConferenceRoom addConferenceRoom(String longname, int capacity, boolean isAccessible, boolean hasOutlets, boolean hasScreen) throws SQLException, ClassNotFoundException {
-        return new ConferenceRoomDAO().addConferenceRoom(longname, capacity, isAccessible, hasOutlets, hasScreen);
+        return conferenceRoomDAO.addConferenceRoom(longname, capacity, isAccessible, hasOutlets, hasScreen);
     }
     public void deleteConferenceRoom(String longname) throws SQLException, ClassNotFoundException, ItemNotFoundException {
-        new ConferenceRoomDAO().deleteConferenceRoom(longname);
+        conferenceRoomDAO.deleteConferenceRoom(longname);
     }
 
     public ArrayList<ConferenceRoom> getConferenceRooms() throws SQLException, ClassNotFoundException {
-        return new ConferenceRoomDAO().getConferenceRooms();
+        return conferenceRoomDAO.getConferenceRooms();
     }
 
 
     public DirectionArrow addDirectionArrow(String longname, int kioskID, Direction direction) throws SQLException, ClassNotFoundException {
-        return new DirectionArrowDAO().addDirectionArrow(longname, kioskID, direction);
+        return directionArrowDAO.addDirectionArrow(longname, kioskID, direction);
     }
 
     public void deleteDirectionArrowByLongname(String longname) throws SQLException, ItemNotFoundException, ClassNotFoundException {
-        new DirectionArrowDAO().deleteDirectionArrowByLongname(longname);
+        directionArrowDAO.deleteDirectionArrowByLongname(longname);
     }
 
     public void deleteDirectionArrowsByKiosk(int kioskID) throws SQLException, ItemNotFoundException, ClassNotFoundException {
-        new DirectionArrowDAO().deleteDirectionArrowsByKiosk(kioskID);
+        directionArrowDAO.deleteDirectionArrowsByKiosk(kioskID);
     }
 
     public void deleteAllDirectionArrows() throws SQLException, ClassNotFoundException {
-        new DirectionArrowDAO().deleteAllDirectionArrows();
+        directionArrowDAO.deleteAllDirectionArrows();
     }
 
     public ArrayList<DirectionArrow> getDirectionArrows() throws SQLException, ClassNotFoundException {
-        return new DirectionArrowDAO().getDirectionArrows();
+        return directionArrowDAO.getDirectionArrows();
     }
 
     public ArrayList<DirectionArrow> getDirectionArrowsByKiosk(int kioskID) throws SQLException, ClassNotFoundException {
-        return new DirectionArrowDAO().getDirectionArrowsByKiosk(kioskID);
+        return directionArrowDAO.getDirectionArrowsByKiosk(kioskID);
     }
 
     public Node getNodeFromLocationName(String locationame) throws SQLException, ClassNotFoundException, ItemNotFoundException {
@@ -263,14 +264,15 @@ public class MapDatabase {
     }
 
     public ConferenceRoom getConferenceRoomByLongname(String longname) throws SQLException, ClassNotFoundException, ItemNotFoundException {
-        return new ConferenceRoomDAO().getConferenceRoomByLongname(longname);
+        return conferenceRoomDAO.getConferenceRoomByLongname(longname);
     }
 
     public void deleteAllConferenceRooms() throws SQLException, ClassNotFoundException {
-        new ConferenceRoomDAO().deleteAllConferenceRooms();
+        conferenceRoomDAO.deleteAllConferenceRooms();
     }
 
     public ArrayList<MapLocation> getMapLocationsByFloor(String floor) throws SQLException {
+        Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" node LEFT JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() group by longname) as foo) as move on node.nodeid=move.nodeid left join "+Configuration.getLocationNameSchemaNameTableName()+" locationname on move.longname=locationname.longname WHERE floor=? ORDER BY node.nodeID desc;");
         preparedStatement.setString(1, floor);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -279,6 +281,7 @@ public class MapDatabase {
     }
 
     public ArrayList<MapLocation> getMapLocationsByFloorForDate(String floor, Date date) throws SQLException {
+        Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getNodeSchemaNameTableName()+" node LEFT JOIN (SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<? group by longname) as foo) as move on node.nodeid=move.nodeid left join "+Configuration.getLocationNameSchemaNameTableName()+" locationname on move.longname=locationname.longname WHERE floor=? ORDER BY node.nodeID desc;");
         preparedStatement.setDate(1, date);
         preparedStatement.setString(2, floor);
@@ -373,6 +376,5 @@ public class MapDatabase {
             }
             default -> throw new IllegalStateException("Unexpected class name: " + _class.getName());
         }
-        // return null;
     }
 }

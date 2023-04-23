@@ -18,7 +18,7 @@ public class NodeDAOTest {
     static void startup() throws SQLException, ClassNotFoundException {
         Configuration.changeSchemaToTest();
         connection = Configuration.getConnection();
-        nodeDAO = new NodeDAO(connection);
+        nodeDAO = new NodeDAO();
     }
     @AfterAll
     static void end() throws SQLException {

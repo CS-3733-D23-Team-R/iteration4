@@ -18,8 +18,8 @@ public class EdgeDAOTest {
     static void startup() throws SQLException {
         Configuration.changeSchemaToTest();
         connection = Configuration.getConnection();
-        nodeDAO = new NodeDAO(connection);
-        edgeDAO = new EdgeDAO(connection);
+        nodeDAO = new NodeDAO();
+        edgeDAO = new EdgeDAO();
     }
     @AfterAll
     static void end() throws SQLException {

@@ -23,7 +23,7 @@ class ConferenceRoomDAOTest {
     static void startup() throws SQLException, ClassNotFoundException {
         Configuration.changeSchemaToTest();
         Connection connection = Configuration.getConnection();
-        locationNameDAO = new LocationNameDAO(connection);
+        locationNameDAO = new LocationNameDAO();
         conferenceRoomDAO = new ConferenceRoomDAO();
     }
     @AfterAll
