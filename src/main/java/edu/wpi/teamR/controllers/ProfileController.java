@@ -36,7 +36,9 @@ public class ProfileController {
     @FXML ImageView profileImage;
     @FXML Button editProfileBtn;
 
-    public void initialize() {}
+    public void initialize() {
+        //ImageView image1 = new ImageView(Objects.requireNonNull((Main.class.getResource("images/.png")).toExternalForm())); TODO:fix
+    }
 
     public void setInfo(User user){
         name.setText(user.getName());

@@ -4,11 +4,19 @@
     -fx-background-color: #FFFFFF;
 }
 
+.rounded-image {
+    -fx-background-radius: 30px;
+    -fx-border-radius: 30px;
+    -fx-background-insets: 0px;
+    -fx-border-insets: 0px;
+    -fx-border-color: transparent;
+}
+
 .tinyButton {
     -fx-background-color: bwhblue;
     -fx-text-fill: white;
     -fx-font-family: 'Nunito Sans', 'bold';
-    -fx-font-size: 12;
+    -fx-font-size: 14;
     -fx-font-weight: 500;
     border-radius: 4px;
 }
@@ -23,13 +31,28 @@
 }
 
 .profileToConferenceRoom{
-    -fx-background-image: url("../images/login/adminprofilepage/blurredconferenceroom.png");
+    -fx-background-image: url("../images/login/adminprofilepage/conferenceroom.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
     -fx-background-position: center;
 }
 
+.profileToConferenceRoom:hover{
+    -fx-background-image: url("../images/login/adminprofilepage/blurredconferenceroom.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-animated: fade;
+}
+
 .profileToEmployeeManagement{
+    -fx-background-image: url("../images/login/adminprofilepage/toemployeemanagement.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.profileToEmployeeManagement:hover{
     -fx-background-image: url("../images/login/adminprofilepage/blurredtoemployeemanagement.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
@@ -37,6 +60,13 @@
 }
 
 .profileToServiceRequests{
+    -fx-background-image: url("../images/login/adminprofilepage/servicerequests.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.profileToServiceRequests:hover{
     -fx-background-image: url("../images/login/adminprofilepage/blurredservicerequests.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
@@ -44,6 +74,13 @@
 }
 
 .profileCreateNewAlert{
+    -fx-background-image: url("../images/login/adminprofilepage/alerts.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.profileCreateNewAlert:hover{
     -fx-background-image: url("../images/login/adminprofilepage/blurredalerts.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
@@ -51,8 +88,21 @@
 }
 
 .profileToSignageConfiguration{
+    -fx-background-image: url("../images/login/adminprofilepage/signagepage.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.profileToSignageConfiguration:hover{
     -fx-background-image: url("../images/login/adminprofilepage/blurredsignagepage.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
     -fx-background-position: center;
+}
+
+.viewOnly{
+    -fx-font-family: 'Lato', 'bold';
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
 }

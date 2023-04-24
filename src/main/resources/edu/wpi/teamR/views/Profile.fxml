@@ -30,11 +30,14 @@
                               <Image url="@../images/login/holder/shaggyprofile.png" />
                            </image>
                         </ImageView>
-                        <Text fx:id="jobTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="Amatuer Detective" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+                        <HBox VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets left="36.0" />
                            </VBox.margin>
-                        </Text>
+                           <children>
+                              <Text fx:id="jobTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="Amatuer Detective" textAlignment="CENTER" />
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                </children>
