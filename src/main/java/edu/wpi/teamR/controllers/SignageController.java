@@ -1,5 +1,6 @@
 package edu.wpi.teamR.controllers;
 
+import edu.wpi.teamR.Main;
 import edu.wpi.teamR.mapdb.DirectionArrow;
 import edu.wpi.teamR.mapdb.MapDatabase;
 import edu.wpi.teamR.navigation.Navigation;
@@ -17,6 +18,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
+import java.util.Objects;
 
 import static edu.wpi.teamR.mapdb.Direction.*;
 
@@ -29,7 +31,6 @@ public class SignageController {
   }
 
   @FXML VBox signageBox;
-
   MapDatabase aMapDatabase = new MapDatabase();
 
   @FXML
@@ -43,27 +44,31 @@ public class SignageController {
     for(DirectionArrow directionArrow : aMapDatabase.getDirectionArrows()){
       HBox hBox = new HBox();
       Text text = new Text();
-      ImageView image = new ImageView();
+      ImageView imageview = new ImageView();
 
       if(directionArrow.getDirection().equals(Up))
       {
-        image.setImage(new Image(getClass().getResource("edu/wpi/teamR/images/upArrowWhite.png").getPath()));
+        Image image = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/upArrowWhite.png")));
+        imageview = new ImageView(image);
       }
       else if(directionArrow.getDirection().equals(Down))
       {
-        image.setImage(new Image(getClass().getResource("edu/wpi/teamR/images/downArrowWhite.png").getPath()));
+        Image image = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/downArrowWhite.png")));
+        imageview = new ImageView(image);
       }
       else if(directionArrow.getDirection().equals(Left))
       {
-        image.setImage(new Image(getClass().getResource("edu/wpi/teamR/images/leftArrowWhite.png").getPath()));
+        Image image = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/leftArrowWhite.png")));
+        imageview = new ImageView(image);
       }
       else if(directionArrow.getDirection().equals(Right))
       {
-        image.setImage(new Image(getClass().getResource("edu/wpi/teamR/images/rightArrowWhite.png").getPath()));
+        Image image = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/rightArrowWhite.png")));
+        imageview = new ImageView(image);
       }
 
       text.setText(directionArrow.getLongname());
-      hBox.getChildren().add(image);
+      hBox.getChildren().add(imageview);
       hBox.getChildren().add(text);
       signageBox.getChildren().add(hBox);
     }
