@@ -16,6 +16,7 @@ import java.util.Map;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import javafx.animation.Interpolator;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
@@ -116,7 +117,8 @@ public class MapController {
     @FXML
     CheckComboBox<String> locationFilters;
     ObservableList<String> locationTypes =
-            FXCollections.observableArrayList("Hall", "Lab", "Elevator", "Services", "Conference Room", "Stairs", "Information", "Restroom", "Department", "Bathroom", "Exit", "Retail");
+            FXCollections.observableArrayList("Lab", "Elevator", "Services", "Conference Room", "Stairs", "Information", "Restroom", "Department", "Bathroom", "Exit", "Retail");
+    HashMap<String, String> locationMap = new HashMap<>();
 
     @FXML
     public void initialize() throws Exception {
@@ -137,7 +139,7 @@ public class MapController {
             paths[i] = new AnchorPane();
             locationPanes[i] = new AnchorPane();
             floorNamesMap.put(nodeFloorNames[i], i);
-            displayLocationNames(i);
+            //displayLocationNames(i);
         }
 
         gesturePane.setContent(mapPane);
@@ -201,6 +203,34 @@ public class MapController {
             }
         });
         locationFilters.getItems().addAll(locationTypes);
+        initializeLocationMap();
+        locationFilters.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) change -> {
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    if (locationFilters.getCheckModel().getCheckedItems().size() == 1) {
+                        mapPane.getChildren().add(locationPanes[currentFloor]);
+                    }
+                    for (String s: change.getAddedSubList()) {
+                        try {
+                            displayLocationNamesByType(currentFloor, s);
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+                else if (change.wasRemoved()) {
+                    locationPanes[currentFloor].getChildren().clear();
+                    if (locationFilters.getCheckModel().getCheckedItems().size() == 0) {
+                        mapPane.getChildren().remove(locationPanes[currentFloor]);
+                    }
+                    try {
+                        displayLocationNames(currentFloor);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
 
         moveDatePicker.setValue(LocalDate.now());
     }
@@ -257,13 +287,12 @@ public class MapController {
             mapPane.getChildren().add(imageView);
             mapPane.getChildren().add(paths[currentFloor]);
             floorText.setText(floorNames[currentFloor]);
-            /*
-            if (locationNamesCheckbox.isSelected()) {
+            
+            if (locationFilters.getCheckModel().getCheckedItems().size() > 0) {
                 displayLocationNames(currentFloor);
                 mapPane.getChildren().add(locationPanes[currentFloor]);
             }
 
-             */
             reset();
         }
     }
@@ -362,12 +391,9 @@ public class MapController {
     private void createCircle(Node endNode, int drawFloor, SearchableComboBox<String> endField) {
         Circle end = new Circle(endNode.getXCoord(), endNode.getYCoord(), 5, Color.RED);
         Text endText = new Text(endField.getValue());
-        /*
-        if (locationNamesCheckbox.isSelected()) {
+        if (locationFilters.getCheckModel().getCheckedItems().size() > 0) {
             endText.setText("");
         }
-
-         */
         endText.setX(endNode.getXCoord() + 10);
         endText.setY(endNode.getYCoord());
         endText.setFill(Color.RED);
@@ -395,26 +421,49 @@ public class MapController {
 
     public void displayLocationNames(int floor) throws SQLException {
         if (floor <= 4) {
-            String f = nodeFloorNames[floor];
-            ArrayList<MapLocation> locs = mapdb.getMapLocationsByFloor(f);
-            if (locs.size() > 0) {
-                for (MapLocation m: locs) {
-                    if (m.getLocationNames().size() > 0) {
-                        String shortName = m.getLocationNames().get(0).getShortName();
-                        if (!shortName.contains("Hall")) {
-                            Text t = new Text();
-                            Node n = m.getNode();
-                            t.setText(shortName);
-                            t.setFill(Color.RED);
-                            t.setX(n.getXCoord() + 10);
-                            t.setY(n.getYCoord());
+            ObservableList<String> checkedItems = locationFilters.getCheckModel().getCheckedItems();
+            for (String s: checkedItems) {
+                displayLocationNamesByType(floor, s);
+            }
+        }
+    }
 
-                            locationPanes[floor].getChildren().add(t);
-                        }
+    public void displayLocationNamesByType(int floor, String type) throws SQLException {
+        String f = nodeFloorNames[floor];
+        ArrayList<MapLocation> locs = mapdb.getMapLocationsByFloor(f);
+        if (locs.size() > 0) {
+            for (MapLocation m: locs) {
+                if (m.getLocationNames().size() > 0) {
+                    String shortName = m.getLocationNames().get(0).getShortName();
+                    String checkedType = locationMap.get(type);
+                    if (checkedType.equals(m.getLocationNames().get(0).getNodeType())) {
+                        Text t = new Text();
+                        Node n = m.getNode();
+                        t.setText(shortName);
+                        t.setFill(Color.RED);
+                        t.setX(n.getXCoord() + 10);
+                        t.setY(n.getYCoord());
+
+                        locationPanes[floor].getChildren().add(t);
                     }
                 }
             }
         }
+    }
+
+    public void initializeLocationMap() {
+        //"Lab", "Elevator", "Services", "Conference Room", "Stairs", "Information", "Restroom", "Department", "Bathroom", "Exit", "Retail"
+        locationMap.put("Lab", "LAB");
+        locationMap.put("Elevator", "ELEV");
+        locationMap.put("Services", "SERV");
+        locationMap.put("Conference Room", "CONF");
+        locationMap.put("Stairs", "STAI");
+        locationMap.put("Information", "INFO");
+        locationMap.put("Restroom", "REST");
+        locationMap.put("Department", "DEPT");
+        locationMap.put("Bathroom", "BATH");
+        locationMap.put("Exit", "EXIT");
+        locationMap.put("Retail", "RETL");
     }
 
     private void updatePathfindingAlgorithm(String algo) {

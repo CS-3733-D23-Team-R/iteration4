@@ -503,7 +503,7 @@ public class MapEditorController {
                         l1.toBack();
                         selectedCircle.setFill(Color.RED);
                         l1.setOnMouseClicked(evt -> {
-                            if (!gesturePane.isGestureEnabled()) {
+                            if (event.getButton().equals(MouseButton.SECONDARY)) {
                                 linesMap.remove(n.getNodeID());
                                 nodePanes[floor].getChildren().remove(l1);
                                 System.out.println("Edge removed");
