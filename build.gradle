@@ -46,7 +46,7 @@ dependencies {
             'de.mkammerer:argon2-jvm:2.11',
             'com.github.hervegirod:fxsvgimage:1.1',
             'net.java.dev.jna:jna:5.12.1',
-            'org.apache.commons:commons-compress:jar:1.23.0'
+            'org.apache.commons:commons-compress:1.23.0'
     )
     implementation 'org.jetbrains:annotations:24.0.0'
 

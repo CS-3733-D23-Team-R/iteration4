@@ -216,17 +216,17 @@ public class MapDatabase {
         conferenceRoomDAO.deleteConferenceRoom(longname);
     }
 
-    public ArrayList<ConferenceRoom> getConferenceRooms() throws SQLException, ClassNotFoundException {
+    public ArrayList<ConferenceRoom> getConferenceRooms() throws SQLException {
         return conferenceRoomDAO.getConferenceRooms();
     }
 
 
-    public DirectionArrow addDirectionArrow(String longname, int kioskID, Direction direction) throws SQLException, ClassNotFoundException {
+    public DirectionArrow addDirectionArrow(String longname, int kioskID, Direction direction) throws SQLException {
         return directionArrowDAO.addDirectionArrow(longname, kioskID, direction);
     }
 
-    public void deleteDirectionArrowByLongname(String longname) throws SQLException, ItemNotFoundException, ClassNotFoundException {
-        directionArrowDAO.deleteDirectionArrowByLongname(longname);
+    public void deleteDirectionArrowByLongname(String longname) throws SQLException, ItemNotFoundException {
+        directionArrowDAO.deleteDirectionArrowByLongName(longname);
     }
 
     public void deleteDirectionArrowsByKiosk(int kioskID) throws SQLException, ItemNotFoundException, ClassNotFoundException {
@@ -237,11 +237,11 @@ public class MapDatabase {
         directionArrowDAO.deleteAllDirectionArrows();
     }
 
-    public ArrayList<DirectionArrow> getDirectionArrows() throws SQLException, ClassNotFoundException {
+    public ArrayList<DirectionArrow> getDirectionArrows() throws SQLException {
         return directionArrowDAO.getDirectionArrows();
     }
 
-    public ArrayList<DirectionArrow> getDirectionArrowsByKiosk(int kioskID) throws SQLException, ClassNotFoundException {
+    public ArrayList<DirectionArrow> getDirectionArrowsByKiosk(int kioskID) throws SQLException {
         return directionArrowDAO.getDirectionArrowsByKiosk(kioskID);
     }
 
@@ -262,7 +262,7 @@ public class MapDatabase {
     }
 
     public ConferenceRoom getConferenceRoomByLongname(String longname) throws SQLException, ClassNotFoundException, ItemNotFoundException {
-        return conferenceRoomDAO.getConferenceRoomByLongname(longname);
+        return conferenceRoomDAO.getConferenceRoomByLongName(longname);
     }
 
     public void deleteAllConferenceRooms() throws SQLException, ClassNotFoundException {

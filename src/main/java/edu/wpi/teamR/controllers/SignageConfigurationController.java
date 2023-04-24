@@ -126,7 +126,7 @@ public class SignageConfigurationController {
                             DirectionArrow data = getTableView().getItems().get(getIndex());
                             configurationTable.getItems().remove(data);
                             try {
-                                aMapDatabase.deleteDirectionArrowByLongname(data.getLongname());
+                                aMapDatabase.deleteDirectionArrowByLongname(data.getLongName());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

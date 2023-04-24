@@ -43,7 +43,7 @@ public class RoomRequestDAO {
     }
 
 
-    ArrayList<RoomRequest> getRoomRequests() throws SQLException, ClassNotFoundException {
+    ArrayList<RoomRequest> getRoomRequests() throws SQLException {
         Connection connection = Configuration.getConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+";");

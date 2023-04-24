@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -127,7 +126,7 @@ class ConferenceRoomDAOTest {
         locationNameDAO.addLocationName("long2", "", "");
         conferenceRoomDAO.addConferenceRoom("long2", 6, false, false, true);
 
-        ConferenceRoom conferenceRoom = conferenceRoomDAO.getConferenceRoomByLongname("long1");
+        ConferenceRoom conferenceRoom = conferenceRoomDAO.getConferenceRoomByLongName("long1");
         assertEquals(conferenceRoom.getLongname(), "long1");
         assertEquals(conferenceRoom.getCapacity(), 5);
         assertEquals(conferenceRoom.isAccessible(), true);
@@ -135,7 +134,7 @@ class ConferenceRoomDAOTest {
         assertEquals(conferenceRoom.isHasScreen(), false);
 
 
-        conferenceRoom = conferenceRoomDAO.getConferenceRoomByLongname("long2");
+        conferenceRoom = conferenceRoomDAO.getConferenceRoomByLongName("long2");
         assertEquals(conferenceRoom.getLongname(), "long2");
         assertEquals(conferenceRoom.getCapacity(), 6);
         assertEquals(conferenceRoom.isAccessible(), false);

@@ -10,26 +10,26 @@ import java.util.ArrayList;
 
 public class DirectionArrowDAO {
 
-    DirectionArrow addDirectionArrow(String longname, int kioskID, Direction direction) throws SQLException, ClassNotFoundException {
+    DirectionArrow addDirectionArrow(String longName, int kioskID, Direction direction) throws SQLException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+ Configuration.getDirectionArrowSchemaNameTableName()+"(longname, kioskID, direction) VALUES(?, ?, ?);");
-        preparedStatement.setString(1, longname);
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+ Configuration.getDirectionArrowSchemaNameTableName()+"(longName, kioskID, direction) VALUES(?, ?, ?);");
+        preparedStatement.setString(1, longName);
         preparedStatement.setInt(2, kioskID);
         preparedStatement.setString(3, direction.toString());
         preparedStatement.executeUpdate();
-        return new DirectionArrow(longname, kioskID, direction);
+        return new DirectionArrow(longName, kioskID, direction);
     }
 
-    void deleteDirectionArrowByLongname(String longname) throws SQLException, ItemNotFoundException, ClassNotFoundException {
+    void deleteDirectionArrowByLongName(String longName) throws SQLException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getDirectionArrowSchemaNameTableName()+" WHERE longname=?;");
-        preparedStatement.setString(1, longname);
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getDirectionArrowSchemaNameTableName()+" WHERE longName=?;");
+        preparedStatement.setString(1, longName);
         int rows = preparedStatement.executeUpdate();
         if (rows == 0)
             throw new ItemNotFoundException();
     }
 
-    void deleteDirectionArrowsByKiosk(int kioskID) throws SQLException, ItemNotFoundException, ClassNotFoundException {
+    void deleteDirectionArrowsByKiosk(int kioskID) throws SQLException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getDirectionArrowSchemaNameTableName()+" WHERE kioskID=?;");
         preparedStatement.setInt(1, kioskID);
@@ -38,36 +38,36 @@ public class DirectionArrowDAO {
             throw new ItemNotFoundException();
     }
 
-    void deleteAllDirectionArrows() throws SQLException, ClassNotFoundException {
+    void deleteAllDirectionArrows() throws SQLException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getDirectionArrowSchemaNameTableName()+";");
         preparedStatement.executeUpdate();
     }
 
-    ArrayList<DirectionArrow> getDirectionArrows() throws SQLException, ClassNotFoundException {
+    ArrayList<DirectionArrow> getDirectionArrows() throws SQLException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getDirectionArrowSchemaNameTableName()+";");
         ResultSet resultSet = preparedStatement.executeQuery();
         ArrayList<DirectionArrow> directionArrows = new ArrayList<>();
         while (resultSet.next()){
-            String longname = resultSet.getString("longname");
+            String longName = resultSet.getString("longName");
             int kioskID = resultSet.getInt("kioskID");
             Direction direction = Direction.valueOf(resultSet.getString("direction"));
-            directionArrows.add(new DirectionArrow(longname, kioskID, direction));
+            directionArrows.add(new DirectionArrow(longName, kioskID, direction));
         }
         return directionArrows;
     }
 
-    ArrayList<DirectionArrow> getDirectionArrowsByKiosk(int kioskID) throws SQLException, ClassNotFoundException {
+    ArrayList<DirectionArrow> getDirectionArrowsByKiosk(int kioskID) throws SQLException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getDirectionArrowSchemaNameTableName()+" WHERE kioskID=?;");
         preparedStatement.setInt(1, kioskID);
         ResultSet resultSet = preparedStatement.executeQuery();
         ArrayList<DirectionArrow> directionArrows = new ArrayList<>();
         while (resultSet.next()){
-            String longname = resultSet.getString("longname");
+            String longName = resultSet.getString("longName");
             Direction direction = Direction.valueOf(resultSet.getString("direction"));
-            directionArrows.add(new DirectionArrow(longname, kioskID, direction));
+            directionArrows.add(new DirectionArrow(longName, kioskID, direction));
         }
         return directionArrows;
     }

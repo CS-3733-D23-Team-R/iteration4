@@ -430,19 +430,19 @@ public class MapEditorController {
         chooseDirectory();
         switch (choice) {
             case "Node" -> {
-                CSVWriter<Node> nodeCSVWriter = new CSVWriter<>();
+                CSVWriter nodeCSVWriter = new CSVWriter();
                 nodeCSVWriter.writeCSV(selectedDirectory.getAbsolutePath() + "/Nodes.csv", mapdb.getNodes());
             }
             case "Edge" -> {
-                CSVWriter<Edge> edgeCSVWriter = new CSVWriter<>();
+                CSVWriter edgeCSVWriter = new CSVWriter();
                 edgeCSVWriter.writeCSV(selectedDirectory.getAbsolutePath() + "/Edges.csv", mapdb.getEdges());
             }
             case "LocationName" -> {
-                CSVWriter<LocationName> locationCSVWriter = new CSVWriter<>();
+                CSVWriter locationCSVWriter = new CSVWriter();
                 locationCSVWriter.writeCSV(selectedDirectory.getAbsolutePath() + "/LocationNames.csv", mapdb.getLocationNames());
             }
             case "Moves" -> {
-                CSVWriter<Move> moveCSVWriter = new CSVWriter<>();
+                CSVWriter moveCSVWriter = new CSVWriter();
                 moveCSVWriter.writeCSV(selectedDirectory.getAbsolutePath() + "/Moves.csv", mapdb.getMoves());
             }
         }

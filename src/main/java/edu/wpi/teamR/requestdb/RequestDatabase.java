@@ -19,7 +19,7 @@ public class RequestDatabase {
         new ItemRequestDAO().deleteItemRequest(requestID);
     }
 
-    public ArrayList<ItemRequest> getItemRequests() throws SQLException, ClassNotFoundException {
+    public ArrayList<ItemRequest> getItemRequests() throws SQLException {
         return new ItemRequestDAO().getItemRequests();
     }
 
@@ -44,7 +44,7 @@ public class RequestDatabase {
     }
 
 
-    public ArrayList<RoomRequest> getRoomRequests() throws SQLException, ClassNotFoundException {
+    public ArrayList<RoomRequest> getRoomRequests() throws SQLException {
         return new RoomRequestDAO().getRoomRequests();
     }
     public RoomRequest getRoomRequestByID(int roomRequestID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
