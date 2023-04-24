@@ -121,7 +121,7 @@ public class ServiceRequestCartController {
         //Text price = new Text("$" + ((Double)item.getItemPrice()).toString());
 
         Text quantity = new Text(String.valueOf(number));
-        quantity.setStyle("-fx-padding:5px;");
+        quantity.setStyle("fx-padding:5px;");
         quantity.setFill(Color.BLACK);
         quantity.setStyle("-fx-font-size: 18");
         //quantity

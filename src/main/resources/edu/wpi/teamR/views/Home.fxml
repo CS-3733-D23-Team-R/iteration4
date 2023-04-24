@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -35,14 +36,26 @@
                                     <Insets right="10.0" top="10.0" />
                                  </padding>
                               </HBox>
-                              <VBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                              <VBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white;" styleClass="homeTitle" text="Welcome to" textAlignment="CENTER" VBox.vgrow="ALWAYS" />
-                                          <Text fx:id="welcomeText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white;" styleClass="homeTitle" text="Brigham &amp; Women's Hospital!" translateY="25.0" VBox.vgrow="ALWAYS">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white;" styleClass="homeTitle" text="Welcome to" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets left="10.0" />
+                                       </VBox.margin></Text>
+                                          <Text fx:id="welcomeText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: white;" styleClass="homeTitle" text="Brigham &amp; Women's Hospital!" VBox.vgrow="ALWAYS">
                                              <font>
                                                 <Font name="Times New Roman Bold" size="30.0" />
                                              </font>
+                                       <VBox.margin>
+                                          <Insets left="10.0" />
+                                       </VBox.margin>
                                           </Text>
+                                    <Line endX="600.0" startX="-100.0" stroke="WHITE" strokeWidth="3.0" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets left="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Line>
+                                    <VBox fx:id="alertsVBox" prefHeight="31.0" prefWidth="713.0" />
                                  </children>
                                  <padding>
                                     <Insets right="10.0" />

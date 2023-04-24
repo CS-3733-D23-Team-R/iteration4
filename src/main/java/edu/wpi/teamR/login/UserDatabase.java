@@ -39,7 +39,7 @@ public class UserDatabase {
         return authenticationDAO.verifyUser(username, password);
     }
 
-    Alert addAlert(String message, Timestamp time) throws SQLException {
+    public Alert addAlert(String message, Timestamp time) throws SQLException {
         return alertDAO.addAlert(message, time);
     }
     void deleteAlert(String message, Timestamp time) throws SQLException, ItemNotFoundException {
@@ -48,10 +48,10 @@ public class UserDatabase {
     void deleteAllAlerts() throws SQLException {
         alertDAO.deleteAllAlerts();
     }
-    ArrayList<Alert> getAlerts() throws SQLException {
+    public ArrayList<Alert> getAlerts() throws SQLException {
         return alertDAO.getAlerts();
     }
-    ArrayList<Alert> getAlertsInLastNumDaysDesc(int numDays) throws SQLException { //get all alerts between current time and currentTime - numDays days ordered desc by date
+    public ArrayList<Alert> getAlertsInLastNumDaysDesc(int numDays) throws SQLException { //get all alerts between current time and currentTime - numDays days ordered desc by date
         return alertDAO.getAlertsInLastNumDaysDesc(numDays);
     }
 
