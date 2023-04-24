@@ -4,6 +4,7 @@ import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.AuthenticationDAO;
+import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.mapdb.MapDatabase;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -19,7 +20,7 @@ class RoomRequestDAOTest {
 
     private static RoomRequestDAO roomRequestDAO;
     private static MapDatabase mapDatabase;
-    private static AuthenticationDAO authenticationDAO;
+    private static UserDatabase userDatabase;
 
 
     @BeforeAll
@@ -27,28 +28,28 @@ class RoomRequestDAOTest {
         Configuration.changeSchemaToTest();
         roomRequestDAO = new RoomRequestDAO();
         mapDatabase = new MapDatabase();
-        authenticationDAO = AuthenticationDAO.getInstance();
+        userDatabase = new UserDatabase();
     }
     @AfterAll
     static void end() throws SQLException, ClassNotFoundException {
         roomRequestDAO.deleteAllRoomRequests();
         mapDatabase.deleteAllConferenceRooms();
         mapDatabase.deleteAllLocationNames();
-        authenticationDAO.deleteAllUsers();
+        userDatabase.deleteAllUsers();
     }
     @BeforeEach
     void reset() throws SQLException, ClassNotFoundException {
         roomRequestDAO.deleteAllRoomRequests();
         mapDatabase.deleteAllConferenceRooms();
         mapDatabase.deleteAllLocationNames();
-        authenticationDAO.deleteAllUsers();
+        userDatabase.deleteAllUsers();
     }
 
     @Test
     void addRoomRequest() throws SQLException, ClassNotFoundException {
-        authenticationDAO.addUser("staff1", "", "", "", "", "1234567890", new java.sql.Date(System.currentTimeMillis()), AccessLevel.Staff, "");
-        authenticationDAO.addUser("staff2", "", "", "", "", "1234567890", new java.sql.Date(System.currentTimeMillis()), AccessLevel.Staff, "");
-        authenticationDAO.addUser("staff3", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        userDatabase.addUser("staff1", "", "", "", "", "1234567890", new java.sql.Date(System.currentTimeMillis()), AccessLevel.Staff, "", 0);
+        userDatabase.addUser("staff2", "", "", "", "", "1234567890", new java.sql.Date(System.currentTimeMillis()), AccessLevel.Staff, "", 0);
+        userDatabase.addUser("staff3", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "", 0);
 
         Timestamp timestamp1, timestamp2;
         timestamp1 = new Timestamp(System.currentTimeMillis()-1000);
@@ -75,9 +76,9 @@ class RoomRequestDAOTest {
 
     @Test
     void deleteRoomRequest() throws SQLException, ClassNotFoundException {
-        authenticationDAO.addUser("staff1", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
-        authenticationDAO.addUser("staff2", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
-        authenticationDAO.addUser("staff3", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        userDatabase.addUser("staff1", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "", 0);
+        userDatabase.addUser("staff2", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "", 0);
+        userDatabase.addUser("staff3", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "", 0);
 
         Timestamp timestamp1, timestamp2;
         timestamp1 = new Timestamp(System.currentTimeMillis()-1000);
@@ -107,9 +108,9 @@ class RoomRequestDAOTest {
 
     @Test
     void getRoomRequestByID() throws SQLException, ClassNotFoundException, ItemNotFoundException {
-        authenticationDAO.addUser("staff1", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
-        authenticationDAO.addUser("staff2", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
-        authenticationDAO.addUser("staff3", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        userDatabase.addUser("staff1", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "", 0);
+        userDatabase.addUser("staff2", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "", 0);
+        userDatabase.addUser("staff3", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "", 0);
 
         Timestamp timestamp1, timestamp2;
         timestamp1 = new Timestamp(System.currentTimeMillis()-1000);
@@ -137,9 +138,9 @@ class RoomRequestDAOTest {
 
     @Test
     void getRoomRequestsByStaffUsername() throws SQLException, ClassNotFoundException {
-        authenticationDAO.addUser("staff1", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
-        authenticationDAO.addUser("staff2", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
-        authenticationDAO.addUser("staff3", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        userDatabase.addUser("staff1", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "", 0);
+        userDatabase.addUser("staff2", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "", 0);
+        userDatabase.addUser("staff3", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "", 0);
 
         Timestamp timestamp1, timestamp2;
         timestamp1 = new Timestamp(System.currentTimeMillis()-1000);
@@ -173,9 +174,9 @@ class RoomRequestDAOTest {
 
     @Test
     void getRoomRequestsByLongname() throws SQLException, ClassNotFoundException {
-        authenticationDAO.addUser("staff1", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
-        authenticationDAO.addUser("staff2", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
-        authenticationDAO.addUser("staff3", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "");
+        userDatabase.addUser("staff1", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "", 0);
+        userDatabase.addUser("staff2", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "", 0);
+        userDatabase.addUser("staff3", "", "", "", "", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "", 0);
 
         Timestamp timestamp1, timestamp2;
         timestamp1 = new Timestamp(System.currentTimeMillis()-1000);

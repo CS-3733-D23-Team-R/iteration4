@@ -36,7 +36,7 @@ public class AuthenticationDAO {
         preparedStatement.setString(10, department);
         preparedStatement.setInt(11, imageID);
         preparedStatement.executeUpdate();
-        return new User(staffUsername, password, name, saltString, email, jobTitle, phoneNum, joinDate, accessLevel, department, imageID);
+        return new User(staffUsername, hashedPassword, saltString, name, email, jobTitle, phoneNum, joinDate, accessLevel, department, imageID);
     }
     User modifyUserByUsername(String staffUsername, String password, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department, int imageID) throws SQLException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
@@ -62,12 +62,12 @@ public class AuthenticationDAO {
         preparedStatement.setDate(7, joinDate);
         preparedStatement.setString(8, accessLevel.toString());
         preparedStatement.setString(9, department);
-        preparedStatement.setString(10, staffUsername);
-        preparedStatement.setInt(11, imageID);
+        preparedStatement.setInt(10, imageID);
+        preparedStatement.setString(11, staffUsername);
         int numRows = preparedStatement.executeUpdate();
         if (numRows==0)
             throw new ItemNotFoundException();
-        return new User(staffUsername, password, saltString, name, email, jobTitle, phoneNum, joinDate, accessLevel, department, imageID);
+        return new User(staffUsername, hashedPassword, saltString, name, email, jobTitle, phoneNum, joinDate, accessLevel, department, imageID);
     }
 
     void deleteAllUsers() throws SQLException {

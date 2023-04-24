@@ -5,6 +5,7 @@ import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.datahandling.ShoppingCart;
 import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
+import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.mapdb.LocationName;
 import edu.wpi.teamR.mapdb.MapDatabase;
 import edu.wpi.teamR.requestdb.*;
@@ -218,7 +219,7 @@ public class ServiceRequestCartController {
 
     void setStaffChoiceBox(){
         try {
-            ArrayList<User> users = AuthenticationDAO.getInstance().getUsers();
+            ArrayList<User> users = new UserDatabase().getUsers();
             ArrayList<String> userNames = new ArrayList<>();
             for (User u: users){
                 userNames.add(u.getStaffUsername());
@@ -227,8 +228,6 @@ public class ServiceRequestCartController {
             staffField.setItems(staff);
             userField.setItems(staff);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
