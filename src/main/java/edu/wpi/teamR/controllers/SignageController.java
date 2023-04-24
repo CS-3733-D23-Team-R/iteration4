@@ -62,7 +62,9 @@ public class SignageController {
         image.setImage(new Image(getClass().getResource("edu/wpi/teamR/images/rightArrowWhite.png").getPath()));
       }
 
+      text.setText(directionArrow.getLongname());
       hBox.getChildren().add(image);
+      hBox.getChildren().add(text);
       signageBox.getChildren().add(hBox);
     }
   }
