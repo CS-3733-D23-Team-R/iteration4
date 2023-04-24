@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ItemRequestDAO {
     public  ItemRequestDAO(){}
@@ -27,6 +28,23 @@ public class ItemRequestDAO {
         if (resultSet.next())
             requestID = resultSet.getInt("requestID");
         return new ItemRequest(requestID, requestType, requestStatus, longname, staffUsername, itemType, requesterName, additionalNotes, requestDate);
+    }
+
+    void addItemRequests(List<ItemRequest> itemRequests) throws SQLException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+ Configuration.getServiceRequestSchemaNameTableName()+" VALUES (?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+        for (ItemRequest i : itemRequests) {
+            preparedStatement.setInt(1, i.getRequestID());
+            preparedStatement.setString(2, i.getRequestType().toString());
+            preparedStatement.setString(3, i.getRequestStatus().toString());
+            preparedStatement.setString(4, i.getLongName());
+            preparedStatement.setString(5, i.getStaffUsername());
+            preparedStatement.setString(6, i.getItemType());
+            preparedStatement.setString(7, i.getRequesterName());
+            preparedStatement.setString(8, i.getAdditionalNotes());
+            preparedStatement.setTimestamp(9, i.getRequestDate());
+            preparedStatement.executeUpdate();
+        }
     }
 
     void deleteItemRequest(int requestID) throws SQLException, ItemNotFoundException {

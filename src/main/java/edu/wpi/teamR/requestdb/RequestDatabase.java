@@ -5,10 +5,15 @@ import edu.wpi.teamR.ItemNotFoundException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class RequestDatabase {
     public ItemRequest addItemRequest(RequestType requestType, RequestStatus requestStatus, String longname, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) throws SQLException, ClassNotFoundException {
         return new ItemRequestDAO().addItemRequest(requestType, requestStatus, longname, staffUsername, itemType, requesterName, additionalNotes, requestDate);
+    }
+
+    public void addItemRequests(List<ItemRequest> itemRequests) throws SQLException {
+        new ItemRequestDAO().addItemRequests(itemRequests);
     }
 
     public ItemRequest modifyItemRequestByID(int requestID, RequestType requestType, RequestStatus requestStatus, String longname, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) throws SQLException, ClassNotFoundException, ItemNotFoundException {
@@ -43,6 +48,9 @@ public class RequestDatabase {
         return new RoomRequestDAO().addRoomRequest(longname, staffUsername, startTime, endTime);
     }
 
+    public void addRoomRequests(List<RoomRequest> roomRequests) throws SQLException {
+        new RoomRequestDAO().addRoomRequests(roomRequests);
+    }
     public void deleteRoomRequest(int roomRequestID) throws SQLException, ClassNotFoundException {
         new RoomRequestDAO().deleteRoomRequest(roomRequestID);
     }
@@ -63,7 +71,7 @@ public class RequestDatabase {
     }
 
     public ArrayList<RoomRequest> getRoomRequestsByLongname(String longname) throws SQLException, ClassNotFoundException {
-        return new RoomRequestDAO().getRoomRequestsByLongname(longname);
+        return new RoomRequestDAO().getRoomRequestsByLongName(longname);
     }
 
     public ArrayList<RoomRequest> getRoomRequestsByDate(LocalDate date) throws SQLException, ClassNotFoundException {

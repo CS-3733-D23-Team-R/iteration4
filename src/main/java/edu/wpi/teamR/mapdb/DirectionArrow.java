@@ -19,7 +19,7 @@ public class DirectionArrow implements Archivable {
     }
 
     private DirectionArrow(String[] args) throws IndexOutOfBoundsException {
-        this(args[0], Integer.parseInt(args[1]), Direction.valueOf(args[3]));
+        this(args[0], Integer.parseInt(args[1]), Direction.valueOf(args[2]));
     }
 
     @Override

@@ -1,15 +1,15 @@
 package edu.wpi.teamR.archive;
 
 import edu.wpi.teamR.mapdb.*;
+import edu.wpi.teamR.requestdb.ItemRequest;
 import edu.wpi.teamR.requestdb.RequestDatabase;
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import org.apache.commons.compress.archivers.ArchiveEntry;
+import edu.wpi.teamR.requestdb.RoomRequest;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
-import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.apache.commons.compress.archivers.zip.ZipFile;
 
@@ -70,6 +70,14 @@ public class Archiver {
             mapdb.addLocationNames(reader.parseCSV(LocationName.class, zipFile.getInputStream(entry)));
             entry = zipFile.getEntry("Move.csv");
             mapdb.addMoves(reader.parseCSV(Move.class, zipFile.getInputStream(entry)));
+            entry = zipFile.getEntry("DirectionArrow.csv");
+            mapdb.addDirectionArrows(reader.parseCSV(DirectionArrow.class, zipFile.getInputStream(entry)));
+            entry = zipFile.getEntry("ConferenceRoom.csv");
+            mapdb.addConferenceRooms(reader.parseCSV(ConferenceRoom.class, zipFile.getInputStream(entry)));
+            entry = zipFile.getEntry("ItemRequest.csv");
+            requestdb.addItemRequests(reader.parseCSV(ItemRequest.class, zipFile.getInputStream(entry)));
+            entry = zipFile.getEntry("RoomRequest.csv");
+            requestdb.addRoomRequests(reader.parseCSV(RoomRequest.class, zipFile.getInputStream(entry)));
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

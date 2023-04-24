@@ -228,6 +228,10 @@ public class MapDatabase {
     public ConferenceRoom addConferenceRoom(String longname, int capacity, boolean isAccessible, boolean hasOutlets, boolean hasScreen) throws SQLException, ClassNotFoundException {
         return conferenceRoomDAO.addConferenceRoom(longname, capacity, isAccessible, hasOutlets, hasScreen);
     }
+
+    public void addConferenceRooms(List<ConferenceRoom> conferenceRooms) throws SQLException {
+        conferenceRoomDAO.addConferenceRooms(conferenceRooms);
+    }
     public void deleteConferenceRoom(String longname) throws SQLException, ItemNotFoundException {
         conferenceRoomDAO.deleteConferenceRoom(longname);
     }
@@ -237,8 +241,12 @@ public class MapDatabase {
     }
 
 
-    public DirectionArrow addDirectionArrow(String longname, int kioskID, Direction direction) throws SQLException {
-        return directionArrowDAO.addDirectionArrow(longname, kioskID, direction);
+    public DirectionArrow addDirectionArrow(String longName, int kioskID, Direction direction) throws SQLException {
+        return directionArrowDAO.addDirectionArrow(longName, kioskID, direction);
+    }
+
+    public void addDirectionArrows(ArrayList<DirectionArrow> directionArrows) throws SQLException {
+        directionArrowDAO.addDirectionArrows(directionArrows);
     }
 
     public void deleteDirectionArrowByLongname(String longname) throws SQLException, ItemNotFoundException {
@@ -391,6 +399,7 @@ public class MapDatabase {
             default -> throw new IllegalStateException("Unexpected class name: " + _class.getName());
         }
     }
+
 
 
 }

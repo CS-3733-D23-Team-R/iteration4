@@ -20,6 +20,17 @@ public class DirectionArrowDAO {
         return new DirectionArrow(longName, kioskID, direction);
     }
 
+    public void addDirectionArrows(ArrayList<DirectionArrow> directionArrows) throws SQLException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+ Configuration.getDirectionArrowSchemaNameTableName()+"(longName, kioskID, direction) VALUES(?, ?, ?);");
+        for (DirectionArrow d : directionArrows) {
+            preparedStatement.setString(1, d.getLongName());
+            preparedStatement.setInt(2, d.getKioskID());
+            preparedStatement.setString(3, d.getDirection().toString());
+            preparedStatement.executeUpdate();
+        }
+    }
+
     void deleteDirectionArrowByLongName(String longName) throws SQLException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getDirectionArrowSchemaNameTableName()+" WHERE longName=?;");
@@ -71,4 +82,6 @@ public class DirectionArrowDAO {
         }
         return directionArrows;
     }
+
+
 }

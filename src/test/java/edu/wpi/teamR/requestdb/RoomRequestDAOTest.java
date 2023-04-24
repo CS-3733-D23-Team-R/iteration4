@@ -4,8 +4,6 @@ import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.AuthenticationDAO;
-import edu.wpi.teamR.mapdb.ConferenceRoomDAO;
-import edu.wpi.teamR.mapdb.LocationNameDAO;
 import edu.wpi.teamR.mapdb.MapDatabase;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -14,7 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -201,10 +198,10 @@ class RoomRequestDAOTest {
         roomRequests = roomRequestDAO.getRoomRequests();
         assertEquals(4, roomRequests.size());
 
-        roomRequests = roomRequestDAO.getRoomRequestsByLongname("location1");
+        roomRequests = roomRequestDAO.getRoomRequestsByLongName("location1");
         assertEquals(3, roomRequests.size());
 
-        roomRequests = roomRequestDAO.getRoomRequestsByLongname("location2");
+        roomRequests = roomRequestDAO.getRoomRequestsByLongName("location2");
         assertEquals(1, roomRequests.size());
         assertEquals("staff3", roomRequests.get(0).getStaffUsername());
 
