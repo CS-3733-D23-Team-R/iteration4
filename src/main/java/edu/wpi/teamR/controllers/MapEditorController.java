@@ -10,6 +10,7 @@ import edu.wpi.teamR.datahandling.MapStorage;
 import edu.wpi.teamR.mapdb.update.*;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,6 +43,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 import javafx.geometry.Point2D;
+import org.controlsfx.control.CheckComboBox;
 import org.controlsfx.control.PopOver;
 
 public class MapEditorController {
@@ -77,8 +79,6 @@ public class MapEditorController {
     ComboBox<String> floorComboBox;
     @FXML
     ComboBox<String> tableComboBox;
-    @FXML
-    MFXCheckbox locationCheckbox;
     @FXML Text dialogText;
     ObservableList<String> DAOType =
             FXCollections.observableArrayList("Node", "Edge", "LocationName", "Moves");
@@ -143,6 +143,12 @@ public class MapEditorController {
 
     Map<Integer, Node> nodeMap = new HashMap<>();
     Boolean dragged = false;
+
+    @FXML
+    CheckComboBox<String> locationFilters;
+    ObservableList<String> locationTypes =
+            FXCollections.observableArrayList("Lab", "Elevator", "Services", "Conference Room", "Stairs", "Information", "Restroom", "Department", "Bathroom", "Exit", "Retail");
+    HashMap<String, String> locationMap = new HashMap<>();
 
     @FXML
     public void initialize() throws SQLException, ClassNotFoundException, ItemNotFoundException {
@@ -242,16 +248,6 @@ public class MapEditorController {
             }
         });
 
-        locationCheckbox.setOnAction(event -> {
-            if (locationCheckbox.isSelected()) {
-                mapPane.getChildren().remove(nodePanes[currentFloor]);
-                mapPane.getChildren().add(locationPanes[currentFloor]);
-                mapPane.getChildren().add(nodePanes[currentFloor]);
-            } else {
-                mapPane.getChildren().remove(locationPanes[currentFloor]);
-            }
-        });
-
 
         imageView = new ImageView(linkArray[currentFloor].toExternalForm());
         gesturePane.setContent(mapPane);
@@ -316,6 +312,30 @@ public class MapEditorController {
         });
 
         cancelEdgeButton.setOnAction(event -> edgeDialog(false));
+
+        locationFilters.getItems().addAll(locationTypes);
+        initializeLocationMap();
+        locationFilters.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) change -> {
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    for (String s: change.getAddedSubList()) {
+                        try {
+                            displayLocationNamesByType(currentFloor, s);
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+                else if (change.wasRemoved()) {
+                    locationPanes[currentFloor].getChildren().clear();
+                    try {
+                        displayLocationNames(currentFloor);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
 
         reset();
     }
@@ -464,18 +484,6 @@ public class MapEditorController {
             circlesMap.put(n.getNodeID(), c);
 
             setupMapNode(floor, n, c);
-
-            if (ln.size() > 0) {
-                String shortName = ln.get(0).getShortName();
-                if (!shortName.contains("Hall")) {
-                    Text t = new Text(ln.get(0).getShortName());
-                    t.setX(n.getXCoord() + 10);
-                    t.setY(n.getYCoord());
-                    t.setFill(Color.RED);
-                    locationPanes[floor].getChildren().add(t);
-                }
-                locationCheckbox.setSelected(true);
-            }
         }
     }
 
@@ -644,6 +652,7 @@ public class MapEditorController {
         mapPane.getChildren().remove(locationPanes[currentFloor]);
         displayEdgesByFloor(currentFloor);
         displayNodesByFloor(currentFloor);
+        displayLocationNames(currentFloor);
     }
 
     public void undoAction() throws SQLException {
@@ -802,5 +811,52 @@ public class MapEditorController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void displayLocationNames(int floor) throws SQLException {
+        if (floor <= 4) {
+            ObservableList<String> checkedItems = locationFilters.getCheckModel().getCheckedItems();
+            for (String s: checkedItems) {
+                displayLocationNamesByType(floor, s);
+            }
+        }
+    }
+
+    public void displayLocationNamesByType(int floor, String type) throws SQLException {
+        String f = nodeFloorNames[floor];
+        ArrayList<MapLocation> locs = mapdb.getMapLocationsByFloor(f);
+        if (locs.size() > 0) {
+            for (MapLocation m: locs) {
+                if (m.getLocationNames().size() > 0) {
+                    String shortName = m.getLocationNames().get(0).getShortName();
+                    String checkedType = locationMap.get(type);
+                    if (checkedType.equals(m.getLocationNames().get(0).getNodeType())) {
+                        Text t = new Text();
+                        Node n = m.getNode();
+                        t.setText(shortName);
+                        t.setFill(Color.RED);
+                        t.setX(n.getXCoord() + 10);
+                        t.setY(n.getYCoord());
+
+                        locationPanes[floor].getChildren().add(t);
+                    }
+                }
+            }
+        }
+    }
+
+    public void initializeLocationMap() {
+        //"Lab", "Elevator", "Services", "Conference Room", "Stairs", "Information", "Restroom", "Department", "Bathroom", "Exit", "Retail"
+        locationMap.put("Lab", "LAB");
+        locationMap.put("Elevator", "ELEV");
+        locationMap.put("Services", "SERV");
+        locationMap.put("Conference Room", "CONF");
+        locationMap.put("Stairs", "STAI");
+        locationMap.put("Information", "INFO");
+        locationMap.put("Restroom", "REST");
+        locationMap.put("Department", "DEPT");
+        locationMap.put("Bathroom", "BATH");
+        locationMap.put("Exit", "EXIT");
+        locationMap.put("Retail", "RETL");
     }
 }

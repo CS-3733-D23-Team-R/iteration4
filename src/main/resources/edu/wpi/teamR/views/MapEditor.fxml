@@ -87,7 +87,7 @@
                               <Font size="24.0" />
                            </font>
                         </Text>
-                        <CheckComboBox fx:id="locationFilters" prefHeight="24.0" prefWidth="150.0" />
+                        <CheckComboBox fx:id="locationFilters" prefWidth="150.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="344.0" spacing="10.0">

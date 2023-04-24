@@ -139,7 +139,6 @@ public class MapController {
             paths[i] = new AnchorPane();
             locationPanes[i] = new AnchorPane();
             floorNamesMap.put(nodeFloorNames[i], i);
-            //displayLocationNames(i);
         }
 
         gesturePane.setContent(mapPane);
