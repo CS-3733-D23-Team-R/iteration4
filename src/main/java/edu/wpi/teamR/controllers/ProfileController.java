@@ -6,6 +6,7 @@ import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
 import edu.wpi.teamR.userData.CurrentUser;
+import edu.wpi.teamR.userData.UserData;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
@@ -20,6 +21,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -47,9 +49,10 @@ public class ProfileController {
         hireDate.setText(user.getJoinDate().toString());
         phoneNumber.setText(user.getPhoneNum());
         jobTitle.setText(user.getJobTitle());
-        //profileImage.setImage(AuthenticationDAO.getInstance().getUserByUsername(user.getName()).getProfileImageID());
-//        editProfileBtn.setVisible(false);
-//        editProfileBtn.setDisable(true);
+        Image image1 = new Image(UserData.getInstance().getLoggedIn().getProfilePictureLocation());
+        profileImage.setImage(image1);
+        editProfileBtn.setVisible(false);
+        editProfileBtn.setDisable(true);
     }
 
     public void setInfo(CurrentUser user){
@@ -57,10 +60,10 @@ public class ProfileController {
         email.setText(user.getEmail());
         dept.setText(user.getDepartment());
         hireDate.setText(user.getJoinDate().toString());
-        phoneNumber.setText(user.getPhoneNum() + "");
+        phoneNumber.setText(user.getPhoneNum()+"");
         jobTitle.setText(user.getJobTitle());
-        //profileImage.setImage(AuthenticationDAO.getInstance().getUserByUsername(user.getName()).getProfileImageID());
-//        editProfileBtn.setVisible(true);
+        Image image1 = new Image(UserData.getInstance().getLoggedIn().getProfilePictureLocation());
+        profileImage.setImage(image1);
     }
     public Button getBtn() {
         return editProfileBtn;

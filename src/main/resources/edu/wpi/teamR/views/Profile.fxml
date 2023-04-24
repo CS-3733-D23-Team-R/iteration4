@@ -23,21 +23,13 @@
             </HBox>
             <HBox prefHeight="172.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
                <children>
-                  <VBox HBox.hgrow="ALWAYS">
+                  <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                      <children>
                         <ImageView fx:id="profileImage" fitHeight="172.0" fitWidth="174.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/login/holder/shaggyprofile.png" />
                            </image>
                         </ImageView>
-                        <HBox VBox.vgrow="ALWAYS">
-                           <VBox.margin>
-                              <Insets left="36.0" />
-                           </VBox.margin>
-                           <children>
-                              <Text fx:id="jobTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="Amatuer Detective" textAlignment="CENTER" />
-                           </children>
-                        </HBox>
                      </children>
                   </VBox>
                </children>
@@ -45,6 +37,11 @@
                   <Insets top="15.0" />
                </HBox.margin>
             </HBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Text fx:id="jobTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="Amatuer Detective" textAlignment="CENTER" />
          </children>
       </HBox>
       <VBox spacing="10.0">
