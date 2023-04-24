@@ -4,6 +4,7 @@ import edu.wpi.teamR.Main;
 import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
+import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
@@ -81,7 +82,7 @@ public class AddEmployeeController {
         } else{
             missingFields.setVisible(false);
             java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-            AuthenticationDAO.getInstance().addUser(
+            new UserDatabase().addUser(
                     staffUsername.getText(),
                     password.getText(),
                     name.getText(),
@@ -90,7 +91,8 @@ public class AddEmployeeController {
                     phoneNumber.getText(),
                     date,
                     accesslevel.getSelectedItem(),
-                    department.getText()
+                    department.getText(),
+                    0
                     );
             back();
         }
