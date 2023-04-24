@@ -64,99 +64,99 @@ public class RequestDatabase {
         return new RoomRequestDAO().getRoomRequestsByDate(date);
     }
 
-    AvailableFlowers addAvailableFlowers(String itemName, String imageReference, String description, double itemPrice, boolean isBouqet, boolean hasCard) throws SQLException {
+    public AvailableFlowers addAvailableFlowers(String itemName, String imageReference, String description, double itemPrice, boolean isBouqet, boolean hasCard) throws SQLException {
         return new AvailableFlowersDAO().addAvailableFlowers(itemName, imageReference, description, itemPrice, isBouqet, hasCard);
     }
 
-    void deleteAvailableFlowers(String itemName) throws SQLException, ItemNotFoundException {
+    public void deleteAvailableFlowers(String itemName) throws SQLException, ItemNotFoundException {
         new AvailableFlowersDAO().deleteAvailableFlowers(itemName);
     }
 
-    void deleteAllAvailableFlowers() throws SQLException {
+    public void deleteAllAvailableFlowers() throws SQLException {
         new AvailableFlowersDAO().deleteAllAvailableFlowers();
     }
 
-    AvailableFlowers modifyAvailableFlowers(String itemName, String imageReference, String description, double itemPrice, boolean isBouqet, boolean hasCard) throws SQLException, ItemNotFoundException {
+    public AvailableFlowers modifyAvailableFlowers(String itemName, String imageReference, String description, double itemPrice, boolean isBouqet, boolean hasCard) throws SQLException, ItemNotFoundException {
         return new AvailableFlowersDAO().modifyAvailableFlowers(itemName, imageReference, description, itemPrice, isBouqet, hasCard);
     }
 
-    ArrayList<AvailableFlowers> getAvailableFlowers() throws SQLException {
+    public ArrayList<AvailableFlowers> getAvailableFlowers() throws SQLException {
         return new AvailableFlowersDAO().getAvailableFlowers();
     }
 
-    ArrayList<AvailableFlowers> getAvailableFlowersByAttributes(String itemName, String imageReference, String description, Double itemPrice, Boolean isBouqet, Boolean hasCard, SortOrder sortOrder) throws SQLException {
+    public ArrayList<AvailableFlowers> getAvailableFlowersByAttributes(String itemName, String imageReference, String description, Double itemPrice, Boolean isBouqet, Boolean hasCard, SortOrder sortOrder) throws SQLException {
         return new AvailableFlowersDAO().getAvailableFlowersByAttributes(itemName, imageReference, description, itemPrice, isBouqet, hasCard, sortOrder);
     }
 
-    AvailableFurniture addAvailableFurniture(String itemName, String imageReference, String description, boolean isSeating, boolean isTable, boolean isPillow, boolean isStorage) throws SQLException {
+    public AvailableFurniture addAvailableFurniture(String itemName, String imageReference, String description, boolean isSeating, boolean isTable, boolean isPillow, boolean isStorage) throws SQLException {
         return new AvailableFurnitureDAO().addAvailableFurniture(itemName, imageReference, description, isSeating, isTable, isPillow, isStorage);
     }
 
-    void deleteAvailableFurniture(String itemName) throws SQLException, ItemNotFoundException {
+    public void deleteAvailableFurniture(String itemName) throws SQLException, ItemNotFoundException {
         new AvailableFurnitureDAO().deleteAvailableFurniture(itemName);
     }
 
-    void deleteAllAvailableFurniture() throws SQLException {
+    public void deleteAllAvailableFurniture() throws SQLException {
         new AvailableFurnitureDAO().deleteAllAvailableFurniture();
     }
 
-    AvailableFurniture modifyAvailableFurniture(String itemName, String imageReference, String description, boolean isSeating, boolean isTable, boolean isPillow, boolean isStorage) throws SQLException, ItemNotFoundException {
+    public AvailableFurniture modifyAvailableFurniture(String itemName, String imageReference, String description, boolean isSeating, boolean isTable, boolean isPillow, boolean isStorage) throws SQLException, ItemNotFoundException {
         return new AvailableFurnitureDAO().modifyAvailableFurniture(itemName, imageReference, description, isSeating, isTable, isPillow, isStorage);
     }
 
-    ArrayList<AvailableFurniture> getAvailableFurniture() throws SQLException {
+    public ArrayList<AvailableFurniture> getAvailableFurniture() throws SQLException {
         return new AvailableFurnitureDAO().getAvailableFurniture();
     }
 
-    ArrayList<AvailableFurniture> getAvailableFurnitureByAttributes(String itemName, String imageReference, String description, Boolean isSeating, Boolean isTable, Boolean isPillow, Boolean isStorage) throws SQLException {
+    public ArrayList<AvailableFurniture> getAvailableFurnitureByAttributes(String itemName, String imageReference, String description, Boolean isSeating, Boolean isTable, Boolean isPillow, Boolean isStorage) throws SQLException {
         return new AvailableFurnitureDAO().getAvailableFurnitureByAttributes(itemName, imageReference, description, isSeating, isTable, isPillow, isStorage);
     }
 
-    AvailableMeals addAvailableMeals(String itemName, String imageReference, String description, double itemPrice, boolean isVegan, boolean isVegetarian, boolean isDairyFree, boolean isPeanutFree, boolean isGlutenFree) throws SQLException {
+    public AvailableMeals addAvailableMeals(String itemName, String imageReference, String description, double itemPrice, boolean isVegan, boolean isVegetarian, boolean isDairyFree, boolean isPeanutFree, boolean isGlutenFree) throws SQLException {
         return new AvailableMealsDAO().addAvailableMeals(itemName, imageReference, description, itemPrice, isVegan, isVegetarian, isDairyFree, isPeanutFree, isGlutenFree);
     }
 
-    void deleteAvailableMeals(String itemName) throws SQLException, ItemNotFoundException {
+    public void deleteAvailableMeals(String itemName) throws SQLException, ItemNotFoundException {
         new AvailableMealsDAO().deleteAvailableMeals(itemName);
     }
 
-    void deleteAllAvailableMeals() throws SQLException {
+    public void deleteAllAvailableMeals() throws SQLException {
         new AvailableMealsDAO().deleteAllAvailableMeals();
     }
 
-    AvailableMeals modifyAvailableMeals(String itemName, String imageReference, String description, double itemPrice, boolean isVegan, boolean isVegetarian, boolean isDairyFree, boolean isPeanutFree, boolean isGlutenFree) throws SQLException, ItemNotFoundException {
+    public AvailableMeals modifyAvailableMeals(String itemName, String imageReference, String description, double itemPrice, boolean isVegan, boolean isVegetarian, boolean isDairyFree, boolean isPeanutFree, boolean isGlutenFree) throws SQLException, ItemNotFoundException {
         return new AvailableMealsDAO().modifyAvailableMeals(itemName, imageReference, description, itemPrice, isVegan, isVegetarian, isDairyFree, isPeanutFree, isGlutenFree);
     }
 
-    ArrayList<AvailableMeals> getAvailableMeals() throws SQLException {
+    public ArrayList<AvailableMeals> getAvailableMeals() throws SQLException {
         return new AvailableMealsDAO().getAvailableMeals();
     }
 
-    ArrayList<AvailableMeals> getAvailableMealsByAttributes(String itemName, String imageReference, String description, Double itemPrice, Boolean isVegan, Boolean isVegetarian, Boolean isDairyFree, Boolean isPeanutFree, Boolean isGlutenFree, SortOrder sortOrder) throws SQLException {
+    public ArrayList<AvailableMeals> getAvailableMealsByAttributes(String itemName, String imageReference, String description, Double itemPrice, Boolean isVegan, Boolean isVegetarian, Boolean isDairyFree, Boolean isPeanutFree, Boolean isGlutenFree, SortOrder sortOrder) throws SQLException {
         return new AvailableMealsDAO().getAvailableMealsByAttributes(itemName, imageReference, description, itemPrice, isVegan, isVegetarian, isDairyFree, isPeanutFree, isGlutenFree, sortOrder);
     }
 
-    AvailableSupplies addAvailableSupplies(String itemName, String imageReference, String description, double itemPrice, boolean isPaper, boolean isPen, boolean isOrganization, boolean isComputerAccessory) throws SQLException {
+    public AvailableSupplies addAvailableSupplies(String itemName, String imageReference, String description, double itemPrice, boolean isPaper, boolean isPen, boolean isOrganization, boolean isComputerAccessory) throws SQLException {
         return new AvailableSuppliesDAO().addAvailableSupplies(itemName, imageReference, description, itemPrice, isPaper, isPen, isOrganization, isComputerAccessory);
     }
 
-    void deleteAvailableSupplies(String itemName) throws SQLException, ItemNotFoundException {
+    public void deleteAvailableSupplies(String itemName) throws SQLException, ItemNotFoundException {
         new AvailableSuppliesDAO().deleteAvailableSupplies(itemName);
     }
 
-    void deleteAllAvailableSupplies() throws SQLException {
+    public void deleteAllAvailableSupplies() throws SQLException {
         new AvailableSuppliesDAO().deleteAllAvailableSupplies();
     }
 
-    AvailableSupplies modifyAvailableSupplies(String itemName, String imageReference, String description, double itemPrice, boolean isPaper, boolean isPen, boolean isOrganization, boolean isComputerAccessory) throws SQLException, ItemNotFoundException {
+    public AvailableSupplies modifyAvailableSupplies(String itemName, String imageReference, String description, double itemPrice, boolean isPaper, boolean isPen, boolean isOrganization, boolean isComputerAccessory) throws SQLException, ItemNotFoundException {
         return new AvailableSuppliesDAO().modifyAvailableSupplies(itemName, imageReference, description, itemPrice, isPaper, isPen, isOrganization, isComputerAccessory);
     }
 
-    ArrayList<AvailableSupplies> getAvailableSupplies() throws SQLException {
+    public ArrayList<AvailableSupplies> getAvailableSupplies() throws SQLException {
         return new AvailableSuppliesDAO().getAvailableSupplies();
     }
 
-    ArrayList<AvailableSupplies> getAvailableSuppliesByAttributes(String itemName, String imageReference, String description, Double itemPrice, Boolean isPaper, Boolean isPen, Boolean isOrganization, Boolean isComputerAccessory, SortOrder sortOrder) throws SQLException {
+    public ArrayList<AvailableSupplies> getAvailableSuppliesByAttributes(String itemName, String imageReference, String description, Double itemPrice, Boolean isPaper, Boolean isPen, Boolean isOrganization, Boolean isComputerAccessory, SortOrder sortOrder) throws SQLException {
         return new AvailableSuppliesDAO().getAvailableSuppliesByAttributes(itemName, imageReference, description, itemPrice, isPaper, isPen, isOrganization, isComputerAccessory, sortOrder);
     }
 }
