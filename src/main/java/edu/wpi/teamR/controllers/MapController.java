@@ -275,15 +275,13 @@ public class MapController {
         int startID = 0;
         int endID = 0;
 
-        ArrayList<MapLocation> mapLocations = mapdb.getMapLocationsByFloorForDate(nodeFloorNames[currentFloor], Date.valueOf(moveDatePicker.getValue()));
-        for (MapLocation m: mapLocations) {
-            for (LocationName l: m.getLocationNames()) {
-                if (l.getLongName().equals(startLocation)) {
-                    startID = m.getNode().getNodeID();
-                }
-                if (l.getLongName().equals(endLocation)) {
-                    endID = m.getNode().getNodeID();
-                }
+        ArrayList<Move> movesForDate = mapdb.getMovesForDate(Date.valueOf(moveDatePicker.getValue()));
+        for (Move m: movesForDate) {
+            if (m.getLongName().equals(startLocation)) {
+                startID = m.getNodeID();
+            }
+            if (m.getLongName().equals(endLocation)) {
+                endID = m.getNodeID();
             }
         }
 
