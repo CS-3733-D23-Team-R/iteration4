@@ -28,7 +28,7 @@ public class MoveDAO {
 
     Move getMoveByLocationAndDate(String longName, Date date) throws SQLException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE nodeID=? AND date=?;");
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE longname=? AND date=?;");
         preparedStatement.setString(1, longName);
         preparedStatement.setDate(2, date);
         ResultSet resultSet = preparedStatement.executeQuery();
