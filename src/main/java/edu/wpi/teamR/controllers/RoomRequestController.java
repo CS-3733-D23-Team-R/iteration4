@@ -62,8 +62,6 @@ ArrayList<String> timeArray = new ArrayList<>();
             mapDatabase = new MapDatabase();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
     @FXML
@@ -129,8 +127,8 @@ ArrayList<String> timeArray = new ArrayList<>();
             }
         }
         else{
-            if (isAvailable(mapDatabase.getConferenceRoomByLongname(location)))
-                conferenceTable.getItems().add(mapDatabase.getConferenceRoomByLongname(location));
+            if (isAvailable(mapDatabase.getConferenceRoomByLongName(location)))
+                conferenceTable.getItems().add(mapDatabase.getConferenceRoomByLongName(location));
         }
     }
 

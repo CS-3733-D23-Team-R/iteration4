@@ -1,14 +1,13 @@
 package edu.wpi.teamR.mapdb;
 
-import edu.wpi.teamR.archive.CSVReadable;
-import edu.wpi.teamR.archive.CSVWritable;
+import edu.wpi.teamR.archive.Archivable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter(AccessLevel.PACKAGE)
-public class LocationName implements MapData, CSVReadable, CSVWritable {
+public class LocationName implements MapData, Archivable {
     private String longName, shortName, nodeType;
 
     public LocationName(String longName, String shortName, String nodeType){

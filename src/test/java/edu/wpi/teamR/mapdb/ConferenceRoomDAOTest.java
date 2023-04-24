@@ -51,7 +51,7 @@ class ConferenceRoomDAOTest {
         assertEquals(1, conferenceRooms.size());
 
         ConferenceRoom conferenceRoom = conferenceRooms.get(0);
-        assertEquals("long1", conferenceRoom.getLongname());
+        assertEquals("long1", conferenceRoom.getLongName());
         assertEquals(5, conferenceRoom.getCapacity());
         assertEquals(true, conferenceRoom.isAccessible());
         assertEquals(true, conferenceRoom.isHasOutlets());
@@ -80,7 +80,7 @@ class ConferenceRoomDAOTest {
         assertEquals(1, conferenceRooms.size());
 
         ConferenceRoom conferenceRoom = conferenceRooms.get(0);
-        assertEquals("long2", conferenceRoom.getLongname());
+        assertEquals("long2", conferenceRoom.getLongName());
         assertEquals(5, conferenceRoom.getCapacity());
         assertEquals(true, conferenceRoom.isAccessible());
         assertEquals(true, conferenceRoom.isHasOutlets());
@@ -127,7 +127,7 @@ class ConferenceRoomDAOTest {
         conferenceRoomDAO.addConferenceRoom("long2", 6, false, false, true);
 
         ConferenceRoom conferenceRoom = conferenceRoomDAO.getConferenceRoomByLongName("long1");
-        assertEquals(conferenceRoom.getLongname(), "long1");
+        assertEquals(conferenceRoom.getLongName(), "long1");
         assertEquals(conferenceRoom.getCapacity(), 5);
         assertEquals(conferenceRoom.isAccessible(), true);
         assertEquals(conferenceRoom.isHasOutlets(), true);
@@ -135,7 +135,7 @@ class ConferenceRoomDAOTest {
 
 
         conferenceRoom = conferenceRoomDAO.getConferenceRoomByLongName("long2");
-        assertEquals(conferenceRoom.getLongname(), "long2");
+        assertEquals(conferenceRoom.getLongName(), "long2");
         assertEquals(conferenceRoom.getCapacity(), 6);
         assertEquals(conferenceRoom.isAccessible(), false);
         assertEquals(conferenceRoom.isHasOutlets(), false);

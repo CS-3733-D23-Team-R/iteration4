@@ -15,8 +15,12 @@ public class RequestDatabase {
         return new ItemRequestDAO().modifyItemRequestByID(requestID, requestType, requestStatus, longname, staffUsername, itemType, requesterName, additionalNotes, requestDate);
     }
 
-        public void deleteItemRequest(int requestID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+    public void deleteItemRequest(int requestID) throws SQLException, ItemNotFoundException {
         new ItemRequestDAO().deleteItemRequest(requestID);
+    }
+
+    public void deleteAllItemRequests() throws SQLException {
+        new ItemRequestDAO().deleteAllItemRequests();
     }
 
     public ArrayList<ItemRequest> getItemRequests() throws SQLException {
@@ -43,6 +47,9 @@ public class RequestDatabase {
         new RoomRequestDAO().deleteRoomRequest(roomRequestID);
     }
 
+    public void deleteAllRoomRequests() throws SQLException {
+        new RoomRequestDAO().deleteAllRoomRequests();
+    }
 
     public ArrayList<RoomRequest> getRoomRequests() throws SQLException {
         return new RoomRequestDAO().getRoomRequests();

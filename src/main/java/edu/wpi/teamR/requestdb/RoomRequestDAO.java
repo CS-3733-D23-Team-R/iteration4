@@ -29,14 +29,14 @@ public class RoomRequestDAO {
         return(new RoomRequest(roomRequestID, longname, staffUsername, startTime, endTime));
     }
 
-    void deleteRoomRequest(int roomRequestID) throws SQLException, ClassNotFoundException {
+    void deleteRoomRequest(int roomRequestID) throws SQLException {
         Connection connection = Configuration.getConnection();
         PreparedStatement sqlDelete = connection.prepareStatement("DELETE FROM "+ Configuration.getRoomRequestSchemaNameTableName() + " WHERE roomRequestID=?;");
         sqlDelete.setInt(1, roomRequestID);
         sqlDelete.executeUpdate();
     }
 
-    public void deleteAllRoomRequests() throws SQLException, ClassNotFoundException {
+    public void deleteAllRoomRequests() throws SQLException {
         Connection connection = Configuration.getConnection();
         PreparedStatement sqlDelete = connection.prepareStatement("DELETE FROM "+ Configuration.getRoomRequestSchemaNameTableName() + ";");
         sqlDelete.executeUpdate();

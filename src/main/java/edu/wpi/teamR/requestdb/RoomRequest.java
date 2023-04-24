@@ -1,7 +1,6 @@
 package edu.wpi.teamR.requestdb;
 
-import edu.wpi.teamR.archive.CSVReadable;
-import edu.wpi.teamR.archive.CSVWritable;
+import edu.wpi.teamR.archive.Archivable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +9,7 @@ import java.sql.Timestamp;
 
 @Getter
 @Setter(AccessLevel.PACKAGE)
-public class RoomRequest implements CSVWritable, CSVReadable {
+public class RoomRequest implements Archivable {
     private int roomRequestID;
     private String longName;
     private String staffUsername;

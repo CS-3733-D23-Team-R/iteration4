@@ -1,12 +1,11 @@
 package edu.wpi.teamR.mapdb;
 
-import edu.wpi.teamR.archive.CSVReadable;
-import edu.wpi.teamR.archive.CSVWritable;
+import edu.wpi.teamR.archive.Archivable;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class ConferenceRoom implements CSVWritable, CSVReadable {
+public class ConferenceRoom implements Archivable {
     private String longName;
     private int capacity;
     private boolean isAccessible, hasOutlets, hasScreen;
