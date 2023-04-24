@@ -6,7 +6,9 @@ import edu.wpi.teamR.datahandling.MapStorage;
 import edu.wpi.teamR.mapdb.MapDatabase;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -30,6 +33,7 @@ import javafx.util.Duration;
 import net.kurobako.gesturefx.*;
 import edu.wpi.teamR.pathfinding.*;
 import edu.wpi.teamR.mapdb.*;
+import org.controlsfx.control.CheckComboBox;
 import org.controlsfx.control.SearchableComboBox;
 
 public class MapController {
@@ -56,14 +60,13 @@ public class MapController {
     @FXML Button clearButton;
     @FXML MFXCheckbox textCheckbox;
 
-    @FXML MFXCheckbox locationNamesCheckbox;
     @FXML
     MFXDatePicker moveDatePicker;
     AnchorPane[] locationPanes = new AnchorPane[5];
 
     ImageView imageView;
 
-    private Map<Integer, ImageView> floorMaps = new HashMap<>();
+    private final Map<Integer, ImageView> floorMaps = new HashMap<>();
     int currentFloor = 2;
 
     String[] floorNames = {
@@ -84,7 +87,7 @@ public class MapController {
 
     AnchorPane[] paths = new AnchorPane[5];
 
-    private AnchorPane mapPane = new AnchorPane();
+    private final AnchorPane mapPane = new AnchorPane();
 
     HashMap<String, Integer> floorNamesMap = new HashMap<>();
 
@@ -95,9 +98,24 @@ public class MapController {
     ArrayList<Move> moves;
 
     ObservableList<String> algorithms =
-            FXCollections.observableArrayList("A-Star", "Breadth-First Search", "Depth-First Search");
+            FXCollections.observableArrayList("A-Star", "Breadth-First Search", "Depth-First Search", "Dijkstra");
 
     Pathfinder pathfinder;
+
+    @FXML
+    HBox floor3Button;
+    @FXML
+    HBox floor2Button;
+    @FXML
+    HBox floor1Button;
+    @FXML
+    HBox L1Button;
+    @FXML
+    HBox L2Button;
+    @FXML
+    CheckComboBox<String> locationFilters;
+    ObservableList<String> locationTypes =
+            FXCollections.observableArrayList("Hall", "Lab", "Elevator", "Services", "Conference Room", "Stairs", "Information", "Restroom", "Department", "Bathroom", "Exit", "Retail");
 
     @FXML
     public void initialize() throws Exception {
@@ -108,11 +126,11 @@ public class MapController {
         locationNames = App.getMapData().getLocationNames();
         moves = App.getMapData().getMoves();
 
-        floorMaps.put(0, App.getMapData().getLowerLevel2());
-        floorMaps.put(1, App.getMapData().getLowerLevel1());
-        floorMaps.put(2, App.getMapData().getFirstFloor());
-        floorMaps.put(3, App.getMapData().getSecondFloor());
-        floorMaps.put(4, App.getMapData().getThirdFloor());
+        floorMaps.put(0, MapStorage.getLowerLevel2());
+        floorMaps.put(1, MapStorage.getLowerLevel1());
+        floorMaps.put(2, MapStorage.getFirstFloor());
+        floorMaps.put(3, MapStorage.getSecondFloor());
+        floorMaps.put(4, MapStorage.getThirdFloor());
 
         for (int i = 0; i < 5; i++) {
             paths[i] = new AnchorPane();
@@ -142,23 +160,48 @@ public class MapController {
 
         setChoiceboxes();
 
-        locationNamesCheckbox.setOnAction(event -> {
-            if (locationNamesCheckbox.isSelected()) {
-                mapPane.getChildren().add(locationPanes[currentFloor]);
-                try {
-                    displayLocationNames(currentFloor);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                locationPanes[currentFloor].getChildren().clear();
-                mapPane.getChildren().remove(locationPanes[currentFloor]);
-            }
-        });
-
         pathfinder = new Pathfinder(mapdb);
         algorithmChoicebox.setItems(algorithms);
         algorithmChoicebox.setValue("A-Star");
+
+        floor3Button.setOnMouseClicked(event -> {
+            try {
+                displayFloorNum(4);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        floor2Button.setOnMouseClicked(event -> {
+            try {
+                displayFloorNum(3);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        floor1Button.setOnMouseClicked(event -> {
+            try {
+                displayFloorNum(2);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        L1Button.setOnMouseClicked(event -> {
+            try {
+                displayFloorNum(1);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        L2Button.setOnMouseClicked(event -> {
+            try {
+                displayFloorNum(0);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        locationFilters.getItems().addAll(locationTypes);
+
+        moveDatePicker.setValue(LocalDate.now());
     }
 
     // Reset to original zoom
@@ -189,7 +232,7 @@ public class MapController {
                 .centreOn(new Point2D(x, y));
     }
 
-    public void search() throws Exception, ItemNotFoundException {
+    public void search() throws Exception {
     /*TODO
     take info from fields
     calculate route
@@ -205,7 +248,7 @@ public class MapController {
     }
 
     public void displayFloorNum(int floorNum) throws SQLException {
-        if (floorNum < 4) {
+        if (floorNum <= 4) {
             locationPanes[currentFloor].getChildren().clear();
             currentFloor = floorNum;
             imageView = floorMaps.get(currentFloor);
@@ -213,18 +256,39 @@ public class MapController {
             mapPane.getChildren().add(imageView);
             mapPane.getChildren().add(paths[currentFloor]);
             floorText.setText(floorNames[currentFloor]);
+            /*
             if (locationNamesCheckbox.isSelected()) {
                 displayLocationNames(currentFloor);
                 mapPane.getChildren().add(locationPanes[currentFloor]);
             }
+
+             */
             reset();
         }
     }
 
-    public void displayPath(String startLocation, String endLocation, Boolean accessible) throws Exception, ItemNotFoundException {
+    public void displayPath(String startLocation, String endLocation, Boolean accessible) throws Exception {
         clearPath();
         updatePathfindingAlgorithm(algorithmChoicebox.getValue());
         mapPane.getChildren().add(paths[currentFloor]);
+        /*
+
+        int startID = 0;
+        int endID = 0;
+
+        ArrayList<MapLocation> mapLocations = mapdb.getMapLocationsByFloorForDate(nodeFloorNames[currentFloor], Date.valueOf(moveDatePicker.getValue()));
+        for (MapLocation m: mapLocations) {
+            for (LocationName l: m.getLocationNames()) {
+                if (l.getShortName().equals(startLocation)) {
+                    startID = m.getNode().getNodeID();
+                }
+                else if (l.getShortName().equals(endLocation)) {
+                    endID = m.getNode().getNodeID();
+                }
+            }
+        }
+
+         */
 
         int startID = idFromName(startLocation);
         int endID = idFromName(endLocation);
@@ -301,9 +365,12 @@ public class MapController {
     private void createCircle(Node endNode, int drawFloor, SearchableComboBox<String> endField) {
         Circle end = new Circle(endNode.getXCoord(), endNode.getYCoord(), 5, Color.RED);
         Text endText = new Text(endField.getValue());
+        /*
         if (locationNamesCheckbox.isSelected()) {
             endText.setText("");
         }
+
+         */
         endText.setX(endNode.getXCoord() + 10);
         endText.setY(endNode.getYCoord());
         endText.setFill(Color.RED);
@@ -317,7 +384,7 @@ public class MapController {
 
     void setChoiceboxes(){
         ArrayList<LocationName> locationNodes = locationNames;
-        ArrayList<String> names = new ArrayList<String>();
+        ArrayList<String> names = new ArrayList<>();
         for (LocationName l: locationNodes) {
             if(!l.getLongName().contains("Hall")) {
                 names.add(l.getLongName());

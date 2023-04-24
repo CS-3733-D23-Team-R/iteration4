@@ -10,12 +10,44 @@
     -fx-border-insets: 0;
     -fx-border-width: 3;
     -fx-border-style: solid;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
 }
 .title{
     -fx-font-family: 'Lato', 'bold';
     -fx-font-weight: bold;
     -fx-font-size: 30px;
 }
+
+.floor-unfocused{
+    -fx-font-family: 'Lato', 'bold';
+    -fx-font-weight: bold;
+    -fx-font-size: 30px;
+    -fx-fill: pressed;
+}
+
+.floor-unfocused:pressed {
+    -fx-text-fill: black;
+}
+
+.floor-box{
+    -fx-background-color: white;
+    -fx-text-fill: pressed;
+    -fx-background-radius: 10;
+}
+
+.floor-box-focused{
+    -fx-background-color: pressed;
+    -fx-text-fill: black;
+    -fx-background-radius: 10;
+}
+
+.floor-box:pressed{
+    -fx-background-color: pressed;
+    -fx-text-fill: black;
+    -fx-background-radius: 10;
+}
+
 
 .button {
     -fx-background-color: bwhblue;
