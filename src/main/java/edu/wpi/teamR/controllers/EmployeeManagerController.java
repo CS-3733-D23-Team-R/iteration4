@@ -11,6 +11,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -22,6 +24,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Objects;
@@ -37,34 +40,38 @@ public class EmployeeManagerController {
     TableColumn<User, Void> deleteCol;
     @FXML
     Button createUser;
-    @FXML
-    VBox data, addUser;
-    @FXML
-    Button submit, clear, back;
-    @FXML
-    MFXTextField name, email, password, phoneNumber, staffUsername, department, jobTitle;
-    @FXML
-    MFXComboBox<String> accesslevel;
-    @FXML
-    Text missingFields;
+//    @FXML
+//    VBox data, addUser;
+//    @FXML
+//    Button submit, clear, back;
+//    @FXML
+//    MFXTextField name, email, password, phoneNumber, staffUsername, department, jobTitle;
+//    @FXML
+//    MFXComboBox<String> accesslevel;
+//    @FXML
+//    Text missingFields;
+
+    @FXML VBox profileCardContainer;
     ObservableList<String> accessLevels = FXCollections.observableArrayList("Admin", "Staff");
     public void initialize() throws SQLException, ClassNotFoundException {
-        missingFields.setVisible(false);
-        data.setVisible(true);
-        addUser.setVisible(false);
+//        missingFields.setVisible(false);
+//        data.setVisible(true);
+//        addUser.setVisible(false);
         createUser.setVisible(true);
         createUser.setOnMouseClicked(event -> createUser());
         addButtonToTable();
-        clear.setOnMouseClicked(event -> clear());
-        submit.setOnMouseClicked(event -> {
-            try {
-                submit();
-            } catch (SQLException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        back.setOnMouseClicked(event -> back());
-        accesslevel.setItems(accessLevels);
+        User user = AuthenticationDAO.getInstance().getUsers().get(0);
+        displayProfile(user);
+//        clear.setOnMouseClicked(event -> clear());
+//        submit.setOnMouseClicked(event -> {
+//            try {
+//                submit();
+//            } catch (SQLException | ClassNotFoundException e) {
+//                throw new RuntimeException(e);
+//            }
+//        });
+//        back.setOnMouseClicked(event -> back());
+//        accesslevel.setItems(accessLevels);
         userNameCol.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
         //userNameCol.setCellFactory(TextFieldTableCell.forTableColumn());
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -188,21 +195,40 @@ public class EmployeeManagerController {
             theTable.getItems().add(aUser);
         }
     }
+
+    private Node loadCard(User user) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/Profile.fxml"));
+        Node node = loader.load();
+        ProfileController contentController = loader.getController();
+        contentController.setInfo(user);
+        return node;
+    }
+
+    private void displayProfile(User user){
+        profileCardContainer.getChildren().clear();
+        try {
+            profileCardContainer.getChildren().add(loadCard(user));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void createUser(){
-        addUser.setVisible(true);
-        data.setVisible(false);
+//        addUser.setVisible(true);
+//        data.setVisible(false);
         createUser.setVisible(false);
     }
-    public void clear(){
-        name.clear();
-        email.clear();
-        password.clear();
-        phoneNumber.clear();
-        staffUsername.clear();
-        department.clear();
-        jobTitle.clear();
-        accesslevel.clear();
-    }
+//    public void clear(){
+//        name.clear();
+//        email.clear();
+//        password.clear();
+//        phoneNumber.clear();
+//        staffUsername.clear();
+//        department.clear();
+//        jobTitle.clear();
+//        accesslevel.clear();
+//    }
+    /*
     public void submit() throws SQLException, ClassNotFoundException {
         if(name.getText().isEmpty() ||
                 email.getText().isEmpty() ||
@@ -248,6 +274,7 @@ public class EmployeeManagerController {
         data.setVisible(true);
         createUser.setVisible(true);
     }
+     */
 
     private void addButtonToTable() {
         Callback<TableColumn<User, Void>, TableCell<User, Void>> cellFactory = new Callback<TableColumn<User, Void>, TableCell<User, Void>>() {
