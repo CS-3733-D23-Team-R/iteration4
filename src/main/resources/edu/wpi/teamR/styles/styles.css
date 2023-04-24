@@ -350,18 +350,6 @@
     -fx-border-width: 3;
     -fx-border-style: solid;
 }
-.profileToMapEditor{
-    -fx-background-image: url("../images/blurredmap.png");
-    -fx-background-repeat: stretch;
-    -fx-background-size: cover;
-    -fx-background-position: center;
-}
-.profileToEmployeeManager{
-    -fx-background-image: url("../images/blurredemployeemanagerbutton.png");
-    -fx-background-repeat: stretch;
-    -fx-background-size: cover;
-    -fx-background-position: center;
-}
 
 .signage-configuration-button{
     -fx-background-color: #A6A2A2;
@@ -379,12 +367,4 @@
     -fx-font-size: 12;
     -fx-font-weight: 700;
     -fx-border-radius: 4px;
-}
-
-.profileToServiceRequests{
-    -fx-background-image: url("../images/blurredprofletopendingservicerequest.png");
-    -fx-background-repeat: stretch;
-    -fx-background-size: fill;
-    -fx-background-position: center;
-    -fx-background-radius: 30;
 }
