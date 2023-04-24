@@ -27,7 +27,7 @@ public class MapDatabase {
     private final ItemRequestDAO itemRequestDAO;
     private final RoomRequestDAO roomRequestDAO;
 
-    public MapDatabase() throws SQLException, ClassNotFoundException {
+    public MapDatabase() throws SQLException {
         this.nodeDao = new NodeDAO();
         this.edgeDao = new EdgeDAO();
         this.moveDao = new MoveDAO();
