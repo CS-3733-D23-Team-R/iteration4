@@ -12,6 +12,8 @@ public class CSVWriter {
     }
 
     public void writeCSV(OutputStream out, List<? extends Archivable> data) throws IOException {
+        if (data.size() == 0)
+            return;
         Writer writer = new BufferedWriter(new OutputStreamWriter(out));
         writer.write(data.get(0).getCSVColumns());
         writer.write("\n");

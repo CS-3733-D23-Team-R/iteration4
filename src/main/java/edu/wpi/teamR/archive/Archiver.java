@@ -1,5 +1,8 @@
 package edu.wpi.teamR.archive;
 
+import edu.wpi.teamR.login.Alert;
+import edu.wpi.teamR.login.User;
+import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.mapdb.*;
 import edu.wpi.teamR.requestdb.ItemRequest;
 import edu.wpi.teamR.requestdb.RequestDatabase;
@@ -16,10 +19,12 @@ import org.apache.commons.compress.archivers.zip.ZipFile;
 public class Archiver {
     private MapDatabase mapdb;
     private RequestDatabase requestdb;
+    private UserDatabase userdb;
 
-    public Archiver(MapDatabase mapDatabase, RequestDatabase requestDatabase) {
+    public Archiver(MapDatabase mapDatabase, UserDatabase userDatabase, RequestDatabase requestDatabase) {
         mapdb = mapDatabase;
         requestdb = requestDatabase;
+        userdb = userDatabase;
     }
 
     public void createArchive(String archivePath) throws SQLException {
@@ -37,6 +42,9 @@ public class Archiver {
             outputStream.putArchiveEntry(new ZipArchiveEntry("LocationName.csv"));
             writer.writeCSV(outputStream, mapdb.getLocationNames());
             outputStream.closeArchiveEntry();
+            outputStream.putArchiveEntry(new ZipArchiveEntry("User.csv"));
+            writer.writeCSV(outputStream, userdb.getUsers());
+            outputStream.closeArchiveEntry();
             outputStream.putArchiveEntry(new ZipArchiveEntry("DirectionArrow.csv"));
             writer.writeCSV(outputStream, mapdb.getDirectionArrows());
             outputStream.closeArchiveEntry();
@@ -48,6 +56,9 @@ public class Archiver {
             outputStream.closeArchiveEntry();
             outputStream.putArchiveEntry(new ZipArchiveEntry("RoomRequest.csv"));
             writer.writeCSV(outputStream, requestdb.getRoomRequests());
+            outputStream.closeArchiveEntry();
+            outputStream.putArchiveEntry(new ZipArchiveEntry("Alert.csv"));
+            writer.writeCSV(outputStream, userdb.getAlerts());
             outputStream.closeArchiveEntry();
             outputStream.flush();
         } catch (IOException e) {
@@ -70,6 +81,8 @@ public class Archiver {
             mapdb.addLocationNames(reader.parseCSV(LocationName.class, zipFile.getInputStream(entry)));
             entry = zipFile.getEntry("Move.csv");
             mapdb.addMoves(reader.parseCSV(Move.class, zipFile.getInputStream(entry)));
+            entry = zipFile.getEntry("User.csv");
+            userdb.addUsers(reader.parseCSV(User.class, zipFile.getInputStream(entry)));
             entry = zipFile.getEntry("DirectionArrow.csv");
             mapdb.addDirectionArrows(reader.parseCSV(DirectionArrow.class, zipFile.getInputStream(entry)));
             entry = zipFile.getEntry("ConferenceRoom.csv");
@@ -78,6 +91,8 @@ public class Archiver {
             requestdb.addItemRequests(reader.parseCSV(ItemRequest.class, zipFile.getInputStream(entry)));
             entry = zipFile.getEntry("RoomRequest.csv");
             requestdb.addRoomRequests(reader.parseCSV(RoomRequest.class, zipFile.getInputStream(entry)));
+            entry = zipFile.getEntry("Alert.csv");
+            userdb.addAlerts(reader.parseCSV(Alert.class, zipFile.getInputStream(entry)));
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -87,6 +102,8 @@ public class Archiver {
     private void deleteALL() throws SQLException {
         requestdb.deleteAllItemRequests();
         requestdb.deleteAllRoomRequests();
+        userdb.deleteAllAlerts();
+        userdb.deleteAllUsers();
         mapdb.deleteAllEdges();
         mapdb.deleteAllMoves();
         mapdb.deleteAllDirectionArrows();

@@ -171,19 +171,18 @@ public class SortOrdersController {
 
             String lowerCaseFilter = newValue.toLowerCase();
 
-            if(itemRequest.getRequesterName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+            if(itemRequest.getRequesterName().toLowerCase().contains(lowerCaseFilter)) {
                 return true;
-            } else if (itemRequest.getLongname().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+            } else if (itemRequest.getLongName().toLowerCase().contains(lowerCaseFilter)) {
                 return true;
-            } else if (itemRequest.getRequestType().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+            } else if (itemRequest.getRequestType().toString().toLowerCase().contains(lowerCaseFilter)) {
                 return true;
-            } else if (itemRequest.getAdditionalNotes().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+            } else if (itemRequest.getAdditionalNotes().toLowerCase().contains(lowerCaseFilter)) {
                 return true;
-            } else if (itemRequest.getRequestDate().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+            } else if (itemRequest.getRequestDate().toString().toLowerCase().contains(lowerCaseFilter)) {
                 return true;
-            } else if (itemRequest.getRequestStatus().toString().toLowerCase().indexOf(lowerCaseFilter) != -1)
-                return true;
-             else  return false;
+            } else
+                return itemRequest.getRequestStatus().toString().toLowerCase().contains(lowerCaseFilter);
             });
         });
         SortedList<ItemRequest> sortedData = new SortedList<>(filteredData);

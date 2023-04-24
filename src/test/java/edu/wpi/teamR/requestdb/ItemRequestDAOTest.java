@@ -23,21 +23,21 @@ class ItemRequestDAOTest {
     private static UserDatabase userDatabase;
 
     @BeforeAll
-    static void starterFunction() throws SQLException, ClassNotFoundException {
+    static void starterFunction() throws SQLException {
         Configuration.changeSchemaToTest();
         mapDatabase = new MapDatabase();
         itemRequestDAO = new ItemRequestDAO();
         userDatabase = new UserDatabase();
     }
     @BeforeEach
-    void deleteOldData() throws SQLException, ClassNotFoundException {
+    void deleteOldData() throws SQLException {
         itemRequestDAO.deleteAllItemRequests();
         userDatabase.deleteAllUsers();
         mapDatabase.deleteAllLocationNames();
     }
 
     @AfterAll
-    static void clearDataDeleteConnection() throws SQLException, ClassNotFoundException {
+    static void clearDataDeleteConnection() throws SQLException {
         itemRequestDAO.deleteAllItemRequests();
         userDatabase.deleteAllUsers();
         mapDatabase.deleteAllLocationNames();
@@ -65,7 +65,7 @@ class ItemRequestDAOTest {
         assertEquals(itemRequest1.getRequestID(), itemRequest2.getRequestID());
         assertEquals(itemRequest1.getRequestType(), itemRequest2.getRequestType());
         assertEquals(itemRequest1.getRequestStatus(), itemRequest2.getRequestStatus());
-        assertEquals(itemRequest1.getLongname(), itemRequest2.getLongname());
+        assertEquals(itemRequest1.getLongName(), itemRequest2.getLongName());
         assertEquals(itemRequest1.getStaffUsername(), itemRequest2.getStaffUsername());
         assertEquals(itemRequest1.getItemType(), itemRequest2.getItemType());
         assertEquals(itemRequest1.getRequesterName(), itemRequest2.getRequesterName());
@@ -173,13 +173,13 @@ class ItemRequestDAOTest {
 
         //Query
         searchList = new SearchList();
-        searchList.addComparison(RequestAttribute.longname, Operation.equalTo, itemRequest1.getLongname());
+        searchList.addComparison(RequestAttribute.longname, Operation.equalTo, itemRequest1.getLongName());
         itemRequests = itemRequestDAO.getItemRequestByAttributes(searchList);
         assertEquals(1, itemRequests.size());
 
         //Query
         searchList = new SearchList();
-        searchList.addComparison(RequestAttribute.longname, Operation.equalTo, itemRequest5.getLongname());
+        searchList.addComparison(RequestAttribute.longname, Operation.equalTo, itemRequest5.getLongName());
         itemRequests = itemRequestDAO.getItemRequestByAttributes(searchList);
         assertEquals(2, itemRequests.size());
 

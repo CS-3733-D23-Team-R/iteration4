@@ -2,6 +2,7 @@ package edu.wpi.teamR;
 
 import edu.wpi.teamR.archive.Archiver;
 import edu.wpi.teamR.archive.CSVParameterException;
+import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.mapdb.MapDatabase;
 import edu.wpi.teamR.requestdb.RequestDatabase;
 
@@ -13,7 +14,8 @@ public class Main {
     Configuration.changeSchemaToTest();
     RequestDatabase requestDatabase = new RequestDatabase();
     MapDatabase mapDatabase = new MapDatabase();
-    Archiver archiver = new Archiver(mapDatabase, requestDatabase);
+    UserDatabase userDatabase = new UserDatabase();
+    Archiver archiver = new Archiver(mapDatabase, userDatabase, requestDatabase);
     //archiver.createArchive("archive.zip");
     try {
       archiver.restoreArchive("archive.zip");

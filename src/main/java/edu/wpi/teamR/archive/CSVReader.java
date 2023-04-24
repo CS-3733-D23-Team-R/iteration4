@@ -13,11 +13,12 @@ public class CSVReader {
     }
 
     public <T extends Archivable> ArrayList<T> parseCSV(Class<T> _class, InputStream in) throws CSVParameterException, IOException, IndexOutOfBoundsException {
-        System.out.println("Parsing");
+        //System.out.println("Parsing");
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-        reader.readLine();
         ArrayList<T> data = new ArrayList<>();
-        Constructor<T> c = null;
+        if (reader.readLine() == null)
+            return data;
+        Constructor<T> c;
         try {
             c = _class.getDeclaredConstructor(String[].class);
         } catch (NoSuchMethodException e) {
@@ -29,7 +30,7 @@ public class CSVReader {
         try {
             while ((line = reader.readLine()) != null) {
                 args = line.split(",");
-                System.out.println(line);
+                //System.out.println(line);
                 data.add(c.newInstance((Object) args));
             }
             c.setAccessible(false);

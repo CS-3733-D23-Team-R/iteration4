@@ -40,12 +40,12 @@ public class RequestDatabase {
         return new AvailableItemDAO().getAvailableItemsByTypeWithinRangeSortedByPrice(requestType, upperBound, lowerBound, sortOrder);
     }
 
-    public AvailableItem getAvailableItemByName(String itemName, RequestType requestType) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+    public AvailableItem getAvailableItemByName(String itemName, RequestType requestType) throws SQLException, ItemNotFoundException {
         return new AvailableItemDAO().getAvailableItemByName(itemName, requestType);
     }
 
-    public RoomRequest addRoomRequest(String longname, String staffUsername, Timestamp startTime, Timestamp endTime) throws SQLException, ClassNotFoundException {
-        return new RoomRequestDAO().addRoomRequest(longname, staffUsername, startTime, endTime);
+    public RoomRequest addRoomRequest(String longName, String staffUsername, Timestamp startTime, Timestamp endTime) throws SQLException, ClassNotFoundException {
+        return new RoomRequestDAO().addRoomRequest(longName, staffUsername, startTime, endTime);
     }
 
     public void addRoomRequests(List<RoomRequest> roomRequests) throws SQLException {
