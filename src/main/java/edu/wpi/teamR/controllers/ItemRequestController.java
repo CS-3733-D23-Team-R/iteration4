@@ -28,9 +28,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class ItemRequestController {
-
-//    @FXML
-//    private ComboBox<String> itemFilterByComboBox;
     @FXML
     private ToggleButton flowersButton;
 
@@ -136,34 +133,6 @@ public class ItemRequestController {
             flowersButton.setSelected(false);
         });
 
-//        itemFilterByComboBox.setItems(FXCollections.observableArrayList("Unsorted", "Price: Low to High", "Price: High to Low"));
-
-        itemZerotoTen.setOnMouseEntered(event -> textHover(itemZerotoTen));
-        itemZerotoTen.setOnMouseExited(event -> textStopHover(itemZerotoTen));
-        itemZerotoTen.setOnMouseClicked(event -> {this.lowerBound = 0.0; this.upperBound = 10.0; regenerateTable();});
-
-        itemTentoTwenty.setOnMouseEntered(event -> textHover(itemTentoTwenty));
-        itemTentoTwenty.setOnMouseExited(event -> textStopHover(itemTentoTwenty));
-        itemTentoTwenty.setOnMouseClicked(event -> {this.lowerBound = 10.0; this.upperBound = 20.0; regenerateTable();});
-
-        itemTwentytoThirty.setOnMouseEntered(event -> textHover(itemTwentytoThirty));
-        itemTwentytoThirty.setOnMouseExited(event -> textStopHover(itemTwentytoThirty));
-        itemTwentytoThirty.setOnMouseClicked(event -> {this.lowerBound = 20.0; this.upperBound = 30.0; regenerateTable();});
-
-
-        itemThirtytoForty.setOnMouseEntered(event -> textHover(itemThirtytoForty));
-        itemThirtytoForty.setOnMouseExited(event -> textStopHover(itemThirtytoForty));
-        itemThirtytoForty.setOnMouseClicked(event -> {this.lowerBound = 30.0; this.upperBound = 40.0; regenerateTable();});
-
-
-        itemThirtyPlus.setOnMouseEntered(event -> textHover(itemThirtyPlus));
-        itemThirtyPlus.setOnMouseExited(event -> textStopHover(itemThirtyPlus));
-        itemThirtyPlus.setOnMouseClicked(event -> {this.lowerBound = 30.0; this.upperBound = null; regenerateTable();});
-
-
-        itemNameColumn.setCellValueFactory(new PropertyValueFactory<>("itemName"));
-        itemPriceColumn.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
-        itemDetailsColumn.setCellValueFactory(new PropertyValueFactory<>("imageReference"));
 
 //        itemFilterByComboBox.setOnAction(event -> {
 //            String comboType = itemFilterByComboBox.getSelectionModel().getSelectedItem();
@@ -180,30 +149,6 @@ public class ItemRequestController {
 //            regenerateTable();
 //        });
 
-//        itemTypeBox.setOnAction(event -> {
-//            RequestType comboType = itemTypeBox.getSelectionModel().getSelectedItem();
-//            this.type = comboType;
-//            regenerateTable();
-//        });
-
-        minMaxGoButton.setOnAction(event -> {
-            this.lowerBound = Double.valueOf(itemMinField.getText());
-            this.upperBound = Double.valueOf(itemMaxField.getText());
-            regenerateTable();
-        });
-
-
-        addButtonToTable();
-
-        try {
-            items = new RequestDatabase().getAvailableItemsByTypeWithinRangeSortedByPrice(this.type, this.upperBound, this.lowerBound, this.sortOrder);
-            obsItems = FXCollections.observableArrayList(items);
-            itemTable.setItems(obsItems);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
 
         cartButton.setOnMouseClicked(event -> {
             try {
@@ -266,14 +211,6 @@ public class ItemRequestController {
         };
 
         itemAddToCartColumn.setCellFactory(cellFactory);
-    }
-
-    private void textHover(Text text){
-        text.setFill(Color.valueOf("F6BD38"));
-    }
-
-    private void textStopHover(Text text){
-        text.setFill(Color.WHITE);
     }
 
     private void regenerateTable(){

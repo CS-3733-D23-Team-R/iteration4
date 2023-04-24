@@ -25,8 +25,8 @@
             <Text fx:id="cardDescription" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="Description" wrappingWidth="247.65419006347656" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="50.0" />
             <AnchorPane fx:id="addToCartButton" prefHeight="60.0" prefWidth="60.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
                <children>
-                  <Circle fill="DODGERBLUE" radius="30.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" style="-fx-fill: bwhblue;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
+                  <Circle fx:id="addToCartCircle" fill="DODGERBLUE" radius="30.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" style="-fx-fill: bwhblue;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                  <ImageView fx:id="addToCartCart" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
                      <image>
                         <Image url="@../images/serviceRequests/cart.png" />
                      </image>
