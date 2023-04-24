@@ -18,7 +18,6 @@ public class CurrentUser {
     Date joinDate;
     int phoneNum;
     String jobTitle;
-    ArrayList<String> imageLocations = {"../login"};
     public CurrentUser(String username, String password, AccessLevel accessLevel, String fullname, String email, String department, Date joinDate, int phoneNum, String jobTitle){ //TODO: update this with alton's new user class
         this.username = username;
         this.password = password;
