@@ -7,6 +7,7 @@ import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,10 +15,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
@@ -28,6 +26,10 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
+/* TODO:
+    Make it so you can edit phone numbers
+
+ */
 
 public class EmployeeManagerController {
     @FXML
@@ -40,9 +42,8 @@ public class EmployeeManagerController {
     TableColumn<User, Void> deleteCol;
     @FXML
     Button createUser;
-
     @FXML VBox profileCardContainer;
-    ObservableList<String> accessLevels = FXCollections.observableArrayList("Admin", "Staff");
+    ObservableList<AccessLevel> accessLevels = FXCollections.observableArrayList(AccessLevel.Admin, AccessLevel.Staff);
     public void initialize() throws SQLException, ClassNotFoundException {
         createUser.setVisible(true);
         createUser.setOnMouseClicked(event -> Navigation.navigate(Screen.ADDEMPLOYEE));
@@ -55,8 +56,6 @@ public class EmployeeManagerController {
         nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
         emailCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        accessLevelCol.setCellValueFactory(new PropertyValueFactory<>("accessLevel"));
-        //accessLevelCol.setCellFactory(TextFieldTableCell.forTableColumn());
         departmentCol.setCellValueFactory(new PropertyValueFactory<>("department"));
         departmentCol.setCellFactory(TextFieldTableCell.forTableColumn());
         jobTitleCol.setCellValueFactory(new PropertyValueFactory<>("jobTitle"));
@@ -89,11 +88,34 @@ public class EmployeeManagerController {
             aUser.setEmail(event.getNewValue());
             updateUser(aUser);
         });
-//        accessLevelCol.setOnEditCommit(event -> {
-//            User aUser = event.getRowValue();
-//            aUser.setAccessLevel(event.getNewValue());
-//            updateUser(aUser);
-//        });
+        accessLevelCol.setCellFactory(column -> new TableCell<>() {
+            private final MFXComboBox<AccessLevel> accessLevelMFXComboBox = new MFXComboBox<AccessLevel>(accessLevels);
+            {
+                accessLevelMFXComboBox.setMaxWidth(70);
+                accessLevelMFXComboBox.setOnAction(event -> {
+                    User user1 = getTableView().getItems().get(getIndex());
+                    try {
+                        AccessLevel accessLevel = accessLevelMFXComboBox.getSelectionModel().getSelectedItem();
+                        user1.setAccessLevel(accessLevel);
+                        updateUser(user1);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    User user1 = getTableView().getItems().get(getIndex());
+                    accessLevelMFXComboBox.getSelectionModel().selectItem(user1.getAccessLevel());
+                    setGraphic(accessLevelMFXComboBox);
+                }
+            }
+        });
+
         departmentCol.setOnEditCommit(event -> {
             User aUser = event.getRowValue();
             aUser.setDepartment(event.getNewValue());
