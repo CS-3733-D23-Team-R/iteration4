@@ -7,8 +7,11 @@ import edu.wpi.teamR.requestdb.ItemRequest;
 import edu.wpi.teamR.requestdb.RequestDatabase;
 import edu.wpi.teamR.requestdb.RequestStatus;
 import edu.wpi.teamR.userData.UserData;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -36,13 +39,16 @@ public class SortOrdersController {
     @FXML TableColumn<ItemRequest, String> staffMemberColumn;
     @FXML TableColumn<ItemRequest, String> timeColumn;
     @FXML TableColumn<ItemRequest, String> statusColumn;
+    @FXML
+    MFXTextField searchField;
 
     @FXML TableColumn<ItemRequest, Void> deleteCol;
     ObservableList<RequestStatus> statusList = FXCollections.observableArrayList(RequestStatus.values());
-
+    private final ObservableList<ItemRequest> dataList = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() throws SQLException, ClassNotFoundException {
+        dataList.addAll(new RequestDatabase().getItemRequests());
         idColumn.setCellValueFactory(new PropertyValueFactory<>("requestID"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("requesterName"));
         locationColumn.setCellValueFactory(new PropertyValueFactory<>("longname"));
@@ -154,6 +160,35 @@ public class SortOrdersController {
                 }
             }
         });
+
+        FilteredList<ItemRequest> filteredData = new FilteredList<>(dataList, b -> true);
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(itemRequest -> {
+                    if(newValue == null || newValue.isEmpty()) {
+                        return true;
+            }
+
+            String lowerCaseFilter = newValue.toLowerCase();
+
+            if(itemRequest.getRequesterName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                return true;
+            } else if (itemRequest.getLongname().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                return true;
+            } else if (itemRequest.getRequestType().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                return true;
+            } else if (itemRequest.getAdditionalNotes().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                return true;
+            } else if (itemRequest.getRequestDate().toString().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                return true;
+            } else if (itemRequest.getRequestStatus().toString().toLowerCase().indexOf(lowerCaseFilter) != -1)
+                return true;
+             else  return false;
+            });
+        });
+        SortedList<ItemRequest> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(requestTable.comparatorProperty());
+        requestTable.setItems(sortedData);
 
     }
 
