@@ -4,16 +4,16 @@
     -fx-background-color: #FFFFFF;
 }
 
-.editProfileButton {
+.tinyButton {
     -fx-background-color: bwhblue;
     -fx-text-fill: white;
     -fx-font-family: 'Nunito Sans', 'bold';
-    -fx-font-size: 8;
+    -fx-font-size: 12;
     -fx-font-weight: 500;
     border-radius: 4px;
 }
 
-.editProfileButton:pressed {
+.tinyButton:pressed {
     -fx-background-color: pressed;
     -fx-text-fill: white;
     -fx-font-family: 'Nunito Sans', 'bold';
