@@ -40,6 +40,20 @@ public class MoveDAO {
         return new Move(aNodeID, aLongName, aDate);
     }
 
+    Move getLatestMoveForLocationByDate(String longName, Date date) throws SQLException, ItemNotFoundException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE longname=? AND date<? group by longname;");
+        preparedStatement.setString(1, longName);
+        preparedStatement.setDate(2, date);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (!resultSet.next())
+            throw new ItemNotFoundException();
+        Date aDate = resultSet.getDate("date");
+        String aLongName = resultSet.getString("longname");
+        int aNodeID = resultSet.getInt("nodeID");
+        return new Move(aNodeID, aLongName, aDate);
+    }
+
     ArrayList<Move> getMovesByNodeID(int nodeID) throws SQLException {
         Connection connection = Configuration.getConnection();
         ArrayList<Move> temp = new ArrayList<Move>();
