@@ -10,7 +10,6 @@ public enum Screen {
   ROOM_REQUEST("views/ConfrenceRoom.fxml"),
   MAP("views/Map.fxml"),
   LOGIN("views/Login.fxml"),
-  ADMINHOME("views/AdminHome.fxml"),
   MAP_EDITOR("views/MapEditor.fxml"),
   SORT_ORDERS("views/SortOrders.fxml"),
   SCREENSAVER("views/Screensaver.fxml"),

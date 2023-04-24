@@ -1,0 +1,32 @@
+.boxroundedbordered{
+    -fx-border-width: 3;
+    -fx-border-radius: 30;
+    -fx-border-color: black;
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 30;
+}
+
+.editProfileButton {
+    -fx-background-color: bwhblue;
+    -fx-text-fill: white;
+    -fx-font-family: 'Nunito Sans', 'bold';
+    -fx-font-size: 12;
+    -fx-font-weight: 500;
+    border-radius: 4px;
+}
+
+.editProfileButton:pressed {
+    -fx-background-color: pressed;
+    -fx-text-fill: white;
+    -fx-font-family: 'Nunito Sans', 'bold';
+    -fx-font-size: 12;
+    -fx-font-weight: 500;
+    border-radius: 4px;
+}
+
+.profileToConferenceRoom{
+    -fx-background-image: url("../images/login/adminprofilepage/blurredconferenceroom.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
