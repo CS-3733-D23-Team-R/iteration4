@@ -5,11 +5,12 @@ import edu.wpi.teamR.Main;
 import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.MFXTextField;
+import edu.wpi.teamR.navigation.Navigation;
+import edu.wpi.teamR.navigation.Screen;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -20,13 +21,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.util.Callback;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.Objects;
 
 public class EmployeeManagerController {
@@ -40,160 +40,92 @@ public class EmployeeManagerController {
     TableColumn<User, Void> deleteCol;
     @FXML
     Button createUser;
-//    @FXML
-//    VBox data, addUser;
-//    @FXML
-//    Button submit, clear, back;
-//    @FXML
-//    MFXTextField name, email, password, phoneNumber, staffUsername, department, jobTitle;
-//    @FXML
-//    MFXComboBox<String> accesslevel;
-//    @FXML
-//    Text missingFields;
 
     @FXML VBox profileCardContainer;
     ObservableList<String> accessLevels = FXCollections.observableArrayList("Admin", "Staff");
     public void initialize() throws SQLException, ClassNotFoundException {
-//        missingFields.setVisible(false);
-//        data.setVisible(true);
-//        addUser.setVisible(false);
         createUser.setVisible(true);
-        createUser.setOnMouseClicked(event -> createUser());
+        createUser.setOnMouseClicked(event -> Navigation.navigate(Screen.ADDEMPLOYEE));
         addButtonToTable();
         User user = AuthenticationDAO.getInstance().getUsers().get(0);
         displayProfile(user);
-//        clear.setOnMouseClicked(event -> clear());
-//        submit.setOnMouseClicked(event -> {
-//            try {
-//                submit();
-//            } catch (SQLException | ClassNotFoundException e) {
-//                throw new RuntimeException(e);
-//            }
-//        });
-//        back.setOnMouseClicked(event -> back());
-//        accesslevel.setItems(accessLevels);
         userNameCol.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
-        //userNameCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        userNameCol.setCellFactory(TextFieldTableCell.forTableColumn());
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        //nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
-        //emailCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        emailCol.setCellFactory(TextFieldTableCell.forTableColumn());
         accessLevelCol.setCellValueFactory(new PropertyValueFactory<>("accessLevel"));
         //accessLevelCol.setCellFactory(TextFieldTableCell.forTableColumn());
         departmentCol.setCellValueFactory(new PropertyValueFactory<>("department"));
-        //departmentCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        departmentCol.setCellFactory(TextFieldTableCell.forTableColumn());
         jobTitleCol.setCellValueFactory(new PropertyValueFactory<>("jobTitle"));
-        //jobTitleCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        jobTitleCol.setCellFactory(TextFieldTableCell.forTableColumn());
         joinDateCol.setCellValueFactory(new PropertyValueFactory<>("joinDate"));
         phoneNumCol.setCellValueFactory(new PropertyValueFactory<>("phoneNum"));
-        /*
+        theTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                // Get the selected Person object
+                User selectedUser = theTable.getSelectionModel().getSelectedItem();
+                if (selectedUser != null) {
+                    // Do something with the selected Person object
+                    displayProfile(selectedUser);
+                }
+            }
+        });
         userNameCol.setOnEditCommit(event -> {
             User aUser = event.getRowValue();
             aUser.setStaffUsername(event.getNewValue());
-            try{AuthenticationDAO.getInstance().modifyUserByUsername(
-                        event.getNewValue(),
-                        aUser.getPassword(),
-                        aUser.getName(),
-                        aUser.getEmail(),
-                        aUser.getJobTitle(),
-                        aUser.getPhoneNum(),
-                        aUser.getJoinDate(),
-                        aUser.getAccessLevel(),
-                        aUser.getDepartment());
-            } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+            updateUser(aUser);
         });
         nameCol.setOnEditCommit(event -> {
             User aUser = event.getRowValue();
             aUser.setName(event.getNewValue());
-            try{AuthenticationDAO.getInstance().modifyUserByUsername(
-                    aUser.getStaffUsername(),
-                    aUser.getPassword(),
-                    event.getNewValue(),
-                    aUser.getEmail(),
-                    aUser.getJobTitle(),
-                    aUser.getPhoneNum(),
-                    aUser.getJoinDate(),
-                    aUser.getAccessLevel(),
-                    aUser.getDepartment());
-            } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+            updateUser(aUser);
         });
         emailCol.setOnEditCommit(event -> {
             User aUser = event.getRowValue();
-            aUser.setName(event.getNewValue());
-            try{AuthenticationDAO.getInstance().modifyUserByUsername(
-                    aUser.getStaffUsername(),
-                    aUser.getPassword(),
-                    aUser.getName(),
-                    event.getNewValue(),
-                    aUser.getJobTitle(),
-                    aUser.getPhoneNum(),
-                    aUser.getJoinDate(),
-                    aUser.getAccessLevel(),
-                    aUser.getDepartment());
-            } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+            aUser.setEmail(event.getNewValue());
+            updateUser(aUser);
         });
-        accessLevelCol.setOnEditCommit(event -> {
-            User aUser = event.getRowValue();
-            aUser.setName(event.getNewValue());
-            try{AuthenticationDAO.getInstance().modifyUserByUsername(
-                    aUser.getStaffUsername(),
-                    aUser.getPassword(),
-                    aUser.getName(),
-                    aUser.getEmail(),
-                    aUser.getJobTitle(),
-                    aUser.getPhoneNum(),
-                    aUser.getJoinDate(),
-                    AccessLevel.valueOf(event.getNewValue()),
-                    aUser.getDepartment());
-            } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        });
+//        accessLevelCol.setOnEditCommit(event -> {
+//            User aUser = event.getRowValue();
+//            aUser.setAccessLevel(event.getNewValue());
+//            updateUser(aUser);
+//        });
         departmentCol.setOnEditCommit(event -> {
             User aUser = event.getRowValue();
-            aUser.setName(event.getNewValue());
-            try{AuthenticationDAO.getInstance().modifyUserByUsername(
-                    aUser.getStaffUsername(),
-                    aUser.getPassword(),
-                    aUser.getName(),
-                    aUser.getEmail(),
-                    aUser.getJobTitle(),
-                    aUser.getPhoneNum(),
-                    aUser.getJoinDate(),
-                    aUser.getAccessLevel(),
-                    event.getNewValue());
-            } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+            aUser.setDepartment(event.getNewValue());
+            updateUser(aUser);
         });
         jobTitleCol.setOnEditCommit(event -> {
             User aUser = event.getRowValue();
-            aUser.setName(event.getNewValue());
-            try{AuthenticationDAO.getInstance().modifyUserByUsername(
-                    aUser.getStaffUsername(),
-                    aUser.getPassword(),
-                    aUser.getName(),
-                    aUser.getEmail(),
-                    event.getNewValue(),
-                    aUser.getPhoneNum(),
-                    aUser.getJoinDate(),
-                    aUser.getAccessLevel(),
-                    aUser.getDepartment());
-            } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+            aUser.setJobTitle(event.getNewValue());
+            updateUser(aUser);
         });
 
-         */
+
         for(User aUser : AuthenticationDAO.getInstance().getUsers()){
             theTable.getItems().add(aUser);
         }
+    }
+
+    private void updateUser(User aUser){
+        try{AuthenticationDAO.getInstance().modifyUserByUsername(
+                aUser.getStaffUsername(),
+                aUser.getPassword(),
+                aUser.getName(),
+                aUser.getEmail(),
+                aUser.getJobTitle(),
+                aUser.getPhoneNum(),
+                aUser.getJoinDate(),
+                aUser.getAccessLevel(),
+                aUser.getDepartment());
+        } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        displayProfile(aUser);
     }
 
     private Node loadCard(User user) throws IOException {
@@ -212,69 +144,6 @@ public class EmployeeManagerController {
             e.printStackTrace();
         }
     }
-
-    public void createUser(){
-//        addUser.setVisible(true);
-//        data.setVisible(false);
-        createUser.setVisible(false);
-    }
-//    public void clear(){
-//        name.clear();
-//        email.clear();
-//        password.clear();
-//        phoneNumber.clear();
-//        staffUsername.clear();
-//        department.clear();
-//        jobTitle.clear();
-//        accesslevel.clear();
-//    }
-    /*
-    public void submit() throws SQLException, ClassNotFoundException {
-        if(name.getText().isEmpty() ||
-                email.getText().isEmpty() ||
-                password.getText().isEmpty() ||
-                phoneNumber.getText().isEmpty() ||
-                staffUsername.getText().isEmpty() ||
-                department.getText().isEmpty() ||
-                jobTitle.getText().isEmpty() ||
-                accesslevel.getText().isEmpty()){
-            missingFields.setVisible(true);
-        } else{
-            missingFields.setVisible(false);
-            java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-            User newUser = new User(staffUsername.getText(),
-                    password.getText(),
-                    name.getText(),
-                    email.getText(),
-                    jobTitle.getText(),
-                    phoneNumber.getText(),
-                    date,
-                    AccessLevel.valueOf(accesslevel.getText()),
-                    department.getText());
-            AuthenticationDAO.getInstance().addUser(
-                    staffUsername.getText(),
-                    password.getText(),
-                    name.getText(),
-                    email.getText(),
-                    jobTitle.getText(),
-                    phoneNumber.getText(),
-                    date,
-                    AccessLevel.valueOf(accesslevel.getText()),
-                    department.getText()
-                    );
-
-            theTable.getItems().add(newUser);
-            addUser.setVisible(false);
-            data.setVisible(true);
-            createUser.setVisible(true);
-        }
-    }
-    public void back(){
-        addUser.setVisible(false);
-        data.setVisible(true);
-        createUser.setVisible(true);
-    }
-     */
 
     private void addButtonToTable() {
         Callback<TableColumn<User, Void>, TableCell<User, Void>> cellFactory = new Callback<TableColumn<User, Void>, TableCell<User, Void>>() {
