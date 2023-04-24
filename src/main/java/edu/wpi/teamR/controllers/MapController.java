@@ -271,7 +271,6 @@ public class MapController {
         clearPath();
         updatePathfindingAlgorithm(algorithmChoicebox.getValue());
         mapPane.getChildren().add(paths[currentFloor]);
-        /*
 
         int startID = 0;
         int endID = 0;
@@ -279,19 +278,18 @@ public class MapController {
         ArrayList<MapLocation> mapLocations = mapdb.getMapLocationsByFloorForDate(nodeFloorNames[currentFloor], Date.valueOf(moveDatePicker.getValue()));
         for (MapLocation m: mapLocations) {
             for (LocationName l: m.getLocationNames()) {
-                if (l.getShortName().equals(startLocation)) {
+                if (l.getLongName().equals(startLocation)) {
                     startID = m.getNode().getNodeID();
                 }
-                else if (l.getShortName().equals(endLocation)) {
+                if (l.getLongName().equals(endLocation)) {
                     endID = m.getNode().getNodeID();
                 }
             }
         }
 
-         */
 
-        int startID = idFromName(startLocation);
-        int endID = idFromName(endLocation);
+        //int startID = idFromName(startLocation);
+        //int endID = idFromName(endLocation);
 
         System.out.println("Start ID: " + startID + "End ID: " + endID);
 
