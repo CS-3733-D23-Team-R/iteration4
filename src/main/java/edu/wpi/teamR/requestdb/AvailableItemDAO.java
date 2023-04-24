@@ -20,21 +20,25 @@ public class AvailableItemDAO {
         if (requestType == RequestType.Supplies)
             searchTableString = Configuration.getAvailableSuppliesTableSchemaNameTableName();
 
-        String upperBoundString = "1=1"; //only remove if upperBound is a number
-        if (upperBound!=null)
-            upperBoundString = "itemPrice<"+upperBound;
-
-        String lowerBoundString = "1=1"; //only remove if lowerBound is a number
-        if (lowerBound!=null)
-            lowerBoundString = "itemPrice>"+lowerBound;
-
+        String upperBoundString;
+        String lowerBoundString;
         String sortOrderString = "";
-        if (sortOrder == SortOrder.unsorted)
-            sortOrderString = "";
-        if (sortOrder == SortOrder.lowToHigh)
-            sortOrderString = " ORDER BY itemPrice ASC";
-        if (sortOrder == SortOrder.highToLow)
-            sortOrderString = " ORDER BY itemPrice DESC";
+
+        upperBoundString = "1=1"; //only remove if upperBound is a number
+        if (upperBound != null)
+            upperBoundString = "itemPrice<" + upperBound;
+
+        lowerBoundString = "1=1"; //only remove if lowerBound is a number
+        if (lowerBound != null)
+            lowerBoundString = "itemPrice>" + lowerBound;
+        if (requestType != RequestType.Furniture) {
+            if (sortOrder == SortOrder.unsorted)
+                sortOrderString = "";
+            if (sortOrder == SortOrder.lowToHigh)
+                sortOrderString = " ORDER BY itemPrice ASC";
+            if (sortOrder == SortOrder.highToLow)
+                sortOrderString = " ORDER BY itemPrice DESC";
+        }
 
         Connection connection = Configuration.getConnection();
         Statement statement = connection.createStatement();
@@ -43,7 +47,9 @@ public class AvailableItemDAO {
         ArrayList<AvailableItem> availableItems = new ArrayList<AvailableItem>();
         while (resultSet.next()){
             String itemName = resultSet.getString("itemName");
-            double itemPrice = resultSet.getDouble("itemPrice");
+            double itemPrice = 0;
+            if (requestType != RequestType.Furniture)
+                itemPrice = resultSet.getDouble("itemPrice");
             String imageReference = resultSet.getString("imageReference");
 
             availableItems.add(new AvailableItem(itemName, requestType, itemPrice, imageReference));
@@ -51,7 +57,7 @@ public class AvailableItemDAO {
         return availableItems;
     }
 
-    AvailableItem getAvailableItemByName(String itemName, RequestType requestType) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+    AvailableItem getAvailableItemByName(String itemName, RequestType requestType) throws SQLException, ItemNotFoundException {
         String searchTableString = "";
         if (requestType == RequestType.Meal)
             searchTableString = Configuration.getAvailableMealsTableSchemaNameTableName();

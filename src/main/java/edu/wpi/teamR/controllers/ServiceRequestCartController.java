@@ -39,11 +39,11 @@ import java.util.ArrayList;
 public class ServiceRequestCartController {
 
     @FXML
-    SearchableComboBox userField;
+    SearchableComboBox<String> userField;
     @FXML
-    SearchableComboBox locationField;
+    SearchableComboBox<String> locationField;
     @FXML
-    SearchableComboBox staffField;
+    SearchableComboBox<String> staffField;
     @FXML
     Text paymentField;
     @FXML public VBox cartPane;
@@ -70,9 +70,7 @@ public class ServiceRequestCartController {
         submitButton.setOnMouseClicked(event -> {
             try {
                 submit();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
+            } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         });
@@ -176,17 +174,17 @@ public class ServiceRequestCartController {
     }
 
     public Timestamp CurrentDateTime(){
-        LocalDateTime now = LocalDateTime.now();
-        return new Timestamp(now.getYear(), now.getMonthValue(), now.getDayOfMonth(), now.getHour(),now.getMinute(),now.getSecond(),now.getNano());
+        // LocalDateTime now = LocalDateTime.now();
+        return new Timestamp(System.currentTimeMillis());
     }
 
 
     @FXML
     public void submit() throws SQLException, ClassNotFoundException {
         try {
-            String location = locationField.getValue().toString();
-            String staff = staffField.getValue().toString();
-            String requestor = userField.getValue().toString();
+            String location = locationField.getValue();
+            String staff = staffField.getValue();
+            String requestor = userField.getValue();
             String additionalNotes = notesField.getText();
 
 
