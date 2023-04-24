@@ -196,7 +196,7 @@
                   <Image url="@../images/map/mapalert.png" />
                </image>
             </ImageView>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="alert-text" text="Alert!">
+            <Text fx:id="alertText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="alert-text" text="Alert!">
                <font>
                   <Font size="18.0" />
                </font>

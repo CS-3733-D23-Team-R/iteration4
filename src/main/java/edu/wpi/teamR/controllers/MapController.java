@@ -3,7 +3,11 @@ package edu.wpi.teamR.controllers;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.App;
 import edu.wpi.teamR.datahandling.MapStorage;
+import edu.wpi.teamR.login.Alert;
+import edu.wpi.teamR.login.AlertDAO;
+import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.mapdb.MapDatabase;
+import edu.wpi.teamR.userData.UserData;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 
 import java.sql.Date;
@@ -120,9 +124,13 @@ public class MapController {
             FXCollections.observableArrayList("Lab", "Elevator", "Services", "Conference Room", "Stairs", "Information", "Restroom", "Department", "Bathroom", "Exit", "Retail");
     HashMap<String, String> locationMap = new HashMap<>();
 
+    UserDatabase userdb = new UserDatabase();
+    ArrayList<Alert> alertList;
+    @FXML Text alertText;
+
+
     @FXML
     public void initialize() throws Exception {
-        App.setMapData(new MapStorage());
         mapdb = App.getMapData().getMapdb();
         nodes = App.getMapData().getNodes();
         edges = App.getMapData().getEdges();
@@ -232,6 +240,11 @@ public class MapController {
         });
 
         moveDatePicker.setValue(LocalDate.now());
+
+        alertList = userdb.getAlerts();
+        if (alertList.size() > 0) {
+            alertText.setText(alertList.get(alertList.size() - 1).getMessage());
+        }
     }
 
     // Reset to original zoom
@@ -301,8 +314,8 @@ public class MapController {
         updatePathfindingAlgorithm(algorithmChoicebox.getValue());
         mapPane.getChildren().add(paths[currentFloor]);
 
-        Move startNodeMove = mapdb.getMoveByLocationAndDate(startLocation, java.sql.Date.valueOf(moveDatePicker.getValue()));
-        Move endNodeMove = mapdb.getMoveByLocationAndDate(endLocation, java.sql.Date.valueOf(moveDatePicker.getValue()));
+        Move startNodeMove = mapdb.getLatestMoveForLocationByDate(startLocation, java.sql.Date.valueOf(moveDatePicker.getValue()));
+        Move endNodeMove = mapdb.getLatestMoveForLocationByDate(endLocation, java.sql.Date.valueOf(moveDatePicker.getValue()));
 
         int startID = startNodeMove.getNodeID();
         int endID = endNodeMove.getNodeID();
@@ -398,10 +411,6 @@ public class MapController {
         endText.setFill(Color.RED);
         paths[drawFloor].getChildren().add(end);
         paths[drawFloor].getChildren().add(endText);
-    }
-
-    private int idFromName(String longname) throws SQLException, ItemNotFoundException {
-        return mapdb.getLatestMoveByLocationName(longname).getNodeID();
     }
 
     void setChoiceboxes(){

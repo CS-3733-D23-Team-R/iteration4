@@ -48,7 +48,7 @@ public class UserDatabase {
     void deleteAllAlerts() throws SQLException {
         alertDAO.deleteAllAlerts();
     }
-    ArrayList<Alert> getAlerts() throws SQLException {
+    public ArrayList<Alert> getAlerts() throws SQLException {
         return alertDAO.getAlerts();
     }
     ArrayList<Alert> getAlertsInLastNumDaysDesc(int numDays) throws SQLException { //get all alerts between current time and currentTime - numDays days ordered desc by date
