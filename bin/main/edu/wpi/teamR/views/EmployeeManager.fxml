@@ -50,11 +50,11 @@
           <TableColumn fx:id="userNameCol" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="staffUsername" />
             <TableColumn fx:id="nameCol" prefWidth="114.66667175292969" text="Name" />
             <TableColumn fx:id="emailCol" prefWidth="134.0" text="Email" />
-            <TableColumn fx:id="accessLevelCol" maxWidth="80.0" minWidth="80.0" text="AccessLevel" />
             <TableColumn fx:id="departmentCol" prefWidth="142.66668701171875" text="Department" />
             <TableColumn fx:id="jobTitleCol" prefWidth="122.0" text="Job Title" />
-            <TableColumn fx:id="phoneNumCol" prefWidth="116.0" text="Phone Number" />
+            <TableColumn fx:id="phoneNumCol" prefWidth="116.0" text="Phone #" />
             <TableColumn fx:id="joinDateCol" minWidth="0.0" prefWidth="111.33343505859375" text="Join Date" />
+            <TableColumn fx:id="accessLevelCol" prefWidth="134.0" text="AccessLevel" />
             <TableColumn fx:id="deleteCol" maxWidth="79.3333740234375" minWidth="80.0" prefWidth="79.3333740234375" text="Delete?" />
         </columns>
          <columnResizePolicy>

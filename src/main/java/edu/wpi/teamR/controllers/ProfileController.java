@@ -7,6 +7,7 @@ import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
 import edu.wpi.teamR.userData.CurrentUser;
 import edu.wpi.teamR.userData.UserData;
+import edu.wpi.teamR.userData.UserData;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
@@ -49,6 +50,8 @@ public class ProfileController {
         hireDate.setText(user.getJoinDate().toString());
         phoneNumber.setText(user.getPhoneNum());
         jobTitle.setText(user.getJobTitle());
+        editProfileBtn.setVisible(false);
+        editProfileBtn.setDisable(true);
         Image image1 = new Image(UserData.getInstance().getLoggedIn().getProfilePictureLocation());
         profileImage.setImage(image1);
         editProfileBtn.setVisible(false);
@@ -64,6 +67,7 @@ public class ProfileController {
         jobTitle.setText(user.getJobTitle());
         Image image1 = new Image(UserData.getInstance().getLoggedIn().getProfilePictureLocation());
         profileImage.setImage(image1);
+        editProfileBtn.setVisible(true);
     }
     public Button getBtn() {
         return editProfileBtn;

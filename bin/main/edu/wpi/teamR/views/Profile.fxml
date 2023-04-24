@@ -15,7 +15,7 @@
          <children>
             <HBox prefHeight="57.0" prefWidth="112.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Button fx:id="edtiProfileBtn" mnemonicParsing="false" prefHeight="39.0" prefWidth="110.0" styleClass="tinyButton" stylesheets="@../styles/loginStyles.css" text="Edit Profile" />
+                  <Button fx:id="editProfileBtn" mnemonicParsing="false" prefHeight="39.0" prefWidth="110.0" styleClass="tinyButton" stylesheets="@../styles/loginStyles.css" text="Edit Profile" />
                </children>
                <HBox.margin>
                   <Insets left="20.0" top="15.0" />
