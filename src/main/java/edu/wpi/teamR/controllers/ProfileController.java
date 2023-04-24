@@ -48,6 +48,8 @@ public class ProfileController {
         phoneNumber.setText(user.getPhoneNum());
         jobTitle.setText(user.getJobTitle());
         //profileImage.setImage(AuthenticationDAO.getInstance().getUserByUsername(user.getName()).getProfileImageID());
+//        editProfileBtn.setVisible(false);
+//        editProfileBtn.setDisable(true);
     }
 
     public void setInfo(CurrentUser user){
@@ -58,6 +60,7 @@ public class ProfileController {
         phoneNumber.setText(user.getPhoneNum() + "");
         jobTitle.setText(user.getJobTitle());
         //profileImage.setImage(AuthenticationDAO.getInstance().getUserByUsername(user.getName()).getProfileImageID());
+//        editProfileBtn.setVisible(true);
     }
     public Button getBtn() {
         return editProfileBtn;

@@ -17,6 +17,7 @@ public enum Screen {
   STAFFPROFILEPAGE("views/StaffProfilePage.fxml"),
   EMPLOYEEMANAGER("views/EmployeeManager.fxml"),
   ITEMREQUEST("views/ItemRequest.fxml"),
+  ADDEMPLOYEE("views/AddEmployee.fxml"),
   SIGNAGECONFIGURATION("views/SignageConfiguration.fxml");
 
   private final String filename;
