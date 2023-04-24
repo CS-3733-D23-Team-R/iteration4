@@ -2,14 +2,11 @@ package edu.wpi.teamR.login;
 
 import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.ItemNotFoundException;
-import edu.wpi.teamR.mapdb.DirectionArrowDAO;
-import edu.wpi.teamR.mapdb.LocationNameDAO;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -29,12 +26,12 @@ class AuthenticationDAOTest {
     }
     @AfterAll
     static void end() throws SQLException, ClassNotFoundException {
-        authenticationDAO.deleteALLUsers();
+        authenticationDAO.deleteAllUsers();
         Configuration.getConnection().close();
     }
     @BeforeEach
     void reset() throws SQLException, ClassNotFoundException {
-        authenticationDAO.deleteALLUsers();
+        authenticationDAO.deleteAllUsers();
     }
 
     @Test
@@ -123,7 +120,7 @@ class AuthenticationDAOTest {
         users = authenticationDAO.getUsers();
         assertEquals(3, users.size());
 
-        authenticationDAO.deleteALLUsers();
+        authenticationDAO.deleteAllUsers();
 
         users = authenticationDAO.getUsers();
         assertEquals(0, users.size());

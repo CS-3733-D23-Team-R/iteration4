@@ -4,8 +4,6 @@ import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.AuthenticationDAO;
-import edu.wpi.teamR.mapdb.ConferenceRoomDAO;
-import edu.wpi.teamR.mapdb.LocationNameDAO;
 import edu.wpi.teamR.mapdb.MapDatabase;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -14,7 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,14 +34,14 @@ class RoomRequestDAOTest {
         roomRequestDAO.deleteAllRoomRequests();
         mapDatabase.deleteAllConferenceRooms();
         mapDatabase.deleteAllLocationNames();
-        authenticationDAO.deleteALLUsers();
+        authenticationDAO.deleteAllUsers();
     }
     @BeforeEach
     void reset() throws SQLException, ClassNotFoundException {
         roomRequestDAO.deleteAllRoomRequests();
         mapDatabase.deleteAllConferenceRooms();
         mapDatabase.deleteAllLocationNames();
-        authenticationDAO.deleteALLUsers();
+        authenticationDAO.deleteAllUsers();
     }
 
     @Test

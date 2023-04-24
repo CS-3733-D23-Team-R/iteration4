@@ -5,7 +5,6 @@ import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.mapdb.MapDatabase;
-import oracle.ucp.proxy.annotation.Pre;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,14 +31,14 @@ class ItemRequestDAOTest {
     @BeforeEach
     void deleteOldData() throws SQLException, ClassNotFoundException {
         itemRequestDAO.deleteAllItemRequests();
-        authenticationDAO.deleteALLUsers();
+        authenticationDAO.deleteAllUsers();
         mapDatabase.deleteAllLocationNames();
     }
 
     @AfterAll
     static void clearDataDeleteConnection() throws SQLException, ClassNotFoundException {
         itemRequestDAO.deleteAllItemRequests();
-        authenticationDAO.deleteALLUsers();
+        authenticationDAO.deleteAllUsers();
         mapDatabase.deleteAllLocationNames();
         Configuration.getConnection().close();
     }
