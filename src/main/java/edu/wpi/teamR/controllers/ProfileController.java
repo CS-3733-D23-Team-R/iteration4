@@ -5,6 +5,7 @@ import edu.wpi.teamR.Main;
 import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
+import edu.wpi.teamR.userData.CurrentUser;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
@@ -43,6 +44,16 @@ public class ProfileController {
         dept.setText(user.getDepartment());
         hireDate.setText(user.getJoinDate().toString());
         phoneNumber.setText(user.getPhoneNum());
+        jobTitle.setText(user.getJobTitle());
+        //profileImage.setImage(AuthenticationDAO.getInstance().getUserByUsername(user.getName()).getProfileImageID());
+    }
+
+    public void setInfo(CurrentUser user){
+        name.setText(user.getFullName());
+        email.setText(user.getEmail());
+        dept.setText(user.getDepartment());
+        hireDate.setText(user.getJoinDate().toString());
+        phoneNumber.setText(user.getPhoneNum() + "");
         jobTitle.setText(user.getJobTitle());
         //profileImage.setImage(AuthenticationDAO.getInstance().getUserByUsername(user.getName()).getProfileImageID());
     }
