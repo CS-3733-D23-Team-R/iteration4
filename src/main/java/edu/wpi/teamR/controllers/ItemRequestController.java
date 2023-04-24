@@ -39,38 +39,9 @@ public class ItemRequestController {
 
     @FXML
     private ToggleButton suppliesButton;
-    @FXML
-    private TextField itemMaxField;
-    @FXML
-    private TextField itemMinField;
-    @FXML
-    private TableView<AvailableItem> itemTable;
-    @FXML
-    private TableColumn<AvailableItem, String> itemNameColumn;
-    @FXML
-    private TableColumn<AvailableItem, String> itemDetailsColumn;
-    @FXML
-    private TableColumn<AvailableItem, Double> itemPriceColumn;
-    @FXML
-    private TableColumn<AvailableItem, Void> itemQuantityColumn;
-    @FXML
-    private TableColumn<AvailableItem, Void> itemAddToCartColumn;
-    @FXML
-    private Text itemTentoTwenty;
-    @FXML
-    private Text itemThirtytoForty;
-    @FXML
-    private Text itemTwentytoThirty;
-//    @FXML
-//    private MFXComboBox<RequestType> itemTypeBox;
-    @FXML
-    private Text itemZerotoTen;
-    @FXML
-    private Text itemThirtyPlus;
     @FXML ImageView cartButton;
     @FXML
     AnchorPane requestPageBackground;
-    @FXML Button clearFiltersButton;
 
 
 
@@ -78,8 +49,6 @@ public class ItemRequestController {
     private Double lowerBound = null;
     private Double upperBound = null;
     private SortOrder sortOrder = SortOrder.unsorted;
-    @FXML
-    private Button minMaxGoButton;
 
     private  ArrayList<AvailableItem> items;
 
@@ -92,8 +61,6 @@ public class ItemRequestController {
         ObservableList<RequestType> itemTypeList = FXCollections.observableArrayList();
 //        for (RequestType type : RequestType.values()) {itemTypeList.add(type);} //add all request types to combo box
 //        itemTypeBox.setItems(itemTypeList);
-
-        clearFiltersButton.setOnAction(event -> clearFilters());
 
         changeBackground();
 
@@ -172,57 +139,8 @@ public class ItemRequestController {
         System.out.println("opened");
     }
 
-    private void addButtonToTable() {
-        Callback<TableColumn<AvailableItem, Void>, TableCell<AvailableItem, Void>> cellFactory = new Callback<TableColumn<AvailableItem, Void>, TableCell<AvailableItem, Void>>() {
-            @Override
-            public TableCell<AvailableItem, Void> call(final TableColumn<AvailableItem, Void> param) {
-                return new TableCell<AvailableItem, Void>() {
-
-                    private final Button btn = new Button();
-                    {
-                        btn.getStyleClass().add("food_furniture-clear-button");
-                        btn.setText("Add to Cart");
-                        btn.setOnAction((ActionEvent event) -> {
-                            AvailableItem data = getTableView().getItems().get(getIndex());
-
-                            try {
-                                ShoppingCart cartInstance = ShoppingCart.getInstance();
-                                cartInstance.addItem(data, 1);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        });
-//                        btn.setOnMouseClicked(event -> {
-//                            btn.set("primaryLightGrey");
-//                        });
-                    }
-
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-                        }
-                    }
-                };
-            }
-        };
-
-        itemAddToCartColumn.setCellFactory(cellFactory);
-    }
 
     private void regenerateTable(){
-        try {
-            items = new RequestDatabase().getAvailableItemsByTypeWithinRangeSortedByPrice(this.type, this.upperBound, this.lowerBound, this.sortOrder);
-            obsItems = FXCollections.observableArrayList(items);
-            itemTable.setItems(obsItems);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private void changeBackground() {
@@ -243,14 +161,6 @@ public class ItemRequestController {
                 requestPageBackground.getStyleClass().clear();
                 requestPageBackground.getStyleClass().add("meal-title");
         }
-    }
-
-    private void clearFilters(){
-        this.upperBound = null;
-        this.lowerBound = null;
-        itemMaxField.clear();
-        itemMinField.clear();
-        regenerateTable();
     }
 
 }
