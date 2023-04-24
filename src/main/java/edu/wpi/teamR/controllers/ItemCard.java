@@ -67,16 +67,16 @@ public class ItemCard {
         });
     }
 
-    public void setInfo(String name, String image, String price, String description, RequestType type) {
-        cardTitle.setText(name);
-        cardDescription.setText(description);
-        cardPrice.setText(price);
-        BackgroundImage bImg = new BackgroundImage(new Image(image),
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT);
-        Background bGround = new Background(bImg);
-        cardImage.setBackground(bGround);
+    public void setInfo(AvailableItem item) {
+//        cardTitle.setText(item.getItemName());
+//        cardDescription.setText(item.getImageReference()); //TODO CHANGE FOR NEW ITEM
+//        cardPrice.setText(item.getItemPrice());
+//        BackgroundImage bImg = new BackgroundImage(new Image(image),
+//                BackgroundRepeat.NO_REPEAT,
+//                BackgroundRepeat.NO_REPEAT,
+//                BackgroundPosition.DEFAULT,
+//                BackgroundSize.DEFAULT);
+//        Background bGround = new Background(bImg);
+//        cardImage.setBackground(bGround);
     }
 }

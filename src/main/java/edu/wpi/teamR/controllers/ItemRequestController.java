@@ -2,6 +2,7 @@ package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.Main;
 import edu.wpi.teamR.datahandling.ShoppingCart;
+import edu.wpi.teamR.login.User;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -11,11 +12,13 @@ import javafx.collections.ObservableListBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -63,6 +66,9 @@ public class ItemRequestController {
 
     @FXML
     private ToggleButton FilterButton5;
+
+    @FXML
+    private GridPane cardGridPane;
 
 
     private RequestType type = RequestType.Meal;
@@ -201,4 +207,33 @@ public class ItemRequestController {
         FilterButton5.setManaged(state);
     }
 
+    private Node loadCard(AvailableItem item) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/ItemCard.fxml"));
+        Node node = loader.load();
+        ItemCard contentController = loader.getController();
+        contentController.setInfo(item);
+        return node;
+    }
+
+    private void regenerateCards(){
+        RequestDatabase requestDatabase = new RequestDatabase();
+        try {
+            ArrayList<AvailableItem> filteredList = new ArrayList<>();
+            switch(this.type){
+                default:
+                    filteredList = requestDatabase.getAvailableItemsByTypeWithinRangeSortedByPrice(this.type, this.upperBound, this.lowerBound, this.sortOrder);
+            }
+
+            for (AvailableItem item : filteredList){
+                cardGridPane.getChildren().add(loadCard(item));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }
