@@ -248,3 +248,14 @@
     -fx-background-color: #f0f8ff;
     -fx-text-fill: #000000;
 }
+
+.alert-box {
+    -fx-background-color: #001A3C;
+}
+
+.alert-text{
+    -fx-font-family: 'Nunito Sans', 'regular';
+    -fx-font-weight: NORMAL;
+    -fx-font-size: 18;
+    -fx-text-fill: white;
+}

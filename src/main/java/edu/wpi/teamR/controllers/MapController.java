@@ -20,6 +20,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -272,24 +273,13 @@ public class MapController {
         updatePathfindingAlgorithm(algorithmChoicebox.getValue());
         mapPane.getChildren().add(paths[currentFloor]);
 
-        int startID = 0;
-        int endID = 0;
+        Move startNodeMove = mapdb.getMoveByLocationAndDate(startLocation, java.sql.Date.valueOf(moveDatePicker.getValue()));
+        Move endNodeMove = mapdb.getMoveByLocationAndDate(endLocation, java.sql.Date.valueOf(moveDatePicker.getValue()));
 
-        ArrayList<Move> movesForDate = mapdb.getMovesForDate(Date.valueOf(moveDatePicker.getValue()));
-        for (Move m: movesForDate) {
-            if (m.getLongName().equals(startLocation)) {
-                startID = m.getNodeID();
-            }
-            if (m.getLongName().equals(endLocation)) {
-                endID = m.getNodeID();
-            }
-        }
+        int startID = startNodeMove.getNodeID();
+        int endID = endNodeMove.getNodeID();
 
-
-        //int startID = idFromName(startLocation);
-        //int endID = idFromName(endLocation);
-
-        System.out.println("Start ID: " + startID + "End ID: " + endID);
+        System.out.println("Start ID: " + startID + " End ID: " + endID);
 
         Path mapPath = pathfinder.findPath(startID, endID, accessible);
         ArrayList<Integer> currentPath = mapPath.getPath();
@@ -330,6 +320,17 @@ public class MapController {
                 Rectangle nextFloorRect = new Rectangle(n2.getXCoord(), n2.getYCoord(), 20, 20);
                 nextFloorRect.setFill(Color.LIMEGREEN);
                 paths[floorNamesMap.get(n2.getFloorNum())].getChildren().add(nextFloorRect);
+                int finalDrawFloor = drawFloor;
+                nextFloorRect.setOnMouseClicked(event -> {
+                    try {
+                        displayFloorNum(finalDrawFloor);
+                        gesturePane.zoomTo(1, 1, new Point2D(n2.getXCoord(), n2.getYCoord()));
+                        gesturePane.centreOn(new Point2D(n2.getXCoord(), n2.getYCoord()));
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
                 square.toFront();
 
                 Text t = new Text("Click to go to next floor");
