@@ -123,6 +123,10 @@ public class MapDatabase {
         return moveDao.getMoves();
     }
 
+    public Move getMoveByLocationAndDate(String longName, Date date) throws SQLException, ItemNotFoundException {
+        return moveDao.getMoveByLocationAndDate(longName, date);
+    }
+
     public ArrayList<Move> getMovesForDate(Date date) throws SQLException {
         return moveDao.getMovesForDate(date);
     }
