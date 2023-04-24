@@ -17,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import oracle.ucp.common.FailoverStats;
@@ -25,6 +26,7 @@ import org.controlsfx.control.PopOver;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class ItemRequestController {
@@ -42,7 +44,25 @@ public class ItemRequestController {
     @FXML ImageView cartButton;
     @FXML
     AnchorPane requestPageBackground;
+    @FXML
+    private ComboBox<String> itemFilterByComboBox;
+    @FXML
+    private Text otherFilterTitle;
 
+    @FXML
+    private ToggleButton FilterButton1;
+
+    @FXML
+    private ToggleButton FilterButton2;
+
+    @FXML
+    private ToggleButton FilterButton3;
+
+    @FXML
+    private ToggleButton FilterButton4;
+
+    @FXML
+    private ToggleButton FilterButton5;
 
 
     private RequestType type = RequestType.Meal;
@@ -54,6 +74,8 @@ public class ItemRequestController {
 
     private ObservableList<AvailableItem> obsItems;
 
+    private ObservableList<String> priceList = FXCollections.observableArrayList("Unsorted", "Price: High to Low", "Price: Low to High");
+
 
 
     @FXML public void initialize(){
@@ -62,60 +84,29 @@ public class ItemRequestController {
 //        for (RequestType type : RequestType.values()) {itemTypeList.add(type);} //add all request types to combo box
 //        itemTypeBox.setItems(itemTypeList);
 
-        changeBackground();
-
-        furnitureButton.setOnAction(event -> {
-            this.type = RequestType.Furniture;
-            regenerateTable();
-            changeBackground();
-            suppliesButton.setSelected(false);
-            foodButton.setSelected(false);
-            flowersButton.setSelected(false);
-        });
-        foodButton.setOnAction(event -> {
-            this.type = RequestType.Meal;
-            regenerateTable();
-            changeBackground();
-            furnitureButton.setSelected(false);
-            suppliesButton.setSelected(false);
-            flowersButton.setSelected(false);
-        });
-
+        changeTypeState(RequestType.Meal);
         foodButton.setSelected(true);
 
-        flowersButton.setOnAction(event -> {
-            this.type = RequestType.Flower;
-            regenerateTable();
-            changeBackground();
-            furnitureButton.setSelected(false);
-            foodButton.setSelected(false);
-            suppliesButton.setSelected(false);
+
+        furnitureButton.setOnAction(event -> {changeTypeState(RequestType.Furniture);});
+        foodButton.setOnAction(event -> {changeTypeState(RequestType.Meal);});
+        flowersButton.setOnAction(event -> {changeTypeState(RequestType.Flower);});
+        suppliesButton.setOnAction(event -> {changeTypeState(RequestType.Supplies);});
+
+        itemFilterByComboBox.setItems(priceList);
+        itemFilterByComboBox.setOnAction(event -> {
+            String comboType = itemFilterByComboBox.getSelectionModel().getSelectedItem();
+            switch(comboType){
+                case "Price: Low to High":
+                    this.sortOrder = SortOrder.lowToHigh;
+                    break;
+                case "Price: High to Low":
+                    this.sortOrder = SortOrder.highToLow;
+                    break;
+                default: //unsorted
+                    this.sortOrder = SortOrder.unsorted;
+            }
         });
-        suppliesButton.setOnAction(event -> {
-            this.type = RequestType.Supplies;
-            regenerateTable();
-            changeBackground();
-            furnitureButton.setSelected(false);
-            foodButton.setSelected(false);
-            flowersButton.setSelected(false);
-        });
-
-
-//        itemFilterByComboBox.setOnAction(event -> {
-//            String comboType = itemFilterByComboBox.getSelectionModel().getSelectedItem();
-//            switch(comboType){
-//                case "Price: Low to High":
-//                    this.sortOrder = SortOrder.lowToHigh;
-//                    break;
-//                case "Price: High to Low":
-//                    this.sortOrder = SortOrder.highToLow;
-//                    break;
-//                default: //unsorted
-//                    this.sortOrder = SortOrder.unsorted;
-//            }
-//            regenerateTable();
-//        });
-
 
         cartButton.setOnMouseClicked(event -> {
             try {
@@ -139,28 +130,75 @@ public class ItemRequestController {
         System.out.println("opened");
     }
 
-
-    private void regenerateTable(){
-    }
-
-    private void changeBackground() {
+    private void changeTypeState(RequestType type) {
+        this.type = type;
+        FilterButton1.setSelected(false);
+        FilterButton2.setSelected(false);
+        FilterButton3.setSelected(false);
+        FilterButton4.setSelected(false);
+        FilterButton5.setSelected(false);
         switch (this.type) {
             case Supplies:
                 requestPageBackground.getStyleClass().clear();
                 requestPageBackground.getStyleClass().add("supplies-title");
+                furnitureButton.setSelected(false);
+                foodButton.setSelected(false);
+                flowersButton.setSelected(false);
+                otherFilterTitle.setText("Filter By");
+                setButtonFourandFive(true);
+                FilterButton1.setText("Computer");
+                FilterButton2.setText("Paper");
+                FilterButton3.setText("Pens");
+                FilterButton4.setText("Organizational");
+                FilterButton5.setText("Miscellaneous");
                 break;
             case Flower:
                 requestPageBackground.getStyleClass().clear();
                 requestPageBackground.getStyleClass().add("flower-title");
+                furnitureButton.setSelected(false);
+                foodButton.setSelected(false);
+                suppliesButton.setSelected(false);
+                otherFilterTitle.setText("Filter By");
+                setButtonFourandFive(false);
+                FilterButton1.setText("Bouquet");
+                FilterButton2.setText("Individual Flower");
+                FilterButton3.setText("Has Card");
                 break;
             case Furniture:
                 requestPageBackground.getStyleClass().clear();
                 requestPageBackground.getStyleClass().add("furniture-title");
+                suppliesButton.setSelected(false);
+                foodButton.setSelected(false);
+                flowersButton.setSelected(false);
+                otherFilterTitle.setText("Filter By");
+                setButtonFourandFive(true);
+                FilterButton1.setText("Seating");
+                FilterButton2.setText("Tables");
+                FilterButton3.setText("Pillows");
+                FilterButton4.setText("Storage");
+                FilterButton5.setText("Miscellaneous");
                 break;
             default:
                 requestPageBackground.getStyleClass().clear();
                 requestPageBackground.getStyleClass().add("meal-title");
+                furnitureButton.setSelected(false);
+                suppliesButton.setSelected(false);
+                flowersButton.setSelected(false);
+                otherFilterTitle.setText("Dietary Restrictions");
+                setButtonFourandFive(true);
+                FilterButton1.setText("Vegetarian");
+                FilterButton2.setText("Vegan");
+                FilterButton3.setText("Gluten Free");
+                FilterButton4.setText("Peanut Free");
+                FilterButton5.setText("Dairy Free");
         }
+    }
+
+    private void setButtonFourandFive(Boolean state){
+        FilterButton4.setVisible(state);
+        FilterButton4.setManaged(state);
+        FilterButton5.setVisible(state);
+        FilterButton5.setManaged(state);
     }
 
 }
