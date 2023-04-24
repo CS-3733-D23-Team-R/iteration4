@@ -127,6 +127,10 @@ public class MapDatabase {
         return moveDao.getMoveByLocationAndDate(longName, date);
     }
 
+    public Move getLatestMoveForLocationByDate(String longName, Date date) throws SQLException, ItemNotFoundException {
+        return moveDao.getLatestMoveForLocationByDate(longName, date);
+    }
+
     public ArrayList<Move> getMovesForDate(Date date) throws SQLException {
         return moveDao.getMovesForDate(date);
     }
