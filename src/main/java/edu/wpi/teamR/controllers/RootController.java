@@ -84,7 +84,6 @@ public class RootController {
     pathfindingButton.setOnMouseClicked(event -> navigate(Screen.MAP));
     signagePageButton.setOnMouseClicked(event -> navigate(Screen.EMPLOYEEMANAGER));
     exitButton.setOnMouseClicked(event -> Platform.exit());
-
     helpButton.setOnMouseClicked(
             event -> {
               try {
@@ -110,7 +109,7 @@ public class RootController {
   private void openProfile() throws SQLException, ClassNotFoundException, ItemNotFoundException {
     UserData thisUserData = UserData.getInstance();
     if (!thisUserData.isLoggedIn()){
-      return;
+      navigate(Screen.LOGIN);
     }
     CurrentUser user = thisUserData.getLoggedIn();
     if(user.getAccessLevel().equals(AccessLevel.Admin)){
