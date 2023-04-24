@@ -23,6 +23,7 @@ public class Configuration {
     private static final String availableFurnitureTableName = "availableFurniture";
     private static final String availableFlowersTableName = "availableFlowers";
     private static final String availableSuppliesTableName = "availableSupplies";
+    private static final String alertTableName = "alerts";
     private static final String userTableName = "user";
     public static Connection getConnection() throws SQLException {
         if (connection!=null && !connection.isClosed())
@@ -70,4 +71,7 @@ public class Configuration {
     public static String getAvailableFurnitureTableSchemaNameTableName(){ return schemaName+"."+availableFurnitureTableName;}
     public static String getAvailableFlowersTableSchemaNameTableName(){ return schemaName+"."+availableFlowersTableName;}
     public static String getAvailableSuppliesTableSchemaNameTableName(){ return schemaName+"."+availableSuppliesTableName;}
+    public static String getAlertSchemaNameTableName(){
+        return schemaName+"."+alertTableName;
+    }
 }

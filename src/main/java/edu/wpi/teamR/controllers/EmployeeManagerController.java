@@ -5,6 +5,9 @@ import edu.wpi.teamR.Main;
 import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
+import edu.wpi.teamR.login.UserDatabase;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
 import javafx.collections.FXCollections;
@@ -27,6 +30,7 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class EmployeeManagerController {
@@ -47,7 +51,7 @@ public class EmployeeManagerController {
         createUser.setVisible(true);
         createUser.setOnMouseClicked(event -> Navigation.navigate(Screen.ADDEMPLOYEE));
         addButtonToTable();
-        User user = AuthenticationDAO.getInstance().getUsers().get(0);
+        User user = new UserDatabase().getUsers().get(0);
         displayProfile(user);
         userNameCol.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
         userNameCol.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -105,14 +109,14 @@ public class EmployeeManagerController {
             updateUser(aUser);
         });
 
-
-        for(User aUser : AuthenticationDAO.getInstance().getUsers()){
+        ArrayList<User> list = new UserDatabase().getUsers();
+        for(User aUser : list){
             theTable.getItems().add(aUser);
         }
     }
 
     private void updateUser(User aUser){
-        try{AuthenticationDAO.getInstance().modifyUserByUsername(
+        try{new UserDatabase().modifyUserByUsername(
                 aUser.getStaffUsername(),
                 aUser.getPassword(),
                 aUser.getName(),
@@ -121,8 +125,9 @@ public class EmployeeManagerController {
                 aUser.getPhoneNum(),
                 aUser.getJoinDate(),
                 aUser.getAccessLevel(),
-                aUser.getDepartment());
-        } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
+                aUser.getDepartment(),
+                aUser.getImageID());
+        } catch (SQLException | ItemNotFoundException e) {
             throw new RuntimeException(e);
         }
         displayProfile(aUser);
@@ -162,7 +167,7 @@ public class EmployeeManagerController {
                             User data = getTableView().getItems().get(getIndex());
                             theTable.getItems().remove(data);
                             try {
-                                AuthenticationDAO.getInstance().deleteUserByUsername(data.getStaffUsername());
+                                new UserDatabase().deleteUserByUsername(data.getStaffUsername());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
