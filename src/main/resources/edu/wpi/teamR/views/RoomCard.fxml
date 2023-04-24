@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox alignment="CENTER_LEFT" maxHeight="110.0" minHeight="110.0" prefHeight="110.0" prefWidth="1000.0" style="-fx-background-radius: 10; -fx-background-color: white;" stylesheets="@../styles/styles.css" HBox.hgrow="ALWAYS" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.RoomCard">
+   <children>
+      <VBox prefHeight="100.0" prefWidth="450.0" HBox.hgrow="ALWAYS">
+         <children>
+            <Label fx:id="nameLabel" styleClass="title" text="Conference Room" />
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="388.0" spacing="100.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label fx:id="floorLabel" styleClass="subtitleSmallBold" text="Floor: " />
+                  <Label fx:id="capacityLabel" styleClass="subtitleSmallBold" text="Capacity:" />
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </VBox>
+      <HBox fx:id="featureBox" alignment="CENTER" prefHeight="110.0" prefWidth="10.0" HBox.hgrow="ALWAYS" />
+      <MFXButton fx:id="reserveButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="90.0" text="Reserve">
+         <HBox.margin>
+            <Insets right="10.0" />
+         </HBox.margin>
+      </MFXButton>
+   </children>
+</HBox>

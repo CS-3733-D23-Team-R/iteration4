@@ -27,14 +27,6 @@
     this is determined by the fx:id in
     Scenebuilder.
 */
-#reserveButton {
-    -fx-background-color: bwhblue;
-    -fx-text-fill: white;
-    -fx-font-family: 'Nunito Sans', 'bold';
-    -fx-font-size: 18;
-    -fx-font-weight: 500;
-    border-radius: 4px;
-}
 
 .reserveButtonConfirm {
     -fx-background-color: secondaryYellow;
@@ -67,6 +59,14 @@
     -fx-font-weight: 300;
     -fx-font-size: 12px;
 }
+
+.subtitle-bigger{
+    -fx-font-family: 'Roboto', 'bold';
+    -fx-font-weight: bold;
+    -fx-font-size: 25px;
+}
+
+.date-picker{}
 
 .sidebar{
     -fx-font-family: 'Roboto';
