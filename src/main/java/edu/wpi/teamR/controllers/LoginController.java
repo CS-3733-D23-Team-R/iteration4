@@ -13,6 +13,7 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
+import javafx.scene.input.KeyCode;
 
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
@@ -33,6 +34,15 @@ public class LoginController {
                 checkLogIn();
             } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
                 e.printStackTrace();
+            }
+        });
+        passwordField.setOnKeyPressed(event -> {
+            if(event.getCode() == KeyCode.ENTER){
+                try{
+                    checkLogIn();
+                } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }
