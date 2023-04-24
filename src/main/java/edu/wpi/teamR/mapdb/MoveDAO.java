@@ -42,7 +42,7 @@ public class MoveDAO {
 
     Move getLatestMoveForLocationByDate(String longName, Date date) throws SQLException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE longname=? AND date<? group by longname;");
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE longname=? AND date<? group by longname) as foo;");
         preparedStatement.setString(1, longName);
         preparedStatement.setDate(2, date);
         ResultSet resultSet = preparedStatement.executeQuery();
