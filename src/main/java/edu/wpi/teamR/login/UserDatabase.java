@@ -11,11 +11,11 @@ public class UserDatabase {
     private final AuthenticationDAO authenticationDAO = new AuthenticationDAO();
     private final AlertDAO alertDAO = new AlertDAO();
 
-    public User addUser(String staffUsername, String password, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department) throws SQLException {
-        return authenticationDAO.addUser(staffUsername, password, name, email, jobTitle, phoneNum, joinDate, accessLevel, department);
+    public User addUser(String staffUsername, String password, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department, int imageID) throws SQLException {
+        return authenticationDAO.addUser(staffUsername, password, name, email, jobTitle, phoneNum, joinDate, accessLevel, department, imageID);
     }
-    public User modifyUserByUsername(String staffUsername, String password, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department) throws SQLException, ItemNotFoundException {
-        return authenticationDAO.modifyUserByUsername(staffUsername, password, name, email, jobTitle, phoneNum, joinDate, accessLevel, department);
+    public User modifyUserByUsername(String staffUsername, String password, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department, int imageID) throws SQLException, ItemNotFoundException {
+        return authenticationDAO.modifyUserByUsername(staffUsername, password, name, email, jobTitle, phoneNum, joinDate, accessLevel, department, imageID);
     }
 
     public void deleteAllUsers() throws SQLException {

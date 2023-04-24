@@ -9,9 +9,9 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class AuthenticationDAO {
-    public User addUser(String staffUsername, String password, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department) throws SQLException {
+    public User addUser(String staffUsername, String password, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department, int imageID) throws SQLException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getUserTableSchemaNameTableName()+"(staffUsername,password,salt,name,email,jobTitle,phoneNum,joinDate,accessLevel,department) VALUES (?,?,?,?,?,?,?,?,?,?)");
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getUserTableSchemaNameTableName()+"(staffUsername,password,salt,name,email,jobTitle,phoneNum,joinDate,accessLevel,department,imageID) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 
         //Handle salting
         String saltString = generateSaltString();
@@ -34,12 +34,13 @@ public class AuthenticationDAO {
         preparedStatement.setDate(8, joinDate);
         preparedStatement.setString(9, accessLevel.toString());
         preparedStatement.setString(10, department);
+        preparedStatement.setInt(11, imageID);
         preparedStatement.executeUpdate();
-        return new User(staffUsername, password, name, saltString, email, jobTitle, phoneNum, joinDate, accessLevel, department);
+        return new User(staffUsername, password, name, saltString, email, jobTitle, phoneNum, joinDate, accessLevel, department, imageID);
     }
-    User modifyUserByUsername(String staffUsername, String password, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department) throws SQLException, ItemNotFoundException {
+    User modifyUserByUsername(String staffUsername, String password, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department, int imageID) throws SQLException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE "+Configuration.getUserTableSchemaNameTableName()+" SET password=?, salt=?, name=?, email=?, jobTitle=?, phoneNum=?, joinDate=?, accessLevel=?, department=? WHERE staffUsername=?;");
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE "+Configuration.getUserTableSchemaNameTableName()+" SET password=?, salt=?, name=?, email=?, jobTitle=?, phoneNum=?, joinDate=?, accessLevel=?, department=?, imageID=? WHERE staffUsername=?;");
 
         //Handle salting
         String saltString = generateSaltString();
@@ -62,10 +63,11 @@ public class AuthenticationDAO {
         preparedStatement.setString(8, accessLevel.toString());
         preparedStatement.setString(9, department);
         preparedStatement.setString(10, staffUsername);
+        preparedStatement.setInt(11, imageID);
         int numRows = preparedStatement.executeUpdate();
         if (numRows==0)
             throw new ItemNotFoundException();
-        return new User(staffUsername, password, saltString, name, email, jobTitle, phoneNum, joinDate, accessLevel, department);
+        return new User(staffUsername, password, saltString, name, email, jobTitle, phoneNum, joinDate, accessLevel, department, imageID);
     }
 
     void deleteAllUsers() throws SQLException {
@@ -102,8 +104,9 @@ public class AuthenticationDAO {
         Date joinDate = resultSet.getDate("joinDate");
         AccessLevel accessLevel = AccessLevel.valueOf(resultSet.getString("accessLevel"));
         String department = resultSet.getString("department");
+        int imageID = resultSet.getInt("imageID");
 
-        return new User(staffUsername, password, saltString, name, email, jobTitle, phoneNum, joinDate, accessLevel, department);
+        return new User(staffUsername, password, saltString, name, email, jobTitle, phoneNum, joinDate, accessLevel, department, imageID);
     }
 
     ArrayList<User> getUsers() throws SQLException {
@@ -123,8 +126,9 @@ public class AuthenticationDAO {
             Date joinDate = resultSet.getDate("joinDate");
             AccessLevel accessLevel = AccessLevel.valueOf(resultSet.getString("accessLevel"));
             String department = resultSet.getString("department");
+            int imageID = resultSet.getInt("imageID");
 
-            users.add(new User(username, password, saltString, name, email, jobTitle, phoneNum, joinDate, accessLevel, department));
+            users.add(new User(username, password, saltString, name, email, jobTitle, phoneNum, joinDate, accessLevel, department, imageID));
         }
 
         return users;
