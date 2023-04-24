@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
@@ -37,9 +37,9 @@
          <children>
             <VBox alignment="CENTER" layoutX="50.0" layoutY="50.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="10.0">
                <children>
-                  <HBox fx:id="buttonBox" fillHeight="false" maxHeight="75.0" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: WHITE;" VBox.vgrow="NEVER">
+                  <HBox fx:id="buttonBox" fillHeight="false" maxHeight="75.0" prefHeight="14.0" prefWidth="1180.0" style="-fx-background-color: WHITE;" VBox.vgrow="NEVER">
                      <children>
-                        <AnchorPane maxHeight="100.0" prefHeight="75.0" HBox.hgrow="ALWAYS">
+                        <AnchorPane maxHeight="100.0" prefHeight="36.0" prefWidth="930.0" HBox.hgrow="ALWAYS">
                            <children>
                               <HBox alignment="BASELINE_LEFT">
                                  <children>
@@ -74,14 +74,10 @@
                               </HBox>
                            </children>
                         </AnchorPane>
-                        <ComboBox prefWidth="150.0" HBox.hgrow="NEVER">
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </ComboBox>
+                        <MFXTextField fx:id="searchField" floatingText="Search" prefHeight="15.0" prefWidth="250.0" styleClass="label" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
-                      <TableView fx:id="requestTable" editable="true" prefHeight="600.0" prefWidth="1100.0" VBox.vgrow="ALWAYS">
+                      <TableView fx:id="requestTable" editable="true" prefHeight="576.0" prefWidth="1180.0" VBox.vgrow="ALWAYS">
                           <columns>
                               <TableColumn fx:id="idColumn" maxWidth="80.0" minWidth="80.0" prefWidth="-1.0" text="ID Number" />
                               <TableColumn fx:id="nameColumn" minWidth="20.0" prefWidth="115.33326721191406" text="Name" />

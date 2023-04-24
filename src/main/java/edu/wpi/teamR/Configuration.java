@@ -24,6 +24,7 @@ public class Configuration {
     private static final String availableFurnitureTableName = "availableFurniture";
     private static final String availableFlowersTableName = "availableFlowers";
     private static final String availableSuppliesTableName = "availableSupplies";
+    private static final String alertTableName = "alerts";
     private static final String userTableName = "user";
     public static Connection getConnection() throws SQLException {
         if (connection!=null && !connection.isClosed())
@@ -36,8 +37,9 @@ public class Configuration {
         Configuration.connection = DriverManager.getConnection(connectionURL, username, password);
         return Configuration.connection;
     }
-    public static void changeSchemaToTest() {
+    public static void changeSchemaToTest() throws SQLException {
         Configuration.schemaName = Configuration.testSchemaName;
+        Configuration.deleteEverything();
     }
     public static String getNodeSchemaNameTableName(){
         return schemaName+"."+nodeTableName;
@@ -71,22 +73,25 @@ public class Configuration {
     public static String getAvailableFurnitureTableSchemaNameTableName(){ return schemaName+"."+availableFurnitureTableName;}
     public static String getAvailableFlowersTableSchemaNameTableName(){ return schemaName+"."+availableFlowersTableName;}
     public static String getAvailableSuppliesTableSchemaNameTableName(){ return schemaName+"."+availableSuppliesTableName;}
+    public static String getAlertSchemaNameTableName(){
+        return schemaName+"."+alertTableName;
+    }
     public static void deleteEverything() throws SQLException {
         Connection connection = Configuration.getConnection();
         Statement statement = connection.createStatement();
-        statement.executeUpdate("DELETE * FROM "+Configuration.getDirectionArrowSchemaNameTableName()+";");
-        statement.executeUpdate("DELETE * FROM "+Configuration.getMoveSchemaNameTableName()+";");
-        statement.executeUpdate("DELETE * FROM "+Configuration.getEdgeSchemaNameTableName()+";");
-        statement.executeUpdate("DELETE * FROM "+Configuration.getNodeSchemaNameTableName()+";");
-        statement.executeUpdate("DELETE * FROM "+Configuration.getRoomRequestSchemaNameTableName()+";");
-        statement.executeUpdate("DELETE * FROM "+Configuration.getConferenceRoomSchemaNameTableName()+";");
-        statement.executeUpdate("DELETE * FROM "+Configuration.getServiceRequestSchemaNameTableName()+";");
-        statement.executeUpdate("DELETE * FROM "+Configuration.getUserTableSchemaNameTableName()+";");
-        statement.executeUpdate("DELETE * FROM "+Configuration.getLocationNameSchemaNameTableName()+";");
-        //statement.executeUpdate("DELETE * FROM "+Configuration.get()+";"); TODO: PLACEHOLDER FOR ALERTS
-        statement.executeUpdate("DELETE * FROM "+Configuration.getAvailableFurnitureTableSchemaNameTableName()+";");
-        statement.executeUpdate("DELETE * FROM "+Configuration.getAvailableMealsTableSchemaNameTableName()+";");
-        statement.executeUpdate("DELETE * FROM "+Configuration.getAvailableSuppliesTableSchemaNameTableName()+";");
-        statement.executeUpdate("DELETE * FROM "+Configuration.getAvailableFlowersTableSchemaNameTableName()+";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getDirectionArrowSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getMoveSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getEdgeSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getNodeSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getRoomRequestSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getConferenceRoomSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getServiceRequestSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getUserTableSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getLocationNameSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getAlertSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getAvailableFurnitureTableSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getAvailableMealsTableSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getAvailableSuppliesTableSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getAvailableFlowersTableSchemaNameTableName() + ";");
     }
 }

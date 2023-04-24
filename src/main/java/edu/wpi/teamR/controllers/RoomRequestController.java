@@ -62,8 +62,6 @@ ArrayList<String> timeArray = new ArrayList<>();
             mapDatabase = new MapDatabase();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
     @FXML
