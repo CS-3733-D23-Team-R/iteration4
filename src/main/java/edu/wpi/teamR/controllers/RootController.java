@@ -83,7 +83,7 @@ public class RootController {
     newRequestButton.setOnMouseClicked(event -> navigate(Screen.ITEMREQUEST));
     pathfindingButton.setOnMouseClicked(event -> navigate(Screen.MAP));
     signagePageButton.setOnMouseClicked(event -> navigate(Screen.EMPLOYEEMANAGER));
-    exitButton.setOnMouseClicked(event -> Platform.exit());
+    //exitButton.setOnMouseClicked(event -> Platform.exit());
     helpButton.setOnMouseClicked(
             event -> {
               try {
