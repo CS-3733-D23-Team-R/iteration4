@@ -591,6 +591,11 @@ public class MapEditorController {
                         });
                     }
                     else {
+                        if (Math.abs(selectedNode.getXCoord() - n.getXCoord()) > 20 || Math.abs(selectedNode.getYCoord() - n.getYCoord()) > 20) {
+                            dialogText.setText("Cannot create edge!");
+                            selectedNode = null;
+                            return;
+                        }
                         String startNodeType;
                         String endNodeType;
                         try {
