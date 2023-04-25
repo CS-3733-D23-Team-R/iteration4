@@ -241,7 +241,6 @@ public class ItemRequestController {
 
     private void regenerateCards(){
         RequestDatabase requestDatabase = new RequestDatabase();
-        DecimalFormat decimalFormat = new DecimalFormat("##.##");
         cardGridPane.getChildren().clear();
         cardGridPane.getColumnConstraints().clear();
         cardGridPane.getRowConstraints().clear();
@@ -250,13 +249,14 @@ public class ItemRequestController {
         cardGridPane.getRowConstraints().setAll(row, row);
         cardGridPane.getColumnConstraints().setAll(col);
         ArrayList<? extends IAvailableItem> filteredList = new ArrayList<>();
+//        cardGridPane.alignmentProperty();
         try {
             switch(this.type){
                 case Flower:
                     Boolean isBouquet = null;
-                    if(button1Val) isBouquet = true;
-                    if(button2Val) isBouquet = false;
-                    if(button1Val && button2Val) isBouquet = null; //if both buttons are selected, all show up
+                    if(button1Val != null && button1Val) isBouquet = true;
+                    if(button2Val != null && button2Val) isBouquet = false;
+                    if(button1Val != null && button1Val && button2Val != null && button2Val) isBouquet = null; //if both buttons are selected, all show up
                     filteredList = requestDatabase.getAvailableFlowersByAttributes(null, null, null, null, isBouquet, this.button3Val, this.sortOrder);
                     break;
                 case Furniture:

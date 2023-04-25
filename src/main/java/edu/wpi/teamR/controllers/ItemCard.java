@@ -16,6 +16,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 
 public class ItemCard {
 
@@ -63,7 +64,12 @@ public class ItemCard {
         this.item = item;
         cardTitle.setText(item.getItemName());
         cardDescription.setText(item.getDescription());
-        cardPrice.setText("$" + item.getItemPrice().toString());
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+        Double itemPrice = item.getItemPrice();
+        String itemPriceString;
+        if(itemPrice == null) itemPriceString = "";
+        else itemPriceString = "$" + decimalFormat.format(itemPrice);
+        cardPrice.setText(itemPriceString);
 //        BackgroundImage bImg = new BackgroundImage(new Image(this.imageAddress), //TODO find images and set them
 //                BackgroundRepeat.NO_REPEAT,
 //                BackgroundRepeat.NO_REPEAT,

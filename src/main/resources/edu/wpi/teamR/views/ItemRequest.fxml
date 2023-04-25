@@ -107,7 +107,7 @@
                      <children>
                         <ScrollPane fx:id="cardScrollPane" prefHeight="200.0" prefWidth="200.0" vbarPolicy="ALWAYS" HBox.hgrow="ALWAYS">
                            <content>
-                              <VBox>
+                              <VBox alignment="CENTER">
                                  <children>
                                     <GridPane fx:id="cardGridPane" gridLinesVisible="true" VBox.vgrow="ALWAYS">
                                       <columnConstraints>
