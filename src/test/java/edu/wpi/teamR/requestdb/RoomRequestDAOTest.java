@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,21 +25,21 @@ class RoomRequestDAOTest {
 
 
     @BeforeAll
-    static void startup() throws SQLException, ClassNotFoundException {
+    static void startup() throws SQLException {
         Configuration.changeSchemaToTest();
         roomRequestDAO = new RoomRequestDAO();
         mapDatabase = new MapDatabase();
         userDatabase = new UserDatabase();
     }
     @AfterAll
-    static void end() throws SQLException, ClassNotFoundException {
+    static void end() throws SQLException {
         roomRequestDAO.deleteAllRoomRequests();
         mapDatabase.deleteAllConferenceRooms();
         mapDatabase.deleteAllLocationNames();
         userDatabase.deleteAllUsers();
     }
     @BeforeEach
-    void reset() throws SQLException, ClassNotFoundException {
+    void reset() throws SQLException {
         roomRequestDAO.deleteAllRoomRequests();
         mapDatabase.deleteAllConferenceRooms();
         mapDatabase.deleteAllLocationNames();
@@ -68,7 +69,7 @@ class RoomRequestDAOTest {
         assertEquals(1, roomRequests.size());
         roomRequest2 = roomRequests.get(0);
 
-        assertEquals(roomRequest1.getLongname(), roomRequest2.getLongname());
+        assertEquals(roomRequest1.getLongName(), roomRequest2.getLongName());
         assertEquals(roomRequest1.getStaffUsername(), roomRequest2.getStaffUsername());
         assertEquals(roomRequest1.getStartTime(), roomRequest2.getStartTime());
         assertEquals(roomRequest1.getEndTime(), roomRequest2.getEndTime());
@@ -199,10 +200,10 @@ class RoomRequestDAOTest {
         roomRequests = roomRequestDAO.getRoomRequests();
         assertEquals(4, roomRequests.size());
 
-        roomRequests = roomRequestDAO.getRoomRequestsByLongname("location1");
+        roomRequests = roomRequestDAO.getRoomRequestsByLongName("location1");
         assertEquals(3, roomRequests.size());
 
-        roomRequests = roomRequestDAO.getRoomRequestsByLongname("location2");
+        roomRequests = roomRequestDAO.getRoomRequestsByLongName("location2");
         assertEquals(1, roomRequests.size());
         assertEquals("staff3", roomRequests.get(0).getStaffUsername());
 
