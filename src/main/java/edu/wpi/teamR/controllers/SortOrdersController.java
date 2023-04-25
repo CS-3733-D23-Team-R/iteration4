@@ -39,12 +39,12 @@ public class SortOrdersController {
     @FXML TableColumn<ItemRequest, String> staffMemberColumn;
     @FXML TableColumn<ItemRequest, String> timeColumn;
     @FXML TableColumn<ItemRequest, String> statusColumn;
-    @FXML
-    MFXTextField searchField;
+    @FXML MFXTextField searchField;
 
     @FXML TableColumn<ItemRequest, Void> deleteCol;
     ObservableList<RequestStatus> statusList = FXCollections.observableArrayList(RequestStatus.values());
     private final ObservableList<ItemRequest> dataList = FXCollections.observableArrayList();
+    FilteredList<ItemRequest> filteredData = new FilteredList<>(dataList, b -> true);
 
     @FXML
     public void initialize() throws SQLException, ClassNotFoundException {
@@ -161,9 +161,8 @@ public class SortOrdersController {
             }
         });
 
-        FilteredList<ItemRequest> filteredData = new FilteredList<>(dataList, b -> true);
-
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData = new FilteredList<>(dataList, b -> true);
             filteredData.setPredicate(itemRequest -> {
                     if(newValue == null || newValue.isEmpty()) {
                         return true;
@@ -185,11 +184,12 @@ public class SortOrdersController {
                 return true;
              else  return false;
             });
+            SortedList<ItemRequest> sortedData = new SortedList<>(filteredData);
+            sortedData.comparatorProperty().bind(requestTable.comparatorProperty());
+            requestTable.setItems(sortedData);
+            statusColumn.setVisible(false);
+            statusColumn.setVisible(true);
         });
-        SortedList<ItemRequest> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(requestTable.comparatorProperty());
-        requestTable.setItems(sortedData);
-
     }
 
     private void addButtonToTable() {
@@ -197,7 +197,6 @@ public class SortOrdersController {
             @Override
             public TableCell<ItemRequest, Void> call(final TableColumn<ItemRequest, Void> param) {
                 return new TableCell<ItemRequest, Void>() {
-
                     private final Button btn = new Button();
                     {
                         ImageView imageView = new ImageView(Objects.requireNonNull(Main.class.getResource("images/delete.png")).toExternalForm());
@@ -207,7 +206,7 @@ public class SortOrdersController {
                         btn.setGraphic(imageView);
                             btn.setOnAction((ActionEvent event) -> {
                             ItemRequest data = getTableView().getItems().get(getIndex());
-                            requestTable.getItems().remove(data);
+                            filteredData.getSource().remove(data);
                             try {
                                 new RequestDatabase().deleteItemRequest(data.getRequestID());
                             } catch (Exception e) {

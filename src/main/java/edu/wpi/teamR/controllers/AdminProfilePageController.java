@@ -27,7 +27,7 @@ public class AdminProfilePageController {
         CurrentUser user = thisUserData.getLoggedIn();
         name.setText(user.getFullName());
         toServiceRequest.setOnMouseClicked(event -> {Navigation.navigate(Screen.SORT_ORDERS);});
-        toConferenceRoomEditor.setOnMouseClicked(event -> {Navigation.navigate(Screen.ROOM_REQUEST);});
+        toConferenceRoomEditor.setOnMouseClicked(event -> {Navigation.navigate(Screen.ROOM_REQUEST_MANAGER);});
         email.setText(user.getEmail());
         occupation.setText(user.getJobTitle());
         DateOfJoining.setText(user.getJoinDate().toString());
