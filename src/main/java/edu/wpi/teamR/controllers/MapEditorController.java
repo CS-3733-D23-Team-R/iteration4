@@ -246,9 +246,7 @@ public class MapEditorController {
         undoButton.setOnAction(event -> {
             try {
                 undoAction();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (ItemNotFoundException e) {
+            } catch (SQLException | ItemNotFoundException e) {
                 throw new RuntimeException(e);
             }
         });
@@ -333,13 +331,7 @@ public class MapEditorController {
                 }
                 else if (change.wasRemoved()) {
                     ObservableList<javafx.scene.Node> children = nodePanes[currentFloor].getChildren();
-                    Iterator<javafx.scene.Node> iterator = children.iterator();
-                    while (iterator.hasNext()) {
-                        javafx.scene.Node child = iterator.next();
-                        if (child instanceof Text) {
-                            iterator.remove();
-                        }
-                    }
+                    children.removeIf(child -> child instanceof Text);
                     try {
                         displayLocationNames(currentFloor);
                     } catch (SQLException e) {
@@ -587,9 +579,7 @@ public class MapEditorController {
 
     public void drawNode(MapLocation l, int floor) {
         if (floor <= 4) {
-            ArrayList<LocationName> ln = l.getLocationNames();
             Node n = l.getNode();
-            //Move m = mapdb.getLatestMoveByLocationName(ln.get(0).getLongName());
 
             Circle c = new Circle(n.getXCoord(), n.getYCoord(), 5, pathColor);
             nodePanes[floor].getChildren().add(c);
@@ -706,9 +696,7 @@ public class MapEditorController {
                                         mapdb.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
                                         updater.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
                                         updater.endAction();
-                                    } catch (SQLException ex) {
-                                        throw new RuntimeException(ex);
-                                    } catch (ItemNotFoundException ex) {
+                                    } catch (SQLException | ItemNotFoundException ex) {
                                         throw new RuntimeException(ex);
                                     }
                                 }
@@ -732,9 +720,7 @@ public class MapEditorController {
                                         mapdb.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
                                         updater.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
                                         updater.endAction();
-                                    } catch (SQLException ex) {
-                                        throw new RuntimeException(ex);
-                                    } catch (ItemNotFoundException ex) {
+                                    } catch (SQLException | ItemNotFoundException ex) {
                                         throw new RuntimeException(ex);
                                     }
                                 }
@@ -827,9 +813,7 @@ public class MapEditorController {
                 updater.modifyCoords(n.getNodeID(), (int) dragEvent.getX(), (int) dragEvent.getY());
                 mapdb.modifyCoords(n.getNodeID(), (int) dragEvent.getX(), (int) dragEvent.getY());
                 updater.endAction();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (ItemNotFoundException e) {
+            } catch (SQLException | ItemNotFoundException e) {
                 throw new RuntimeException(e);
             }
         });
@@ -1013,9 +997,7 @@ public class MapEditorController {
                     });
                 }
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ItemNotFoundException e) {
+        } catch (SQLException | ItemNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
