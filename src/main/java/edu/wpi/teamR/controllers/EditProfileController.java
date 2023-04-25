@@ -1,6 +1,7 @@
 package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.ItemNotFoundException;
+import edu.wpi.teamR.Main;
 import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.User;
 import edu.wpi.teamR.login.UserDatabase;
@@ -21,21 +22,36 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class EditProfileController {
-    @FXML ImageView currentImage, editImage;
+    @FXML ImageView currentImage, editImage, oneImage, twoImage, threeImage, fourImage, fiveImage, sixImage, sevenImage, eightImage, nineImage, tenImage;
     @FXML MFXTextField nameField, phoneField, emailField;
-    @FXML VBox profileCardContainer;
+    @FXML VBox profileCardContainer, pictureSelectorVBox, entireAccountInformation;
     @FXML Button backButton, applyButton;
     @FXML Text errorText;
     @FXML MFXPasswordField currentPasswordField, newPasswordField, retypePasswordField;
+    int imageID;
+    ArrayList<ImageView> allPossibleProfilePictures;
     public void initialize() throws SQLException, ItemNotFoundException {
+        Image image1 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/1.png")).toExternalForm());
+        oneImage.setImage(image1);
+        Image image2 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/2.png")).toExternalForm());
+        twoImage.setImage(image2);
+        Image image3 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/3.png")).toExternalForm());
+        threeImage.setImage(image3);
+        Image image4 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/4.png")).toExternalForm());
+        fourImage.setImage(image4);
+        //todo: set images here
+        pictureSelectorVBox.setVisible(false);
         errorText.setVisible(false);
         editImage.setVisible(false);
         CurrentUser currentUser = UserData.getInstance().getLoggedIn();
-        Image image1 = new Image(UserData.getInstance().getLoggedIn().getProfilePictureLocation());
+        Image myImage = new Image(UserData.getInstance().getLoggedIn().getProfilePictureLocation());
         User backendUser = new UserDatabase().getUserByUsername(currentUser.getUsername());
-        currentImage.setImage(image1);
+        currentImage.setImage(myImage);
+        imageID = backendUser.getImageID();
         displayProfile(backendUser);
         if(currentUser.getAccessLevel().equals(AccessLevel.Admin)){
             backButton.setOnMouseClicked(event -> {Navigation.navigate(Screen.ADMINPROFILEPAGE);});
@@ -50,9 +66,40 @@ public class EditProfileController {
             }
         });
 
+        currentImage.setOnMouseEntered(event -> {
+            editImage.setVisible(true);
+        });
+        currentImage.setOnMouseExited(event -> {
+            editImage.setVisible(false);
+        });
+        editImage.setOnMouseClicked(event -> {
+            pictureSelectorVBox.setVisible(true);
+            editImage.setVisible(false);
+        });
+        oneImage.setOnMouseClicked(event -> {
+            imageID = 1;
+            pictureSelectorVBox.setVisible(false);
+            currentImage.setImage(image1);
+        });
+        twoImage.setOnMouseClicked(event -> {
+            imageID = 2;
+            pictureSelectorVBox.setVisible(false);
+            currentImage.setImage(image2);
+        });
+        threeImage.setOnMouseClicked(event -> {
+            imageID = 3;
+            pictureSelectorVBox.setVisible(false);
+            currentImage.setImage(image3);
+        });
+        fourImage.setOnMouseClicked(event -> {
+            imageID = 4;
+            pictureSelectorVBox.setVisible(false);
+            currentImage.setImage(image4);
+        });
+        //todo: add image setonmouseclicks here
     }
 
-    private Node loadCard(User user) throws IOException, IOException {
+    private Node loadCard(User user) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/Profile.fxml"));
         Node node = loader.load();
         ProfileController contentController = loader.getController();
@@ -118,10 +165,9 @@ public class EditProfileController {
             } else {
                 password = currentPasswordField.getText();
             }
-            accessToDatabase.modifyUserByUsername(currentUser.getUsername(), password, name, email, currentUser.getJobTitle(), phonenum, currentUser.getJoinDate(), currentUser.getAccessLevel(), currentUser.getDepartment(), backendUser.getImageID());
+            accessToDatabase.modifyUserByUsername(currentUser.getUsername(), password, name, email, currentUser.getJobTitle(), phonenum, currentUser.getJoinDate(), currentUser.getAccessLevel(), currentUser.getDepartment(), imageID);
             currentUser.refreshUser();
             displayProfile(backendUser);
         }
     }
-
 }

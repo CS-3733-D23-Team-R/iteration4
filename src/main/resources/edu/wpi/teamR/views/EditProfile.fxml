@@ -2,6 +2,7 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -40,90 +41,175 @@
                 </HBox>
                 <HBox layoutX="18.0" layoutY="51.0" prefHeight="674.0" prefWidth="1280.0" spacing="10.0" stylesheets="@../styles/loginStyles.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="46.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0" styleClass="boxroundedbordered" HBox.hgrow="ALWAYS">
+                  <StackPane HBox.hgrow="ALWAYS">
                      <children>
-                        <HBox alignment="CENTER" prefHeight="171.0" prefWidth="818.0">
+                        <VBox fx:id="entireAccountInformation" prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <StackPane prefHeight="188.0" prefWidth="818.0">
+                              <HBox alignment="CENTER" prefHeight="171.0" prefWidth="818.0">
                                  <children>
-                                    <ImageView fx:id="currentImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                    <StackPane prefHeight="188.0" prefWidth="818.0">
+                                       <children>
+                                          <ImageView fx:id="currentImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/login/holder/shaggyprofile.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fx:id="editImage" fitHeight="46.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/login/editbutton.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="25.0" prefWidth="818.0">
+                                 <children>
+                                    <Text fx:id="errorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="MISSING FIELDS" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <MFXTextField fx:id="nameField" floatingText="New Name:" prefHeight="49.0" prefWidth="155.0" promptText="Type name here" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <MFXTextField fx:id="phoneField" floatingText="New Phone Number:" prefHeight="49.0" prefWidth="110.0" promptText="i.e. 1234567890" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <MFXTextField fx:id="emailField" floatingText="New Email:" prefHeight="49.0" prefWidth="155.0" promptText="Type email here" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <MFXPasswordField fx:id="currentPasswordField" floatingText="*Current Password:" prefHeight="49.0" prefWidth="170.0" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <MFXPasswordField fx:id="newPasswordField" floatingText="New Password:" prefHeight="49.0" prefWidth="154.0" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <MFXPasswordField fx:id="retypePasswordField" floatingText="Retype New Password" prefHeight="49.0" prefWidth="155.0" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Button fx:id="backButton" mnemonicParsing="false" text="Back" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Button fx:id="applyButton" mnemonicParsing="false" text="Apply" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <styleClass>
+                              <String fx:value="boxroundedbordered" />
+                              <String fx:value="actuallyRounded" />
+                           </styleClass>
+                        </VBox>
+                        <VBox fx:id="pictureSelectorVBox" alignment="CENTER" prefHeight="322.0" prefWidth="825.0">
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="819.0" spacing="20.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <ImageView fx:id="oneImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                                        <image>
                                           <Image url="@../images/login/holder/shaggyprofile.png" />
                                        </image>
                                     </ImageView>
-                                    <ImageView fx:id="editImage" fitHeight="46.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="twoImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../images/login/editbutton.png" />
+                                          <Image url="@../images/login/holder/shaggyprofile.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="threeImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/login/holder/shaggyprofile.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="fourImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/login/holder/shaggyprofile.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="fiveImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/login/holder/shaggyprofile.png" />
                                        </image>
                                     </ImageView>
                                  </children>
-                              </StackPane>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="25.0" prefWidth="818.0">
-                           <children>
-                              <Text fx:id="errorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="MISSING FIELDS" HBox.hgrow="ALWAYS" />
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <MFXTextField fx:id="nameField" floatingText="New Name:" prefHeight="49.0" prefWidth="155.0" promptText="Type name here" HBox.hgrow="ALWAYS" />
-                                 </children>
                               </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="819.0" spacing="20.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <MFXTextField fx:id="phoneField" floatingText="New Phone Number:" prefHeight="49.0" prefWidth="110.0" promptText="i.e. 1234567890" HBox.hgrow="ALWAYS" />
+                                    <ImageView fx:id="sixImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/login/holder/shaggyprofile.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="sevenImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/login/holder/shaggyprofile.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="eightImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/login/holder/shaggyprofile.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="nineImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/login/holder/shaggyprofile.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fx:id="tenImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/login/holder/shaggyprofile.png" />
+                                       </image>
+                                    </ImageView>
                                  </children>
-                              </HBox>
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <MFXTextField fx:id="emailField" floatingText="New Email:" prefHeight="49.0" prefWidth="155.0" promptText="Type email here" HBox.hgrow="ALWAYS" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <MFXPasswordField fx:id="currentPasswordField" floatingText="*Current Password:" prefHeight="49.0" prefWidth="170.0" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <MFXPasswordField fx:id="newPasswordField" floatingText="New Password:" prefHeight="49.0" prefWidth="154.0" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <MFXPasswordField fx:id="retypePasswordField" floatingText="Retype New Password" prefHeight="49.0" prefWidth="155.0" />
-                                 </children>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
                               </HBox>
                            </children>
-                        </HBox>
-                        <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <Button fx:id="backButton" mnemonicParsing="false" text="Back" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <Button fx:id="applyButton" mnemonicParsing="false" text="Apply" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </HBox>
+                           <StackPane.margin>
+                              <Insets bottom="300.0" left="200.0" right="200.0" top="90.0" />
+                           </StackPane.margin>
+                           <styleClass>
+                              <String fx:value="boxroundedbordered" />
+                              <String fx:value="actuallyRounded" />
+                           </styleClass>
+                        </VBox>
                      </children>
+                  </StackPane>
+                  <VBox fx:id="profileCardContainer" prefHeight="664.0" prefWidth="425.0">
+                     <styleClass>
+                        <String fx:value="boxroundedbordered" />
+                        <String fx:value="actuallyRounded" />
+                     </styleClass>
                   </VBox>
-                  <VBox fx:id="profileCardContainer" prefHeight="664.0" prefWidth="425.0" styleClass="boxroundedbordered" />
                </children>
                 </HBox>
             </children>
