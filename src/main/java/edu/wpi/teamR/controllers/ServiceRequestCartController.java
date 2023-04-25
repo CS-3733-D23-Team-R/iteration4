@@ -20,10 +20,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.HLineTo;
 import javafx.scene.text.Font;
@@ -77,7 +74,6 @@ public class ServiceRequestCartController {
         locationNames = App.getMapData().getLocationNames();
 //        AuthenticationDAO authDAO = new AuthenticationDAO();
 //        staffMembers = authDAO.getUsers();
-        //totalPriceLabel.setText("$ " + formatPrice.format(ShoppingCart.getInstance().calculateTotal()));
 
         setLocationChoiceboxes();
         setStaffChoiceBox();
@@ -85,14 +81,14 @@ public class ServiceRequestCartController {
         cartPane.getChildren().clear();
         refreshCart();
 
-        if(ShoppingCart.getInstance().items.isEmpty()){
+        if(cartInstance.items.isEmpty()){
             Text emptyLabel = new Text("Empty Cart");
             emptyLabel.setFill(Color.BLACK);
             //emptyLabel.setFont();
             cartPane.getChildren().add(emptyLabel);
         }else {
             refreshCart();
-            HBox totalPriceLabel = totalView((float) ShoppingCart.getInstance().calculateTotal());
+            HBox totalPriceLabel = totalView((float) cartInstance.calculateTotal());
             totalPriceLabel.setAlignment(Pos.BOTTOM_RIGHT);
             totalPriceLabel.setStyle("-fx-font-size: 18");
             Separator separator = new Separator();
@@ -116,32 +112,31 @@ public class ServiceRequestCartController {
         Text productName = new Text(item.getItemName());
         productName.setFill(Color.BLACK);
         productName.setStyle("-fx-font-size: 18");
-        //Text price = new Text("$" + ((Double)item.getItemPrice()).toString());
 
         Text quantity = new Text(String.valueOf(number));
         quantity.setStyle("-fx-padding:5px;");
         quantity.setFill(Color.BLACK);
         quantity.setStyle("-fx-font-size: 18");
-        //quantity
 
         MFXButton plusButton = new MFXButton("+");
-        //plusButton.setStyle("-fx-background-color: #f1f1f1");
-        plusButton.setStyle("fx-padding: 5px;");
         plusButton.setUserData(item.getItemName());
         plusButton.setOnAction(event -> {
-            ShoppingCart.getInstance().incrementItem(item);
-            quantity.setText(String.valueOf(ShoppingCart.getInstance().items.get(item)));
-            this.totalPriceLabel.setText("$" + formatPrice.format(ShoppingCart.getInstance().calculateTotal()));
+            cartInstance.incrementItem(item);
+            quantity.setText(String.valueOf(cartInstance.items.get(item)));
+            this.totalPriceLabel.setText("$" + formatPrice.format(cartInstance.calculateTotal()));
         });
 
         MFXButton minusButton = new MFXButton("-");
-        minusButton.setStyle("fx-padding: 5px");
         minusButton.setUserData(item.getItemName());
         minusButton.setOnAction(event -> {
             if(cartInstance.getItemQuantity(item) != 0) {
-                ShoppingCart.getInstance().decrementItem(item);
-                quantity.setText(String.valueOf(String.valueOf(ShoppingCart.getInstance().items.get(item))));
-                this.totalPriceLabel.setText("$" + formatPrice.format(ShoppingCart.getInstance().calculateTotal()));
+                cartInstance.decrementItem(item);
+                quantity.setText(String.valueOf(String.valueOf(cartInstance.items.get(item))));
+                this.totalPriceLabel.setText("$" + formatPrice.format(cartInstance.calculateTotal()));
+                if (cartInstance.getItemQuantity(item) == 0) {
+                    cartInstance.deleteItem(item);
+                    refreshCart();
+                }
             }
         });
 
@@ -149,6 +144,7 @@ public class ServiceRequestCartController {
         price.setStyle("-fx-font-size: 18");
 
         layout.getChildren().addAll(productName, plusButton, quantity, minusButton, price);
+        layout.setSpacing(5);
         return layout;
     }
 
@@ -165,7 +161,7 @@ public class ServiceRequestCartController {
 
     public void refreshCart(){
         cartPane.getChildren().clear();
-        ShoppingCart.getInstance().items.forEach(
+        cartInstance.items.forEach(
                 (item, number) -> {
                     HBox productView = shoppingCartView(item,number);
                     cartPane.getChildren().add(productView);
