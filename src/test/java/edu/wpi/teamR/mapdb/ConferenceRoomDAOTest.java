@@ -18,23 +18,28 @@ class ConferenceRoomDAOTest {
 
     private static LocationNameDAO locationNameDAO;
     private static ConferenceRoomDAO conferenceRoomDAO;
+    private static MapDatabase mapDatabase;
 
     @BeforeAll
-    static void startup() throws SQLException, ClassNotFoundException {
+    static void startup() throws SQLException {
         Configuration.changeSchemaToTest();
-        Connection connection = Configuration.getConnection();
         locationNameDAO = new LocationNameDAO();
         conferenceRoomDAO = new ConferenceRoomDAO();
+        mapDatabase = new MapDatabase();
     }
     @AfterAll
     static void end() throws SQLException, ClassNotFoundException {
         conferenceRoomDAO.deleteAllConferenceRooms();
+        mapDatabase.deleteAllDirectionArrows();
+        mapDatabase.deleteAllMoves();
         locationNameDAO.deleteAllLocationNames();
         Configuration.getConnection().close();
     }
     @BeforeEach
     void reset() throws SQLException, ClassNotFoundException {
         conferenceRoomDAO.deleteAllConferenceRooms();
+        mapDatabase.deleteAllDirectionArrows();
+        mapDatabase.deleteAllMoves();
         locationNameDAO.deleteAllLocationNames();
     }
 
