@@ -58,6 +58,20 @@ public class DirectionArrowDAO {
         return directionArrows;
     }
 
+    ArrayList<DirectionArrow> getDirectionArrows() throws SQLException, ClassNotFoundException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getDirectionArrowSchemaNameTableName()+";");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        ArrayList<DirectionArrow> directionArrows = new ArrayList<>();
+        while (resultSet.next()){
+            String longname = resultSet.getString("longname");
+            int kioskID = resultSet.getInt("kioskID");
+            Direction direction = Direction.valueOf(resultSet.getString("direction"));
+            directionArrows.add(new DirectionArrow(longname, kioskID, direction));
+        }
+        return directionArrows;
+    }
+
     ArrayList<DirectionArrow> getDirectionArrowsByKiosk(int kioskID) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getDirectionArrowSchemaNameTableName()+" WHERE kioskID=?;");
