@@ -77,9 +77,10 @@
                                                       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="viewOnly" text="View Only" />
                                                    </children>
                                                 </HBox>
-                                                <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                                <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0" HBox.hgrow="ALWAYS">
                                                    <children>
-                                                      <Button fx:id="toEditMap" mnemonicParsing="false" prefHeight="29.0" prefWidth="79.0" styleClass="tinyButton" text="Edit Map" />
+                                                      <Button fx:id="toArchiver" mnemonicParsing="false" prefHeight="29.0" prefWidth="79.0" styleClass="tinyButton" text="Archiver" />
+                                                      <Button fx:id="toEditMap1" mnemonicParsing="false" prefHeight="29.0" prefWidth="79.0" styleClass="tinyButton" text="Edit Map" />
                                                    </children>
                                                 </HBox>
                                              </children>

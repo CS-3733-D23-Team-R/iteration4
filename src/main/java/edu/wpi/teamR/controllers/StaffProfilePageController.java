@@ -96,7 +96,7 @@ public class StaffProfilePageController {
                                 request.getRequestID(),
                                 request.getRequestType(),
                                 status,
-                                request.getLongname(),
+                                request.getLongName(),
                                 request.getStaffUsername(),
                                 request.getItemType(),
                                 request.getRequesterName(),

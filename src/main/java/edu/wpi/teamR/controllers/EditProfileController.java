@@ -89,6 +89,9 @@ public class EditProfileController {
         } else if (phoneField.getText().length() > 10) {
             errorText.setText("PHONE NUMBER TOO SHORT");
             errorText.setVisible(true);
+        } else if (!new UserDatabase().verifyUser(currentUser.getUsername(), currentPasswordField.getText())) {
+            errorText.setText("OLD PASSWORD WRONG TRY AGAIN!");
+            errorText.setVisible(true);
         } else { //TODO: make sure strings are letters and phonenum is a num
             UserDatabase accessToDatabase = new UserDatabase();
             String name;
@@ -113,7 +116,7 @@ public class EditProfileController {
             if(!newPasswordField.getText().isBlank()){
                 password = newPasswordField.getText();
             } else {
-                password = currentUser.getPassword();
+                password = currentPasswordField.getText();
             }
             accessToDatabase.modifyUserByUsername(currentUser.getUsername(), password, name, email, currentUser.getJobTitle(), phonenum, currentUser.getJoinDate(), currentUser.getAccessLevel(), currentUser.getDepartment(), backendUser.getImageID());
             currentUser.refreshUser();

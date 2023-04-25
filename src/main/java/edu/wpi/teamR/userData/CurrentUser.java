@@ -16,7 +16,6 @@ import java.util.Objects;
 @Getter@Setter
 public class CurrentUser {
     String username;
-    private String password;
     AccessLevel accessLevel;
     String fullName;
     String email;
@@ -25,9 +24,8 @@ public class CurrentUser {
     int phoneNum;
     String jobTitle;
     String profilePictureLocation;
-    public CurrentUser(String username, String password, AccessLevel accessLevel, String fullname, String email, String department, Date joinDate, int phoneNum, String jobTitle, int profilePictureID){ //TODO: update this with alton's new user class
+    public CurrentUser(String username, AccessLevel accessLevel, String fullname, String email, String department, Date joinDate, int phoneNum, String jobTitle, int profilePictureID){ //TODO: update this with alton's new user class
         this.username = username;
-        this.password = password;
         this.accessLevel = accessLevel;
         this.fullName = fullname;
         this.email = email;
@@ -53,15 +51,11 @@ public class CurrentUser {
             case 9 -> profilePictureLocation = "";
         }
     }
-    public boolean comparePass(String passwordAttempt){
-        return this.password.equals(passwordAttempt);
-    }
-
     public void refreshUser() throws SQLException, ItemNotFoundException {
         UserData userData = UserData.getInstance();
         userData.logout();
         User aUser = new UserDatabase().getUserByUsername(this.username);
-        CurrentUser refreshedUser = new CurrentUser(aUser.getStaffUsername(), aUser.getPassword(), aUser.getAccessLevel(), aUser.getName(), aUser.getEmail(), aUser.getDepartment(), aUser.getJoinDate(),Integer.parseInt(aUser.getPhoneNum()), aUser.getJobTitle(), aUser.getImageID());
+        CurrentUser refreshedUser = new CurrentUser(aUser.getStaffUsername(), aUser.getAccessLevel(), aUser.getName(), aUser.getEmail(), aUser.getDepartment(), aUser.getJoinDate(),Integer.parseInt(aUser.getPhoneNum()), aUser.getJobTitle(), aUser.getImageID());
         userData.setLoggedIn(refreshedUser);
     }
 }

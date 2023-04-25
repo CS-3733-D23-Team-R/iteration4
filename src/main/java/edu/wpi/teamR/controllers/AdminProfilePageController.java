@@ -33,7 +33,7 @@ public class AdminProfilePageController {
     ImageView ProfilePicture;
     @FXML
     Text time;
-    @FXML Button toEmployeeManager, toServiceRequests, toConferenceRooms, toSignageConfiguration, createNewAlert, toEditMap;
+    @FXML Button toEmployeeManager, toServiceRequests, toConferenceRooms, toSignageConfiguration, createNewAlert, toEditMap, toArchiver;
     @FXML VBox profileCardContainer;
     @FXML StackPane conferenceRoomImage, signageConfigurationImage, createAlertImage, allServiceRequestsImage, employeeManagementImage;
     @FXML
@@ -73,6 +73,7 @@ public class AdminProfilePageController {
         toEditMap.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP_EDITOR));
         toEmployeeManager.setOnMouseClicked(event -> {Navigation.navigate(Screen.EMPLOYEEMANAGER);});
         toSignageConfiguration.setOnMouseClicked(event -> {Navigation.navigate(Screen.SIGNAGECONFIGURATION);});
+        //toArchiver.setOnMouseClicked(event -> {Navigation.navigate();}); TODO: FIX!
         LocalDate date = LocalDate.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
         String formattedDate = date.format(dateTimeFormatter);

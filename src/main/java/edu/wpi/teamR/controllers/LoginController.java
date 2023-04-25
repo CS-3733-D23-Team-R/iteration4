@@ -51,10 +51,20 @@ public class LoginController {
     @FXML
     public void checkLogIn() throws SQLException, ClassNotFoundException, ItemNotFoundException {
         UserData thisUserData = UserData.getInstance();
-        User aUser = new UserDatabase().getUserByUsername(usernameField.getText());
-        CurrentUser User = new CurrentUser(aUser.getStaffUsername(), aUser.getPassword(), aUser.getAccessLevel(), aUser.getName(), aUser.getEmail(), aUser.getDepartment(), aUser.getJoinDate(), Integer.parseInt(aUser.getPhoneNum()), aUser.getJobTitle(), 1); //TODO: update this with alton's new user class
+        UserDatabase thisUserDatabase = new UserDatabase();
+        User aUser = thisUserDatabase.getUserByUsername(usernameField.getText());
+        CurrentUser User = new CurrentUser(
+                aUser.getStaffUsername(),
+                aUser.getAccessLevel(),
+                aUser.getName(),
+                aUser.getEmail(),
+                aUser.getDepartment(),
+                aUser.getJoinDate(),
+                Integer.parseInt(aUser.getPhoneNum()),
+                aUser.getJobTitle(),
+                aUser.getImageID()); //TODO: update this with alton's new user class, password hashed?
         thisUserData.setLoggedIn(User);
-        if(User.comparePass(passwordField.getText())){
+        if(thisUserDatabase.verifyUser(usernameField.getText(), passwordField.getText())){
             if(thisUserData.getLoggedIn().getAccessLevel() == AccessLevel.Admin){
                 RootController.getInstance().setSignagePage();
                 navigate(Screen.ADMINPROFILEPAGE);
