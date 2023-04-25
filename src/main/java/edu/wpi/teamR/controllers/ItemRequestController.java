@@ -229,14 +229,14 @@ public class ItemRequestController {
         FilterButton5.setManaged(state);
     }
 
-    private void loadCard(int col, int row, String title, String description, String price, String imageAddress) throws IOException {
+    private void loadCard(int col, int row, IAvailableItem item) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/ItemCard.fxml"));
         AnchorPane anchorPane = new AnchorPane();
         cardGridPane.add(anchorPane, col, row);
         loader.setRoot(anchorPane);
         loader.load();
         ItemCard contentController = loader.getController();
-        contentController.setInfo(title, description, price, imageAddress);
+        contentController.setInfo(item);
     }
 
     private void regenerateCards(){
@@ -279,7 +279,7 @@ public class ItemRequestController {
                 for (int r = 0; r < 2; r++){
                     if(filteredList.size() < c*2 + r + 1) {continue;}
                     IAvailableItem item = filteredList.get(c*2 + r);
-                    loadCard(r, c, item.getItemName(), item.getDescription(), decimalFormat.format(item.getItemPrice()), item.getImageReference());
+                    loadCard(r, c, item);
                 }
             }
         } catch (SQLException e) {

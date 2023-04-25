@@ -2,6 +2,7 @@ package edu.wpi.teamR.datahandling;
 
 import edu.wpi.teamR.controllers.ServiceRequestCartController;
 import edu.wpi.teamR.requestdb.AvailableItem;
+import edu.wpi.teamR.requestdb.IAvailableItem;
 import edu.wpi.teamR.requestdb.ItemRequest;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class ShoppingCart {
-    public HashMap<AvailableItem, Integer> items = new HashMap<AvailableItem, Integer>();
+    public HashMap<IAvailableItem, Integer> items = new HashMap<IAvailableItem, Integer>();
 
     private static ShoppingCart instance;
 
@@ -31,33 +32,33 @@ public class ShoppingCart {
         instance = null;
     }
 
-    public void addItem(AvailableItem item, int quantity){
+    public void addItem(IAvailableItem item, int quantity){
         if(!items.containsKey(item)){
             items.putIfAbsent(item, quantity);
            // test.refreshCart();
         } else {incrementItem(item);}
     }
-    public void incrementItem(AvailableItem item){
+    public void incrementItem(IAvailableItem item){
         items.replace(item, items.get(item) + 1);
     }
-    public void deleteItem(AvailableItem item){
+    public void deleteItem(IAvailableItem item){
         items.remove(item);
     }
-    public void decrementItem(AvailableItem item) {
+    public void decrementItem(IAvailableItem item) {
         items.replace(item, items.get(item) - 1);
     }
     public void clearCart(){ items.clear(); }
 
-    public int getItemQuantity(AvailableItem item){
+    public int getItemQuantity(IAvailableItem item){
         return items.get(item);
     }
 
 
     //returns the total price of all items in the items shopping cart
     public double calculateTotal() {
-        Set<AvailableItem> itemsSet = items.keySet();
+        Set<IAvailableItem> itemsSet = items.keySet();
         double total = 0;
-        for (AvailableItem i : itemsSet) {
+        for (IAvailableItem i : itemsSet) {
             total += i.getItemPrice() * items.get(i);
         }
         return total;

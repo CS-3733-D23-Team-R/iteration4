@@ -3,6 +3,7 @@ package edu.wpi.teamR.controllers;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.datahandling.ShoppingCart;
 import edu.wpi.teamR.requestdb.AvailableItem;
+import edu.wpi.teamR.requestdb.IAvailableItem;
 import edu.wpi.teamR.requestdb.RequestDatabase;
 import edu.wpi.teamR.requestdb.RequestType;
 import javafx.fxml.FXML;
@@ -40,6 +41,8 @@ public class ItemCard {
     @FXML
     private ImageView addToCartCart;
 
+    private IAvailableItem item;
+
     public void initialize() {
         this.type = type;
         addToCartCircle.setOnMouseEntered(e -> {
@@ -52,26 +55,16 @@ public class ItemCard {
         });
         addToCartCircle.setOnMouseClicked(e -> {
             ShoppingCart cart = ShoppingCart.getInstance();
-            RequestDatabase rDat = new RequestDatabase();
-            AvailableItem thisItem = null;
-            try {
-                thisItem = rDat.getAvailableItemByName(cardTitle.getText(), type);
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            } catch (ClassNotFoundException ex) {
-                throw new RuntimeException(ex);
-            } catch (ItemNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
-            cart.addItem(thisItem, 1);
+            cart.addItem(this.item, 1);
         });
     }
 
-    public void setInfo(String title, String description, String price, String imageAddress) {
-        cardTitle.setText(title);
-        cardDescription.setText(description);
-        cardPrice.setText(price);
-//        BackgroundImage bImg = new BackgroundImage(new Image(imageAddress), //TODO find images and set them
+    public void setInfo(IAvailableItem item) {
+        this.item = item;
+        cardTitle.setText(item.getItemName());
+        cardDescription.setText(item.getDescription());
+        cardPrice.setText("$" + item.getItemPrice().toString());
+//        BackgroundImage bImg = new BackgroundImage(new Image(this.imageAddress), //TODO find images and set them
 //                BackgroundRepeat.NO_REPEAT,
 //                BackgroundRepeat.NO_REPEAT,
 //                BackgroundPosition.DEFAULT,

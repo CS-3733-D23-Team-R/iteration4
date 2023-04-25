@@ -106,7 +106,7 @@ public class ServiceRequestCartController {
     // input : ItemRequest item, Integer number
     // item -> item added to shopping cart
     // number -> number of that item added
-    @FXML private HBox shoppingCartView(AvailableItem item, Integer number){
+    @FXML private HBox shoppingCartView(IAvailableItem item, Integer number){
         HBox layout = new HBox();
         layout.setAlignment(Pos.CENTER_RIGHT);
         //FileInputStream input = new FileInputStream("");
@@ -188,7 +188,7 @@ public class ServiceRequestCartController {
             String additionalNotes = notesField.getText();
 
 
-        for (AvailableItem itemInHash : cartInstance.items.keySet()){
+        for (IAvailableItem itemInHash : cartInstance.items.keySet()){
             for(int i = 0; i<cartInstance.items.get(itemInHash); i++){
                 reqDatabase.addItemRequest(itemInHash.getRequestType(), RequestStatus.Unstarted, location, staff, itemInHash.getItemName(), requestor, additionalNotes, CurrentDateTime());
             }
