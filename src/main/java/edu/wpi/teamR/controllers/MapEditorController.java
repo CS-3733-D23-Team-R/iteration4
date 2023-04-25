@@ -8,6 +8,7 @@ import edu.wpi.teamR.archive.CSVParameterException;
 import edu.wpi.teamR.archive.CSVWriter;
 import edu.wpi.teamR.datahandling.MapStorage;
 import edu.wpi.teamR.mapdb.update.*;
+import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -25,6 +26,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -35,6 +37,7 @@ import javafx.stage.FileChooser;
 import edu.wpi.teamR.mapdb.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.File;
@@ -155,6 +158,9 @@ public class MapEditorController {
     HashMap<Circle, Node> alignmentNodesList = new HashMap<>();
     ArrayList<Circle> alignmentCirclesList = new ArrayList<>();
     @FXML ImageView infoIcon;
+    @FXML
+    VBox dbBackupButton;
+    @FXML VBox backupBox;
 
     Color textColor = Color.BLACK;
     Color pathColor = Color.web("#012D5A");
@@ -416,6 +422,25 @@ public class MapEditorController {
             popOver.setAutoHide(true);
 
             popOver.show(infoIcon);
+        });
+
+        dbBackupButton.setOnMouseClicked(event -> {
+            if (dbBackupButton.getTranslateY() == 95) {
+                TranslateTransition slideUp = new TranslateTransition(Duration.millis(500), backupBox);
+                TranslateTransition slideTab = new TranslateTransition(Duration.millis(500), dbBackupButton);
+                slideTab.setToY(0);
+                slideUp.setToY(0);
+                slideTab.play();
+                slideUp.play();
+            }
+            else {
+                TranslateTransition slideUp = new TranslateTransition(Duration.millis(500), backupBox);
+                TranslateTransition slideTab = new TranslateTransition(Duration.millis(500), dbBackupButton);
+                slideUp.setToY(95);
+                slideTab.setToY(95);
+                slideTab.play();
+                slideUp.play();
+            }
         });
 
         reset();

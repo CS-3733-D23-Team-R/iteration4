@@ -258,9 +258,13 @@ public class MapController {
 
         Platform.runLater(() -> moveDatePicker.setValue(LocalDate.now()));
 
-        alertList = userdb.getAlerts();
+        alertList = userdb.getAlertsInLastNumDaysDesc(3);
         if (alertList.size() > 0) {
             alertText.setText(alertList.get(0).getMessage());
+        }
+        else {
+            alertPane.setVisible(false);
+            alertPane.setManaged(false);
         }
 
         setFloorButtonMap();

@@ -19,6 +19,42 @@
       <AnchorPane fx:id="anchorPane" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <GesturePane fx:id="gesturePane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <VBox fx:id="backupBox" alignment="CENTER" layoutX="14.0" layoutY="625.0" prefHeight="81.0" prefWidth="310.0" spacing="5.0" styleClass="map-vbox" translateY="95.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0">
+               <children>
+                  <HBox alignment="CENTER" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Choose Table">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Text>
+                        <ComboBox fx:id="tableComboBox" prefWidth="150.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Button fx:id="importCSVButton" prefHeight="30.0" prefWidth="140.0" text="Import CSV" HBox.hgrow="ALWAYS">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/map/upload.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="exportCSVButton" prefHeight="30.0" prefWidth="140.0" text="Export CSV">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/map/download.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
             <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="300.0" prefWidth="360.0" styleClass="map-vbox">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Map Editor">
@@ -111,42 +147,6 @@
                <opaqueInsets>
                   <Insets top="10.0" />
                </opaqueInsets></VBox>
-            <VBox alignment="CENTER" layoutX="14.0" layoutY="625.0" prefHeight="81.0" prefWidth="310.0" spacing="5.0" styleClass="map-vbox" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0">
-               <children>
-                  <HBox alignment="CENTER" prefWidth="200.0" spacing="10.0">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Choose Table">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Text>
-                        <ComboBox fx:id="tableComboBox" prefWidth="150.0" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" spacing="10.0">
-                     <children>
-                        <Button fx:id="importCSVButton" prefHeight="30.0" prefWidth="140.0" text="Import CSV" HBox.hgrow="ALWAYS">
-                           <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/map/upload.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Button fx:id="exportCSVButton" prefHeight="30.0" prefWidth="140.0" text="Export CSV">
-                           <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/map/download.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
             <VBox layoutX="490.0" layoutY="14.0" prefWidth="300.0" spacing="20.0" styleClass="map-vbox">
                <children>
                   <HBox fx:id="edgeHBox" alignment="CENTER" prefHeight="67.0" prefWidth="294.0" spacing="10.0">
@@ -192,6 +192,11 @@
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="L2" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
+               </children>
+            </VBox>
+            <VBox fx:id="dbBackupButton" alignment="CENTER" layoutX="26.0" layoutY="587.0" prefHeight="38.0" prefWidth="100.0" styleClass="map-tab" translateY="95.0" AnchorPane.bottomAnchor="95.0" AnchorPane.leftAnchor="26.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-title" text="Database Backup" />
                </children>
             </VBox>
          </children>
