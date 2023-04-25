@@ -27,6 +27,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -154,7 +155,7 @@ public class MapEditorController {
     ArrayList<Circle> alignmentCirclesList = new ArrayList<>();
     @FXML ImageView infoIcon;
 
-    Color textColor = Color.web("#FF5275");
+    Color textColor = Color.WHITE;
     Color pathColor = Color.web("#012D5A");
 
     @FXML
@@ -732,7 +733,7 @@ public class MapEditorController {
                         MapPopupController controller = loader.getController();
                         try {
                             controller.showNodeInformation(updater, n);
-                        } catch (SQLException e) {
+                        } catch (SQLException | ItemNotFoundException e) {
                             throw new RuntimeException(e);
                         }
 
@@ -1005,6 +1006,9 @@ public class MapEditorController {
                         Node n = m.getNode();
                         t.setText(shortName);
                         t.setFill(textColor);
+                        t.setStroke(Color.BLACK);
+                        t.setStrokeWidth(1);
+                        t.setFont(Font.font(18));
                         t.setX(n.getXCoord() + 10);
                         t.setY(n.getYCoord());
 

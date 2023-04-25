@@ -4,9 +4,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="275.0" prefWidth="600.0" stylesheets="@../../styles/map.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.mapeditor.EditorInfoPopupController">
+<AnchorPane prefHeight="310.0" prefWidth="600.0" stylesheets="@../../styles/map.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.mapeditor.EditorInfoPopupController">
    <children>
-      <VBox alignment="CENTER" layoutX="37.0" layoutY="14.0" spacing="10.0">
+      <VBox alignment="CENTER" layoutX="36.0" layoutY="9.0" spacing="10.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-title" text="About the Map Editor" />
             <VBox alignment="CENTER">
@@ -15,13 +15,14 @@
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-body" text="The position of the edges will adjust when you release." />
                </children>
             </VBox>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-body" text="Right-click a node to show information about the node." />
             <VBox alignment="CENTER">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-body" text="Shift-click to select multiple nodes." />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-body" text="Then right click to align vertically or horizontally." />
                </children>
             </VBox>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-body" text="Right click an edge to remove it from the map." />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-body" text="Right-click an edge to remove it from the map." />
             <VBox alignment="CENTER">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-body" text="Press new edge to draw an edge." />

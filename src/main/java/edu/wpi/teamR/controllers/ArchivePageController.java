@@ -1,23 +1,25 @@
 package edu.wpi.teamR.controllers;
 
+import edu.wpi.teamR.App;
+import edu.wpi.teamR.archive.Archiver;
+import edu.wpi.teamR.archive.CSVParameterException;
+import edu.wpi.teamR.login.UserDatabase;
+import edu.wpi.teamR.mapdb.MapDatabase;
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
+import edu.wpi.teamR.requestdb.RequestDatabase;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.base.MFXCombo;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
-public class BackupPageController {
+public class ArchivePageController {
     @FXML MFXButton backButton;
     @FXML MFXButton fileButton;
     @FXML MFXButton pathButton;
@@ -32,6 +34,10 @@ public class BackupPageController {
 
     DirectoryChooser directoryChooser;
 
+    MapDatabase mapdb = App.getMapData().getMapdb();
+
+    Archiver archiver = new Archiver(mapdb, new UserDatabase(), new RequestDatabase());
+
     @FXML
     public void initialize() throws SQLException, ClassNotFoundException {
         backButton.setOnMouseClicked(event -> Navigation.navigate(Screen.ADMINHOME));
@@ -39,7 +45,7 @@ public class BackupPageController {
         submitImport.setOnMouseClicked(event -> {
             try {
                 submit();
-            } catch (SQLException | ClassNotFoundException | FileNotFoundException e) {
+            } catch (SQLException | ClassNotFoundException | FileNotFoundException | CSVParameterException e) {
                 throw new RuntimeException(e);
             }
         });
@@ -55,13 +61,14 @@ public class BackupPageController {
 
     public void openFile() {
         fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Zip Files", "*.zip"));
         fileChooser.setTitle("Open File");
         selectedFile = fileChooser.showOpenDialog(fileButton.getScene().getWindow());
         fileText.setText(selectedFile.getName());
     }
 
-    public void submit() throws SQLException, FileNotFoundException, ClassNotFoundException {
+    public void submit() throws SQLException, FileNotFoundException, ClassNotFoundException, CSVParameterException {
+        archiver.restoreArchive(selectedFile.getAbsolutePath());
         selectedFile = null;
         fileText.setText("...");
     }
@@ -74,6 +81,7 @@ public class BackupPageController {
     }
 
     public void export() throws SQLException, IOException, ClassNotFoundException {
+        archiver.createArchive(selectedDirectory.getAbsolutePath());
         selectedDirectory = null;
         pathText.setText("...");
     }

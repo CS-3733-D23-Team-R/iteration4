@@ -33,6 +33,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import net.kurobako.gesturefx.*;
@@ -126,12 +127,14 @@ public class MapController {
     UserDatabase userdb = new UserDatabase();
     ArrayList<Alert> alertList;
     @FXML Text alertText;
+    @FXML StackPane alertPane;
     @FXML VBox textVBox;
     @FXML
     MFXScrollPane textScrollPane;
     @FXML VBox directionsVBox;
+    @FXML ImageView closeAlert;
 
-    Color textColor = Color.web("#FF5275");
+    Color textColor = Color.WHITE;
     Color pathColor = Color.web("#012D5A");
 
     @FXML
@@ -253,13 +256,18 @@ public class MapController {
 
         alertList = userdb.getAlerts();
         if (alertList.size() > 0) {
-            alertText.setText(alertList.get(alertList.size() - 1).getMessage());
+            alertText.setText(alertList.get(0).getMessage());
         }
 
         setFloorButtonMap();
         textDirections(false);
         textCheckbox.selectedProperty().addListener((obs, oldVal, newVal) -> {
             textDirections(newVal);
+        });
+
+        closeAlert.setOnMouseClicked(event -> {
+            alertPane.setVisible(false);
+            alertPane.setManaged(false);
         });
     }
 
@@ -440,6 +448,9 @@ public class MapController {
         endText.setX(endNode.getXCoord() + 10);
         endText.setY(endNode.getYCoord());
         endText.setFill(textColor);
+        endText.setStroke(Color.BLACK);
+        endText.setStrokeWidth(1);
+        endText.setFont(Font.font(18));
         paths[drawFloor].getChildren().add(end);
         paths[drawFloor].getChildren().add(endText);
     }
@@ -480,6 +491,9 @@ public class MapController {
                         Node n = m.getNode();
                         t.setText(shortName);
                         t.setFill(textColor);
+                        t.setStroke(Color.BLACK);
+                        t.setStrokeWidth(1);
+                        t.setFont(Font.font(18));
                         t.setX(n.getXCoord() + 10);
                         t.setY(n.getYCoord());
 

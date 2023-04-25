@@ -1,6 +1,7 @@
 package edu.wpi.teamR.controllers.mapeditor;
 
 import edu.wpi.teamR.App;
+import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.mapdb.*;
 import edu.wpi.teamR.mapdb.update.MapUpdater;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
@@ -79,7 +80,7 @@ public class MapPopupController {
         primaryStage.show();
     }
 
-    public void showNodeInformation(MapUpdater updater, Node n) throws SQLException {
+    public void showNodeInformation(MapUpdater updater, Node n) throws SQLException, ItemNotFoundException {
         node = n;
         if (mapdb.getMovesByNode(n.getNodeID()).size() > 0) {
             move = mapdb.getMovesByNode(n.getNodeID()).get(0);
@@ -101,6 +102,15 @@ public class MapPopupController {
             edgeString.append(" ").append(e.getStartNode()).append("-").append(e.getEndNode()).append("\n");
         }
         edgeText.setText(edgeString.toString());
+
+        String longName = move.getLongName();
+        LocationName locationName = mapdb.getLocationNameByLongName(longName);
+        String shortName = locationName.getShortName();
+        String nodeType = locationName.getNodeType();
+
+        longNameText.setText(longName);
+        shortNameText.setText(shortName);
+        nodeTypeText.setText(nodeType);
     }
 
     private void handleDatePickerChange(LocalDate newValue) throws SQLException {
