@@ -106,3 +106,10 @@
     -fx-font-weight: bold;
     -fx-font-size: 20px;
 }
+
+.checkMark{
+    -fx-background-image: url("../images/login/checkmark.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}

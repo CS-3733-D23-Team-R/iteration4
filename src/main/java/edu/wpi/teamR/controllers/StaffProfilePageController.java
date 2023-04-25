@@ -1,15 +1,23 @@
 package edu.wpi.teamR.controllers;
 
+import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
 import edu.wpi.teamR.requestdb.*;
 import edu.wpi.teamR.userData.CurrentUser;
 import edu.wpi.teamR.userData.UserData;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -26,20 +34,23 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import javafx.scene.control.Button;
 
 public class StaffProfilePageController {
     @FXML Text time;
     @FXML Button viewAllRequests, toConferenceRooms;
     @FXML VBox profileCardContainer;
     @FXML StackPane conferenceRoomImage;
+    @FXML TableView<ItemRequest> table;
+    @FXML TableColumn<ItemRequest, Integer> idCol;
+    @FXML TableColumn<ItemRequest, String> requestTypeCol, nameCol, locationCol, notesCol, dateCol, statusCol, itemCol;
+    @FXML StackPane checkmark;
+    private final ObservableList<ItemRequest> dataList = FXCollections.observableArrayList();
+    ObservableList<RequestStatus> statusList = FXCollections.observableArrayList(RequestStatus.values());
     public void initialize() throws SQLException, ClassNotFoundException, SearchException {
         CurrentUser user = UserData.getInstance().getLoggedIn();
         toConferenceRooms.setVisible(false);
         conferenceRoomImage.setOnMouseEntered(event -> {toConferenceRooms.setVisible(true);});
         conferenceRoomImage.setOnMouseExited(event -> {toConferenceRooms.setVisible(false);});
-
-
         LocalDate date = LocalDate.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
         String formattedDate = date.format(dateTimeFormatter);
@@ -60,6 +71,57 @@ public class StaffProfilePageController {
         timeline.play();
         time.setText(formattedDate);
         displayProfile(UserData.getInstance().getLoggedIn());
+
+        SearchList aSearchList = new SearchList();
+        aSearchList.addComparison(RequestAttribute.staffUsername, Operation.equalTo, user.getUsername());
+        dataList.addAll(new RequestDatabase().getItemRequestByAttributes(aSearchList));
+        idCol.setCellValueFactory(new PropertyValueFactory<>("requestID"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("requesterName"));
+        locationCol.setCellValueFactory(new PropertyValueFactory<>("longname"));
+        requestTypeCol.setCellValueFactory(new PropertyValueFactory<>("requestType"));
+        itemCol.setCellValueFactory(new PropertyValueFactory<>("itemType"));
+        notesCol.setCellValueFactory(new PropertyValueFactory<>("additionalNotes"));
+        dateCol.setCellValueFactory(new PropertyValueFactory<>("requestDate"));
+        statusCol.setCellFactory(column -> new TableCell<>(){
+            private final MFXComboBox<RequestStatus> changeStatusButton = new MFXComboBox<>(statusList);
+
+            {
+                changeStatusButton.setMaxWidth(70);
+                changeStatusButton.setOnAction(event -> {
+                    ItemRequest request = getTableView().getItems().get(getIndex());
+                    try {
+                        RequestStatus status = changeStatusButton.getSelectionModel().getSelectedItem();
+                        request.setRequestStatus(status);
+                        new RequestDatabase().modifyItemRequestByID(
+                                request.getRequestID(),
+                                request.getRequestType(),
+                                status,
+                                request.getLongname(),
+                                request.getStaffUsername(),
+                                request.getItemType(),
+                                request.getRequesterName(),
+                                request.getAdditionalNotes(),
+                                request.getRequestDate());
+                    } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            }
+            @Override
+            protected void updateItem(String item, boolean empty){
+                super.updateItem(item, empty);
+                if(empty){
+                    setGraphic(null);
+                } else{
+                    ItemRequest request = getTableView().getItems().get(getIndex());
+                    changeStatusButton.getSelectionModel().selectItem(request.getRequestStatus());
+                    setGraphic(changeStatusButton);
+                }
+            }
+        });
+        for(ItemRequest request: new RequestDatabase().getItemRequests()){
+            table.getItems().add(request);
+        }
     }
 
     private Node loadCard(CurrentUser user) throws IOException, IOException {
@@ -78,5 +140,4 @@ public class StaffProfilePageController {
             e.printStackTrace();
         }
     }
-
 }

@@ -1,5 +1,7 @@
 package edu.wpi.teamR.navigation;
 
+import edu.wpi.teamR.controllers.EditProfileController;
+
 public enum Screen {
   ROOT("views/Root.fxml"),
   HOME("views/Home.fxml"),
@@ -18,7 +20,8 @@ public enum Screen {
   EMPLOYEEMANAGER("views/EmployeeManager.fxml"),
   ITEMREQUEST("views/ItemRequest.fxml"),
   ADDEMPLOYEE("views/AddEmployee.fxml"),
-  SIGNAGECONFIGURATION("views/SignageConfiguration.fxml");
+  SIGNAGECONFIGURATION("views/SignageConfiguration.fxml"),
+  EDITPROFILE("views/EditProfile.fxml");
 
   private final String filename;
 

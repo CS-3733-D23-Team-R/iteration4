@@ -14,18 +14,20 @@ import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyCode;
+import javafx.scene.text.Text;
 
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static edu.wpi.teamR.navigation.Navigation.navigate;
 
 public class LoginController {
 
     @FXML MFXTextField usernameField;
-    @FXML
-    MFXPasswordField passwordField;
+    @FXML MFXPasswordField passwordField;
     @FXML MFXButton loginButton;
+    @FXML Text error;
 
     @FXML
     public void initialize() {
@@ -61,7 +63,7 @@ public class LoginController {
                 navigate(Screen.STAFFPROFILEPAGE);
             }
         } else{
-            System.out.println("incorrect password");
+            System.out.println("Incorrect Password");
         }
     }
 

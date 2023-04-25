@@ -5,6 +5,8 @@ import edu.wpi.teamR.Main;
 import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
+import edu.wpi.teamR.navigation.Navigation;
+import edu.wpi.teamR.navigation.Screen;
 import edu.wpi.teamR.userData.CurrentUser;
 import edu.wpi.teamR.userData.UserData;
 import edu.wpi.teamR.userData.UserData;
@@ -40,6 +42,7 @@ public class ProfileController {
     @FXML Button editProfileBtn;
 
     public void initialize() {
+        editProfileBtn.setOnMouseClicked(event -> {Navigation.navigate(Screen.EDITPROFILE);});
         //ImageView image1 = new ImageView(Objects.requireNonNull((Main.class.getResource("images/.png")).toExternalForm())); TODO:fix
     }
 
