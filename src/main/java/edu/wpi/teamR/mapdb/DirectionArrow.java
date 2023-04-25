@@ -23,16 +23,16 @@ public class DirectionArrow implements Archivable {
     }
 
     private DirectionArrow(String[] args) throws IndexOutOfBoundsException {
-        this(args[0], Integer.parseInt(args[1]), Direction.valueOf(args[2]));
+        this(args[0], Integer.parseInt(args[1]), Direction.valueOf(args[2]), Date.valueOf(args[3]));
     }
 
     @Override
     public String toCSVEntry() {
-        return longName + "," + kioskID + "," + direction;
+        return longName + "," + kioskID + "," + direction + "," + date.toString();
     }
 
     @Override
     public String getCSVColumns() {
-        return "longName,kioskID,direction";
+        return "longName,kioskID,direction,date";
     }
 }
