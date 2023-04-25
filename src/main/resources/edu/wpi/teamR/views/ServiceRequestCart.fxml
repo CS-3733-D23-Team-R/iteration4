@@ -2,6 +2,7 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -13,57 +14,63 @@
 <?import javafx.scene.text.Text?>
 <?import org.controlsfx.control.SearchableComboBox?>
 
-<BorderPane fx:id="cartBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="260.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.ServiceRequestCartController">
+<BorderPane fx:id="cartBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="306.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.ServiceRequestCartController">
    <top>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="407.0" styleClass="homeBackground" HBox.hgrow="ALWAYS">
+                  <VBox prefHeight="200.0" prefWidth="407.0" styleClass="shoppingCartBackground" HBox.hgrow="ALWAYS">
                      <children>
-                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                        <HBox prefHeight="100.0" prefWidth="200.0" styleClass="shoppingCartBoxes" VBox.vgrow="ALWAYS">
                            <children>
-                              <ImageView fitHeight="41.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                              <ImageView fitHeight="60.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                                  <image>
-                                    <Image url="@../images/serviceRequests/profile.png" />
+                                    <Image url="@../images/serviceRequests/user.png" />
                                  </image>
                                  <HBox.margin>
-                                    <Insets left="5.0" top="10.0" />
+                                    <Insets bottom="7.0" left="5.0" />
                                  </HBox.margin>
                               </ImageView>
                               <SearchableComboBox fx:id="userField" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
-                                    <Insets left="5.0" right="5.0" />
+                                    <Insets bottom="10.0" left="5.0" right="5.0" />
                                  </HBox.margin>
                               </SearchableComboBox>
                            </children>
                            <padding>
                               <Insets top="10.0" />
                            </padding>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
                         </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                        <HBox prefHeight="100.0" prefWidth="200.0" styleClass="shoppingCartBoxes" VBox.vgrow="ALWAYS">
                            <children>
                               <ImageView fitHeight="50.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
                                  <image>
-                                    <Image url="@../images/serviceRequests/locationIcon.png" />
+                                    <Image url="@../images/serviceRequests/location.png" />
                                  </image>
                                  <HBox.margin>
-                                    <Insets left="5.0" top="10.0" />
+                                    <Insets bottom="5.0" left="10.0" top="10.0" />
                                  </HBox.margin>
                            </ImageView>
-                              <SearchableComboBox fx:id="locationField" prefHeight="41.0" prefWidth="165.0" styleClass="combo-box" HBox.hgrow="ALWAYS">
+                              <SearchableComboBox fx:id="locationField" prefHeight="41.0" prefWidth="165.0" promptText=" Delivery Location" styleClass="combo-box" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
-                                    <Insets left="5.0" right="5.0" top="5.0" />
+                                    <Insets bottom="10.0" left="6.0" right="5.0" top="10.0" />
                                  </HBox.margin>
                               </SearchableComboBox>
                            </children>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
                         </HBox>
-                        <Line endX="250.0" stroke="WHITE" strokeWidth="2.0" VBox.vgrow="ALWAYS">
+                        <Line endX="280.0" stroke="#012d5a" strokeWidth="2.0" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets left="5.0" right="5.0" top="10.0" />
                            </VBox.margin>
                         </Line>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="My Requests" VBox.vgrow="ALWAYS">
+                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="My Requests" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets left="5.0" />
                            </VBox.margin>
@@ -78,58 +85,46 @@
    <bottom>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="200.0" prefWidth="228.0" styleClass="homeBackground" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <VBox prefHeight="200.0" prefWidth="228.0" styleClass="shoppingCartBackground" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <Line endX="250.0" stroke="WHITE" strokeWidth="2.0" VBox.vgrow="ALWAYS">
+                  <Line endX="280.0" stroke="#012d5a" strokeWidth="2.0" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets left="5.0" right="5.0" />
                      </VBox.margin>
                   </Line>
-                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                  <HBox prefHeight="30.0" prefWidth="243.0" styleClass="shoppingCartBoxes" VBox.vgrow="ALWAYS">
                      <children>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Total Amount:  " HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets left="5.0" />
-                           </HBox.margin>
-                        </Text>
-                        <Text fx:id="totalPriceLabel" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Text" HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <ImageView fitHeight="54.0" fitWidth="54.0" HBox.hgrow="ALWAYS">
+                        <ImageView fitHeight="42.0" fitWidth="37.0" HBox.hgrow="ALWAYS">
                            <image>
-                              <Image url="@../images/serviceRequests/assignOrderIcon.png" />
+                              <Image url="@../images/serviceRequests/staff.png" />
                            </image>
                            <HBox.margin>
-                              <Insets top="10.0" />
+                              <Insets bottom="10.0" left="5.0" top="10.0" />
                            </HBox.margin>
                         </ImageView>
-                        <SearchableComboBox fx:id="staffField" prefHeight="30.0" prefWidth="207.0" styleClass="combo-box" HBox.hgrow="ALWAYS">
+                        <SearchableComboBox fx:id="staffField" prefHeight="30.0" prefWidth="207.0" promptText=" Assign Order" styleClass="combo-box" HBox.hgrow="ALWAYS">
                            <HBox.margin>
-                              <Insets bottom="25.0" right="5.0" top="10.0" />
+                              <Insets bottom="10.0" left="5.0" right="10.0" top="10.0" />
                            </HBox.margin>
                         </SearchableComboBox>
                      </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox prefHeight="89.0" prefWidth="243.0" styleClass="shoppingCartBoxes" VBox.vgrow="ALWAYS">
                      <children>
-                        <ImageView fitHeight="47.0" fitWidth="43.0" HBox.hgrow="ALWAYS">
-                           <image>
-                              <Image url="@../images/serviceRequests/notes.png" />
-                           </image>
+                        <MFXTextField fx:id="notesField" floatingText="Additional Notes" prefHeight="49.0" prefWidth="297.0" HBox.hgrow="ALWAYS">
                            <HBox.margin>
-                              <Insets left="5.0" />
-                           </HBox.margin>
-                        </ImageView>
-                        <MFXTextField fx:id="notesField" floatingText="Type Any Notes" prefHeight="63.0" prefWidth="205.0" HBox.hgrow="ALWAYS">
-                           <HBox.margin>
-                              <Insets />
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
                         </MFXTextField>
                      </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
                   </HBox>
-                  <MFXButton fx:id="submitButton" alignment="CENTER" styleClass="inverseButton" text="Submit" VBox.vgrow="ALWAYS">
+                  <MFXButton fx:id="submitButton" alignment="CENTER" styleClass="yellowButton" text="Submit" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" top="10.0" />
                      </VBox.margin>
@@ -142,8 +137,12 @@
    <center>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <VBox fx:id="cartPane" prefHeight="356.0" prefWidth="325.0" styleClass="homeBackground" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <VBox fx:id="cartPane" prefHeight="356.0" prefWidth="325.0" styleClass="shoppingCartBackground" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
    </center>
+   <stylesheets>
+      <URL value="@../styles/styles.css" />
+      <URL value="@../styles/request.css" />
+   </stylesheets>
 </BorderPane>

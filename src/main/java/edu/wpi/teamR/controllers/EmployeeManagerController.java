@@ -5,6 +5,7 @@ import edu.wpi.teamR.Main;
 import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
+import edu.wpi.teamR.login.UserDatabase;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
@@ -184,7 +185,7 @@ public class EmployeeManagerController {
         });
 
          */
-        for(User aUser : AuthenticationDAO.getInstance().getUsers()){
+        for(User aUser : new UserDatabase().getUsers()){
             theTable.getItems().add(aUser);
         }
     }
@@ -216,16 +217,7 @@ public class EmployeeManagerController {
         } else{
             missingFields.setVisible(false);
             java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-            User newUser = new User(staffUsername.getText(),
-                    password.getText(),
-                    name.getText(),
-                    email.getText(),
-                    jobTitle.getText(),
-                    phoneNumber.getText(),
-                    date,
-                    AccessLevel.valueOf(accesslevel.getText()),
-                    department.getText());
-            AuthenticationDAO.getInstance().addUser(
+            User newUser = new UserDatabase().addUser(
                     staffUsername.getText(),
                     password.getText(),
                     name.getText(),
@@ -234,7 +226,8 @@ public class EmployeeManagerController {
                     phoneNumber.getText(),
                     date,
                     AccessLevel.valueOf(accesslevel.getText()),
-                    department.getText()
+                    department.getText(),
+                    0
                     );
 
             theTable.getItems().add(newUser);
@@ -266,7 +259,7 @@ public class EmployeeManagerController {
                             User data = getTableView().getItems().get(getIndex());
                             theTable.getItems().remove(data);
                             try {
-                                AuthenticationDAO.getInstance().deleteUserByUsername(data.getStaffUsername());
+                                new UserDatabase().deleteUserByUsername(data.getStaffUsername());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

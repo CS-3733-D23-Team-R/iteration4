@@ -27,7 +27,7 @@ public class MapDatabase {
     private final ItemRequestDAO itemRequestDAO;
     private final RoomRequestDAO roomRequestDAO;
 
-    public MapDatabase() throws SQLException, ClassNotFoundException {
+    public MapDatabase() throws SQLException {
         this.nodeDao = new NodeDAO();
         this.edgeDao = new EdgeDAO();
         this.moveDao = new MoveDAO();
@@ -121,6 +121,14 @@ public class MapDatabase {
 
     public ArrayList<Move> getMoves() throws SQLException {
         return moveDao.getMoves();
+    }
+
+    public Move getMoveByLocationAndDate(String longName, Date date) throws SQLException, ItemNotFoundException {
+        return moveDao.getMoveByLocationAndDate(longName, date);
+    }
+
+    public Move getLatestMoveForLocationByDate(String longName, Date date) throws SQLException, ItemNotFoundException {
+        return moveDao.getLatestMoveForLocationByDate(longName, date);
     }
 
     public ArrayList<Move> getMovesForDate(Date date) throws SQLException {

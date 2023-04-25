@@ -12,14 +12,18 @@ public class PathToText {
     @Getter
     private ArrayList<String> pathText;
 
+    private ArrayList<String> textualPath;
+
     /**
      * Construct class using Path object
-     * get text directions using getTextualDirections()
+     * get text directions using getTextualPath()
      * @param path
      */
     public PathToText(Path path) {
         ArrayList<Integer> newPath = path.getPath();
-        this.pathText = getTextualDirections(newPath);
+
+        this.textualPath = getTextualDirections(newPath);
+
     }
 
     private ArrayList<String> getTextualDirections(ArrayList<Integer> newPath){

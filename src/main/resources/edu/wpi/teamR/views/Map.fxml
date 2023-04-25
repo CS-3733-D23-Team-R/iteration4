@@ -4,6 +4,8 @@
 <?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -147,11 +149,11 @@
                <children>
                   <HBox fx:id="floor3Button" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="floor-box">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="floor-unfocused" text="3" HBox.hgrow="ALWAYS" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="3" HBox.hgrow="ALWAYS" />
                      </children></HBox>
                   <HBox fx:id="floor2Button" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="floor-box">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="floor-unfocused" text="2" HBox.hgrow="ALWAYS" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="2" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                   <HBox fx:id="floor1Button" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="floor-box-focused">
@@ -161,12 +163,12 @@
                   </HBox>
                   <HBox fx:id="L1Button" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="floor-box">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="floor-unfocused" text="L1" HBox.hgrow="ALWAYS" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="L1" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                   <HBox fx:id="L2Button" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="floor-box">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="floor-unfocused" text="L2" HBox.hgrow="ALWAYS" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="L2" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                </children>
@@ -186,4 +188,20 @@
          </children>
       </AnchorPane>
    </center>
+   <top>
+      <HBox fx:id="alertHBox" alignment="CENTER" prefHeight="70.0" spacing="10.0" styleClass="alert-box" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
+               <image>
+                  <Image url="@../images/map/mapalert.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="alertText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="alert-text" text="Alert!">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+         </children>
+      </HBox>
+   </top>
 </BorderPane>
