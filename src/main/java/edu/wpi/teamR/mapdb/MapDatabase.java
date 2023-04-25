@@ -194,6 +194,24 @@ public class MapDatabase {
         return locationNameDao.getLocationsByNodeType(nodeType);
     }
 
+    public ArrayList<LocationName> getLocationNamesByNodeIDAtDate(int nodeID, Date date) throws SQLException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM (SELECT longname FROM (SELECT longname, MAX(date) AS date FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE date<? GROUP BY longname) as foo NATURAL JOIN "+Configuration.getMoveSchemaNameTableName()+" nodeid=? ORDER BY date desc) as foo NATURAL JOIN "+Configuration.getLocationNameSchemaNameTableName()+";");
+        preparedStatement.setDate(1, date);
+        preparedStatement.setInt(2, nodeID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        ArrayList<LocationName> locationNames = new ArrayList<>();
+
+        while(resultSet.next()){
+            String aLongName = resultSet.getString("longname");
+            String aShortName = resultSet.getString("shortname");
+            String aNodeType = resultSet.getString("nodetype");
+            LocationName aLocationName = new LocationName(aLongName, aShortName, aNodeType);
+            locationNames.add(aLocationName);
+        }
+        return locationNames;
+    }
+
     public String getNodeTypeByNodeID(int nodeID) throws SQLException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT nodetype from (SELECT * FROM (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() AND nodeid=? group by longname) as foo ORDER BY date desc limit 1) as foo NATURAL JOIN "+Configuration.getLocationNameSchemaNameTableName()+";");
