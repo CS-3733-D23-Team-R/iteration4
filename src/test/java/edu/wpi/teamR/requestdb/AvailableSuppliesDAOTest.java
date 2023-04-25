@@ -17,7 +17,7 @@ class AvailableSuppliesDAOTest {
     private static AvailableSuppliesDAO availableSuppliesDAO = new AvailableSuppliesDAO();
 
     @BeforeAll
-    static void starterFunction() {
+    static void starterFunction() throws SQLException {
         Configuration.changeSchemaToTest();
     }
     @BeforeEach
