@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
@@ -39,7 +40,7 @@
                         <VBox prefHeight="522.0" prefWidth="390.0" HBox.hgrow="ALWAYS">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Add New Date:" />
-                              <SearchableComboBox fx:id="dateBox" />
+                              <MFXDatePicker fx:id="datePicker" stylesheets="@../styles/map.css" />
                            </children>
                         </VBox>
                         <VBox prefHeight="522.0" prefWidth="404.0" spacing="5.0" HBox.hgrow="ALWAYS">

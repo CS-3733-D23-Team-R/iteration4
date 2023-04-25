@@ -80,7 +80,7 @@ public class SignageController {
       imageView.setFitHeight(40);
       imageView.setFitWidth(40);
 
-      text.setText(directionArrow.getLongname());
+      text.setText(directionArrow.getLongName());
       text.setFont(Font.font(24));
       text.setFill(Color.WHITE);
 
