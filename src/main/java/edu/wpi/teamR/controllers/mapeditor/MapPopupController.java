@@ -28,6 +28,10 @@ public class MapPopupController {
 
     @FXML Text edgeText;
 
+    @FXML Text longNameText;
+    @FXML Text shortNameText;
+    @FXML Text nodeTypeText;
+
     Node node;
     Move move;
     MapUpdater mapUpdater;
@@ -87,7 +91,6 @@ public class MapPopupController {
             moveDatePicker.setValue(null);
         }
         mapUpdater = updater;
-        //locationName = ;
         nodeField.setText(Integer.toString(n.getNodeID()));
         xText.setText(Integer.toString(n.getXCoord()));
         yText.setText(Integer.toString(n.getYCoord()));
