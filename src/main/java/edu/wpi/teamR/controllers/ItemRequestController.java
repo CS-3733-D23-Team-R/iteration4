@@ -1,5 +1,6 @@
 package edu.wpi.teamR.controllers;
 
+import edu.wpi.teamR.App;
 import edu.wpi.teamR.Main;
 import edu.wpi.teamR.datahandling.ShoppingCart;
 import edu.wpi.teamR.login.User;
@@ -19,6 +20,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -66,6 +68,8 @@ public class ItemRequestController {
 
     @FXML
     private ToggleButton FilterButton5;
+    @FXML Button clearFiltersButton;
+    @FXML BorderPane itemRequestPane;
 
     @FXML
     private GridPane cardGridPane;
@@ -82,9 +86,10 @@ public class ItemRequestController {
 
     private ObservableList<String> priceList = FXCollections.observableArrayList("Unsorted", "Price: High to Low", "Price: Low to High");
 
+    boolean cartOpen = false;
 
 
-    @FXML public void initialize(){
+    @FXML public void initialize() throws IOException {
 
         ObservableList<RequestType> itemTypeList = FXCollections.observableArrayList();
 //        for (RequestType type : RequestType.values()) {itemTypeList.add(type);} //add all request types to combo box
@@ -125,14 +130,24 @@ public class ItemRequestController {
     }
 
     private void openCart() throws IOException {
-        final FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/ServiceRequestCart.fxml"));
-        PopOver popover = new PopOver();
-        Parent popup;
-        popup = loader.load();
-        popover.setContentNode(popup);
-        popover.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
-        popover.setAutoHide(true);
-        popover.show(cartButton);
+        if(!cartOpen) {
+            final FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/ServiceRequestCart.fxml"));
+            final BorderPane root = loader.load();
+            itemRequestPane.setRight(root);
+            cartOpen = true;
+        } else {
+            itemRequestPane.setRight(null);
+            cartOpen = false;
+        }
+
+
+//        PopOver popover = new PopOver();
+//        Parent popup;
+//        popup = loader.load();
+//        popover.setContentNode(popup);
+//        popover.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
+//        popover.setAutoHide(true);
+//        popover.show(cartButton);
         System.out.println("opened");
     }
 

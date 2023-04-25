@@ -4,6 +4,7 @@ import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
+import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
 import edu.wpi.teamR.userData.CurrentUser;
@@ -39,7 +40,7 @@ public class LoginController {
     @FXML
     public void checkLogIn() throws SQLException, ClassNotFoundException, ItemNotFoundException {
         UserData thisUserData = UserData.getInstance();
-        User aUser = AuthenticationDAO.getInstance().getUserByUsername(usernameField.getText());
+        User aUser = new UserDatabase().getUserByUsername(usernameField.getText());
         CurrentUser User = new CurrentUser(aUser.getStaffUsername(), aUser.getPassword(), aUser.getAccessLevel(), aUser.getName(), aUser.getEmail(), aUser.getDepartment(), aUser.getJoinDate(), Integer.parseInt(aUser.getPhoneNum()), aUser.getJobTitle()); //TODO: update this with alton's new user class
         thisUserData.setLoggedIn(User);
         if(User.comparePass(passwordField.getText())){
