@@ -1,5 +1,6 @@
 package edu.wpi.teamR.controllers;
 
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import edu.wpi.teamR.requestdb.*;
@@ -59,6 +60,7 @@ public class ItemRequestController {
     private GridPane cardGridPane;
     @FXML
     private ScrollPane cardScrollPane;
+    @FXML AnchorPane itemRequestAnchorPane;
 
 
 
@@ -247,9 +249,15 @@ public class ItemRequestController {
         cardGridPane.getRowConstraints().clear();
         RowConstraints row = new RowConstraints(458);
         ColumnConstraints col = new ColumnConstraints(458);
-        cardGridPane.getRowConstraints().setAll(row, row);
+        ReadOnlyDoubleProperty pageWidth = cardScrollPane.widthProperty();
+        int cardsAcross = 3;
+        cardGridPane.getRowConstraints().setAll(row);
+        for (int i = 1; i<cardsAcross; i++){
+            cardGridPane.getRowConstraints().add(row);
+        }
+
         cardGridPane.getColumnConstraints().setAll(col);
-        ArrayList<? extends IAvailableItem> filteredList = new ArrayList<>();
+        ArrayList<IAvailableItem> filteredList = new ArrayList<>();
         cardGridPane.setHgap(10.0);
         cardGridPane.setVgap(10.0);
         try {
@@ -259,26 +267,29 @@ public class ItemRequestController {
                     if(button1Val != null && button1Val) isBouquet = true;
                     if(button2Val != null && button2Val) isBouquet = false;
                     if(button1Val != null && button1Val && button2Val != null && button2Val) isBouquet = null; //if both buttons are selected, all show up
-                    filteredList = requestDatabase.getAvailableFlowersByAttributes(null, null, null, null, isBouquet, this.button3Val, this.sortOrder);
+                    filteredList.addAll(requestDatabase.getAvailableFlowersByAttributes(null, null, null, null, isBouquet, this.button3Val, this.sortOrder));
                     break;
                 case Furniture:
-                    filteredList = requestDatabase.getAvailableFurnitureByAttributes(null, null, null, this.button1Val, this.button2Val, this.button3Val, this.button4Val);
-//                    if(this.button5Val) { TODO fix misc button
-//                        ArrayList<? extends IAvailableItem> miscList = requestDatabase.getAvailableFurnitureByAttributes(null, null, null, false, false, false, false);
-//                        filteredList.addAll(miscList);
-//                    }
+                    ArrayList<AvailableFurniture> furnitureFilteredList = requestDatabase.getAvailableFurnitureByAttributes(null, null, null, this.button1Val, this.button2Val, this.button3Val, this.button4Val);
+                    if(this.button5Val != null && this.button5Val) {
+                        furnitureFilteredList.addAll(requestDatabase.getAvailableFurnitureByAttributes(null, null, null, false, false, false, false));
+                    }
+                    filteredList.addAll(furnitureFilteredList);
                     break;
                 case Supplies:
-                    filteredList = requestDatabase.getAvailableSuppliesByAttributes(null, null, null, null, this.button2Val, this.button3Val, this.button4Val, this.button1Val, this.sortOrder);
-                    //TODO add misc button
+                    ArrayList<AvailableSupplies> suppliesFilteredList = requestDatabase.getAvailableSuppliesByAttributes(null, null, null, null, this.button2Val, this.button3Val, this.button4Val, this.button1Val, this.sortOrder);
+                    if(this.button5Val != null && this.button5Val) {
+                        suppliesFilteredList.addAll(requestDatabase.getAvailableSuppliesByAttributes(null, null, null, null, false, false, false, false, this.sortOrder));
+                    }
+                    filteredList.addAll(suppliesFilteredList);
                     break;
                 default:
-                    filteredList = requestDatabase.getAvailableMealsByAttributes(null, null, null, null, this.button2Val, this.button1Val, this.button5Val, this.button4Val, this.button3Val, this.sortOrder);
+                    filteredList.addAll(requestDatabase.getAvailableMealsByAttributes(null, null, null, null, this.button2Val, this.button1Val, this.button5Val, this.button4Val, this.button3Val, this.sortOrder));
             }
             int colCount = filteredList.size()/2 + 1;
             for (int c = 0; c < colCount; c++){
                 if(c != 0){cardGridPane.getColumnConstraints().add(col);}
-                for (int r = 0; r < 2; r++){
+                for (int r = 0; r < cardsAcross; r++){
                     if(filteredList.size() < c*2 + r + 1) {continue;}
                     IAvailableItem item = filteredList.get(c*2 + r);
                     loadCard(r, c, item);
