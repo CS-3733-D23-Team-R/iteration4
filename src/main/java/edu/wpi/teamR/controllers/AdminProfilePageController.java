@@ -10,12 +10,18 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.controlsfx.control.PopOver;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -54,6 +60,13 @@ public class AdminProfilePageController {
         createNewAlert.setVisible(false);
         createAlertImage.setOnMouseEntered(event -> {createNewAlert.setVisible(true);});
         createAlertImage.setOnMouseExited(event -> {createNewAlert.setVisible(false);});
+        createNewAlert.setOnMouseClicked(event -> {
+            try {
+                newAlert();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         toServiceRequests.setOnMouseClicked(event -> {Navigation.navigate(Screen.SORT_ORDERS);});
         toConferenceRooms.setOnMouseClicked(event -> {Navigation.navigate(Screen.ROOM_REQUEST);});
@@ -97,5 +110,18 @@ public class AdminProfilePageController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void newAlert() throws IOException {
+        final FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/Alerts.fxml"));
+        //final BorderPane alert = loader.load();
+        Parent popup;
+        popup = loader.load();
+        Stage alerts = new Stage();
+        alerts.initModality(Modality.APPLICATION_MODAL);
+        alerts.setTitle("Alerts");
+        alerts.setScene(new Scene(popup, 400, 150));
+        alerts.showAndWait();
+        System.out.print("opened");
     }
 }
