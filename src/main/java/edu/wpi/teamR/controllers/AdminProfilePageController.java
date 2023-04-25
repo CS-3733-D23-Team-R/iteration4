@@ -41,25 +41,6 @@ public class AdminProfilePageController {
         UserData thisUserData = UserData.getInstance();
         CurrentUser user = thisUserData.getLoggedIn();
 
-        toConferenceRooms.setVisible(false);
-        conferenceRoomImage.setOnMouseEntered(event -> {toConferenceRooms.setVisible(true);});
-        conferenceRoomImage.setOnMouseExited(event -> {toConferenceRooms.setVisible(false);});
-
-        toEmployeeManager.setVisible(false);
-        employeeManagementImage.setOnMouseEntered(event -> {toEmployeeManager.setVisible(true);});
-        employeeManagementImage.setOnMouseExited(event -> {toEmployeeManager.setVisible(false);});
-
-        toServiceRequests.setVisible(false);
-        allServiceRequestsImage.setOnMouseEntered(event -> {toServiceRequests.setVisible(true);});
-        allServiceRequestsImage.setOnMouseExited(event -> {toServiceRequests.setVisible(false);});
-
-        toSignageConfiguration.setVisible(false);
-        signageConfigurationImage.setOnMouseEntered(event -> {toSignageConfiguration.setVisible(true);});
-        signageConfigurationImage.setOnMouseExited(event -> {toSignageConfiguration.setVisible(false);});
-
-        createNewAlert.setVisible(false);
-        createAlertImage.setOnMouseEntered(event -> {createNewAlert.setVisible(true);});
-        createAlertImage.setOnMouseExited(event -> {createNewAlert.setVisible(false);});
         createNewAlert.setOnMouseClicked(event -> {
             try {
                 newAlert();
