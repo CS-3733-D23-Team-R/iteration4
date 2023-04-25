@@ -1,11 +1,15 @@
 package edu.wpi.teamR.userData;
 
+import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.Main;
 import edu.wpi.teamR.login.AccessLevel;
+import edu.wpi.teamR.login.User;
+import edu.wpi.teamR.login.UserDatabase;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -51,5 +55,13 @@ public class CurrentUser {
     }
     public boolean comparePass(String passwordAttempt){
         return this.password.equals(passwordAttempt);
+    }
+
+    public void refreshUser() throws SQLException, ItemNotFoundException {
+        UserData userData = UserData.getInstance();
+        userData.logout();
+        User aUser = new UserDatabase().getUserByUsername(this.username);
+        CurrentUser refreshedUser = new CurrentUser(aUser.getStaffUsername(), aUser.getPassword(), aUser.getAccessLevel(), aUser.getName(), aUser.getEmail(), aUser.getDepartment(), aUser.getJoinDate(),Integer.parseInt(aUser.getPhoneNum()), aUser.getJobTitle(), aUser.getImageID());
+        userData.setLoggedIn(refreshedUser);
     }
 }

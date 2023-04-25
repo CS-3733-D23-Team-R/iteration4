@@ -58,10 +58,10 @@ public class ProfileController {
         profileImage.setImage(image1);
         editProfileBtn.setVisible(false);
         editProfileBtn.setDisable(true);
-        editProfileBtn.setOnMouseClicked(event -> {Navigation.navigate(Screen.EDITPROFILE);});
     }
 
     public void setInfo(CurrentUser user){
+        editProfileBtn.setOnMouseClicked(event -> {Navigation.navigate(Screen.EDITPROFILE);});
         name.setText(user.getFullName());
         email.setText(user.getEmail());
         dept.setText(user.getDepartment());
@@ -71,7 +71,6 @@ public class ProfileController {
         Image image1 = new Image(UserData.getInstance().getLoggedIn().getProfilePictureLocation());
         profileImage.setImage(image1);
         editProfileBtn.setVisible(true);
-        editProfileBtn.setOnMouseClicked(event -> {Navigation.navigate(Screen.EDITPROFILE);});
     }
     public Button getBtn() {
         return editProfileBtn;
