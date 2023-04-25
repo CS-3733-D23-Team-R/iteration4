@@ -23,6 +23,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -41,6 +42,8 @@ public class HomeController {
 
   UserDatabase userDatabase = new UserDatabase();
   ArrayList<Alert> alerts;
+
+    SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
   @FXML
   public void initialize() throws SQLException {
@@ -96,7 +99,7 @@ public class HomeController {
       Text message = new Text(alert.getMessage());
       message.setFill(Color.WHITE);
       message.setStyle("-fx-font-size: 18;");
-      Text date = new Text(alert.getTime().toString());
+      Text date = new Text(dateFormat.format(alert.getTime()));
       date.setFill(Color.WHITE);
       date.setStyle("-fx-font-size: 20;");
       leftBox.getChildren().add(message);
