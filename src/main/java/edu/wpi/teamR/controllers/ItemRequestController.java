@@ -257,7 +257,7 @@ public class ItemRequestController {
         }
 
         cardGridPane.getColumnConstraints().setAll(col);
-        ArrayList<? extends IAvailableItem> filteredList = new ArrayList<>();
+        ArrayList<IAvailableItem> filteredList = new ArrayList<>();
         cardGridPane.setHgap(10.0);
         cardGridPane.setVgap(10.0);
         try {
@@ -267,21 +267,24 @@ public class ItemRequestController {
                     if(button1Val != null && button1Val) isBouquet = true;
                     if(button2Val != null && button2Val) isBouquet = false;
                     if(button1Val != null && button1Val && button2Val != null && button2Val) isBouquet = null; //if both buttons are selected, all show up
-                    filteredList = requestDatabase.getAvailableFlowersByAttributes(null, null, null, null, isBouquet, this.button3Val, this.sortOrder);
+                    filteredList.addAll(requestDatabase.getAvailableFlowersByAttributes(null, null, null, null, isBouquet, this.button3Val, this.sortOrder));
                     break;
                 case Furniture:
-                    filteredList = requestDatabase.getAvailableFurnitureByAttributes(null, null, null, this.button1Val, this.button2Val, this.button3Val, this.button4Val);
-//                    if(this.button5Val) { TODO fix misc button
-//                        ArrayList<? extends IAvailableItem> miscList = requestDatabase.getAvailableFurnitureByAttributes(null, null, null, false, false, false, false);
-//                        filteredList.addAll(miscList);
-//                    }
+                    ArrayList<AvailableFurniture> furnitureFilteredList = requestDatabase.getAvailableFurnitureByAttributes(null, null, null, this.button1Val, this.button2Val, this.button3Val, this.button4Val);
+                    if(this.button5Val != null && this.button5Val) {
+                        furnitureFilteredList.addAll(requestDatabase.getAvailableFurnitureByAttributes(null, null, null, false, false, false, false));
+                    }
+                    filteredList.addAll(furnitureFilteredList);
                     break;
                 case Supplies:
-                    filteredList = requestDatabase.getAvailableSuppliesByAttributes(null, null, null, null, this.button2Val, this.button3Val, this.button4Val, this.button1Val, this.sortOrder);
-                    //TODO add misc button
+                    ArrayList<AvailableSupplies> suppliesFilteredList = requestDatabase.getAvailableSuppliesByAttributes(null, null, null, null, this.button2Val, this.button3Val, this.button4Val, this.button1Val, this.sortOrder);
+                    if(this.button5Val != null && this.button5Val) {
+                        suppliesFilteredList.addAll(requestDatabase.getAvailableSuppliesByAttributes(null, null, null, null, false, false, false, false, this.sortOrder));
+                    }
+                    filteredList.addAll(suppliesFilteredList);
                     break;
                 default:
-                    filteredList = requestDatabase.getAvailableMealsByAttributes(null, null, null, null, this.button2Val, this.button1Val, this.button5Val, this.button4Val, this.button3Val, this.sortOrder);
+                    filteredList.addAll(requestDatabase.getAvailableMealsByAttributes(null, null, null, null, this.button2Val, this.button1Val, this.button5Val, this.button4Val, this.button3Val, this.sortOrder));
             }
             int colCount = filteredList.size()/2 + 1;
             for (int c = 0; c < colCount; c++){
