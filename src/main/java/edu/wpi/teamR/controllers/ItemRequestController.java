@@ -6,11 +6,10 @@ import edu.wpi.teamR.requestdb.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -57,6 +56,9 @@ public class ItemRequestController {
 
     @FXML
     private GridPane cardGridPane;
+    @FXML
+    private ScrollPane cardScrollPane;
+
 
 
     private RequestType type = RequestType.Meal;
@@ -157,6 +159,11 @@ public class ItemRequestController {
         FilterButton3.setSelected(false);
         FilterButton4.setSelected(false);
         FilterButton5.setSelected(false);
+        button1Val = null;
+        button2Val = null;
+        button3Val = null;
+        button4Val = null;
+        button5Val = null;
         switch (this.type) {
             case Supplies:
                 requestPageBackground.getStyleClass().clear();
@@ -212,6 +219,7 @@ public class ItemRequestController {
                 FilterButton4.setText("Peanut Free");
                 FilterButton5.setText("Dairy Free");
         }
+        regenerateCards();
     }
 
     private void setButtonFourandFive(Boolean state){
@@ -221,23 +229,38 @@ public class ItemRequestController {
         FilterButton5.setManaged(state);
     }
 
-    private Node loadCard(String title, String description, String price, String imageAddress) throws IOException {
+    private void loadCard(int col, int row, String title, String description, String price, String imageAddress) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/ItemCard.fxml"));
-        Node node = loader.load();
+        AnchorPane anchorPane = new AnchorPane();
+        cardGridPane.add(anchorPane, col, row);
+        loader.setRoot(anchorPane);
+        loader.load();
         ItemCard contentController = loader.getController();
         contentController.setInfo(title, description, price, imageAddress);
-        return node;
     }
 
     private void regenerateCards(){
         RequestDatabase requestDatabase = new RequestDatabase();
         DecimalFormat decimalFormat = new DecimalFormat("##.##");
+        cardGridPane.getChildren().clear();
+        cardGridPane.getColumnConstraints().clear();
+        cardGridPane.getRowConstraints().clear();
+        RowConstraints row = new RowConstraints(458);
+        ColumnConstraints col = new ColumnConstraints(458);
+        cardGridPane.getRowConstraints().setAll(row, row);
+        cardGridPane.getColumnConstraints().setAll(col);
         try {
             switch(this.type){
                 default:
                     ArrayList<AvailableMeals> filteredList = requestDatabase.getAvailableMealsByAttributes(null, null, null, null, this.button2Val, this.button1Val, this.button5Val, this.button4Val, this.button3Val, this.sortOrder);
-                    for (AvailableMeals meal : filteredList){
-                        cardGridPane.getChildren().add(loadCard(meal.getItemName(), meal.getDescription(), decimalFormat.format(meal.getItemPrice()), meal.getImageReference()));
+                    int colCount = filteredList.size()/2 + 1;
+                    for (int c = 0; c < colCount; c++){
+                        if(c != 0){cardGridPane.getColumnConstraints().add(col);}
+                        for (int r = 0; r < 2; r++){
+                            if(filteredList.size() < c*2 + r + 1) {continue;}
+                            AvailableMeals meal = filteredList.get(c*2 + r);
+                            loadCard(r, c, meal.getItemName(), meal.getDescription(), decimalFormat.format(meal.getItemPrice()), meal.getImageReference());
+                        }
                     }
             }
         } catch (SQLException e) {
