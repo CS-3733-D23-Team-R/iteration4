@@ -69,7 +69,10 @@ public class EditProfileController {
         currentImage.setOnMouseEntered(event -> {
             editImage.setVisible(true);
         });
-        currentImage.setOnMouseExited(event -> {
+        editImage.setOnMouseEntered(event -> {
+            editImage.setVisible(true);
+        });
+        editImage.setOnMouseExited(event -> {
             editImage.setVisible(false);
         });
         editImage.setOnMouseClicked(event -> {
