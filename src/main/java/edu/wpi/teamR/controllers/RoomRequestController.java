@@ -62,8 +62,6 @@ ArrayList<String> timeArray = new ArrayList<>();
             mapDatabase = new MapDatabase();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
     @FXML
@@ -71,7 +69,7 @@ ArrayList<String> timeArray = new ArrayList<>();
         fillArray();
         ArrayList<String> locNames = new ArrayList<>();
         for(ConferenceRoom conferenceRoom: mapDatabase.getConferenceRooms()){
-            locNames.add(conferenceRoom.getLongname());
+            locNames.add(conferenceRoom.getLongName());
         }
         ObservableList<String> startTimeList = FXCollections.observableArrayList(timeArray);
         ObservableList<String> locList = FXCollections.observableArrayList(locNames);
@@ -90,7 +88,7 @@ ArrayList<String> timeArray = new ArrayList<>();
             public ObservableValue<String> call(TableColumn.CellDataFeatures<ConferenceRoom, String> data) {
                 ConferenceRoom conferenceRoom = data.getValue();
                 try {
-                    return new SimpleStringProperty(mapDatabase.getNodeFromLocationName(conferenceRoom.getLongname()).getFloorNum());
+                    return new SimpleStringProperty(mapDatabase.getNodeFromLocationName(conferenceRoom.getLongName()).getFloorNum());
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 } catch (ClassNotFoundException e) {
@@ -129,8 +127,8 @@ ArrayList<String> timeArray = new ArrayList<>();
             }
         }
         else{
-            if (isAvailable(mapDatabase.getConferenceRoomByLongname(location)))
-                conferenceTable.getItems().add(mapDatabase.getConferenceRoomByLongname(location));
+            if (isAvailable(mapDatabase.getConferenceRoomByLongName(location)))
+                conferenceTable.getItems().add(mapDatabase.getConferenceRoomByLongName(location));
         }
     }
 
@@ -225,7 +223,7 @@ ArrayList<String> timeArray = new ArrayList<>();
                             btn.setOnAction(null);
                             try {
                                 ConferenceRoom room = getTableView().getItems().get(getIndex());
-                                new RequestDatabase().addRoomRequest(room.getLongname(), UserData.getInstance().getLoggedIn().getUsername(), startTime, endTime);
+                                new RequestDatabase().addRoomRequest(room.getLongName(), UserData.getInstance().getLoggedIn().getUsername(), startTime, endTime);
                             } catch (SQLException e) {
                                 throw new RuntimeException(e);
                             } catch (ClassNotFoundException e) {
@@ -249,7 +247,7 @@ ArrayList<String> timeArray = new ArrayList<>();
     }
 
     public boolean isAvailable(ConferenceRoom conferenceRoom) throws SQLException, ClassNotFoundException {
-        for(RoomRequest roomRequest: new RequestDatabase().getRoomRequestsByLongname(conferenceRoom.getLongname())){
+        for(RoomRequest roomRequest: new RequestDatabase().getRoomRequestsByLongName(conferenceRoom.getLongName())){
             Timestamp requestStart = roomRequest.getStartTime();
             Timestamp requestEnd = roomRequest.getEndTime();
             if((requestStart.after(startTime) && requestStart.before(endTime)) ||

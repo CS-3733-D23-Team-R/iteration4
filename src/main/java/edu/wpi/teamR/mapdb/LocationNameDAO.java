@@ -5,6 +5,7 @@ import edu.wpi.teamR.ItemNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class LocationNameDAO {
     ArrayList<LocationName> getLocations() throws SQLException {
@@ -80,10 +81,21 @@ public class LocationNameDAO {
         preparedStatement.executeUpdate();
     }
 
-    void deleteLocationName(String longname) throws SQLException {
+    void deleteLocationName(String longName) throws SQLException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE longname=?;");
-        preparedStatement.setString(1, longname);
+        preparedStatement.setString(1, longName);
         preparedStatement.executeUpdate();
+    }
+
+    public void addLocationNames(List<LocationName> locationNames) throws SQLException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getLocationNameSchemaNameTableName()+"(longname, shortname, nodetype) VALUES(?,?,?);");
+        for (LocationName l : locationNames) {
+            preparedStatement.setString(1, l.getLongName());
+            preparedStatement.setString(2, l.getShortName());
+            preparedStatement.setString(3, l.getNodeType());
+            preparedStatement.executeUpdate();
+        }
     }
 }

@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,23 +17,28 @@ class ConferenceRoomDAOTest {
 
     private static LocationNameDAO locationNameDAO;
     private static ConferenceRoomDAO conferenceRoomDAO;
+    private static MapDatabase mapDatabase;
 
     @BeforeAll
-    static void startup() throws SQLException, ClassNotFoundException {
+    static void startup() throws SQLException {
         Configuration.changeSchemaToTest();
-        Connection connection = Configuration.getConnection();
         locationNameDAO = new LocationNameDAO();
         conferenceRoomDAO = new ConferenceRoomDAO();
+        mapDatabase = new MapDatabase();
     }
     @AfterAll
     static void end() throws SQLException, ClassNotFoundException {
         conferenceRoomDAO.deleteAllConferenceRooms();
+        mapDatabase.deleteAllDirectionArrows();
+        mapDatabase.deleteAllMoves();
         locationNameDAO.deleteAllLocationNames();
         Configuration.getConnection().close();
     }
     @BeforeEach
     void reset() throws SQLException, ClassNotFoundException {
         conferenceRoomDAO.deleteAllConferenceRooms();
+        mapDatabase.deleteAllDirectionArrows();
+        mapDatabase.deleteAllMoves();
         locationNameDAO.deleteAllLocationNames();
     }
 
@@ -52,7 +56,7 @@ class ConferenceRoomDAOTest {
         assertEquals(1, conferenceRooms.size());
 
         ConferenceRoom conferenceRoom = conferenceRooms.get(0);
-        assertEquals("long1", conferenceRoom.getLongname());
+        assertEquals("long1", conferenceRoom.getLongName());
         assertEquals(5, conferenceRoom.getCapacity());
         assertEquals(true, conferenceRoom.isAccessible());
         assertEquals(true, conferenceRoom.isHasOutlets());
@@ -81,7 +85,7 @@ class ConferenceRoomDAOTest {
         assertEquals(1, conferenceRooms.size());
 
         ConferenceRoom conferenceRoom = conferenceRooms.get(0);
-        assertEquals("long2", conferenceRoom.getLongname());
+        assertEquals("long2", conferenceRoom.getLongName());
         assertEquals(5, conferenceRoom.getCapacity());
         assertEquals(true, conferenceRoom.isAccessible());
         assertEquals(true, conferenceRoom.isHasOutlets());
@@ -127,16 +131,16 @@ class ConferenceRoomDAOTest {
         locationNameDAO.addLocationName("long2", "", "");
         conferenceRoomDAO.addConferenceRoom("long2", 6, false, false, true);
 
-        ConferenceRoom conferenceRoom = conferenceRoomDAO.getConferenceRoomByLongname("long1");
-        assertEquals(conferenceRoom.getLongname(), "long1");
+        ConferenceRoom conferenceRoom = conferenceRoomDAO.getConferenceRoomByLongName("long1");
+        assertEquals(conferenceRoom.getLongName(), "long1");
         assertEquals(conferenceRoom.getCapacity(), 5);
         assertEquals(conferenceRoom.isAccessible(), true);
         assertEquals(conferenceRoom.isHasOutlets(), true);
         assertEquals(conferenceRoom.isHasScreen(), false);
 
 
-        conferenceRoom = conferenceRoomDAO.getConferenceRoomByLongname("long2");
-        assertEquals(conferenceRoom.getLongname(), "long2");
+        conferenceRoom = conferenceRoomDAO.getConferenceRoomByLongName("long2");
+        assertEquals(conferenceRoom.getLongName(), "long2");
         assertEquals(conferenceRoom.getCapacity(), 6);
         assertEquals(conferenceRoom.isAccessible(), false);
         assertEquals(conferenceRoom.isHasOutlets(), false);

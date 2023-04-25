@@ -49,6 +49,11 @@
     border-radius: 4px;
 }
 
+.yellowButton:pressed {
+    -fx-background-color: secondayYellow;
+    -fx-text-fill: bwhblue;
+}
+
 
 .title{
     -fx-font-family: 'Lato', 'bold';

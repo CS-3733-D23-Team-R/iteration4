@@ -46,9 +46,10 @@ dependencies {
             'de.mkammerer:argon2-jvm:2.11',
             'com.github.hervegirod:fxsvgimage:1.1',
             'net.java.dev.jna:jna:5.12.1',
-            'com.jfoenix:jfoenix:9.0.10'
+            'org.apache.commons:commons-compress:1.23.0'
     )
     implementation 'org.jetbrains:annotations:24.0.0'
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
 
 
     String javaFxVersion = "19"
