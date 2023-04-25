@@ -46,12 +46,12 @@
                            <children>
                               <StackPane prefHeight="188.0" prefWidth="818.0">
                                  <children>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="currentImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/login/holder/shaggyprofile.png" />
                                        </image>
                                     </ImageView>
-                                    <ImageView fitHeight="46.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="editImage" fitHeight="46.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/login/editbutton.png" />
                                        </image>
@@ -60,11 +60,16 @@
                               </StackPane>
                            </children>
                         </HBox>
+                        <HBox alignment="CENTER" prefHeight="25.0" prefWidth="818.0">
+                           <children>
+                              <Text fx:id="errorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="MISSING FIELDS" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                            <children>
                               <HBox fx:id="nameField" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <MFXTextField floatingText="New Name:" prefHeight="49.0" prefWidth="155.0" promptText="Type name here" HBox.hgrow="ALWAYS" />
+                                    <MFXTextField fx:id="nameField" floatingText="New Name:" prefHeight="49.0" prefWidth="155.0" promptText="Type name here" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
@@ -83,7 +88,7 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <MFXPasswordField floatingText="*Current Password:" prefHeight="49.0" prefWidth="170.0" />
+                                    <MFXPasswordField fx:id="currentPasswordField" floatingText="*Current Password:" prefHeight="49.0" prefWidth="170.0" />
                                  </children>
                               </HBox>
                            </children>
@@ -92,26 +97,26 @@
                            <children>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <MFXPasswordField floatingText="New Password:" prefHeight="49.0" prefWidth="154.0" />
+                                    <MFXPasswordField fx:id="newPasswordField" floatingText="New Password:" prefHeight="49.0" prefWidth="154.0" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <MFXPasswordField floatingText="Retype New Password" prefHeight="49.0" prefWidth="155.0" />
+                                    <MFXPasswordField fx:id="retypePasswordField" floatingText="Retype New Password" prefHeight="49.0" prefWidth="155.0" />
                                  </children>
                               </HBox>
                            </children>
                         </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="100.0" VBox.vgrow="ALWAYS">
+                        <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0" VBox.vgrow="ALWAYS">
                            <children>
                               <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <Button mnemonicParsing="false" text="Back" />
+                                    <Button fx:id="backButton" mnemonicParsing="false" text="Back" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <Button mnemonicParsing="false" text="Apply" />
+                                    <Button fx:id="applyButton" mnemonicParsing="false" text="Apply" />
                                  </children>
                               </HBox>
                            </children>

@@ -27,7 +27,6 @@ public class LoginController {
     @FXML MFXTextField usernameField;
     @FXML MFXPasswordField passwordField;
     @FXML MFXButton loginButton;
-    @FXML Text error;
 
     @FXML
     public void initialize() {

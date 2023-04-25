@@ -42,7 +42,6 @@ public class ProfileController {
     @FXML Button editProfileBtn;
 
     public void initialize() {
-        editProfileBtn.setOnMouseClicked(event -> {Navigation.navigate(Screen.EDITPROFILE);});
         //ImageView image1 = new ImageView(Objects.requireNonNull((Main.class.getResource("images/.png")).toExternalForm())); TODO:fix
     }
 
@@ -59,6 +58,7 @@ public class ProfileController {
         profileImage.setImage(image1);
         editProfileBtn.setVisible(false);
         editProfileBtn.setDisable(true);
+        editProfileBtn.setOnMouseClicked(event -> {Navigation.navigate(Screen.EDITPROFILE);});
     }
 
     public void setInfo(CurrentUser user){
@@ -71,6 +71,7 @@ public class ProfileController {
         Image image1 = new Image(UserData.getInstance().getLoggedIn().getProfilePictureLocation());
         profileImage.setImage(image1);
         editProfileBtn.setVisible(true);
+        editProfileBtn.setOnMouseClicked(event -> {Navigation.navigate(Screen.EDITPROFILE);});
     }
     public Button getBtn() {
         return editProfileBtn;
