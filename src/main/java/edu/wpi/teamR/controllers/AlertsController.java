@@ -1,6 +1,5 @@
 package edu.wpi.teamR.controllers;
 
-import edu.wpi.teamR.login.Alert;
 import edu.wpi.teamR.login.UserDatabase;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
@@ -11,8 +10,10 @@ import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 
-public class ALertsController {
+public class AlertsController {
 
     @FXML
     BorderPane alertPopup;
@@ -24,6 +25,7 @@ public class ALertsController {
     MFXButton submitButton;
 
     UserDatabase alerts = new UserDatabase();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
     @FXML
     public void initialize() {
@@ -38,7 +40,7 @@ public class ALertsController {
     }
 
     private void submitAlert() throws SQLException {
-        alerts.addAlert(messageField.getText(), Timestamp.valueOf(datePicker.getCurrentDate().atStartOfDay()));
+        alerts.addAlert(messageField.getText(), Timestamp.valueOf(datePicker.getValue().atTime(LocalTime.now())));
     }
 
     @FXML public void close(Stage primaryStage){

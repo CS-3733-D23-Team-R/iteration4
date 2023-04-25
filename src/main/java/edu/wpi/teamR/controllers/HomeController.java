@@ -68,7 +68,7 @@ public class HomeController {
     timeline.setCycleCount(Timeline.INDEFINITE);
     timeline.play();
 
-     alerts = userDatabase.getAlerts();
+     alerts = userDatabase.getAlertsInLastNumDaysDesc(10);
 
       if(alerts.isEmpty()){
           Text emptyLabel = new Text("No New Announcements");
@@ -87,17 +87,22 @@ public class HomeController {
 
   private HBox alertView(Alert alert){
       HBox layout = new HBox();
-      layout.setAlignment(Pos.CENTER_LEFT);
+      HBox leftBox = new HBox();
+      HBox rightBox = new HBox();
+      leftBox.setAlignment(Pos.CENTER_LEFT);
+      rightBox.setAlignment(Pos.CENTER_RIGHT);
+      HBox.setHgrow(leftBox,Priority.ALWAYS);
+      HBox.setHgrow(rightBox, Priority.ALWAYS);
       Text message = new Text(alert.getMessage());
       message.setFill(Color.WHITE);
       message.setStyle("-fx-font-size: 18;");
-      //message.setStyle("-fx-margin-left: 30px;");
-      message.setStyle("fx-border-insets: 30px");
       Text date = new Text(alert.getTime().toString());
       date.setFill(Color.WHITE);
       date.setStyle("-fx-font-size: 20;");
-      //date.setStyle("-fx-margin-left: 30px;");
-      layout.getChildren().addAll(message, date);
+      leftBox.getChildren().add(message);
+      rightBox.getChildren().add(date);
+      layout.setSpacing(100);
+      layout.getChildren().addAll(leftBox, rightBox);
       return layout;
   }
 

@@ -55,7 +55,10 @@
                                           <Insets left="10.0" top="10.0" />
                                        </VBox.margin>
                                     </Line>
-                                    <VBox fx:id="alertsVBox" prefHeight="31.0" prefWidth="713.0" />
+                                    <VBox fx:id="alertsVBox" prefHeight="31.0" prefWidth="713.0">
+                                       <VBox.margin>
+                                          <Insets left="10.0" top="10.0" />
+                                       </VBox.margin></VBox>
                                  </children>
                                  <padding>
                                     <Insets right="10.0" />
