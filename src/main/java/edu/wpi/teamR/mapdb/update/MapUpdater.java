@@ -99,7 +99,7 @@ public class MapUpdater {
         }
     }
 
-    public Node modifyCoords(int nodeID, int xCoord, int yCoord) throws SQLException {
+    public Node modifyCoords(int nodeID, int xCoord, int yCoord) throws SQLException, ItemNotFoundException {
         if (currentAction == null) currentAction = new UpdateAction();
         Method m;
         Node oldNode = mapdb.getNodeByID(nodeID);
@@ -122,6 +122,8 @@ public class MapUpdater {
             m = mapdb.getClass().getMethod("deleteNode", int.class);
             currentAction.addUpdate(m, new Object[]{nodeID}, mapdb.getNodeByID(nodeID), EditType.DELETION);
         } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        } catch (ItemNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

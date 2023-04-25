@@ -1,9 +1,11 @@
 package edu.wpi.teamR.controllers.mapeditor;
 
 import edu.wpi.teamR.App;
+import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.mapdb.*;
 import edu.wpi.teamR.mapdb.update.MapUpdater;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -26,6 +28,12 @@ public class MapPopupController {
     @FXML
     MFXDatePicker moveDatePicker;
 
+    @FXML Text edgeText;
+
+    @FXML Text longNameText;
+    @FXML Text shortNameText;
+    @FXML Text nodeTypeText;
+
     Node node;
     Move move;
     MapUpdater mapUpdater;
@@ -36,7 +44,7 @@ public class MapPopupController {
 
     Boolean isDeleted = false;
     @FXML
-    public void initialize() {
+    public void initialize() throws SQLException {
         nodes = App.getMapData().getNodes();
         mapdb = App.getMapData().getMapdb();
         moveDatePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -73,22 +81,37 @@ public class MapPopupController {
         primaryStage.show();
     }
 
-    public void showNodeInformation(MapUpdater updater, Node n) throws SQLException {
+    public void showNodeInformation(MapUpdater updater, Node n) throws SQLException, ItemNotFoundException {
         node = n;
         if (mapdb.getMovesByNode(n.getNodeID()).size() > 0) {
             move = mapdb.getMovesByNode(n.getNodeID()).get(0);
             Date moveDate = move.getMoveDate();
             LocalDate date = moveDate.toLocalDate();
-            moveDatePicker.setValue(date);
+            Platform.runLater(() -> moveDatePicker.setValue(date));
         }
         else {
             moveDatePicker.setValue(null);
         }
         mapUpdater = updater;
-        //locationName = ;
         nodeField.setText(Integer.toString(n.getNodeID()));
         xText.setText(Integer.toString(n.getXCoord()));
         yText.setText(Integer.toString(n.getYCoord()));
+
+        ArrayList<Edge> n_edges = mapdb.getEdgesByNode(node.getNodeID());
+        StringBuilder edgeString = new StringBuilder();
+        for (Edge e: n_edges) {
+            edgeString.append(" ").append(e.getStartNode()).append("-").append(e.getEndNode()).append("\n");
+        }
+        edgeText.setText(edgeString.toString());
+
+        String longName = move.getLongName();
+        LocationName locationName = mapdb.getLocationNameByLongName(longName);
+        String shortName = locationName.getShortName();
+        String nodeType = locationName.getNodeType();
+
+        longNameText.setText(longName);
+        shortNameText.setText(shortName);
+        nodeTypeText.setText(nodeType);
     }
 
     private void handleDatePickerChange(LocalDate newValue) throws SQLException {
