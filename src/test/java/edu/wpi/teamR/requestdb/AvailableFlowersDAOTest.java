@@ -19,7 +19,7 @@ class AvailableFlowersDAOTest {
     private static AvailableFlowersDAO availableFlowersDAO = new AvailableFlowersDAO();
 
     @BeforeAll
-    static void starterFunction() {
+    static void starterFunction() throws SQLException {
         Configuration.changeSchemaToTest();
     }
     @BeforeEach

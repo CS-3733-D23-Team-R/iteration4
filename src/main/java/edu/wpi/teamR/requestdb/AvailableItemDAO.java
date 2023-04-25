@@ -78,4 +78,8 @@ public class AvailableItemDAO {
         String imageReference = resultSet.getString("imageReference");
         return new AvailableItem(_itemName, requestType, itemPrice, imageReference);
     }
+
+    public void deleteAllAvailableItems() {
+
+    }
 }
