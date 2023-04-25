@@ -14,9 +14,11 @@ public class ShoppingCart {
 
     private static ShoppingCart instance;
 
+    //ServiceRequestCartController test = new ServiceRequestCartController();
 
 
-    public ShoppingCart() {}
+
+    private ShoppingCart() {}
 
     public static ShoppingCart getInstance(){
         if(instance == null){
@@ -32,6 +34,7 @@ public class ShoppingCart {
     public void addItem(AvailableItem item, int quantity){
         if(!items.containsKey(item)){
             items.putIfAbsent(item, quantity);
+           // test.refreshCart();
         } else {incrementItem(item);}
     }
     public void incrementItem(AvailableItem item){
