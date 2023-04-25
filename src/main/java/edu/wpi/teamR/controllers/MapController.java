@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
@@ -27,6 +28,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -109,16 +111,16 @@ public class MapController {
     Pathfinder pathfinder;
 
     @FXML
-    HBox floor3Button;
+    StackPane floor3Button;
     @FXML
-    HBox floor2Button;
+    StackPane floor2Button;
     @FXML
-    HBox floor1Button;
+    StackPane floor1Button;
     @FXML
-    HBox L1Button;
+    StackPane L1Button;
     @FXML
-    HBox L2Button;
-    HashMap<Integer, HBox> floorButtonMap = new HashMap<>();
+    StackPane L2Button;
+    HashMap<Integer, StackPane> floorButtonMap = new HashMap<>();
     @FXML
     CheckComboBox<String> locationFilters;
     ObservableList<String> locationTypes =
@@ -290,6 +292,7 @@ public class MapController {
         endField.setValue("Select End");
         displayLocationNames(currentFloor);
         directionsVBox.getChildren().clear();
+        removeIndicators();
     }
 
     // zoom into a desired location
@@ -321,10 +324,10 @@ public class MapController {
 
     public void displayFloorNum(int floorNum) throws SQLException {
         if (floorNum <= 4) {
-            HBox currentFloorVbox = floorButtonMap.get(currentFloor);
+            StackPane currentFloorVbox = floorButtonMap.get(currentFloor);
             currentFloorVbox.getStyleClass().remove("floor-box-focused");
             currentFloorVbox.getStyleClass().add("floor-box");
-            HBox newFloorVbox = floorButtonMap.get(floorNum);
+            StackPane newFloorVbox = floorButtonMap.get(floorNum);
             newFloorVbox.getStyleClass().remove("floor-box");
             newFloorVbox.getStyleClass().add("floor-box-focused");
 
@@ -344,6 +347,8 @@ public class MapController {
     }
 
     public void displayPath(String startLocation, String endLocation, Boolean accessible) throws Exception {
+        int currentStage = 1;
+
         clearPath();
         mapPane.getChildren().add(paths[currentFloor]);
         updatePathfindingAlgorithm(algorithmChoicebox.getValue());
@@ -424,6 +429,12 @@ public class MapController {
                     }
                 });
 
+                Label indicator = new Label(Integer.toString(currentStage++));
+                indicator.setTextFill(Color.RED);
+                StackPane indicate_button = floorButtonMap.get(drawFloor);
+                indicate_button.getChildren().add(indicator);
+                indicator.setTranslateX(-20);
+
                 drawFloor = newFloor;
             }
         }
@@ -436,6 +447,12 @@ public class MapController {
             curr.getStyleClass().add("body");
             directionsVBox.getChildren().add(curr);
         }
+
+        Label indicator = new Label(Integer.toString(currentStage++));
+        indicator.setTextFill(Color.RED);
+        StackPane indicate_button = floorButtonMap.get(drawFloor);
+        indicate_button.getChildren().add(indicator);
+        indicator.setTranslateX(-20);
 
         gesturePane.zoomTo(1, 1, new Point2D(startNode.getXCoord(), startNode.getYCoord()));
         gesturePane.centreOn(new Point2D(startNode.getXCoord(), startNode.getYCoord()));
@@ -565,4 +582,13 @@ public class MapController {
         textVBox.setVisible(setting);
         textVBox.setManaged(setting);
     }
+
+    public void removeIndicators() {
+        for (Map.Entry<Integer, StackPane> entry : floorButtonMap.entrySet()) {
+            StackPane stackPane = entry.getValue();
+            ObservableList<javafx.scene.Node> children = stackPane.getChildren();
+            children.removeIf(child -> child instanceof Label);
+        }
+    }
+
 }

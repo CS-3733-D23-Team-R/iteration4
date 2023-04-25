@@ -174,30 +174,31 @@
             </HBox>
             <VBox layoutX="1195.0" layoutY="460.0" prefHeight="200.0" prefWidth="65.0" styleClass="map-vbox" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
                <children>
-                  <HBox fx:id="floor3Button" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="floor-box">
+                  <StackPane fx:id="floor3Button" styleClass="floor-box">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="3" HBox.hgrow="ALWAYS" />
-                     </children></HBox>
-                  <HBox fx:id="floor2Button" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="floor-box">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="2" HBox.hgrow="ALWAYS" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="3" />
                      </children>
-                  </HBox>
-                  <HBox fx:id="floor1Button" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="floor-box-focused">
+                  </StackPane>
+                  <StackPane fx:id="floor2Button" styleClass="floor-box">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="1" HBox.hgrow="ALWAYS" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="2" />
                      </children>
-                  </HBox>
-                  <HBox fx:id="L1Button" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="floor-box">
+                  </StackPane>
+                  <StackPane fx:id="floor1Button" styleClass="floor-box-focused">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="L1" HBox.hgrow="ALWAYS" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="1" />
                      </children>
-                  </HBox>
-                  <HBox fx:id="L2Button" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="floor-box">
+                  </StackPane>
+                  <StackPane fx:id="L1Button" styleClass="floor-box">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="L2" HBox.hgrow="ALWAYS" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="L1" />
                      </children>
-                  </HBox>
+                  </StackPane>
+                  <StackPane fx:id="L2Button" styleClass="floor-unfocused">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="L2" />
+                     </children>
+                  </StackPane>
                </children>
             </VBox>
          </children>
