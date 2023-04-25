@@ -106,4 +106,15 @@ public class MoveDAO {
         PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getMoveSchemaNameTableName()+";");
         preparedStatement.executeUpdate();
     }
+
+    public void addMoves(ArrayList<Move> moves) throws SQLException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getMoveSchemaNameTableName()+"(nodeID, longName, date) VALUES(?, ?, ?);");
+        for (Move m : moves) {
+            preparedStatement.setInt(1, m.getNodeID());
+            preparedStatement.setString(2, m.getLongName());
+            preparedStatement.setDate(3, m.getMoveDate());
+            preparedStatement.executeUpdate();
+        }
+    }
 }

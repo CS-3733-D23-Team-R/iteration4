@@ -1,29 +1,24 @@
-package edu.wpi.teamR.csv;
+package edu.wpi.teamR.archive;
 
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class CSVReader<T extends CSVReadable> {
-    private final BufferedReader reader;
-    private final Class<T> _class;
-
-    /**
-     * Creates CSVReader
-     * @param path Path to CSV file to read
-     * @param _class Class that you are reading (e.g. Node.class)
-     * @throws IOException If file is not found
-     */
-    public CSVReader(String path, Class<T> _class) throws IOException {
-        this._class = _class;
-        reader = new BufferedReader(new FileReader(path));
-        reader.readLine();
+public class CSVReader {
+    public <T extends Archivable> ArrayList<T> parseCSV(Class<T> _class, String filename) throws IOException, CSVParameterException, IndexOutOfBoundsException {
+        InputStream in = new FileInputStream(filename);
+        return parseCSV(_class, in);
     }
 
-    public ArrayList<T> parseCSV() throws CSVParameterException, IOException {
+    public <T extends Archivable> ArrayList<T> parseCSV(Class<T> _class, InputStream in) throws CSVParameterException, IOException, IndexOutOfBoundsException {
+        //System.out.println("Parsing");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         ArrayList<T> data = new ArrayList<>();
-        Constructor<T> c = null;
+        if (reader.readLine() == null)
+            return data;
+        Constructor<T> c;
         try {
             c = _class.getDeclaredConstructor(String[].class);
         } catch (NoSuchMethodException e) {
@@ -35,6 +30,7 @@ public class CSVReader<T extends CSVReadable> {
         try {
             while ((line = reader.readLine()) != null) {
                 args = line.split(",");
+                //System.out.println(line);
                 data.add(c.newInstance((Object) args));
             }
             c.setAccessible(false);
@@ -44,6 +40,7 @@ public class CSVReader<T extends CSVReadable> {
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e ) {
             throw new RuntimeException(e);
         }
+        reader.close();
         return data;
     }
 }
