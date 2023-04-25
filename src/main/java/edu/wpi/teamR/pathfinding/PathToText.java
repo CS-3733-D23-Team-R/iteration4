@@ -27,9 +27,7 @@ public class PathToText {
      */
     public PathToText(Path path, Date date) throws SQLException, ItemNotFoundException {
         ArrayList<Integer> newPath = path.getPath();
-
         this.textualPath = getTextualDirections(newPath, date);
-
     }
 
     private ArrayList<String> getTextualDirections(ArrayList<Integer> newPath, Date date) throws SQLException, ItemNotFoundException {
@@ -66,10 +64,13 @@ public class PathToText {
             }
 
 
-            if(!locationName.getNodeType().equals("HALL") && abs(node.getXCoord() - lastNode.getXCoord()) > 50 || abs(node.getYCoord() - lastNode.getYCoord()) > 50){
-                String forwardText = "Walk forwards until you reach " + locationName.getShortName();
+            if(abs(node.getXCoord() - lastNode.getXCoord()) > 150 && abs(node.getYCoord() - lastNode.getYCoord()) > 150){
+                String forwardText = "Error";
+                if(!locationName.getNodeType().equals("HALL")) forwardText = "Walk forwards until you reach " + locationName.getShortName();
+                else forwardText = "Continue for " + nodeDiffToFeet(lastNode, mapDatabase.getNodeByID(newPath.get(i))) + " feet until you reach the hallway junction";
+
                 textList.add(forwardText);
-                textList.add(turnText(lastNode, mapDatabase.getNodeByID(newPath.get(i + 1))));
+                textList.add(turnText(lastNode, mapDatabase.getNodeByID(newPath.get(i)), mapDatabase.getNodeByID(newPath.get(i + 1))));
                 lastNode = node;
             }
 
@@ -77,7 +78,15 @@ public class PathToText {
         return textList;
     }
 
-    private String turnText(Node firstNode, Node secondNode){
-        return "Turn";
+    private int nodeDiffToFeet(Node firstNode, Node secondNode){
+        int diff = abs(firstNode.getXCoord() - secondNode.getXCoord()) + abs(firstNode.getYCoord() - secondNode.getYCoord());
+        return diff / 3;
+    }
+    private String turnText(Node firstNode, Node middleNode, Node secondNode){
+        double firstSlope = (middleNode.getYCoord() - firstNode.getYCoord())/(middleNode.getXCoord() - firstNode.getYCoord());
+        double secondSlope = (secondNode.getYCoord() - middleNode.getYCoord())/(secondNode.getXCoord() - middleNode.getYCoord());
+        double difference = secondSlope - firstSlope;
+        if (difference > 0) return "Turn Right";
+        else return "Turn Left";
     }
 }
