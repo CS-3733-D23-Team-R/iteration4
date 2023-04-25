@@ -3,6 +3,7 @@ package edu.wpi.teamR;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Configuration {
     private static final String connectionURL = "jdbc:postgresql://database.cs.wpi.edu:5432/teamrdb";
@@ -36,8 +37,9 @@ public class Configuration {
         Configuration.connection = DriverManager.getConnection(connectionURL, username, password);
         return Configuration.connection;
     }
-    public static void changeSchemaToTest() {
+    public static void changeSchemaToTest() throws SQLException {
         Configuration.schemaName = Configuration.testSchemaName;
+        Configuration.deleteEverything();
     }
     public static String getNodeSchemaNameTableName(){
         return schemaName+"."+nodeTableName;
@@ -73,5 +75,23 @@ public class Configuration {
     public static String getAvailableSuppliesTableSchemaNameTableName(){ return schemaName+"."+availableSuppliesTableName;}
     public static String getAlertSchemaNameTableName(){
         return schemaName+"."+alertTableName;
+    }
+    public static void deleteEverything() throws SQLException {
+        Connection connection = Configuration.getConnection();
+        Statement statement = connection.createStatement();
+        statement.executeUpdate("DELETE * FROM " + Configuration.getDirectionArrowSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getMoveSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getEdgeSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getNodeSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getRoomRequestSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getConferenceRoomSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getServiceRequestSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getUserTableSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getLocationNameSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getAlertSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getAvailableFurnitureTableSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getAvailableMealsTableSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getAvailableSuppliesTableSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE * FROM " + Configuration.getAvailableFlowersTableSchemaNameTableName() + ";");
     }
 }
