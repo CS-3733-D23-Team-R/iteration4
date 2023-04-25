@@ -165,7 +165,8 @@ public class EditProfileController {
             } else {
                 password = currentPasswordField.getText();
             }
-            accessToDatabase.modifyUserByUsername(currentUser.getUsername(), password, name, email, currentUser.getJobTitle(), phonenum, currentUser.getJoinDate(), currentUser.getAccessLevel(), currentUser.getDepartment(), imageID);
+            accessToDatabase.modifyUserByUsername(currentUser.getUsername(), name, email, currentUser.getJobTitle(), phonenum, currentUser.getJoinDate(), currentUser.getAccessLevel(), currentUser.getDepartment(), imageID);
+            accessToDatabase.modifyUserPasswordByUsername(currentUser.getUsername(), password);
             currentUser.refreshUser();
             displayProfile(backendUser);
         }

@@ -140,7 +140,6 @@ public class EmployeeManagerController {
     private void updateUser(User aUser){
         try{new UserDatabase().modifyUserByUsername(
                 aUser.getStaffUsername(),
-                aUser.getPassword(),
                 aUser.getName(),
                 aUser.getEmail(),
                 aUser.getJobTitle(),
