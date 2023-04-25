@@ -5,6 +5,7 @@ import edu.wpi.teamR.ItemNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AvailableFurnitureDAO {
 
@@ -20,6 +21,21 @@ public class AvailableFurnitureDAO {
         preparedStatement.setBoolean(7, isStorage);
         preparedStatement.executeUpdate();
         return new AvailableFurniture(itemName, imageReference, description, isSeating, isTable, isPillow, isStorage);
+    }
+
+    void addAvailableFurniture(List<AvailableFurniture> availableFurniture) throws SQLException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getAvailableFurnitureTableSchemaNameTableName()+"(itemName,imageReference,description,isSeating,isTable,isPillow,isStorage) VALUES(?,?,?,?,?,?,?);");
+        for (AvailableFurniture a : availableFurniture) {
+            preparedStatement.setString(1, a.getItemName());
+            preparedStatement.setString(2, a.getImageReference());
+            preparedStatement.setString(3, a.getDescription());
+            preparedStatement.setBoolean(4, a.isSeating());
+            preparedStatement.setBoolean(5, a.isTable());
+            preparedStatement.setBoolean(6, a.isTable());
+            preparedStatement.setBoolean(7, a.isStorage());
+            preparedStatement.executeUpdate();
+        }
     }
 
     void deleteAvailableFurniture(String itemName) throws SQLException, ItemNotFoundException {

@@ -1,6 +1,5 @@
 package edu.wpi.teamR.requestdb;
 
-import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.ItemNotFoundException;
 
 import java.sql.*;
@@ -9,16 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RequestDatabase {
-    public ItemRequest addItemRequest(RequestType requestType, RequestStatus requestStatus, String longname, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) throws SQLException, ClassNotFoundException {
-        return new ItemRequestDAO().addItemRequest(requestType, requestStatus, longname, staffUsername, itemType, requesterName, additionalNotes, requestDate);
+    public ItemRequest addItemRequest(RequestType requestType, RequestStatus requestStatus, String longName, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) throws SQLException, ClassNotFoundException {
+        return new ItemRequestDAO().addItemRequest(requestType, requestStatus, longName, staffUsername, itemType, requesterName, additionalNotes, requestDate);
     }
 
     public void addItemRequests(List<ItemRequest> itemRequests) throws SQLException {
         new ItemRequestDAO().addItemRequests(itemRequests);
     }
 
-    public ItemRequest modifyItemRequestByID(int requestID, RequestType requestType, RequestStatus requestStatus, String longname, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) throws SQLException, ClassNotFoundException, ItemNotFoundException {
-        return new ItemRequestDAO().modifyItemRequestByID(requestID, requestType, requestStatus, longname, staffUsername, itemType, requesterName, additionalNotes, requestDate);
+    public ItemRequest modifyItemRequestByID(int requestID, RequestType requestType, RequestStatus requestStatus, String longName, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        return new ItemRequestDAO().modifyItemRequestByID(requestID, requestType, requestStatus, longName, staffUsername, itemType, requesterName, additionalNotes, requestDate);
     }
 
     public void deleteItemRequest(int requestID) throws SQLException, ItemNotFoundException {
@@ -33,7 +32,7 @@ public class RequestDatabase {
         return new ItemRequestDAO().getItemRequests();
     }
 
-    public ArrayList<ItemRequest> getItemRequestByAttributes(SearchList searchList) throws SQLException, ClassNotFoundException {
+    public ArrayList<ItemRequest> getItemRequestByAttributes(SearchList searchList) throws SQLException {
         return new ItemRequestDAO().getItemRequestByAttributes(searchList);
     }
 
@@ -52,7 +51,7 @@ public class RequestDatabase {
     public void addRoomRequests(List<RoomRequest> roomRequests) throws SQLException {
         new RoomRequestDAO().addRoomRequests(roomRequests);
     }
-    public void deleteRoomRequest(int roomRequestID) throws SQLException, ClassNotFoundException {
+    public void deleteRoomRequest(int roomRequestID) throws SQLException {
         new RoomRequestDAO().deleteRoomRequest(roomRequestID);
     }
 
@@ -63,24 +62,28 @@ public class RequestDatabase {
     public ArrayList<RoomRequest> getRoomRequests() throws SQLException {
         return new RoomRequestDAO().getRoomRequests();
     }
-    public RoomRequest getRoomRequestByID(int roomRequestID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+    public RoomRequest getRoomRequestByID(int roomRequestID) throws SQLException, ItemNotFoundException {
         return new RoomRequestDAO().getRoomRequestByID(roomRequestID);
     }
 
-    public ArrayList<RoomRequest> getRoomRequestsByStaffUsername(String staffUsername) throws SQLException, ClassNotFoundException {
+    public ArrayList<RoomRequest> getRoomRequestsByStaffUsername(String staffUsername) throws SQLException {
         return new RoomRequestDAO().getRoomRequestsByStaffUsername(staffUsername);
     }
 
-    public ArrayList<RoomRequest> getRoomRequestsByLongname(String longname) throws SQLException, ClassNotFoundException {
-        return new RoomRequestDAO().getRoomRequestsByLongName(longname);
+    public ArrayList<RoomRequest> getRoomRequestsByLongName(String longName) throws SQLException {
+        return new RoomRequestDAO().getRoomRequestsByLongName(longName);
     }
 
-    public ArrayList<RoomRequest> getRoomRequestsByDate(LocalDate date) throws SQLException, ClassNotFoundException {
+    public ArrayList<RoomRequest> getRoomRequestsByDate(LocalDate date) throws SQLException {
         return new RoomRequestDAO().getRoomRequestsByDate(date);
     }
 
     public AvailableFlowers addAvailableFlowers(String itemName, String imageReference, String description, double itemPrice, boolean isBouqet, boolean hasCard) throws SQLException {
         return new AvailableFlowersDAO().addAvailableFlowers(itemName, imageReference, description, itemPrice, isBouqet, hasCard);
+    }
+
+    public void addAvailableFlowers(List<AvailableFlowers> availableFlowers) throws SQLException {
+        new AvailableFlowersDAO().addAvailableFlowers(availableFlowers);
     }
 
     public void deleteAvailableFlowers(String itemName) throws SQLException, ItemNotFoundException {
@@ -107,6 +110,10 @@ public class RequestDatabase {
         return new AvailableFurnitureDAO().addAvailableFurniture(itemName, imageReference, description, isSeating, isTable, isPillow, isStorage);
     }
 
+    public void addAvailableFurniture(List<AvailableFurniture> availableFurniture) throws SQLException {
+        new AvailableFurnitureDAO().addAvailableFurniture(availableFurniture);
+    }
+
     public void deleteAvailableFurniture(String itemName) throws SQLException, ItemNotFoundException {
         new AvailableFurnitureDAO().deleteAvailableFurniture(itemName);
     }
@@ -127,11 +134,15 @@ public class RequestDatabase {
         return new AvailableFurnitureDAO().getAvailableFurnitureByAttributes(itemName, imageReference, description, isSeating, isTable, isPillow, isStorage);
     }
 
-    public AvailableMeals addAvailableMeals(String itemName, String imageReference, String description, double itemPrice, boolean isVegan, boolean isVegetarian, boolean isDairyFree, boolean isPeanutFree, boolean isGlutenFree) throws SQLException {
+    public AvailableMeals addAvailableMeal(String itemName, String imageReference, String description, double itemPrice, boolean isVegan, boolean isVegetarian, boolean isDairyFree, boolean isPeanutFree, boolean isGlutenFree) throws SQLException {
         return new AvailableMealsDAO().addAvailableMeals(itemName, imageReference, description, itemPrice, isVegan, isVegetarian, isDairyFree, isPeanutFree, isGlutenFree);
     }
 
-    public void deleteAvailableMeals(String itemName) throws SQLException, ItemNotFoundException {
+    public void addAvailableMeals(List<AvailableMeals> availableMeals) throws SQLException {
+        new AvailableMealsDAO().addAvailableMeals(availableMeals);
+    }
+
+    public void deleteAvailableMeal(String itemName) throws SQLException, ItemNotFoundException {
         new AvailableMealsDAO().deleteAvailableMeals(itemName);
     }
 
@@ -139,7 +150,7 @@ public class RequestDatabase {
         new AvailableMealsDAO().deleteAllAvailableMeals();
     }
 
-    public AvailableMeals modifyAvailableMeals(String itemName, String imageReference, String description, double itemPrice, boolean isVegan, boolean isVegetarian, boolean isDairyFree, boolean isPeanutFree, boolean isGlutenFree) throws SQLException, ItemNotFoundException {
+    public AvailableMeals modifyAvailableMeal(String itemName, String imageReference, String description, double itemPrice, boolean isVegan, boolean isVegetarian, boolean isDairyFree, boolean isPeanutFree, boolean isGlutenFree) throws SQLException, ItemNotFoundException {
         return new AvailableMealsDAO().modifyAvailableMeals(itemName, imageReference, description, itemPrice, isVegan, isVegetarian, isDairyFree, isPeanutFree, isGlutenFree);
     }
 
@@ -153,6 +164,10 @@ public class RequestDatabase {
 
     public AvailableSupplies addAvailableSupplies(String itemName, String imageReference, String description, double itemPrice, boolean isPaper, boolean isPen, boolean isOrganization, boolean isComputerAccessory) throws SQLException {
         return new AvailableSuppliesDAO().addAvailableSupplies(itemName, imageReference, description, itemPrice, isPaper, isPen, isOrganization, isComputerAccessory);
+    }
+
+    public void addAvailableSupplies(List<AvailableSupplies> availableSupplies) throws SQLException {
+        new AvailableSuppliesDAO().addAvailableSupplies(availableSupplies);
     }
 
     public void deleteAvailableSupplies(String itemName) throws SQLException, ItemNotFoundException {

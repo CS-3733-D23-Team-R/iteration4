@@ -247,7 +247,7 @@ ArrayList<String> timeArray = new ArrayList<>();
     }
 
     public boolean isAvailable(ConferenceRoom conferenceRoom) throws SQLException, ClassNotFoundException {
-        for(RoomRequest roomRequest: new RequestDatabase().getRoomRequestsByLongname(conferenceRoom.getLongName())){
+        for(RoomRequest roomRequest: new RequestDatabase().getRoomRequestsByLongName(conferenceRoom.getLongName())){
             Timestamp requestStart = roomRequest.getStartTime();
             Timestamp requestEnd = roomRequest.getEndTime();
             if((requestStart.after(startTime) && requestStart.before(endTime)) ||
