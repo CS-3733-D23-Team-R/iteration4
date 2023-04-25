@@ -8,7 +8,6 @@ import edu.wpi.teamR.csv.CSVParameterException;
 import edu.wpi.teamR.csv.CSVWriter;
 import edu.wpi.teamR.datahandling.MapStorage;
 import edu.wpi.teamR.mapdb.update.*;
-import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -18,6 +17,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -78,12 +79,6 @@ public class MapEditorController {
     @FXML Text dialogText;
     ObservableList<String> DAOType =
             FXCollections.observableArrayList("Node", "Edge", "LocationName", "Moves");
-    ObservableList<String> floors =
-            FXCollections.observableArrayList("Lower Level Two",
-                    "Lower Level One",
-                    "First Floor",
-                    "Second Floor",
-                    "Third Floor");
 
     URL firstFloorLink = Main.class.getResource("images/01_thefirstfloor.png");
     URL secondFloorLink = Main.class.getResource("images/02_thesecondfloor.png");
@@ -157,6 +152,8 @@ public class MapEditorController {
     @FXML
     HBox L2Button;
     HashMap<Integer, HBox> floorButtonMap = new HashMap<>();
+    HashMap<Circle, Node> alignmentNodesList = new HashMap<>();
+    ArrayList<Circle> alignmentCirclesList = new ArrayList<>();
 
     @FXML
     public void initialize() throws SQLException, ClassNotFoundException, ItemNotFoundException {
@@ -548,12 +545,19 @@ public class MapEditorController {
 
     private void setupMapNode(int floor, Node n, Circle c) {
         c.setOnMouseClicked(event -> {
-            if (event.getButton() == MouseButton.PRIMARY && !dragged) {
+            if (event.isShiftDown()) {
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    alignmentNodesList.put(c, n);
+                    alignmentCirclesList.add(c);
+                    c.setStroke(Color.HOTPINK);
+                    c.setStrokeWidth(2);
+                }
+            }
+            else if (event.getButton() == MouseButton.PRIMARY && !dragged && drawEdgesMode) {
                 if (selectedNode == null) {
                     selectedNode = n;
                     selectedCircle = c;
                     selectedCircle.setFill(Color.YELLOW);
-                    edgeDialog(true);
                 } else {
                     if (selectedNode.equals(n)) {
                         selectedCircle.setFill(Color.RED);
@@ -571,7 +575,7 @@ public class MapEditorController {
                         l1.toBack();
                         selectedCircle.setFill(Color.RED);
                         l1.setOnMouseClicked(evt -> {
-                            if (event.getButton().equals(MouseButton.SECONDARY)) {
+                            if (evt.getButton() == MouseButton.SECONDARY) {
                                 linesMap.remove(n.getNodeID());
                                 nodePanes[floor].getChildren().remove(l1);
                                 System.out.println("Edge removed");
@@ -622,8 +626,67 @@ public class MapEditorController {
                 dragged = false;
             }
             else {
-                if (event.getButton().equals(MouseButton.SECONDARY)) {
-                    if(gesturePane.isGestureEnabled()) {
+                if (event.getButton() == MouseButton.SECONDARY) {
+                    if (alignmentNodesList.size() > 0) {
+                        ContextMenu contextMenu = new ContextMenu();
+
+                        MenuItem alignVertically = new MenuItem("Align Vertically");
+                        MenuItem alignHorizontally = new MenuItem("Align Horizontally");
+
+                        alignVertically.setOnAction(e -> {
+                            if (alignmentCirclesList.size() > 0) {
+                                for (Circle current: alignmentCirclesList) {
+                                    current.setCenterX(alignmentCirclesList.get(0).getCenterX());
+                                    current.setStroke(Color.TRANSPARENT);
+                                    current.setStrokeWidth(0);
+                                    current.setFill(Color.PURPLE);
+
+                                    Node associated = alignmentNodesList.get(current);
+                                    try {
+                                        mapdb.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
+                                        updater.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
+                                    } catch (SQLException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
+                                }
+                            }
+                            for (Circle current: alignmentCirclesList) {
+                                Node associated = alignmentNodesList.get(current);
+                                redrawEdges(associated);
+                            }
+                            alignmentNodesList.clear();
+                            alignmentCirclesList.clear();
+                        });
+                        alignHorizontally.setOnAction(e -> {
+                            if (alignmentNodesList.size() > 0) {
+                                for (Circle current: alignmentCirclesList) {
+                                    current.setCenterY(alignmentCirclesList.get(0).getCenterY());
+                                    current.setStroke(Color.TRANSPARENT);
+                                    current.setStrokeWidth(0);
+                                    current.setFill(Color.PURPLE);
+
+                                    Node associated = alignmentNodesList.get(current);
+                                    try {
+                                        mapdb.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
+                                        updater.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
+                                    } catch (SQLException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
+                                }
+                            }
+                            for (Circle current: alignmentCirclesList) {
+                                Node associated = alignmentNodesList.get(current);
+                                redrawEdges(associated);
+                            }
+                            alignmentNodesList.clear();
+                            alignmentCirclesList.clear();
+                        });
+
+                        contextMenu.getItems().addAll(alignVertically, alignHorizontally);
+
+                        contextMenu.show(c, event.getScreenX(), event.getScreenY());
+                    }
+                    else if(gesturePane.isGestureEnabled() && alignmentNodesList.size() == 0) {
                         PopOver popOver = new PopOver();
                         final FXMLLoader loader =
                                 new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/MapPopup.fxml"));
@@ -660,7 +723,7 @@ public class MapEditorController {
         });
 
         c.setOnMouseDragged(dragEvent -> {
-            if (dragEvent.getButton().equals(MouseButton.SECONDARY)) return;
+            if (dragEvent.getButton().equals(MouseButton.SECONDARY)|| drawEdgesMode) return;
             gesturePane.setGestureEnabled(false);
             c.setCenterX(dragEvent.getX());
             c.setCenterY(dragEvent.getY());
@@ -668,7 +731,7 @@ public class MapEditorController {
             dragged = true;
         });
         c.setOnMouseReleased(dragEvent -> {
-            if (dragEvent.getButton().equals(MouseButton.SECONDARY)) return;
+            if (dragEvent.getButton().equals(MouseButton.SECONDARY) || drawEdgesMode) return;
             gesturePane.setGestureEnabled(true);
             c.setFill(Color.RED);
             try {
@@ -852,7 +915,6 @@ public class MapEditorController {
         try {
             if(linesMap.containsKey(n.getNodeID())) {
                 nodePanes[currentFloor].getChildren().removeAll(linesMap.get(n.getNodeID()));
-                System.out.println("removing edges");
             }
             List<Edge> n_edges;
             n_edges = mapdb.getEdgesByNode(n.getNodeID());
