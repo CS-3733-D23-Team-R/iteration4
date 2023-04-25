@@ -153,6 +153,7 @@ public class MapEditorController {
     HashMap<Integer, HBox> floorButtonMap = new HashMap<>();
     HashMap<Circle, Node> alignmentNodesList = new HashMap<>();
     ArrayList<Circle> alignmentCirclesList = new ArrayList<>();
+    @FXML ImageView infoIcon;
 
     Color textColor = Color.web("#FF5275");
     Color pathColor = Color.web("#012D5A");
@@ -393,6 +394,25 @@ public class MapEditorController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        });
+
+        infoIcon.setOnMouseClicked(event -> {
+            PopOver popOver = new PopOver();
+            final FXMLLoader loader =
+                    new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/EditorInfoPopup.fxml"));
+            Parent popup;
+            try {
+                popup = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+
+            popOver.setContentNode(popup);
+            popOver.setArrowLocation(PopOver.ArrowLocation.TOP_CENTER);
+            popOver.setAutoHide(true);
+
+            popOver.show(infoIcon);
         });
 
         reset();
@@ -652,12 +672,12 @@ public class MapEditorController {
                                     current.setCenterX(alignmentCirclesList.get(0).getCenterX());
                                     current.setStroke(Color.TRANSPARENT);
                                     current.setStrokeWidth(0);
-                                    current.setFill(Color.PURPLE);
 
                                     Node associated = alignmentNodesList.get(current);
                                     try {
                                         mapdb.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
                                         updater.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
+                                        updater.endAction();
                                     } catch (SQLException ex) {
                                         throw new RuntimeException(ex);
                                     }
@@ -676,12 +696,12 @@ public class MapEditorController {
                                     current.setCenterY(alignmentCirclesList.get(0).getCenterY());
                                     current.setStroke(Color.TRANSPARENT);
                                     current.setStrokeWidth(0);
-                                    current.setFill(Color.PURPLE);
 
                                     Node associated = alignmentNodesList.get(current);
                                     try {
                                         mapdb.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
                                         updater.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
+                                        updater.endAction();
                                     } catch (SQLException ex) {
                                         throw new RuntimeException(ex);
                                     }

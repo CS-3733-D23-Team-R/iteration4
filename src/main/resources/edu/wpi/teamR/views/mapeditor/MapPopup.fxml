@@ -72,6 +72,7 @@
                         <HBox alignment="CENTER" layoutX="66.0" layoutY="27.0" spacing="20.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Edges:" />
+                              <Text fx:id="edgeText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text=".." />
                            </children>
                         </HBox>
                      </children>

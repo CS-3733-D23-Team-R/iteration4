@@ -26,6 +26,8 @@ public class MapPopupController {
     @FXML
     MFXDatePicker moveDatePicker;
 
+    @FXML Text edgeText;
+
     Node node;
     Move move;
     MapUpdater mapUpdater;
@@ -36,7 +38,7 @@ public class MapPopupController {
 
     Boolean isDeleted = false;
     @FXML
-    public void initialize() {
+    public void initialize() throws SQLException {
         nodes = App.getMapData().getNodes();
         mapdb = App.getMapData().getMapdb();
         moveDatePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -89,6 +91,13 @@ public class MapPopupController {
         nodeField.setText(Integer.toString(n.getNodeID()));
         xText.setText(Integer.toString(n.getXCoord()));
         yText.setText(Integer.toString(n.getYCoord()));
+
+        ArrayList<Edge> n_edges = mapdb.getEdgesByNode(node.getNodeID());
+        StringBuilder edgeString = new StringBuilder();
+        for (Edge e: n_edges) {
+            edgeString.append(" ").append(e.getStartNode()).append("-").append(e.getEndNode()).append("\n");
+        }
+        edgeText.setText(edgeString.toString());
     }
 
     private void handleDatePickerChange(LocalDate newValue) throws SQLException {
