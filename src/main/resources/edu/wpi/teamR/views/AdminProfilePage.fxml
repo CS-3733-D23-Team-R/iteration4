@@ -36,7 +36,7 @@
                   </HBox>
                </children>
             </HBox>
-            <HBox fx:id="pageBox" layoutY="46.0" prefHeight="674.0" prefWidth="1280.0" spacing="10.0" stylesheets="@../styles/loginStyles.css">
+            <HBox fx:id="pageBox" layoutY="46.0" prefHeight="674.0" prefWidth="1280.0" spacing="10.0" stylesheets="@../styles/loginStyles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="46.0">
                <children>
                   <VBox prefHeight="664.0" prefWidth="564.0">
                      <children>

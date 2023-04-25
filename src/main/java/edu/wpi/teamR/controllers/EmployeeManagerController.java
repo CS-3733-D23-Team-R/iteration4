@@ -6,6 +6,7 @@ import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
 import edu.wpi.teamR.login.UserDatabase;
+import edu.wpi.teamR.requestdb.RequestDatabase;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import edu.wpi.teamR.navigation.Navigation;
@@ -189,6 +190,7 @@ public class EmployeeManagerController {
                             theTable.getItems().remove(data);
                             try {
                                 new UserDatabase().deleteUserByUsername(data.getStaffUsername());
+                                //TODO: fix here
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
