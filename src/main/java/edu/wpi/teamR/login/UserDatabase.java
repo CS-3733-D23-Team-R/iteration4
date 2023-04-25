@@ -19,8 +19,12 @@ public class UserDatabase {
     public void addUsers(List<User> users) throws SQLException {
         authenticationDAO.addUsers(users);
     }
-    public User modifyUserByUsername(String staffUsername, String password, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department, int imageID) throws SQLException, ItemNotFoundException {
-        return authenticationDAO.modifyUserByUsername(staffUsername, password, name, email, jobTitle, phoneNum, joinDate, accessLevel, department, imageID);
+    public User modifyUserByUsername(String staffUsername, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department, int imageID) throws SQLException, ItemNotFoundException {
+        return authenticationDAO.modifyUserByUsername(staffUsername, name, email, jobTitle, phoneNum, joinDate, accessLevel, department, imageID);
+    }
+
+    public User modifyUserPasswordByUsername(String staffUsername, String newPassword) throws SQLException, ItemNotFoundException {
+        return authenticationDAO.modifyUserPasswordByUsername(staffUsername, newPassword);
     }
 
     public void deleteAllUsers() throws SQLException {

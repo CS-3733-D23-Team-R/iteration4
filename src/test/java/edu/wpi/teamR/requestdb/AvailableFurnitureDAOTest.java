@@ -17,7 +17,7 @@ class AvailableFurnitureDAOTest {
     private static AvailableFurnitureDAO availableFurnitureDAO = new AvailableFurnitureDAO();
 
     @BeforeAll
-    static void starterFunction() {
+    static void starterFunction() throws SQLException {
         Configuration.changeSchemaToTest();
     }
     @BeforeEach
