@@ -62,7 +62,7 @@ public class LoginController {
                 aUser.getJoinDate(),
                 Integer.parseInt(aUser.getPhoneNum()),
                 aUser.getJobTitle(),
-                aUser.getImageID()); //TODO: update this with alton's new user class, password hashed?
+                aUser.getImageID());
         thisUserData.setLoggedIn(User);
         if(thisUserDatabase.verifyUser(usernameField.getText(), passwordField.getText())){
             if(thisUserData.getLoggedIn().getAccessLevel() == AccessLevel.Admin){
