@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.controlsfx.control.SearchableComboBox;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -155,7 +156,7 @@ public class SignageConfigurationController {
         int id = Integer.parseInt(idField.getText());
 
         try {
-            aMapDatabase.addDirectionArrow(loc, id, arrow);
+            aMapDatabase.addDirectionArrow(loc, id, arrow, new Date(System.currentTimeMillis())); //TODO: THE DATE IS A TEMP VALUE
         }
         catch (Exception e) {
             e.printStackTrace();
