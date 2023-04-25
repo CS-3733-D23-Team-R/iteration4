@@ -249,19 +249,21 @@ public class ItemRequestController {
         ColumnConstraints col = new ColumnConstraints(458);
         cardGridPane.getRowConstraints().setAll(row, row);
         cardGridPane.getColumnConstraints().setAll(col);
+        ArrayList<? extends IAvailableItem> filteredList = new ArrayList<>();
         try {
             switch(this.type){
+
                 default:
-                    ArrayList<AvailableMeals> filteredList = requestDatabase.getAvailableMealsByAttributes(null, null, null, null, this.button2Val, this.button1Val, this.button5Val, this.button4Val, this.button3Val, this.sortOrder);
-                    int colCount = filteredList.size()/2 + 1;
-                    for (int c = 0; c < colCount; c++){
-                        if(c != 0){cardGridPane.getColumnConstraints().add(col);}
-                        for (int r = 0; r < 2; r++){
-                            if(filteredList.size() < c*2 + r + 1) {continue;}
-                            AvailableMeals meal = filteredList.get(c*2 + r);
-                            loadCard(r, c, meal.getItemName(), meal.getDescription(), decimalFormat.format(meal.getItemPrice()), meal.getImageReference());
-                        }
-                    }
+                    filteredList = requestDatabase.getAvailableMealsByAttributes(null, null, null, null, this.button2Val, this.button1Val, this.button5Val, this.button4Val, this.button3Val, this.sortOrder);
+            }
+            int colCount = filteredList.size()/2 + 1;
+            for (int c = 0; c < colCount; c++){
+                if(c != 0){cardGridPane.getColumnConstraints().add(col);}
+                for (int r = 0; r < 2; r++){
+                    if(filteredList.size() < c*2 + r + 1) {continue;}
+                    IAvailableItem item = filteredList.get(c*2 + r);
+                    loadCard(r, c, item.getItemName(), item.getDescription(), decimalFormat.format(item.getItemPrice()), item.getImageReference());
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

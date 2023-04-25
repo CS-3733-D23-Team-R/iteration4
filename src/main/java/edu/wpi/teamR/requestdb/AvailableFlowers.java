@@ -4,10 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class AvailableFlowers {
+public class AvailableFlowers implements IAvailableItem{
     private String itemName, imageReference, description;
     private double itemPrice;
     private boolean isBouqet, hasCard;
+    private RequestType requestType = RequestType.Flower;
 
     public AvailableFlowers(String itemName, String imageReference, String description, double itemPrice, boolean isBouqet, boolean hasCard) {
         this.itemName = itemName;
@@ -17,4 +18,5 @@ public class AvailableFlowers {
         this.isBouqet = isBouqet;
         this.hasCard = hasCard;
     }
+
 }
