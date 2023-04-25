@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter @Setter
 public class AvailableMeals implements IAvailableItem{
     private String itemName, imageReference, description;
-    private double itemPrice;
+    private Double itemPrice;
     private boolean isVegan, isVegetarian,isDairyFree, isPeanutFree, isGlutenFree;
     private RequestType requestType = RequestType.Meal;
 

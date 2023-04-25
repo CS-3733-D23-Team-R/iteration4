@@ -6,7 +6,7 @@ import lombok.Setter;
 @Setter @Getter
 public class AvailableSupplies implements IAvailableItem{
     private String itemName, imageReference, description;
-    private double itemPrice;
+    private Double itemPrice;
     private boolean isPaper, isPen, isOrganization, isComputerAccessory;
     private RequestType requestType = RequestType.Supplies;
 

@@ -252,7 +252,24 @@ public class ItemRequestController {
         ArrayList<? extends IAvailableItem> filteredList = new ArrayList<>();
         try {
             switch(this.type){
-
+                case Flower:
+                    Boolean isBouquet = null;
+                    if(button1Val) isBouquet = true;
+                    if(button2Val) isBouquet = false;
+                    if(button1Val && button2Val) isBouquet = null; //if both buttons are selected, all show up
+                    filteredList = requestDatabase.getAvailableFlowersByAttributes(null, null, null, null, isBouquet, this.button3Val, this.sortOrder);
+                    break;
+                case Furniture:
+                    filteredList = requestDatabase.getAvailableFurnitureByAttributes(null, null, null, this.button1Val, this.button2Val, this.button3Val, this.button4Val);
+//                    if(this.button5Val) { TODO fix misc button
+//                        ArrayList<? extends IAvailableItem> miscList = requestDatabase.getAvailableFurnitureByAttributes(null, null, null, false, false, false, false);
+//                        filteredList.addAll(miscList);
+//                    }
+                    break;
+                case Supplies:
+                    filteredList = requestDatabase.getAvailableSuppliesByAttributes(null, null, null, null, this.button2Val, this.button3Val, this.button4Val, this.button1Val, this.sortOrder);
+                    //TODO add misc button
+                    break;
                 default:
                     filteredList = requestDatabase.getAvailableMealsByAttributes(null, null, null, null, this.button2Val, this.button1Val, this.button5Val, this.button4Val, this.button3Val, this.sortOrder);
             }

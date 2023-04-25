@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter @Setter
 public class AvailableFlowers implements IAvailableItem{
     private String itemName, imageReference, description;
-    private double itemPrice;
+    private Double itemPrice;
     private boolean isBouqet, hasCard;
     private RequestType requestType = RequestType.Flower;
 
