@@ -56,6 +56,13 @@ public class RoomRequestDAO {
         sqlDelete.executeUpdate();
     }
 
+    void deleteRoomRequestByUser(String staffUsername) throws SQLException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE staffusername=?;");
+        preparedStatement.setString(1, staffUsername);
+        preparedStatement.executeUpdate();
+    }
+
 
     ArrayList<RoomRequest> getRoomRequests() throws SQLException {
         Connection connection = Configuration.getConnection();
