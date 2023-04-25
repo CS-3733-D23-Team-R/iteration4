@@ -5,6 +5,8 @@ import edu.wpi.teamR.mapdb.*;
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
 import edu.wpi.teamR.requestdb.RequestStatus;
+import io.github.palexdev.materialfx.controls.MFXDatePicker;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,6 +22,7 @@ import org.controlsfx.control.SearchableComboBox;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -37,11 +40,11 @@ public class SignageConfigurationController {
     @FXML TextField idField;
     @FXML SearchableComboBox<String> locationBox;
     @FXML SearchableComboBox<Direction> arrowBox;
-    @FXML SearchableComboBox dateBox;
+    @FXML MFXDatePicker datePicker;
     @FXML TableView<DirectionArrow> configurationTable;
     @FXML TableColumn<DirectionArrow, Direction> directionColumn;
     @FXML TableColumn<DirectionArrow, String> locationColumn;
-    @FXML TableColumn dateColumn;
+    @FXML TableColumn<DirectionArrow, Date> dateColumn;
     @FXML TableColumn<DirectionArrow, Integer> idColumn;
     @FXML TableColumn<DirectionArrow, Void> deleteColumn;
 
@@ -53,9 +56,10 @@ public class SignageConfigurationController {
     @FXML
     public void initialize() throws SQLException, ClassNotFoundException {
 
-        locationColumn.setCellValueFactory(new PropertyValueFactory<>("longname"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory<>("longName"));
         idColumn.setCellValueFactory(new PropertyValueFactory<>("kioskID"));
         directionColumn.setCellValueFactory(new PropertyValueFactory<>("direction"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
         for(DirectionArrow directionArrow : aMapDatabase.getDirectionArrows()){
             configurationTable.getItems().add(directionArrow);
@@ -79,11 +83,14 @@ public class SignageConfigurationController {
             tempList2.add(Direction.Down);
             tempList2.add(Direction.Left);
             tempList2.add(Direction.Right);
+            tempList2.add(Direction.StopHere);
         } catch (Exception e) {
             e.printStackTrace();
         }
         directionList = FXCollections.observableArrayList(tempList2);
         arrowBox.setItems(directionList);
+
+        Platform.runLater(() -> datePicker.setValue(LocalDate.now()));
 
         deleteButton();
         submitButton.setOnMouseClicked(event -> {
@@ -151,10 +158,11 @@ public class SignageConfigurationController {
     private void submit() throws SQLException, ClassNotFoundException {
         String loc = locationBox.getValue();
         Direction arrow = arrowBox.getValue();
+        Date date = Date.valueOf(datePicker.getValue());
         int id = Integer.parseInt(idField.getText());
 
         try {
-            aMapDatabase.addDirectionArrow(loc, id, arrow, new Date(System.currentTimeMillis())); //TODO: THE DATE IS A TEMP VALUE
+            aMapDatabase.addDirectionArrow(loc, id, arrow, date);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -162,6 +170,7 @@ public class SignageConfigurationController {
 
         locationBox.setValue(null);
         arrowBox.setValue(null);
+        datePicker.setValue(null);
         idField.clear();
         refresh();
     }
