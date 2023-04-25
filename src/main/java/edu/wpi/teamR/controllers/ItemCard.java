@@ -41,18 +41,23 @@ public class ItemCard {
 
     @FXML
     private ImageView addToCartCart;
+//    @FXML
+//    private Text addToCartPlus;
 
     private IAvailableItem item;
 
     public void initialize() {
         this.type = type;
+//        addToCartPlus.setVisible(false);
         addToCartCircle.setOnMouseEntered(e -> {
             addToCartCircle.setFill(Color.valueOf("F6BD38"));
             addToCartCart.setVisible(false);
+//            addToCartPlus.setVisible(true);
         });
         addToCartCircle.setOnMouseExited(e -> {
             addToCartCircle.setFill(Color.valueOf("012D5A"));
             addToCartCart.setVisible(true);
+//            addToCartPlus.setVisible(false);
         });
         addToCartCircle.setOnMouseClicked(e -> {
             ShoppingCart cart = ShoppingCart.getInstance();

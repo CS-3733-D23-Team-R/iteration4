@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import edu.wpi.teamR.requestdb.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
@@ -249,7 +250,8 @@ public class ItemRequestController {
         cardGridPane.getRowConstraints().setAll(row, row);
         cardGridPane.getColumnConstraints().setAll(col);
         ArrayList<? extends IAvailableItem> filteredList = new ArrayList<>();
-//        cardGridPane.alignmentProperty();
+        cardGridPane.setHgap(10.0);
+        cardGridPane.setVgap(10.0);
         try {
             switch(this.type){
                 case Flower:
@@ -287,5 +289,6 @@ public class ItemRequestController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+//        cardScrollPane.setPannable(false);
     }
 }
