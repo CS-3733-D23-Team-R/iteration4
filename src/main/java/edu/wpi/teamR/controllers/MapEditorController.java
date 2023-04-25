@@ -241,6 +241,8 @@ public class MapEditorController {
                 undoAction();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
+            } catch (ItemNotFoundException e) {
+                throw new RuntimeException(e);
             }
         });
 
@@ -468,7 +470,7 @@ public class MapEditorController {
         }
     }
 
-    public void displayEdgesByFloor(int floor) throws SQLException {
+    public void displayEdgesByFloor(int floor) throws SQLException, ItemNotFoundException {
         if (floor <= 4) {
             String f = nodeFloorNames[floor];
             ArrayList<Edge> edges = mapdb.getEdgesByFloor(f);
@@ -680,6 +682,8 @@ public class MapEditorController {
                                         updater.endAction();
                                     } catch (SQLException ex) {
                                         throw new RuntimeException(ex);
+                                    } catch (ItemNotFoundException ex) {
+                                        throw new RuntimeException(ex);
                                     }
                                 }
                             }
@@ -703,6 +707,8 @@ public class MapEditorController {
                                         updater.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
                                         updater.endAction();
                                     } catch (SQLException ex) {
+                                        throw new RuntimeException(ex);
+                                    } catch (ItemNotFoundException ex) {
                                         throw new RuntimeException(ex);
                                     }
                                 }
@@ -797,6 +803,8 @@ public class MapEditorController {
                 updater.endAction();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
+            } catch (ItemNotFoundException e) {
+                throw new RuntimeException(e);
             }
         });
     }
@@ -809,7 +817,7 @@ public class MapEditorController {
         displayLocationNames(currentFloor);
     }
 
-    public void undoAction() throws SQLException {
+    public void undoAction() throws SQLException, ItemNotFoundException {
         List<UndoData> data = updater.undo();
         System.out.println(data);
         for (UndoData undo: data) {
@@ -980,6 +988,8 @@ public class MapEditorController {
                 }
             }
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ItemNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

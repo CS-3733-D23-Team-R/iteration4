@@ -427,7 +427,7 @@ public class MapController {
         }
         createCircle(endNode, drawFloor, endLocation);
 
-        PathToText ptt = new PathToText(mapPath);
+        PathToText ptt = new PathToText(mapPath, java.sql.Date.valueOf(moveDatePicker.getValue()));
         ArrayList<String> textualDirections = ptt.getTextualPath();
         for (String dir: textualDirections) {
             Text curr = new Text(dir);

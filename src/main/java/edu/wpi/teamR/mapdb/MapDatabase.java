@@ -40,7 +40,7 @@ public class MapDatabase {
         return nodeDao.getNodes();
     }
 
-    public Node getNodeByID(int nodeID) throws SQLException {
+    public Node getNodeByID(int nodeID) throws SQLException, ItemNotFoundException {
         return nodeDao.getNodeByID(nodeID);
     }
 
@@ -70,7 +70,7 @@ public class MapDatabase {
         nodeDao.addNodes(nodes);
     }
 
-    public Node modifyCoords(int nodeID, int newXCoord, int newYCoord) throws SQLException {
+    public Node modifyCoords(int nodeID, int newXCoord, int newYCoord) throws SQLException, ItemNotFoundException {
         return nodeDao.modifyCoords(nodeID, newXCoord, newYCoord);
     }
 
@@ -210,7 +210,7 @@ public class MapDatabase {
 
     public ArrayList<LocationName> getLocationNamesByNodeIDAtDate(int nodeID, Date date) throws SQLException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM (SELECT longname FROM (SELECT longname, MAX(date) AS date FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE date<? GROUP BY longname) as foo NATURAL JOIN "+Configuration.getMoveSchemaNameTableName()+" nodeid=? ORDER BY date desc) as foo NATURAL JOIN "+Configuration.getLocationNameSchemaNameTableName()+";");
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM (SELECT longname FROM (SELECT longname, MAX(date) AS date FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE date<? GROUP BY longname) as foo NATURAL JOIN "+Configuration.getMoveSchemaNameTableName()+" WHERE nodeid=? ORDER BY date desc) as foo NATURAL JOIN "+Configuration.getLocationNameSchemaNameTableName()+";");
         preparedStatement.setDate(1, date);
         preparedStatement.setInt(2, nodeID);
         ResultSet resultSet = preparedStatement.executeQuery();

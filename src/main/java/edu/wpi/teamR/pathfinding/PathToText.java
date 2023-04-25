@@ -1,6 +1,7 @@
 package edu.wpi.teamR.pathfinding;
 
 import edu.wpi.teamR.ItemNotFoundException;
+import edu.wpi.teamR.mapdb.LocationName;
 import edu.wpi.teamR.mapdb.MapDatabase;
 import edu.wpi.teamR.mapdb.Move;
 import edu.wpi.teamR.mapdb.Node;
@@ -41,10 +42,10 @@ public class PathToText {
 
         if(mapDatabase.getNodeTypeByNodeID(newPath.get(0)).equals("STAI") && 1 < newPath.size() && mapDatabase.getNodeTypeByNodeID(newPath.get(1)).equals("STAI")){
             textList.add("Take the staircase to floor " + mapDatabase.getNodeByID(newPath.get(1)).getFloorNum().toString());
-            lastNode = mapDatabase.getNodeByID(1);
+            lastNode = mapDatabase.getNodeByID(newPath.get(1));
         } else if(mapDatabase.getNodeTypeByNodeID(newPath.get(0)).equals("ELEV") && 1 < newPath.size() && mapDatabase.getNodeTypeByNodeID(newPath.get(1)).equals("ELEV")){
             textList.add("Take the staircase to floor " + mapDatabase.getNodeByID(newPath.get(1)).getFloorNum().toString());
-            lastNode = mapDatabase.getNodeByID(1);
+            lastNode = mapDatabase.getNodeByID(newPath.get(1));
         }
 
         //Break path into segments that need directions
@@ -54,19 +55,21 @@ public class PathToText {
                 break;
             }
 
-            Node node = mapDatabase.getNodeByID(i);
+            Node node = mapDatabase.getNodeByID(newPath.get(i));
+            LocationName locationName = mapDatabase.getLocationNamesByNodeIDAtDate(newPath.get(i), date).get(0);
             if(mapDatabase.getNodeTypeByNodeID(newPath.get(i)).equals("STAI") && i + 1 < newPath.size() && mapDatabase.getNodeTypeByNodeID(newPath.get(i + 1)).equals("STAI")){
                 textList.add("Take the staircase to floor " + mapDatabase.getNodeByID(newPath.get(i+1)).getFloorNum().toString());
                 lastNode = node;
             } else if(mapDatabase.getNodeTypeByNodeID(newPath.get(i)).equals("ELEV") && i + 1 < newPath.size() && mapDatabase.getNodeTypeByNodeID(newPath.get(i + 1)).equals("ELEV")){
-                textList.add("Take the staircase to floor " + mapDatabase.getNodeByID(newPath.get(i+1)).getFloorNum().toString());
+                textList.add("Take the elevator to floor " + mapDatabase.getNodeByID(newPath.get(i+1)).getFloorNum().toString());
                 lastNode = node;
             }
 
-            if(abs(node.getXCoord() - lastNode.getXCoord()) > 50 || abs(node.getYCoord() - lastNode.getYCoord()) > 50){
-                String forwardText = "Walk forwards until you reach " + mapDatabase.getLocationNamesByNodeIDAtDate(newPath.get(i), date).get(0).getShortName();
+
+            if(!locationName.getNodeType().equals("HALL") && abs(node.getXCoord() - lastNode.getXCoord()) > 50 || abs(node.getYCoord() - lastNode.getYCoord()) > 50){
+                String forwardText = "Walk forwards until you reach " + locationName.getShortName();
                 textList.add(forwardText);
-                textList.add(turnText(lastNode, mapDatabase.getNodeByID(i + 1)));
+                textList.add(turnText(lastNode, mapDatabase.getNodeByID(newPath.get(i + 1))));
                 lastNode = node;
             }
 
