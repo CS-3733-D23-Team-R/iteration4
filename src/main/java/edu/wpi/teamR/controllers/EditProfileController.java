@@ -43,6 +43,18 @@ public class EditProfileController {
         threeImage.setImage(image3);
         Image image4 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/4.png")).toExternalForm());
         fourImage.setImage(image4);
+        Image image5 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/5.png")).toExternalForm());
+        fiveImage.setImage(image5);
+        Image image6 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/6.png")).toExternalForm());
+        sixImage.setImage(image6);
+        Image image7 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/7.png")).toExternalForm());
+        sevenImage.setImage(image7);
+        Image image8 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/8.png")).toExternalForm());
+        fourImage.setImage(image8);
+        Image image9 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/9.png")).toExternalForm());
+        fourImage.setImage(image9);
+        Image image10 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/10.png")).toExternalForm());
+        fourImage.setImage(image10);
         //todo: set images here
         pictureSelectorVBox.setVisible(false);
         errorText.setVisible(false);
@@ -66,11 +78,19 @@ public class EditProfileController {
             }
         });
 
+
         currentImage.setOnMouseEntered(event -> {
             editImage.setVisible(true);
         });
+
         editImage.setOnMouseEntered(event -> {
+            Image invertedEditButton = new Image(Objects.requireNonNull(Main.class.getResource("images/login/invertededitbutton.png")).toExternalForm());
+            editImage.setImage(invertedEditButton);
             editImage.setVisible(true);
+
+        });
+        currentImage.setOnMouseExited(event -> {
+            editImage.setVisible(false);
         });
         editImage.setOnMouseExited(event -> {
             editImage.setVisible(false);
@@ -98,6 +118,36 @@ public class EditProfileController {
             imageID = 4;
             pictureSelectorVBox.setVisible(false);
             currentImage.setImage(image4);
+        });
+        fiveImage.setOnMouseClicked(event -> {
+            imageID = 5;
+            pictureSelectorVBox.setVisible(false);
+            currentImage.setImage(image5);
+        });
+        sixImage.setOnMouseClicked(event -> {
+            imageID = 6;
+            pictureSelectorVBox.setVisible(false);
+            currentImage.setImage(image6);
+        });
+        sevenImage.setOnMouseClicked(event -> {
+            imageID = 7;
+            pictureSelectorVBox.setVisible(false);
+            currentImage.setImage(image7);
+        });
+        eightImage.setOnMouseClicked(event -> {
+            imageID = 8;
+            pictureSelectorVBox.setVisible(false);
+            currentImage.setImage(image8);
+        });
+        nineImage.setOnMouseClicked(event -> {
+            imageID = 9;
+            pictureSelectorVBox.setVisible(false);
+            currentImage.setImage(image9);
+        });
+        tenImage.setOnMouseClicked(event -> {
+            imageID = 10;
+            pictureSelectorVBox.setVisible(false);
+            currentImage.setImage(image10);
         });
         //todo: add image setonmouseclicks here
     }

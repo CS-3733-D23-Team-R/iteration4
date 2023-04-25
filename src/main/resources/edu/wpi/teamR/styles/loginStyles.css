@@ -80,13 +80,7 @@
     -fx-background-position: center;
 }
 
-.text-field{
-    -fx-font-family: 'Roboto', 'light';
-    -fx-font-weight: 300;
-    -fx-font-size: 50px;
-    -fx-background-color: transparent;
-    -fx-text-fill: black;
-}
+
 
 .actuallyRounded{
     -fx-background-radius: 30;
