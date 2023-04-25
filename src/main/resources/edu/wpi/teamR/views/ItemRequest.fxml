@@ -52,10 +52,10 @@
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Type of Delivery Request" />
                               <HBox alignment="TOP_CENTER" prefHeight="50.0" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <ToggleButton fx:id="foodButton" mnemonicParsing="false" styleClass="yellowButton" text="Food" HBox.hgrow="ALWAYS" />
-                                    <ToggleButton fx:id="furnitureButton" mnemonicParsing="false" styleClass="yellowButton" text="Furniture" HBox.hgrow="ALWAYS" />
-                                    <ToggleButton fx:id="suppliesButton" mnemonicParsing="false" styleClass="yellowButton" text="Office Supplies" HBox.hgrow="ALWAYS" />
-                                    <ToggleButton fx:id="flowersButton" mnemonicParsing="false" styleClass="yellowButton" text="Flower" HBox.hgrow="ALWAYS" />
+                                    <ToggleButton fx:id="foodButton" mnemonicParsing="false" styleClass="yellowToggleButton" text="Food" HBox.hgrow="ALWAYS" />
+                                    <ToggleButton fx:id="furnitureButton" mnemonicParsing="false" styleClass="yellowToggleButton" text="Furniture" HBox.hgrow="ALWAYS" />
+                                    <ToggleButton fx:id="suppliesButton" mnemonicParsing="false" styleClass="yellowToggleButton" text="Office Supplies" HBox.hgrow="ALWAYS" />
+                                    <ToggleButton fx:id="flowersButton" mnemonicParsing="false" styleClass="yellowToggleButton" text="Flower" HBox.hgrow="ALWAYS" />
                                  </children>
                                  <VBox.margin>
                                     <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
@@ -74,11 +74,11 @@
                               <Text fx:id="otherFilterTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Other Filters" />
                               <HBox fx:id="otherFilterHBox" alignment="TOP_CENTER" prefHeight="50.0" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <ToggleButton fx:id="FilterButton1" mnemonicParsing="false" styleClass="yellowButton" text="Button1" />
-                                    <ToggleButton fx:id="FilterButton2" mnemonicParsing="false" styleClass="yellowButton" text="Button2" />
-                                    <ToggleButton fx:id="FilterButton3" mnemonicParsing="false" styleClass="yellowButton" text="Button3" />
-                                    <ToggleButton fx:id="FilterButton4" mnemonicParsing="false" styleClass="yellowButton" text="Button4" />
-                                    <ToggleButton fx:id="FilterButton5" mnemonicParsing="false" styleClass="yellowButton" text="Button5" />
+                                    <ToggleButton fx:id="FilterButton1" mnemonicParsing="false" styleClass="yellowToggleButton" text="Button1" />
+                                    <ToggleButton fx:id="FilterButton2" mnemonicParsing="false" styleClass="yellowToggleButton" text="Button2" />
+                                    <ToggleButton fx:id="FilterButton3" mnemonicParsing="false" styleClass="yellowToggleButton" text="Button3" />
+                                    <ToggleButton fx:id="FilterButton4" mnemonicParsing="false" styleClass="yellowToggleButton" text="Button4" />
+                                    <ToggleButton fx:id="FilterButton5" mnemonicParsing="false" styleClass="yellowToggleButton" text="Button5" />
                                  </children>
                                  <VBox.margin>
                                     <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />

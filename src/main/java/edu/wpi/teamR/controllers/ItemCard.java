@@ -67,11 +67,11 @@ public class ItemCard {
         });
     }
 
-    public void setInfo(AvailableItem item) {
-//        cardTitle.setText(item.getItemName());
-//        cardDescription.setText(item.getImageReference()); //TODO CHANGE FOR NEW ITEM
-//        cardPrice.setText(item.getItemPrice());
-//        BackgroundImage bImg = new BackgroundImage(new Image(image),
+    public void setInfo(String title, String description, String price, String imageAddress) {
+        cardTitle.setText(title);
+        cardDescription.setText(description);
+        cardPrice.setText(price);
+//        BackgroundImage bImg = new BackgroundImage(new Image(imageAddress), //TODO find images and set them
 //                BackgroundRepeat.NO_REPEAT,
 //                BackgroundRepeat.NO_REPEAT,
 //                BackgroundPosition.DEFAULT,

@@ -1,38 +1,22 @@
 package edu.wpi.teamR.controllers;
 
-import edu.wpi.teamR.App;
-import edu.wpi.teamR.Main;
-import edu.wpi.teamR.datahandling.ShoppingCart;
-import edu.wpi.teamR.login.User;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import edu.wpi.teamR.requestdb.*;
-import javafx.collections.ObservableListBase;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import javafx.util.Callback;
-import oracle.ucp.common.FailoverStats;
-import org.controlsfx.control.PopOver;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
 
 public class ItemRequestController {
     @FXML
@@ -76,9 +60,15 @@ public class ItemRequestController {
 
 
     private RequestType type = RequestType.Meal;
-    private Double lowerBound = null;
-    private Double upperBound = null;
+//    private Double lowerBound = null;
+//    private Double upperBound = null;
     private SortOrder sortOrder = SortOrder.unsorted;
+
+    private Boolean button1Val = null;
+    private Boolean button2Val = null;
+    private Boolean button3Val = null;
+    private Boolean button4Val = null;
+    private Boolean button5Val = null;
 
     private  ArrayList<AvailableItem> items;
 
@@ -104,6 +94,12 @@ public class ItemRequestController {
         flowersButton.setOnAction(event -> {changeTypeState(RequestType.Flower);});
         suppliesButton.setOnAction(event -> {changeTypeState(RequestType.Supplies);});
 
+        FilterButton1.setOnAction(event -> {if(FilterButton1.isSelected()){button1Val = true;} else {button1Val = null;} regenerateCards();});
+        FilterButton2.setOnAction(event -> {if(FilterButton2.isSelected()){button2Val = true;} else {button2Val = null;} regenerateCards();});
+        FilterButton3.setOnAction(event -> {if(FilterButton3.isSelected()){button3Val = true;} else {button3Val = null;} regenerateCards();});
+        FilterButton4.setOnAction(event -> {if(FilterButton4.isSelected()){button4Val = true;} else {button4Val = null;} regenerateCards();});
+        FilterButton5.setOnAction(event -> {if(FilterButton5.isSelected()){button5Val = true;} else {button5Val = null;} regenerateCards();});
+
         itemFilterByComboBox.setItems(priceList);
         itemFilterByComboBox.setOnAction(event -> {
             String comboType = itemFilterByComboBox.getSelectionModel().getSelectedItem();
@@ -117,7 +113,10 @@ public class ItemRequestController {
                 default: //unsorted
                     this.sortOrder = SortOrder.unsorted;
             }
+            regenerateCards();
         });
+
+
 
         cartButton.setOnMouseClicked(event -> {
             try {
@@ -222,33 +221,31 @@ public class ItemRequestController {
         FilterButton5.setManaged(state);
     }
 
-    private Node loadCard(AvailableItem item) throws IOException {
+    private Node loadCard(String title, String description, String price, String imageAddress) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/ItemCard.fxml"));
         Node node = loader.load();
         ItemCard contentController = loader.getController();
-        contentController.setInfo(item);
+        contentController.setInfo(title, description, price, imageAddress);
         return node;
     }
 
     private void regenerateCards(){
         RequestDatabase requestDatabase = new RequestDatabase();
+        DecimalFormat decimalFormat = new DecimalFormat("##.##");
         try {
-            ArrayList<AvailableItem> filteredList = new ArrayList<>();
             switch(this.type){
                 default:
-                    filteredList = requestDatabase.getAvailableItemsByTypeWithinRangeSortedByPrice(this.type, this.upperBound, this.lowerBound, this.sortOrder);
-            }
-
-            for (AvailableItem item : filteredList){
-                cardGridPane.getChildren().add(loadCard(item));
+                    ArrayList<AvailableMeals> filteredList = requestDatabase.getAvailableMealsByAttributes(null, null, null, null, this.button2Val, this.button1Val, this.button5Val, this.button4Val, this.button3Val, this.sortOrder);
+                    for (AvailableMeals meal : filteredList){
+                        cardGridPane.getChildren().add(loadCard(meal.getItemName(), meal.getDescription(), decimalFormat.format(meal.getItemPrice()), meal.getImageReference()));
+                    }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+//        } catch (ClassNotFoundException e) {
+//            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 }
