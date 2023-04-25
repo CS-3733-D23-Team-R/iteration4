@@ -19,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
@@ -155,7 +156,7 @@ public class MapEditorController {
     ArrayList<Circle> alignmentCirclesList = new ArrayList<>();
     @FXML ImageView infoIcon;
 
-    Color textColor = Color.WHITE;
+    Color textColor = Color.BLACK;
     Color pathColor = Color.web("#012D5A");
 
     @FXML
@@ -1016,8 +1017,14 @@ public class MapEditorController {
                         Node n = m.getNode();
                         t.setText(shortName);
                         t.setFill(textColor);
-                        t.setStroke(Color.BLACK);
-                        t.setStrokeWidth(1);
+
+                        DropShadow dropShadow = new DropShadow();
+                        dropShadow.setColor(Color.WHITE);
+                        dropShadow.setRadius(5);
+                        dropShadow.setOffsetX(3);
+                        dropShadow.setOffsetY(3);
+
+                        t.setEffect(dropShadow);
                         t.setFont(Font.font(18));
                         t.setX(n.getXCoord() + 10);
                         t.setY(n.getYCoord());

@@ -140,7 +140,7 @@
                               <Font size="36.0" />
                            </font>
                         </Text>
-                        <MFXScrollPane fx:id="textScrollPane" prefHeight="166.0" prefWidth="310.0">
+                        <MFXScrollPane fx:id="textScrollPane" pannable="true" prefHeight="166.0" prefWidth="310.0" VBox.vgrow="ALWAYS">
                            <content>
                               <VBox fx:id="directionsVBox" prefHeight="164.0" prefWidth="312.0" />
                            </content>
