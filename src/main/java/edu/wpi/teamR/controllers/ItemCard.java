@@ -41,6 +41,7 @@ public class ItemCard {
 
     @FXML
     private ImageView addToCartCart;
+    @FXML ImageView plusIcon;
 //    @FXML
 //    private Text addToCartPlus;
 
@@ -48,18 +49,21 @@ public class ItemCard {
 
     public void initialize() {
         this.type = type;
+        plusIcon.setVisible(false);
 //        addToCartPlus.setVisible(false);
-        addToCartCircle.setOnMouseEntered(e -> {
+        addToCartButton.setOnMouseEntered(e -> {
             addToCartCircle.setFill(Color.valueOf("F6BD38"));
             addToCartCart.setVisible(false);
+            plusIcon.setVisible(true);
 //            addToCartPlus.setVisible(true);
         });
-        addToCartCircle.setOnMouseExited(e -> {
+        addToCartButton.setOnMouseExited(e -> {
             addToCartCircle.setFill(Color.valueOf("012D5A"));
             addToCartCart.setVisible(true);
+            plusIcon.setVisible(false);
 //            addToCartPlus.setVisible(false);
         });
-        addToCartCircle.setOnMouseClicked(e -> {
+        addToCartButton.setOnMouseClicked(e -> {
             ShoppingCart cart = ShoppingCart.getInstance();
             cart.addItem(this.item, 1);
         });

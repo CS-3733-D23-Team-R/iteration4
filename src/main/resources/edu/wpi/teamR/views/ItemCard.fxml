@@ -31,6 +31,11 @@
                         <Image url="@../images/serviceRequests/cart.png" />
                      </image>
                   </ImageView>
+                  <ImageView fx:id="plusIcon" fitHeight="38.0" fitWidth="40.0" layoutX="15.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/serviceRequests/plus.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
          </children>
