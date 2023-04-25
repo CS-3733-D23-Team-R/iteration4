@@ -21,6 +21,7 @@ import java.util.Map;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import javafx.animation.Interpolator;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -255,7 +256,7 @@ public class MapController {
             }
         });
 
-        moveDatePicker.setValue(LocalDate.now());
+        Platform.runLater(() -> moveDatePicker.setValue(LocalDate.now()));
 
         alertList = userdb.getAlerts();
         if (alertList.size() > 0) {

@@ -5,6 +5,7 @@ import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.mapdb.*;
 import edu.wpi.teamR.mapdb.update.MapUpdater;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -86,7 +87,7 @@ public class MapPopupController {
             move = mapdb.getMovesByNode(n.getNodeID()).get(0);
             Date moveDate = move.getMoveDate();
             LocalDate date = moveDate.toLocalDate();
-            moveDatePicker.setValue(date);
+            Platform.runLater(() -> moveDatePicker.setValue(date));
         }
         else {
             moveDatePicker.setValue(null);
