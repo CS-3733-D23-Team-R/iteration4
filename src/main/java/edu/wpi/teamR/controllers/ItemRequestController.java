@@ -1,5 +1,6 @@
 package edu.wpi.teamR.controllers;
 
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import edu.wpi.teamR.requestdb.*;
@@ -59,6 +60,7 @@ public class ItemRequestController {
     private GridPane cardGridPane;
     @FXML
     private ScrollPane cardScrollPane;
+    @FXML AnchorPane itemRequestAnchorPane;
 
 
 
@@ -247,7 +249,13 @@ public class ItemRequestController {
         cardGridPane.getRowConstraints().clear();
         RowConstraints row = new RowConstraints(458);
         ColumnConstraints col = new ColumnConstraints(458);
-        cardGridPane.getRowConstraints().setAll(row, row);
+        ReadOnlyDoubleProperty pageWidth = cardScrollPane.widthProperty();
+        int cardsAcross = 3;
+        cardGridPane.getRowConstraints().setAll(row);
+        for (int i = 1; i<cardsAcross; i++){
+            cardGridPane.getRowConstraints().add(row);
+        }
+
         cardGridPane.getColumnConstraints().setAll(col);
         ArrayList<? extends IAvailableItem> filteredList = new ArrayList<>();
         cardGridPane.setHgap(10.0);
@@ -278,7 +286,7 @@ public class ItemRequestController {
             int colCount = filteredList.size()/2 + 1;
             for (int c = 0; c < colCount; c++){
                 if(c != 0){cardGridPane.getColumnConstraints().add(col);}
-                for (int r = 0; r < 2; r++){
+                for (int r = 0; r < cardsAcross; r++){
                     if(filteredList.size() < c*2 + r + 1) {continue;}
                     IAvailableItem item = filteredList.get(c*2 + r);
                     loadCard(r, c, item);
