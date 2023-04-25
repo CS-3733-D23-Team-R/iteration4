@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
+import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import javafx.animation.Interpolator;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -32,6 +33,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import net.kurobako.gesturefx.*;
@@ -125,7 +127,15 @@ public class MapController {
     UserDatabase userdb = new UserDatabase();
     ArrayList<Alert> alertList;
     @FXML Text alertText;
+    @FXML StackPane alertPane;
+    @FXML VBox textVBox;
+    @FXML
+    MFXScrollPane textScrollPane;
+    @FXML VBox directionsVBox;
+    @FXML ImageView closeAlert;
 
+    Color textColor = Color.WHITE;
+    Color pathColor = Color.web("#012D5A");
 
     @FXML
     public void initialize() throws Exception {
@@ -246,10 +256,19 @@ public class MapController {
 
         alertList = userdb.getAlerts();
         if (alertList.size() > 0) {
-            alertText.setText(alertList.get(alertList.size() - 1).getMessage());
+            alertText.setText(alertList.get(0).getMessage());
         }
 
         setFloorButtonMap();
+        textDirections(false);
+        textCheckbox.selectedProperty().addListener((obs, oldVal, newVal) -> {
+            textDirections(newVal);
+        });
+
+        closeAlert.setOnMouseClicked(event -> {
+            alertPane.setVisible(false);
+            alertPane.setManaged(false);
+        });
     }
 
     // Reset to original zoom
@@ -269,6 +288,7 @@ public class MapController {
         startField.setValue("Select Start");
         endField.setValue("Select End");
         displayLocationNames(currentFloor);
+        directionsVBox.getChildren().clear();
     }
 
     // zoom into a desired location
@@ -351,7 +371,7 @@ public class MapController {
             Node n2 = mapdb.getNodeByID(currentPath.get(i + 1));
             if (n1.getFloorNum().equals(nodeFloorNames[drawFloor]) && n2.getFloorNum().equals(nodeFloorNames[drawFloor])) {
                 Line l1 = new Line(n1.getXCoord(), n1.getYCoord(), n2.getXCoord(), n2.getYCoord());
-                l1.setStroke(Color.RED);
+                l1.setStroke(pathColor);
                 l1.setStrokeWidth(4);
                 paths[drawFloor].getChildren().add(l1);
             }
@@ -407,19 +427,30 @@ public class MapController {
         }
         createCircle(endNode, drawFloor, endLocation);
 
+        PathToText ptt = new PathToText(mapPath);
+        ArrayList<String> textualDirections = ptt.getTextualPath();
+        for (String dir: textualDirections) {
+            Text curr = new Text(dir);
+            curr.getStyleClass().add("body");
+            directionsVBox.getChildren().add(curr);
+        }
+
         gesturePane.zoomTo(1, 1, new Point2D(startNode.getXCoord(), startNode.getYCoord()));
         gesturePane.centreOn(new Point2D(startNode.getXCoord(), startNode.getYCoord()));
     }
 
     private void createCircle(Node endNode, int drawFloor, String locationName) {
-        Circle end = new Circle(endNode.getXCoord(), endNode.getYCoord(), 5, Color.RED);
+        Circle end = new Circle(endNode.getXCoord(), endNode.getYCoord(), 5, pathColor);
         Text endText = new Text(locationName);
         if (locationFilters.getCheckModel().getCheckedItems().size() > 0) {
             endText.setText("");
         }
         endText.setX(endNode.getXCoord() + 10);
         endText.setY(endNode.getYCoord());
-        endText.setFill(Color.RED);
+        endText.setFill(textColor);
+        endText.setStroke(Color.BLACK);
+        endText.setStrokeWidth(1);
+        endText.setFont(Font.font(18));
         paths[drawFloor].getChildren().add(end);
         paths[drawFloor].getChildren().add(endText);
     }
@@ -459,7 +490,10 @@ public class MapController {
                         Text t = new Text();
                         Node n = m.getNode();
                         t.setText(shortName);
-                        t.setFill(Color.RED);
+                        t.setFill(textColor);
+                        t.setStroke(Color.BLACK);
+                        t.setStrokeWidth(1);
+                        t.setFont(Font.font(18));
                         t.setX(n.getXCoord() + 10);
                         t.setY(n.getYCoord());
 
@@ -512,5 +546,10 @@ public class MapController {
         else if (endField.getValue().equals("Select End") || endField.getValue() == null) {
             endField.setValue(locationName);
         }
+    }
+
+    public void textDirections(boolean setting){
+        textVBox.setVisible(setting);
+        textVBox.setManaged(setting);
     }
 }
