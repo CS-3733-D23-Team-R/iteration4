@@ -79,6 +79,15 @@ public class ItemRequestDAO {
         PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getServiceRequestSchemaNameTableName()+";");
         preparedStatement.executeUpdate();
     }
+
+    void deleteItemRequestsByUser(String staffUsername) throws SQLException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getServiceRequestSchemaNameTableName()+" WHERE staffusername=?;");
+        preparedStatement.setString(1, staffUsername);
+        preparedStatement.executeUpdate();
+    }
+
+
     ArrayList<ItemRequest> getItemRequests() throws SQLException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getServiceRequestSchemaNameTableName()+";");

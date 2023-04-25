@@ -1,5 +1,6 @@
 package edu.wpi.teamR.requestdb;
 
+import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.ItemNotFoundException;
 
 import java.sql.*;
@@ -14,6 +15,10 @@ public class RequestDatabase {
 
     public void addItemRequests(List<ItemRequest> itemRequests) throws SQLException {
         new ItemRequestDAO().addItemRequests(itemRequests);
+    }
+
+    public void deleteItemRequestsByUser(String staffUsername) throws SQLException {
+        new ItemRequestDAO().deleteItemRequestsByUser(staffUsername);
     }
 
     public ItemRequest modifyItemRequestByID(int requestID, RequestType requestType, RequestStatus requestStatus, String longName, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) throws SQLException, ClassNotFoundException, ItemNotFoundException {
@@ -53,6 +58,10 @@ public class RequestDatabase {
     }
     public void deleteRoomRequest(int roomRequestID) throws SQLException {
         new RoomRequestDAO().deleteRoomRequest(roomRequestID);
+    }
+
+    public void deleteRoomRequestByUser(String staffUsername) throws SQLException {
+        new RoomRequestDAO().deleteRoomRequestByUser(staffUsername);
     }
 
     public void deleteAllRoomRequests() throws SQLException {
