@@ -3,6 +3,8 @@ package edu.wpi.teamR.controllers;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.Main;
 import edu.wpi.teamR.login.AccessLevel;
+import edu.wpi.teamR.navigation.Navigation;
+import edu.wpi.teamR.navigation.Screen;
 import edu.wpi.teamR.requestdb.ItemRequest;
 import edu.wpi.teamR.requestdb.RequestDatabase;
 import edu.wpi.teamR.requestdb.RequestStatus;
@@ -43,6 +45,8 @@ public class RoomRequestManagerController {
     @FXML MFXTextField searchField;
 
     @FXML TableColumn<RoomRequest, Void> deleteCol;
+
+    @FXML Button newRequestBtn;
     ObservableList<RequestStatus> statusList = FXCollections.observableArrayList(RequestStatus.values());
 
     private final ObservableList<RoomRequest> dataList = FXCollections.observableArrayList();
@@ -54,6 +58,8 @@ public class RoomRequestManagerController {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("roomRequestID"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
         locationColumn.setCellValueFactory(new PropertyValueFactory<>("longname"));
+        newRequestBtn.getStyleClass().add("Button");
+        newRequestBtn.setOnAction(event -> Navigation.navigate(Screen.ROOM_REQUEST));
         addButtonToTable();
 
         for (RoomRequest request : new RequestDatabase().getRoomRequests()) {

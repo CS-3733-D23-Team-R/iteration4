@@ -80,7 +80,7 @@ public class RootController {
       }
     });
     logoutButton.setOnMouseClicked(event -> logout());
-    newRequestButton.setOnMouseClicked(event -> navigate(Screen.ITEMREQUEST));
+    newRequestButton.setOnMouseClicked(event -> navigate(Screen.ROOM_REQUEST_MANAGER));
     pathfindingButton.setOnMouseClicked(event -> navigate(Screen.MAP));
     signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGE));
     exitButton.setOnMouseClicked(event -> Platform.exit());

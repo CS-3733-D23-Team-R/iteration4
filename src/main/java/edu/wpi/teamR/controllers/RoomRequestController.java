@@ -2,10 +2,16 @@ package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.Main;
+import edu.wpi.teamR.login.AccessLevel;
+import edu.wpi.teamR.login.AuthenticationDAO;
+import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.mapdb.ConferenceRoom;
 import edu.wpi.teamR.mapdb.MapDatabase;
+import edu.wpi.teamR.navigation.Navigation;
+import edu.wpi.teamR.navigation.Screen;
 import edu.wpi.teamR.requestdb.RequestDatabase;
 import edu.wpi.teamR.requestdb.RoomRequest;
+import edu.wpi.teamR.userData.CurrentUser;
 import edu.wpi.teamR.userData.UserData;
 import io.github.palexdev.materialfx.controls.*;
 import javafx.collections.FXCollections;
@@ -38,6 +44,8 @@ public class RoomRequestController {
     @FXML MFXToggleButton screenToggle;
     @FXML MFXToggleButton wheelchairToggle;
 
+    @FXML Button backBtn;
+
     ArrayList<String> timeArray = new ArrayList<>();
     MapDatabase mapDatabase;
     String start;
@@ -63,6 +71,12 @@ public class RoomRequestController {
         for(ConferenceRoom conferenceRoom: mapDatabase.getConferenceRooms()){
             locNames.add(conferenceRoom.getLongname());
         }
+        UserData thisUserData = UserData.getInstance();
+        CurrentUser user = thisUserData.getLoggedIn();
+        if(user.getAccessLevel() != AccessLevel.Admin)
+            backBtn.setVisible(false);
+        else
+            backBtn.setOnAction(event -> Navigation.navigate(Screen.ROOM_REQUEST_MANAGER));
         scrollPane.setFitToWidth(true);
         Text text = new Text("Select Desired Room Specifications");
         text.getStyleClass().add("title");

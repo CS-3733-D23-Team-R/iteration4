@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
@@ -14,9 +15,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/tables.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.RoomRequestManagerController">
+<BorderPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.RoomRequestManagerController">
     <top>
-        <HBox prefWidth="1260.0" BorderPane.alignment="BOTTOM_LEFT">
+        <HBox alignment="CENTER_LEFT" prefHeight="68.0" prefWidth="1247.0" BorderPane.alignment="BOTTOM_LEFT">
             <BorderPane.margin>
                 <Insets left="20.0" top="5.0" />
             </BorderPane.margin>
@@ -29,6 +30,15 @@
                         <Insets left="30.0" top="20.0" />
                     </HBox.margin>
                 </Text>
+            <HBox alignment="CENTER_RIGHT" prefHeight="68.0" prefWidth="760.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Button fx:id="newRequestBtn" mnemonicParsing="false" text="Create new Reservation" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="50.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
             </children>
         </HBox>
     </top>
@@ -96,4 +106,8 @@
             </children>
         </AnchorPane>
     </center>
+   <stylesheets>
+      <URL value="@../styles/tables.css" />
+      <URL value="@../styles/employeeManagementTable.css" />
+   </stylesheets>
 </BorderPane>
