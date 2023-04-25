@@ -50,8 +50,6 @@ public class MapEditorController {
     @FXML
     Button importCSVButton;
     @FXML Button exportCSVButton;
-    @FXML
-    Button editButton;
     @FXML Button saveButton;
     @FXML Button newLocationButton;
     @FXML Button newNodeButton;
@@ -75,8 +73,6 @@ public class MapEditorController {
     @FXML
     GesturePane gesturePane;
 
-    @FXML
-    ComboBox<String> floorComboBox;
     @FXML
     ComboBox<String> tableComboBox;
     @FXML Text dialogText;
@@ -151,6 +147,18 @@ public class MapEditorController {
     HashMap<String, String> locationMap = new HashMap<>();
 
     @FXML
+    HBox floor3Button;
+    @FXML
+    HBox floor2Button;
+    @FXML
+    HBox floor1Button;
+    @FXML
+    HBox L1Button;
+    @FXML
+    HBox L2Button;
+    HashMap<Integer, HBox> floorButtonMap = new HashMap<>();
+
+    @FXML
     public void initialize() throws SQLException, ClassNotFoundException, ItemNotFoundException {
         for (int i = 0; i < 5; i++) {
             nodePanes[i] = new AnchorPane();
@@ -159,7 +167,6 @@ public class MapEditorController {
             floorNamesMap.put(floorNames[i], i);
         }
 
-        floorComboBox.setItems(floors);
         tableComboBox.setItems(DAOType);
         importCSVButton.setOnAction(event -> {
             try {
@@ -179,20 +186,10 @@ public class MapEditorController {
             }
         });
 
-        editButton.setOnAction(event -> gesturePane.setGestureEnabled(false));
         saveButton.setOnAction(event -> {
             try {
                 saveChanges();
             } catch (SQLException | ItemNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
-        floorComboBox.setOnAction(event -> {
-            try {
-                changeFloor(floorNamesMap.get(floorComboBox.getValue()));
-            } catch (SQLException | ItemNotFoundException e) {
-                e.printStackTrace();
                 throw new RuntimeException(e);
             }
         });
@@ -337,6 +334,61 @@ public class MapEditorController {
             }
         });
 
+        setFloorButtonMap();
+
+        floor3Button.setOnMouseClicked(event -> {
+            try {
+                changeFloor(4);
+            } catch (SQLException | ItemNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        floor2Button.setOnMouseClicked(event -> {
+            try {
+                changeFloor(3);
+            } catch (SQLException | ItemNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        floor1Button.setOnMouseClicked(event -> {
+            try {
+                changeFloor(2);
+            } catch (SQLException | ItemNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        L1Button.setOnMouseClicked(event -> {
+            try {
+                changeFloor(1);
+            } catch (SQLException | ItemNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        L2Button.setOnMouseClicked(event -> {
+            try {
+                changeFloor(0);
+            } catch (SQLException | ItemNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        newMoveButton.setOnAction(event -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/NewMovePopup.fxml"));
+            try {
+                Parent popupRoot = loader.load();
+                NewMovePopupController popupController = loader.getController();
+                popupController.setUpdater(updater);
+
+                Stage popupStage = new Stage();
+                popupStage.initModality(Modality.APPLICATION_MODAL);
+                popupStage.setTitle("Create New Move");
+                popupStage.setScene(new Scene(popupRoot, 400, 200));
+                popupStage.showAndWait();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
         reset();
     }
 
@@ -349,11 +401,18 @@ public class MapEditorController {
             selectedCircle.setFill(Color.RED);
             selectedCircle = null;
         }
-        dialogText.setText("Select Two Nodes to Draw Edge");
+        dialogText.setText("Click Another Node to Draw Edge");
     }
 
     public void changeFloor(int floorNum) throws SQLException, ItemNotFoundException {
-        if (floorNum < 4) {
+        if (floorNum <= 4) {
+            HBox currentFloorVbox = floorButtonMap.get(currentFloor);
+            currentFloorVbox.getStyleClass().remove("floor-box-focused");
+            currentFloorVbox.getStyleClass().add("floor-box");
+            HBox newFloorVbox = floorButtonMap.get(floorNum);
+            newFloorVbox.getStyleClass().remove("floor-box");
+            newFloorVbox.getStyleClass().add("floor-box-focused");
+
             currentFloor = floorNum;
             imageView = new ImageView(linkArray[currentFloor].toExternalForm());
             mapPane.getChildren().clear();
@@ -385,7 +444,7 @@ public class MapEditorController {
     }
 
     public void displayEdgesByFloor(int floor) throws SQLException {
-        if (floor < 4) {
+        if (floor <= 4) {
             String f = nodeFloorNames[floor];
             ArrayList<Edge> edges = mapdb.getEdgesByFloor(f);
             for (Edge e: edges) {
@@ -474,7 +533,7 @@ public class MapEditorController {
     }
 
     public void drawNode(MapLocation l, int floor) {
-        if (floor < 4) {
+        if (floor <= 4) {
             ArrayList<LocationName> ln = l.getLocationNames();
             Node n = l.getNode();
             //Move m = mapdb.getLatestMoveByLocationName(ln.get(0).getLongName());
@@ -494,6 +553,7 @@ public class MapEditorController {
                     selectedNode = n;
                     selectedCircle = c;
                     selectedCircle.setFill(Color.YELLOW);
+                    edgeDialog(true);
                 } else {
                     if (selectedNode.equals(n)) {
                         selectedCircle.setFill(Color.RED);
@@ -713,6 +773,23 @@ public class MapEditorController {
                             Line line = new Line(startNode.getXCoord(), startNode.getYCoord(), endNode.getXCoord(), endNode.getYCoord());
                             line.setStrokeWidth(4);
                             line.setStroke(Color.RED);
+
+                            line.setOnMouseClicked(event -> {
+                                if (event.getButton().equals(MouseButton.SECONDARY)) {
+                                    updater.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
+                                    try {
+                                        mapdb.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
+                                    } catch (SQLException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
+                                    updater.endAction();
+                                    linesMap.remove(edge.getStartNode());
+                                    linesMap.remove(edge.getEndNode());
+                                    nodePanes[currentFloor].getChildren().remove(line);
+                                    nodePanes[currentFloor].requestLayout();
+                                }
+                            });
+
                             nodePanes[currentFloor].getChildren().add(line);
                             edges.add(edge);
                             mapdb.addEdge(edge.getStartNode(), edge.getEndNode());
@@ -858,5 +935,13 @@ public class MapEditorController {
         locationMap.put("Bathroom", "BATH");
         locationMap.put("Exit", "EXIT");
         locationMap.put("Retail", "RETL");
+    }
+
+    public void setFloorButtonMap(){
+        floorButtonMap.put(0, L2Button);
+        floorButtonMap.put(1, L1Button);
+        floorButtonMap.put(2, floor1Button);
+        floorButtonMap.put(3, floor2Button);
+        floorButtonMap.put(4, floor3Button);
     }
 }
