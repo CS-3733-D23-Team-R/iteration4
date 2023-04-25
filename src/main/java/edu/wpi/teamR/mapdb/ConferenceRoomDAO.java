@@ -8,56 +8,70 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ConferenceRoomDAO {
     ConferenceRoomDAO(){}
-    ConferenceRoom addConferenceRoom(String longname, int capacity, boolean isAccessible, boolean hasOutlets, boolean hasScreen) throws SQLException, ClassNotFoundException {
+    ConferenceRoom addConferenceRoom(String longName, int capacity, boolean isAccessible, boolean hasOutlets, boolean hasScreen) throws SQLException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getConferenceRoomSchemaNameTableName()+"(longname,capacity,isAccessible,hasOutlets,hasScreen) VALUES (?,?,?,?,?);");
-        preparedStatement.setString(1, longname);
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getConferenceRoomSchemaNameTableName()+"(longName,capacity,isAccessible,hasOutlets,hasScreen) VALUES (?,?,?,?,?);");
+        preparedStatement.setString(1, longName);
         preparedStatement.setInt(2, capacity);
         preparedStatement.setBoolean(3, isAccessible);
         preparedStatement.setBoolean(4, hasOutlets);
         preparedStatement.setBoolean(5, hasScreen);
         preparedStatement.executeUpdate();
-        return new ConferenceRoom(longname, capacity, isAccessible, hasOutlets, hasScreen);
+        return new ConferenceRoom(longName, capacity, isAccessible, hasOutlets, hasScreen);
     }
-    void deleteConferenceRoom(String longname) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+
+    void addConferenceRooms(List<ConferenceRoom> conferenceRooms) throws SQLException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getConferenceRoomSchemaNameTableName()+" WHERE longname=?;");
-        preparedStatement.setString(1, longname);
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getConferenceRoomSchemaNameTableName()+"(longName,capacity,isAccessible,hasOutlets,hasScreen) VALUES (?,?,?,?,?);");
+        for (ConferenceRoom c : conferenceRooms) {
+            preparedStatement.setString(1, c.getLongName());
+            preparedStatement.setInt(2, c.getCapacity());
+            preparedStatement.setBoolean(3, c.isAccessible());
+            preparedStatement.setBoolean(4, c.isHasOutlets());
+            preparedStatement.setBoolean(5, c.isHasScreen());
+            preparedStatement.executeUpdate();
+        }
+    }
+    void deleteConferenceRoom(String longName) throws SQLException, ItemNotFoundException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getConferenceRoomSchemaNameTableName()+" WHERE longName=?;");
+        preparedStatement.setString(1, longName);
         int numRows = preparedStatement.executeUpdate();
         if (numRows==0)
             throw new ItemNotFoundException();
     }
-    void deleteAllConferenceRooms() throws SQLException, ClassNotFoundException {
+    void deleteAllConferenceRooms() throws SQLException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getConferenceRoomSchemaNameTableName()+";");
         preparedStatement.executeUpdate();
     }
 
-    ArrayList<ConferenceRoom> getConferenceRooms() throws SQLException, ClassNotFoundException {
+    ArrayList<ConferenceRoom> getConferenceRooms() throws SQLException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getConferenceRoomSchemaNameTableName()+";");
         ResultSet resultSet = preparedStatement.executeQuery();
         ArrayList<ConferenceRoom> conferenceRooms = new ArrayList<>();
 
         while (resultSet.next()){
-            String longname = resultSet.getString("longname");
+            String longName = resultSet.getString("longName");
             int capacity = resultSet.getInt("capacity");
             boolean isAccessible = resultSet.getBoolean("isAccessible");
             boolean hasOutlets = resultSet.getBoolean("hasOutlets");
             boolean hasScreen = resultSet.getBoolean("hasScreen");
 
-            conferenceRooms.add(new ConferenceRoom(longname, capacity, isAccessible, hasOutlets, hasScreen));
+            conferenceRooms.add(new ConferenceRoom(longName, capacity, isAccessible, hasOutlets, hasScreen));
         }
         return conferenceRooms;
     }
 
-    ConferenceRoom getConferenceRoomByLongname(String longname) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+    ConferenceRoom getConferenceRoomByLongName(String longName) throws SQLException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getConferenceRoomSchemaNameTableName()+" WHERE longname=?;");
-        preparedStatement.setString(1, longname);
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getConferenceRoomSchemaNameTableName()+" WHERE longName=?;");
+        preparedStatement.setString(1, longName);
         ResultSet resultSet = preparedStatement.executeQuery();
 
         if (!resultSet.next())
@@ -68,6 +82,6 @@ public class ConferenceRoomDAO {
         boolean hasOutlets = resultSet.getBoolean("hasOutlets");
         boolean hasScreen = resultSet.getBoolean("hasScreen");
 
-        return new ConferenceRoom(longname, capacity, isAccessible, hasOutlets, hasScreen);
+        return new ConferenceRoom(longName, capacity, isAccessible, hasOutlets, hasScreen);
     }
 }

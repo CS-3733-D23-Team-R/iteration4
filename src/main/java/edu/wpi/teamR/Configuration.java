@@ -79,19 +79,19 @@ public class Configuration {
     public static void deleteEverything() throws SQLException {
         Connection connection = Configuration.getConnection();
         Statement statement = connection.createStatement();
-        statement.executeUpdate("DELETE * FROM " + Configuration.getDirectionArrowSchemaNameTableName() + ";");
-        statement.executeUpdate("DELETE * FROM " + Configuration.getMoveSchemaNameTableName() + ";");
-        statement.executeUpdate("DELETE * FROM " + Configuration.getEdgeSchemaNameTableName() + ";");
-        statement.executeUpdate("DELETE * FROM " + Configuration.getNodeSchemaNameTableName() + ";");
-        statement.executeUpdate("DELETE * FROM " + Configuration.getRoomRequestSchemaNameTableName() + ";");
-        statement.executeUpdate("DELETE * FROM " + Configuration.getConferenceRoomSchemaNameTableName() + ";");
-        statement.executeUpdate("DELETE * FROM " + Configuration.getServiceRequestSchemaNameTableName() + ";");
-        statement.executeUpdate("DELETE * FROM " + Configuration.getUserTableSchemaNameTableName() + ";");
-        statement.executeUpdate("DELETE * FROM " + Configuration.getLocationNameSchemaNameTableName() + ";");
-        statement.executeUpdate("DELETE * FROM " + Configuration.getAlertSchemaNameTableName() + ";");
-        statement.executeUpdate("DELETE * FROM " + Configuration.getAvailableFurnitureTableSchemaNameTableName() + ";");
-        statement.executeUpdate("DELETE * FROM " + Configuration.getAvailableMealsTableSchemaNameTableName() + ";");
-        statement.executeUpdate("DELETE * FROM " + Configuration.getAvailableSuppliesTableSchemaNameTableName() + ";");
-        statement.executeUpdate("DELETE * FROM " + Configuration.getAvailableFlowersTableSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE FROM " + Configuration.getDirectionArrowSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE FROM " + Configuration.getMoveSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE FROM " + Configuration.getEdgeSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE FROM " + Configuration.getNodeSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE FROM " + Configuration.getRoomRequestSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE FROM " + Configuration.getConferenceRoomSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE FROM " + Configuration.getServiceRequestSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE FROM " + Configuration.getUserTableSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE FROM " + Configuration.getLocationNameSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE FROM " + Configuration.getAlertSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE FROM " + Configuration.getAvailableFurnitureTableSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE FROM " + Configuration.getAvailableMealsTableSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE FROM " + Configuration.getAvailableSuppliesTableSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE FROM " + Configuration.getAvailableFlowersTableSchemaNameTableName() + ";");
     }
 }

@@ -4,8 +4,8 @@ import edu.wpi.teamR.App;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.Main;
 import edu.wpi.teamR.controllers.mapeditor.*;
-import edu.wpi.teamR.csv.CSVParameterException;
-import edu.wpi.teamR.csv.CSVWriter;
+import edu.wpi.teamR.archive.CSVParameterException;
+import edu.wpi.teamR.archive.CSVWriter;
 import edu.wpi.teamR.datahandling.MapStorage;
 import edu.wpi.teamR.mapdb.update.*;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
@@ -18,7 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -431,19 +430,19 @@ public class MapEditorController {
         chooseDirectory();
         switch (choice) {
             case "Node" -> {
-                CSVWriter<Node> nodeCSVWriter = new CSVWriter<>();
+                CSVWriter nodeCSVWriter = new CSVWriter();
                 nodeCSVWriter.writeCSV(selectedDirectory.getAbsolutePath() + "/Nodes.csv", mapdb.getNodes());
             }
             case "Edge" -> {
-                CSVWriter<Edge> edgeCSVWriter = new CSVWriter<>();
+                CSVWriter edgeCSVWriter = new CSVWriter();
                 edgeCSVWriter.writeCSV(selectedDirectory.getAbsolutePath() + "/Edges.csv", mapdb.getEdges());
             }
             case "LocationName" -> {
-                CSVWriter<LocationName> locationCSVWriter = new CSVWriter<>();
+                CSVWriter locationCSVWriter = new CSVWriter();
                 locationCSVWriter.writeCSV(selectedDirectory.getAbsolutePath() + "/LocationNames.csv", mapdb.getLocationNames());
             }
             case "Moves" -> {
-                CSVWriter<Move> moveCSVWriter = new CSVWriter<>();
+                CSVWriter moveCSVWriter = new CSVWriter();
                 moveCSVWriter.writeCSV(selectedDirectory.getAbsolutePath() + "/Moves.csv", mapdb.getMoves());
             }
         }

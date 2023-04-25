@@ -45,7 +45,7 @@ class DirectionArrowDAOTest {
         directionArrows = directionArrowDAO.getDirectionArrows(); // should return list w/ 1 item
         assertEquals(directionArrows.size(), 1); // should be true
         DirectionArrow directionArrow = directionArrows.get(0);
-        assertEquals(directionArrow.getLongname(), "test1"); // checks that longName is the same
+        assertEquals(directionArrow.getLongName(), "test1"); // checks that longName is the same
         assertEquals(directionArrow.getKioskID(), 0); // checks that kioskID is the same
         assertEquals(directionArrow.getDirection(), Direction.Up); // checks that the direction is the same
     }
@@ -64,16 +64,16 @@ class DirectionArrowDAOTest {
         DirectionArrow directionArrow = directionArrows.get(0);
         assertEquals(directionArrows.size(), 2); // should be true
         // uses delete function on one matching specific longName
-        directionArrowDAO.deleteDirectionArrowByLongname("test1");
+        directionArrowDAO.deleteDirectionArrowByLongName("test1");
         // checks that the list only contains the other one
         directionArrows = directionArrowDAO.getDirectionArrows(); // should return list w/ 1 items
         directionArrow = directionArrows.get(0);
         assertEquals(directionArrows.size(), 1); // should be true
-        assertEquals(directionArrow.getLongname(), "test2");
+        assertEquals(directionArrow.getLongName(), "test2");
         assertEquals(directionArrow.getKioskID(), 0);
         assertEquals(directionArrow.getDirection(), Direction.Up);
         // deletes remaining directionArrow by its longName
-        directionArrowDAO.deleteDirectionArrowByLongname("test2");
+        directionArrowDAO.deleteDirectionArrowByLongName("test2");
         // check that list is now empty
         directionArrows = directionArrowDAO.getDirectionArrows(); // should return list w/ 0 items
         assertEquals(directionArrows.size(), 0); // should be true
@@ -97,7 +97,7 @@ class DirectionArrowDAOTest {
         directionArrows = directionArrowDAO.getDirectionArrows(); // should return list w/ 1 item
         DirectionArrow directionArrow = directionArrows.get(0);
         assertEquals(directionArrows.size(), 1); // should be true
-        assertEquals(directionArrow.getLongname(), "test2");
+        assertEquals(directionArrow.getLongName(), "test2");
         assertEquals(directionArrow.getKioskID(), 2);
         assertEquals(directionArrow.getDirection(), Direction.Up);
         // deletes remaining directionArrow by its longName
@@ -137,11 +137,11 @@ class DirectionArrowDAOTest {
         directionArrows = directionArrowDAO.getDirectionArrows(); // should return list w/ 2 items
         DirectionArrow directionArrow = directionArrows.get(0);
         directionArrowDAO.getDirectionArrowsByKiosk(1);
-        assertEquals(directionArrow.getLongname(), "test1");
+        assertEquals(directionArrow.getLongName(), "test1");
         assertEquals(directionArrow.getDirection(), Direction.Up);
         directionArrows = directionArrowDAO.getDirectionArrowsByKiosk(2);
         directionArrow = directionArrows.get(0);
-        assertEquals(directionArrow.getLongname(), "test2");
+        assertEquals(directionArrow.getLongName(), "test2");
         assertEquals(directionArrow.getDirection(), Direction.Up);
 
     }

@@ -5,6 +5,7 @@ import edu.wpi.teamR.ItemNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AvailableFlowersDAO {
 
@@ -19,6 +20,20 @@ public class AvailableFlowersDAO {
         preparedStatement.setBoolean(6, hasCard);
         preparedStatement.executeUpdate();
         return new AvailableFlowers(itemName, imageReference, description, itemPrice, isBouqet, hasCard);
+    }
+
+    void addAvailableFlowers(List<AvailableFlowers> availableFlowers) throws SQLException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getAvailableFlowersTableSchemaNameTableName()+"(itemName,imageReference,description,itemPrice,isBouqet,hasCard) VALUES(?,?,?,?,?,?);");
+        for (AvailableFlowers a : availableFlowers) {
+            preparedStatement.setString(1, a.getItemName());
+            preparedStatement.setString(2, a.getImageReference());
+            preparedStatement.setString(3, a.getDescription());
+            preparedStatement.setDouble(4, a.getItemPrice());
+            preparedStatement.setBoolean(5, a.isBouqet());
+            preparedStatement.setBoolean(6, a.isHasCard());
+            preparedStatement.executeUpdate();
+        }
     }
 
     void deleteAvailableFlowers(String itemName) throws SQLException, ItemNotFoundException {
