@@ -269,6 +269,10 @@ public class MapDatabase {
         return directionArrowDAO.getDirectionArrowsByKiosk(kioskID);
     }
 
+    ArrayList<DirectionArrow> getCurrentDirectionArrows() throws SQLException {
+        return directionArrowDAO.getCurrentDirectionArrows();
+    }
+
     public Node getNodeFromLocationName(String locationName) throws SQLException, ClassNotFoundException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT nodeID, xCoord, yCoord, Building, floor FROM (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE date<now() AND longname=? group by longname) as foo NATURAL JOIN "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN "+Configuration.getNodeSchemaNameTableName()+";");

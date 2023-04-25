@@ -20,11 +20,12 @@ public class DirectionArrowDAO {
 
     public void addDirectionArrows(ArrayList<DirectionArrow> directionArrows) throws SQLException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+ Configuration.getDirectionArrowSchemaNameTableName()+"(longName, kioskID, direction) VALUES(?, ?, ?);");
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+ Configuration.getDirectionArrowSchemaNameTableName()+"(longName, kioskID, direction, date) VALUES(?, ?, ?, ?);");
         for (DirectionArrow d : directionArrows) {
             preparedStatement.setString(1, d.getLongName());
             preparedStatement.setInt(2, d.getKioskID());
             preparedStatement.setString(3, d.getDirection().toString());
+            preparedStatement.setDate(4, d.getDate());
             preparedStatement.executeUpdate();
         }
     }
@@ -56,6 +57,21 @@ public class DirectionArrowDAO {
     ArrayList<DirectionArrow> getDirectionArrows() throws SQLException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getDirectionArrowSchemaNameTableName()+";");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        ArrayList<DirectionArrow> directionArrows = new ArrayList<>();
+        while (resultSet.next()){
+            String longName = resultSet.getString("longName");
+            int kioskID = resultSet.getInt("kioskID");
+            Direction direction = Direction.valueOf(resultSet.getString("direction"));
+            Date date = resultSet.getDate("date");
+            directionArrows.add(new DirectionArrow(longName, kioskID, direction, date));
+        }
+        return directionArrows;
+    }
+
+    ArrayList<DirectionArrow> getCurrentDirectionArrows() throws SQLException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getDirectionArrowSchemaNameTableName()+" WHERE date<CURRENT_DATE;");
         ResultSet resultSet = preparedStatement.executeQuery();
         ArrayList<DirectionArrow> directionArrows = new ArrayList<>();
         while (resultSet.next()){
