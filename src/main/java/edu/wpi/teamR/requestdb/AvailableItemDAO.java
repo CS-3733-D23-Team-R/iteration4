@@ -51,7 +51,7 @@ public class AvailableItemDAO {
         return availableItems;
     }
 
-    AvailableItem getAvailableItemByName(String itemName, RequestType requestType) throws SQLException, ClassNotFoundException, ItemNotFoundException {
+    AvailableItem getAvailableItemByName(String itemName, RequestType requestType) throws SQLException, ItemNotFoundException {
         String searchTableString = "";
         if (requestType == RequestType.Meal)
             searchTableString = Configuration.getAvailableMealsTableSchemaNameTableName();
@@ -71,5 +71,9 @@ public class AvailableItemDAO {
         double itemPrice = resultSet.getDouble("itemPrice");
         String imageReference = resultSet.getString("imageReference");
         return new AvailableItem(_itemName, requestType, itemPrice, imageReference);
+    }
+
+    public void deleteAllAvailableItems() {
+
     }
 }

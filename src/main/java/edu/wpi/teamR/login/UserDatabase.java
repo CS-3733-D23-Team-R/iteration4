@@ -6,6 +6,7 @@ import edu.wpi.teamR.ItemNotFoundException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserDatabase {
     private final AuthenticationDAO authenticationDAO = new AuthenticationDAO();
@@ -13,6 +14,10 @@ public class UserDatabase {
 
     public User addUser(String staffUsername, String password, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department, int imageID) throws SQLException {
         return authenticationDAO.addUser(staffUsername, password, name, email, jobTitle, phoneNum, joinDate, accessLevel, department, imageID);
+    }
+
+    public void addUsers(List<User> users) throws SQLException {
+        authenticationDAO.addUsers(users);
     }
     public User modifyUserByUsername(String staffUsername, String password, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department, int imageID) throws SQLException, ItemNotFoundException {
         return authenticationDAO.modifyUserByUsername(staffUsername, password, name, email, jobTitle, phoneNum, joinDate, accessLevel, department, imageID);
@@ -42,10 +47,14 @@ public class UserDatabase {
     public Alert addAlert(String message, Timestamp time) throws SQLException {
         return alertDAO.addAlert(message, time);
     }
-    void deleteAlert(String message, Timestamp time) throws SQLException, ItemNotFoundException {
+
+    public void addAlerts(List<Alert> alerts) throws SQLException {
+        alertDAO.addAlerts(alerts);
+    }
+    public void deleteAlert(String message, Timestamp time) throws SQLException, ItemNotFoundException {
         alertDAO.deleteAlert(message, time);
     }
-    void deleteAllAlerts() throws SQLException {
+    public void deleteAllAlerts() throws SQLException {
         alertDAO.deleteAllAlerts();
     }
     public ArrayList<Alert> getAlerts() throws SQLException {
