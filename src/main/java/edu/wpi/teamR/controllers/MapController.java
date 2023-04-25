@@ -27,6 +27,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -134,7 +135,7 @@ public class MapController {
     @FXML VBox directionsVBox;
     @FXML ImageView closeAlert;
 
-    Color textColor = Color.WHITE;
+    Color textColor = Color.BLACK;
     Color pathColor = Color.web("#012D5A");
 
     @FXML
@@ -404,6 +405,7 @@ public class MapController {
                 });
 
                 square.toFront();
+                nextFloorRect.toFront();
 
                 Text t = new Text("Click to go to next floor");
                 t.setFill(Color.LIMEGREEN);
@@ -448,8 +450,13 @@ public class MapController {
         endText.setX(endNode.getXCoord() + 10);
         endText.setY(endNode.getYCoord());
         endText.setFill(textColor);
-        endText.setStroke(Color.BLACK);
-        endText.setStrokeWidth(1);
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setColor(Color.WHITE);
+        dropShadow.setRadius(5);
+        dropShadow.setOffsetX(3);
+        dropShadow.setOffsetY(3);
+
+        endText.setEffect(dropShadow);
         endText.setFont(Font.font(18));
         paths[drawFloor].getChildren().add(end);
         paths[drawFloor].getChildren().add(endText);
@@ -491,8 +498,13 @@ public class MapController {
                         Node n = m.getNode();
                         t.setText(shortName);
                         t.setFill(textColor);
-                        t.setStroke(Color.BLACK);
-                        t.setStrokeWidth(1);
+                        DropShadow dropShadow = new DropShadow();
+                        dropShadow.setColor(Color.WHITE);
+                        dropShadow.setRadius(5);
+                        dropShadow.setOffsetX(3);
+                        dropShadow.setOffsetY(3);
+
+                        t.setEffect(dropShadow);
                         t.setFont(Font.font(18));
                         t.setX(n.getXCoord() + 10);
                         t.setY(n.getYCoord());
@@ -526,6 +538,7 @@ public class MapController {
             case "A-Star" -> pathfinder.setAlgorithm(Algorithm.Astar);
             case "Breadth-First Search" -> pathfinder.setAlgorithm(Algorithm.BFS);
             case "Depth-First Search" -> pathfinder.setAlgorithm(Algorithm.DFS);
+            case "Dijkstra" -> pathfinder.setAlgorithm(Algorithm.Dijkstra);
             default -> System.out.println("Error - invalid pathfinding algorithm.");
         }
     }
