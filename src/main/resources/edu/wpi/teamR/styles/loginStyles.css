@@ -1,0 +1,88 @@
+.boxroundedbordered{
+    -fx-border-width: 3;
+    -fx-border-color: black;
+    -fx-background-color: #FFFFFF;
+}
+
+.rounded-image {
+    -fx-background-radius: 30px;
+    -fx-border-radius: 30px;
+    -fx-background-insets: 0px;
+    -fx-border-insets: 0px;
+    -fx-border-color: transparent;
+}
+
+.tinyButton {
+    -fx-background-color: bwhblue;
+    -fx-text-fill: white;
+    -fx-font-family: 'Nunito Sans', 'bold';
+    -fx-font-size: 14;
+    -fx-font-weight: 500;
+    border-radius: 4px;
+}
+
+.tinyButton:pressed {
+    -fx-background-color: pressed;
+    -fx-text-fill: white;
+    -fx-font-family: 'Nunito Sans', 'bold';
+    -fx-font-size: 12;
+    -fx-font-weight: 500;
+    border-radius: 4px;
+}
+
+.profileToConferenceRoom{
+    -fx-background-image: url("../images/login/adminprofilepage/blurredconferenceroom.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.profileToEmployeeManagement{
+    -fx-background-image: url("../images/login/adminprofilepage/blurredtoemployeemanagement.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+
+.profileToServiceRequests{
+    -fx-background-image: url("../images/login/adminprofilepage/blurredservicerequests.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.profileCreateNewAlert{
+    -fx-background-image: url("../images/login/adminprofilepage/blurredalerts.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+
+.profileToSignageConfiguration{
+    -fx-background-image: url("../images/login/adminprofilepage/blurredsignagepage.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.viewOnly{
+    -fx-font-family: 'Lato', 'bold';
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+}
+
+.checkMark{
+    -fx-background-image: url("../images/login/checkmark.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.actuallyRounded{
+    -fx-background-radius: 30;
+    -fx-border-radius: 30;
+    -fx-border-width:3;
+    -fx-border-color: black;
+}

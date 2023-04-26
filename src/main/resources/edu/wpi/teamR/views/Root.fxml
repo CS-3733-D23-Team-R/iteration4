@@ -94,7 +94,7 @@
                         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Roboto;" text="Logout" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
-                  <VBox fx:id="exitButton" alignment="CENTER" prefHeight="80.0" prefWidth="75.0" styleClass="sidebar-vbox" VBox.vgrow="ALWAYS">
+                  <VBox fx:id="exitButton" alignment="CENTER" prefHeight="80.0" prefWidth="75.0" styleClass="sidebar-vbox">
                      <children>
                         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
                            <image>

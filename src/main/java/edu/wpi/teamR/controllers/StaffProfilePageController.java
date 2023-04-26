@@ -1,18 +1,31 @@
 package edu.wpi.teamR.controllers;
 
+import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
 import edu.wpi.teamR.requestdb.*;
 import edu.wpi.teamR.userData.CurrentUser;
 import edu.wpi.teamR.userData.UserData;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+
+import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -21,29 +34,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import javafx.scene.control.Button;
 
 public class StaffProfilePageController {
-    @FXML Text name, email, occupation, DateOfJoining, phone, time;
-    @FXML VBox monday, tuesday, wednesday, thursday, friday, saturday, sunday;
-    @FXML Button viewAllRequests, goToConferenceRooms;
-
-    ImageView CreateNewMessage;
-
+    @FXML Text time;
+    @FXML Button viewAllRequests, toConferenceRooms;
+    @FXML VBox profileCardContainer;
+    @FXML StackPane conferenceRoomImage;
+    @FXML TableView<ItemRequest> table;
+    @FXML TableColumn<ItemRequest, Integer> idCol;
+    @FXML TableColumn<ItemRequest, String> requestTypeCol, nameCol, locationCol, notesCol, dateCol, statusCol, itemCol;
+    @FXML StackPane checkmark;
+    private final ObservableList<ItemRequest> dataList = FXCollections.observableArrayList();
+    ObservableList<RequestStatus> statusList = FXCollections.observableArrayList(RequestStatus.values());
     public void initialize() throws SQLException, ClassNotFoundException, SearchException {
-        RequestDatabase requestDatabase = new RequestDatabase();
-        UserData thisUserData = UserData.getInstance();
-        CurrentUser user = thisUserData.getLoggedIn();
-        goToConferenceRooms.setOnMouseClicked(event -> {Navigation.navigate(Screen.ROOM_REQUEST);});
-        viewAllRequests.setOnMouseClicked(event -> {Navigation.navigate(Screen.SORT_ORDERS);});
-        name.setText(user.getFullName());
-        email.setText(user.getEmail());
-        occupation.setText(user.getJobTitle());
-        DateOfJoining.setText(user.getJoinDate().toString());
-        String num = Integer.toString(user.getPhoneNum());
-        String formattedPhoneNumber = num.replaceAll("(\\d{3})(\\d{3})(\\d{4})", "($1)-$2-$3");
-        phone.setText(formattedPhoneNumber);
-
+        CurrentUser user = UserData.getInstance().getLoggedIn();
         LocalDate date = LocalDate.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
         String formattedDate = date.format(dateTimeFormatter);
@@ -63,33 +67,74 @@ public class StaffProfilePageController {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
         time.setText(formattedDate);
+        displayProfile(UserData.getInstance().getLoggedIn());
 
-        String thisIsYourStaffUsername = user.getUsername();
-        Timestamp dateOfRequest = new Timestamp(1);
-        SearchList searchList = new SearchList();
-        searchList.addComparison(RequestAttribute.staffUsername, Operation.equalTo, thisIsYourStaffUsername);
-        searchList.addComparison(RequestAttribute.requestDate, Operation.greaterThan, dateOfRequest);
-        ArrayList<ItemRequest> itemRequests = new RequestDatabase().getItemRequestByAttributes(searchList);
+        SearchList aSearchList = new SearchList();
+        aSearchList.addComparison(RequestAttribute.staffUsername, Operation.equalTo, user.getUsername());
+        dataList.addAll(new RequestDatabase().getItemRequestByAttributes(aSearchList));
+        idCol.setCellValueFactory(new PropertyValueFactory<>("requestID"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("requesterName"));
+        locationCol.setCellValueFactory(new PropertyValueFactory<>("longname"));
+        requestTypeCol.setCellValueFactory(new PropertyValueFactory<>("requestType"));
+        itemCol.setCellValueFactory(new PropertyValueFactory<>("itemType"));
+        notesCol.setCellValueFactory(new PropertyValueFactory<>("additionalNotes"));
+        dateCol.setCellValueFactory(new PropertyValueFactory<>("requestDate"));
+        statusCol.setCellFactory(column -> new TableCell<>(){
+            private final MFXComboBox<RequestStatus> changeStatusButton = new MFXComboBox<>(statusList);
 
-        Calendar cal = Calendar.getInstance();
-        for(ItemRequest aRequest : itemRequests){
-            Date aDate = aRequest.getRequestDate();
-            String name = aRequest.getRequesterName();
-            cal.setTime(aDate);
-            Text aText = new Text();
-            aText.setText(name + "\n" + aRequest.getItemType() + "\n" + aDate.toString());
-            aText.setStrokeType(StrokeType.OUTSIDE);
-            aText.setStrokeWidth(0.0);
-            aText.setId("bodyMedium");
-            switch (cal.get(Calendar.DAY_OF_WEEK)){
-                case 1:sunday.getChildren().add(aText);
-                case 2:monday.getChildren().add(aText);
-                case 3:tuesday.getChildren().add(aText);
-                case 4:wednesday.getChildren().add(aText);
-                case 5:thursday.getChildren().add(aText);
-                case 6:friday.getChildren().add(aText);
-                case 7:saturday.getChildren().add(aText);
+            {
+                changeStatusButton.setMaxWidth(70);
+                changeStatusButton.setOnAction(event -> {
+                    ItemRequest request = getTableView().getItems().get(getIndex());
+                    try {
+                        RequestStatus status = changeStatusButton.getSelectionModel().getSelectedItem();
+                        request.setRequestStatus(status);
+                        new RequestDatabase().modifyItemRequestByID(
+                                request.getRequestID(),
+                                request.getRequestType(),
+                                status,
+                                request.getLongName(),
+                                request.getStaffUsername(),
+                                request.getItemType(),
+                                request.getRequesterName(),
+                                request.getAdditionalNotes(),
+                                request.getRequestDate());
+                    } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
             }
+            @Override
+            protected void updateItem(String item, boolean empty){
+                super.updateItem(item, empty);
+                if(empty){
+                    setGraphic(null);
+                } else{
+                    ItemRequest request = getTableView().getItems().get(getIndex());
+                    changeStatusButton.getSelectionModel().selectItem(request.getRequestStatus());
+                    setGraphic(changeStatusButton);
+                }
+            }
+        });
+        for(ItemRequest request: new RequestDatabase().getItemRequests()){
+            table.getItems().add(request);
+        }
+    }
+
+    private Node loadCard(CurrentUser user) throws IOException, IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/Profile.fxml"));
+        Node node = loader.load();
+        ProfileController contentController = loader.getController();
+        contentController.setInfo(user);
+        return node;
+    }
+
+    private void displayProfile(CurrentUser user){
+        profileCardContainer.getChildren().clear();
+        try {
+            profileCardContainer.getChildren().add(loadCard(user));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -4,6 +4,7 @@ import edu.wpi.teamR.App;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.datahandling.ShoppingCart;
 import edu.wpi.teamR.login.AccessLevel;
+import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
 import edu.wpi.teamR.userData.CurrentUser;
@@ -14,6 +15,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.layout.HBox;
@@ -74,7 +76,7 @@ public class RootController {
       }
     });
     logoutButton.setOnMouseClicked(event -> logout());
-    newRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.ITEMREQUEST));
+    newRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.ADDEMPLOYEE));
     pathfindingButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
     signagePageButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
     exitButton.setOnMouseClicked(event -> Platform.exit());
@@ -96,14 +98,17 @@ public class RootController {
     App.getPrimaryStage().addEventFilter(InputEvent.ANY, ssevent);
 
     transition.play();
+
+    setLogoutButton(false);
   }
 
   private void openProfile() throws SQLException, ClassNotFoundException, ItemNotFoundException {
     UserData thisUserData = UserData.getInstance();
     if (!thisUserData.isLoggedIn()){
-      return;
+      Navigation.navigate(Screen.LOGIN);
     }
     CurrentUser user = thisUserData.getLoggedIn();
+    profileIcon.setImage(new Image(user.getProfilePictureLocation()));
     if(user.getAccessLevel().equals(AccessLevel.Admin)){
       Navigation.navigate(Screen.ADMINPROFILEPAGE);
     } else if(user.getAccessLevel().equals(AccessLevel.Staff)){
@@ -146,11 +151,17 @@ public class RootController {
       UserData.getInstance().logout();
       ShoppingCart.getInstance().clearCart();
       Navigation.navigate(Screen.HOME);
+      setLogoutButton(false);
     }
   }
   public void setSignagePage(){
     //signagePageButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGECONFIGURATION));
     //signageText.setText("  Edit\nSignage");
     signagePageButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
+  }
+
+  public void setLogoutButton(boolean setting) {
+    logoutButton.setVisible(setting);
+    logoutButton.setManaged(setting);
   }
 }

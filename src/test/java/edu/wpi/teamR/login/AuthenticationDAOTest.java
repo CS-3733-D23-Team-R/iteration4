@@ -81,7 +81,7 @@ class AuthenticationDAOTest {
         assertEquals(user.getAccessLevel(), user2.getAccessLevel());
         assertEquals(user.getDepartment(), user2.getDepartment());
 
-        user = authenticationDAO.modifyUserByUsername("username1", "password2", "name2", "email2", "jobTitle2", "987654321", new Date(System.currentTimeMillis()-1000000000), AccessLevel.Staff, "dept2", 0);
+        user = authenticationDAO.modifyUserByUsername("username1", "name2", "email2", "jobTitle2", "987654321", new Date(System.currentTimeMillis()-1000000000), AccessLevel.Staff, "dept2", 0);
 
         users = authenticationDAO.getUsers();
         assertEquals(1, users.size());
@@ -95,6 +95,27 @@ class AuthenticationDAOTest {
         assertEquals(fmt.format(user.getJoinDate()), fmt.format(user2.getJoinDate()));
         assertEquals(user.getAccessLevel(), user2.getAccessLevel());
         assertEquals(user.getDepartment(), user2.getDepartment());
+    }
+
+    @Test
+    void modifyUserPasswordByUsername() throws SQLException, ItemNotFoundException {
+        ArrayList<User> users;
+
+        users = authenticationDAO.getUsers();
+        assertEquals(0, users.size());
+
+        authenticationDAO.addUser("username1", "password1", "name1", "email1", "jobTitle1", "1234567890", new Date(System.currentTimeMillis()), AccessLevel.Staff, "dept1", 0);
+
+        users = authenticationDAO.getUsers();
+        assertEquals(1, users.size());
+
+        assertTrue(authenticationDAO.verifyUser("username1", "password1"));
+        assertFalse(authenticationDAO.verifyUser("username1", "password2"));
+
+        authenticationDAO.modifyUserPasswordByUsername("username1", "password2");
+
+        assertFalse(authenticationDAO.verifyUser("username1", "password1"));
+        assertTrue(authenticationDAO.verifyUser("username1", "password2"));
     }
 
     @Test

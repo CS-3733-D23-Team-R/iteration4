@@ -89,11 +89,6 @@
     -fx-border-color: BLACK;
 }
 
-.check-box .box .mark {
-    -fx-background-color: #FFFFFF;
-    -fx-border-color: #000000;
-}
-
 .check-box:selected .box {
     -fx-background-color: bwhblue;
     -fx-border-width: 1;

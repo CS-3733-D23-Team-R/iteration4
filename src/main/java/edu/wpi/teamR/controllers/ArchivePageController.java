@@ -40,7 +40,7 @@ public class ArchivePageController {
 
     @FXML
     public void initialize() throws SQLException, ClassNotFoundException {
-        backButton.setOnMouseClicked(event -> Navigation.navigate(Screen.ADMINHOME));
+        backButton.setOnMouseClicked(event -> Navigation.navigate(Screen.ADMINPROFILEPAGE));
         fileButton.setOnAction(event -> openFile());
         submitImport.setOnMouseClicked(event -> {
             try {
@@ -81,7 +81,7 @@ public class ArchivePageController {
     }
 
     public void export() throws SQLException, IOException, ClassNotFoundException {
-        archiver.createArchive(selectedDirectory.getAbsolutePath());
+        archiver.createArchive(selectedDirectory.getAbsolutePath() + "/archive.zip");
         selectedDirectory = null;
         pathText.setText("...");
     }
