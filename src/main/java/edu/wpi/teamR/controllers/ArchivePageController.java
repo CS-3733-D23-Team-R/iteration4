@@ -81,7 +81,7 @@ public class ArchivePageController {
     }
 
     public void export() throws SQLException, IOException, ClassNotFoundException {
-        archiver.createArchive(selectedDirectory.getAbsolutePath());
+        archiver.createArchive(selectedDirectory.getAbsolutePath() + "/archive.zip");
         selectedDirectory = null;
         pathText.setText("...");
     }
