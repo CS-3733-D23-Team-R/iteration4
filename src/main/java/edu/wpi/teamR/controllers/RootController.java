@@ -2,6 +2,7 @@ package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.App;
 import edu.wpi.teamR.ItemNotFoundException;
+import edu.wpi.teamR.Main;
 import edu.wpi.teamR.datahandling.ShoppingCart;
 import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.UserDatabase;
@@ -152,6 +153,7 @@ public class RootController {
       ShoppingCart.getInstance().clearCart();
       Navigation.navigate(Screen.HOME);
       setLogoutButton(false);
+      setProfileIcon(Main.class.getResource("images/login/profilepictures/0.png").toExternalForm());
     }
   }
   public void setSignagePage(){
