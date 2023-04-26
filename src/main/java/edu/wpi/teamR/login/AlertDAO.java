@@ -5,6 +5,7 @@ import edu.wpi.teamR.ItemNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AlertDAO {
     Alert addAlert(String message, Timestamp time) throws SQLException {
@@ -14,6 +15,16 @@ public class AlertDAO {
         preparedStatement.setTimestamp(2, time);
         preparedStatement.executeUpdate();
         return new Alert(message, time);
+    }
+
+    void addAlerts(List<Alert> alerts) throws SQLException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getAlertSchemaNameTableName()+"(message,time) VALUES(?,?);");
+        for (Alert a : alerts) {
+            preparedStatement.setString(1, a.getMessage());
+            preparedStatement.setTimestamp(2, a.getTime());
+            preparedStatement.executeUpdate();
+        }
     }
     void deleteAlert(String message, Timestamp time) throws SQLException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();

@@ -43,7 +43,7 @@
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Move Date:" HBox.hgrow="ALWAYS" />
-                        <MFXDatePicker fx:id="datePicker" />
+                        <MFXDatePicker fx:id="datePicker" prefHeight="38.0" prefWidth="170.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0" VBox.vgrow="ALWAYS">

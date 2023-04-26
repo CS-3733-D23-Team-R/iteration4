@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: F3F3F3;" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="About" BorderPane.alignment="CENTER_LEFT">
+         <BorderPane.margin>
+            <Insets left="25.0" />
+         </BorderPane.margin>
+      </Text>
+   </top>
+   <padding>
+      <Insets bottom="25.0" left="100.0" right="25.0" top="25.0" />
+   </padding>
+   <center>
+      <VBox prefWidth="1115.0" spacing="10.0" style="-fx-background-radius: 30; -fx-background-color: D9D9D9;" stylesheets="@../styles/styles.css" BorderPane.alignment="CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="This application was made possible by the WPI Computer Science Department, the students of CS3733-D23 taught by Professor Wilson Wong. This team, Team R, was coached by Michael O'Connor." wrappingWidth="1105.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Thank you to Andrew Shinn and Brigham and Women's Hospital for their time and input." wrappingWidth="1105.0" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <StackPane prefHeight="180.0" prefWidth="120.0">
+                           <children>
+                              <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#012d5a" height="160.0" stroke="#012d5a" strokeType="INSIDE" width="120.0" />
+                              <ImageView fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/teamPhotos/johnRobinson.png" />
+                                 </image>
+                              </ImageView>
+                           </children></StackPane>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Project Manager" textAlignment="CENTER" wrappingWidth="200.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="John Robinson" />
+                        <StackPane prefHeight="225.0" prefWidth="150.0">
+                           <children>
+                              <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#012d5a" height="160.0" stroke="#012d5a" strokeType="INSIDE" width="120.0" />
+                              <ImageView fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/teamPhotos/zeshengChen.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin></StackPane>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Document Analyst" textAlignment="CENTER" wrappingWidth="200.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Zesheng Chen" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <StackPane prefHeight="225.0" prefWidth="150.0">
+                           <children>
+                              <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#012d5a" height="160.0" stroke="#012d5a" strokeType="INSIDE" width="120.0" />
+                              <ImageView fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/teamPhotos/benSkarnes.png" />
+                                 </image>
+                              </ImageView>
+                           </children></StackPane>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Lead Developer" textAlignment="CENTER" wrappingWidth="200.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Ben Skarnes" />
+                        <StackPane prefHeight="225.0" prefWidth="150.0">
+                           <children>
+                              <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#012d5a" height="160.0" stroke="#012d5a" strokeType="INSIDE" width="120.0" />
+                              <ImageView fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/teamPhotos/gwenDeLeo.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin></StackPane>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Scrum Master" textAlignment="CENTER" wrappingWidth="200.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Gwen DeLeo" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <StackPane prefHeight="225.0" prefWidth="150.0">
+                           <children>
+                              <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#012d5a" height="160.0" stroke="#012d5a" strokeType="INSIDE" width="120.0" />
+                              <ImageView fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/teamPhotos/nathanielItty.png" />
+                                 </image>
+                              </ImageView>
+                           </children></StackPane>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Assistant Lead Dev" textAlignment="CENTER" wrappingWidth="200.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Nathaniel Itty" />
+                        <StackPane prefHeight="225.0" prefWidth="150.0">
+                           <children>
+                              <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#012d5a" height="160.0" stroke="#012d5a" strokeType="INSIDE" width="120.0" />
+                              <ImageView fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/teamPhotos/simonScott.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin></StackPane>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Full Time Developer" textAlignment="CENTER" wrappingWidth="200.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Simon Scott" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <StackPane prefHeight="225.0" prefWidth="150.0">
+                           <children>
+                              <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#012d5a" height="160.0" stroke="#012d5a" strokeType="INSIDE" width="120.0" />
+                              <ImageView fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/teamPhotos/altonMiles.png" />
+                                 </image>
+                              </ImageView>
+                           </children></StackPane>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Assistant Lead Dev" textAlignment="CENTER" wrappingWidth="200.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Alton Miles" />
+                        <StackPane prefHeight="225.0" prefWidth="150.0">
+                           <children>
+                              <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#012d5a" height="160.0" stroke="#012d5a" strokeType="INSIDE" width="120.0" />
+                              <ImageView fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/teamPhotos/ashKittur.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin></StackPane>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Full Time Developer" textAlignment="CENTER" wrappingWidth="200.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Ash Kittur" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <StackPane prefHeight="225.0" prefWidth="150.0">
+                           <children>
+                              <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#012d5a" height="160.0" stroke="#012d5a" strokeType="INSIDE" width="120.0" />
+                              <ImageView fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/teamPhotos/bryceMcKinley.png" />
+                                 </image>
+                              </ImageView>
+                           </children></StackPane>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Product Owner" textAlignment="CENTER" wrappingWidth="200.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Bryce McKinley" />
+                        <StackPane prefHeight="225.0" prefWidth="150.0">
+                           <children>
+                              <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#012d5a" height="160.0" stroke="#012d5a" strokeType="INSIDE" width="120.0" />
+                              <ImageView fitHeight="150.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/teamPhotos/jpWilusz.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin></StackPane>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Full Time Developer" textAlignment="CENTER" wrappingWidth="200.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="JP Wilusz" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <BorderPane.margin>
+            <Insets top="25.0" />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+         </padding>
+      </VBox>
+   </center>
+</BorderPane>

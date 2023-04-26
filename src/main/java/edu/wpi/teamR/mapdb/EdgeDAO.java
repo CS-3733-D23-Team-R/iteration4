@@ -1,10 +1,12 @@
 package edu.wpi.teamR.mapdb;
 
 import edu.wpi.teamR.Configuration;
+import oracle.ucp.proxy.annotation.Pre;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class EdgeDAO {
     ArrayList<Edge> getEdges() throws SQLException {
@@ -46,7 +48,7 @@ public class EdgeDAO {
     }
     void deleteEdgesByNode(int nodeID) throws SQLException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getEdgeSchemaNameTableName()+" WHERE startnode=? OR endnode=?");
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getEdgeSchemaNameTableName()+" WHERE startnode=? OR endnode=?;");
         preparedStatement.setInt(1, nodeID);
         preparedStatement.setInt(2, nodeID);
         preparedStatement.executeUpdate();
@@ -54,11 +56,21 @@ public class EdgeDAO {
 
     Edge addEdge(int startnode, int endnode) throws SQLException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getEdgeSchemaNameTableName()+"(startnode, endnode) VALUES(?, ?);");
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getEdgeSchemaNameTableName()+" (startnode, endnode) VALUES(?, ?);");
         preparedStatement.setInt(1, startnode);
         preparedStatement.setInt(2, endnode);
         preparedStatement.executeUpdate();
         return new Edge(startnode, endnode);
+    }
+
+    void addEdges(List<Edge> edges) throws SQLException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getEdgeSchemaNameTableName()+" VALUES(?,?);");
+        for (Edge e :edges) {
+            preparedStatement.setInt(1, e.getStartNode());
+            preparedStatement.setInt(2, e.getEndNode());
+            preparedStatement.executeUpdate();
+        }
     }
 
     void deleteAllEdges() throws SQLException {

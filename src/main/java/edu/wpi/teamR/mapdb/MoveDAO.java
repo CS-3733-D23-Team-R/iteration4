@@ -1,6 +1,7 @@
 package edu.wpi.teamR.mapdb;
 
 import edu.wpi.teamR.Configuration;
+import edu.wpi.teamR.ItemNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -23,6 +24,34 @@ public class MoveDAO {
             temp.add(aMove);
         }
         return temp;
+    }
+
+    Move getMoveByLocationAndDate(String longName, Date date) throws SQLException, ItemNotFoundException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE longname=? AND date=?;");
+        preparedStatement.setString(1, longName);
+        preparedStatement.setDate(2, date);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (!resultSet.next())
+            throw new ItemNotFoundException();
+        Date aDate = resultSet.getDate("date");
+        String aLongName = resultSet.getString("longname");
+        int aNodeID = resultSet.getInt("nodeID");
+        return new Move(aNodeID, aLongName, aDate);
+    }
+
+    Move getLatestMoveForLocationByDate(String longName, Date date) throws SQLException, ItemNotFoundException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getMoveSchemaNameTableName()+" NATURAL JOIN (SELECT longname, MAX(date) as date from "+Configuration.getMoveSchemaNameTableName()+" WHERE longname=? AND date<? group by longname) as foo;");
+        preparedStatement.setString(1, longName);
+        preparedStatement.setDate(2, date);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (!resultSet.next())
+            throw new ItemNotFoundException();
+        Date aDate = resultSet.getDate("date");
+        String aLongName = resultSet.getString("longname");
+        int aNodeID = resultSet.getInt("nodeID");
+        return new Move(aNodeID, aLongName, aDate);
     }
 
     ArrayList<Move> getMovesByNodeID(int nodeID) throws SQLException {
@@ -76,5 +105,16 @@ public class MoveDAO {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getMoveSchemaNameTableName()+";");
         preparedStatement.executeUpdate();
+    }
+
+    public void addMoves(ArrayList<Move> moves) throws SQLException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getMoveSchemaNameTableName()+"(nodeID, longName, date) VALUES(?, ?, ?);");
+        for (Move m : moves) {
+            preparedStatement.setInt(1, m.getNodeID());
+            preparedStatement.setString(2, m.getLongName());
+            preparedStatement.setDate(3, m.getMoveDate());
+            preparedStatement.executeUpdate();
+        }
     }
 }

@@ -1,7 +1,6 @@
 package edu.wpi.teamR.mapdb;
 
-import edu.wpi.teamR.csv.CSVReadable;
-import edu.wpi.teamR.csv.CSVWritable;
+import edu.wpi.teamR.archive.Archivable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +11,7 @@ import java.text.SimpleDateFormat;
 
 @Getter
 @Setter(AccessLevel.PACKAGE)
-public class Move implements MapData, CSVReadable, CSVWritable {
+public class Move implements MapData, Archivable {
 
     private int nodeID;
     private String longName;
@@ -25,7 +24,7 @@ public class Move implements MapData, CSVReadable, CSVWritable {
     }
 
     private Move(String[] args) throws IndexOutOfBoundsException {
-        this(Integer.parseInt(args[0]), args[1], getDateFromString(args[2]));
+        this(Integer.parseInt(args[0]), args[1], Date.valueOf(args[2]));
     }
 
     private static Date getDateFromString(String dateString){
