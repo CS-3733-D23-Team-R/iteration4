@@ -173,13 +173,13 @@ class ItemRequestDAOTest {
 
         //Query
         searchList = new SearchList();
-        searchList.addComparison(RequestAttribute.longname, Operation.equalTo, itemRequest1.getLongName());
+        searchList.addComparison(RequestAttribute.longName, Operation.equalTo, itemRequest1.getLongName());
         itemRequests = itemRequestDAO.getItemRequestByAttributes(searchList);
         assertEquals(1, itemRequests.size());
 
         //Query
         searchList = new SearchList();
-        searchList.addComparison(RequestAttribute.longname, Operation.equalTo, itemRequest5.getLongName());
+        searchList.addComparison(RequestAttribute.longName, Operation.equalTo, itemRequest5.getLongName());
         itemRequests = itemRequestDAO.getItemRequestByAttributes(searchList);
         assertEquals(2, itemRequests.size());
 

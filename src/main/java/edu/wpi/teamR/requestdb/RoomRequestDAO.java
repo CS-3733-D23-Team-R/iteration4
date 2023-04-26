@@ -12,10 +12,10 @@ public class RoomRequestDAO {
 
     public RoomRequestDAO() {}
 
-    RoomRequest addRoomRequest(String longname, String staffUsername, Timestamp startTime, Timestamp endTime) throws SQLException {
+    RoomRequest addRoomRequest(String longName, String staffUsername, Timestamp startTime, Timestamp endTime) throws SQLException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement sqlInsert = connection.prepareStatement("INSERT INTO " + Configuration.getRoomRequestSchemaNameTableName()+"(longname,staffUsername,startTime,endTime) VALUES(?,?,?,?);",Statement.RETURN_GENERATED_KEYS);
-        sqlInsert.setString(1, longname);
+        PreparedStatement sqlInsert = connection.prepareStatement("INSERT INTO " + Configuration.getRoomRequestSchemaNameTableName()+"(longName,staffUsername,startTime,endTime) VALUES(?,?,?,?);",Statement.RETURN_GENERATED_KEYS);
+        sqlInsert.setString(1, longName);
         sqlInsert.setString(2, staffUsername);
         sqlInsert.setTimestamp(3, startTime);
         sqlInsert.setTimestamp(4, endTime);
@@ -27,7 +27,7 @@ public class RoomRequestDAO {
             roomRequestID = rs.getInt(1);
         }
 
-        return(new RoomRequest(roomRequestID, longname, staffUsername, startTime, endTime));
+        return(new RoomRequest(roomRequestID, longName, staffUsername, startTime, endTime));
     }
 
     void addRoomRequests(List<RoomRequest> roomRequests) throws SQLException {
@@ -115,7 +115,7 @@ public class RoomRequestDAO {
 
     ArrayList<RoomRequest> getRoomRequestsByLongName(String longName) throws SQLException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE longname=?;");
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE longName=?;");
         preparedStatement.setString(1, longName);
         ResultSet resultSet = preparedStatement.executeQuery();
 

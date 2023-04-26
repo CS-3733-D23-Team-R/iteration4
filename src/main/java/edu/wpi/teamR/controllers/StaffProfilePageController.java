@@ -74,7 +74,7 @@ public class StaffProfilePageController {
         dataList.addAll(new RequestDatabase().getItemRequestByAttributes(aSearchList));
         idCol.setCellValueFactory(new PropertyValueFactory<>("requestID"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("requesterName"));
-        locationCol.setCellValueFactory(new PropertyValueFactory<>("longname"));
+        locationCol.setCellValueFactory(new PropertyValueFactory<>("longName"));
         requestTypeCol.setCellValueFactory(new PropertyValueFactory<>("requestType"));
         itemCol.setCellValueFactory(new PropertyValueFactory<>("itemType"));
         notesCol.setCellValueFactory(new PropertyValueFactory<>("additionalNotes"));

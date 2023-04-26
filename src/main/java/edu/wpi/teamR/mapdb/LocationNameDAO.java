@@ -18,7 +18,7 @@ public class LocationNameDAO {
 
     private ArrayList<LocationName> parseLocationNames(ArrayList<LocationName> temp, ResultSet resultSet) throws SQLException {
         while(resultSet.next()){
-            String aLongName = resultSet.getString("longname");
+            String aLongName = resultSet.getString("longName");
             String aShortName = resultSet.getString("shortname");
             String aNodeType = resultSet.getString("nodetype");
             LocationName aLocationName = new LocationName(aLongName, aShortName, aNodeType);
@@ -37,9 +37,9 @@ public class LocationNameDAO {
     LocationName getLocationByLongName(String longName) throws SQLException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE longname = '"+longName+"';");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE longName = '"+longName+"';");
         if (resultSet.next()) {
-            return new LocationName(resultSet.getString("longname"), resultSet.getString("shortname"), resultSet.getString("nodetype"));
+            return new LocationName(resultSet.getString("longName"), resultSet.getString("shortname"), resultSet.getString("nodetype"));
         } else{
             throw new ItemNotFoundException();
         }
@@ -48,26 +48,26 @@ public class LocationNameDAO {
     LocationName modifyLocationNameType(String longName, String newType) throws SQLException {
         Connection connection = Configuration.getConnection();
         Statement statement = connection.createStatement();
-        statement.executeUpdate("UPDATE "+Configuration.getLocationNameSchemaNameTableName()+" SET nodeType = '"+newType+"' WHERE longname = '"+longName+"';");
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE longname = '"+longName+"';");
+        statement.executeUpdate("UPDATE "+Configuration.getLocationNameSchemaNameTableName()+" SET nodeType = '"+newType+"' WHERE longName = '"+longName+"';");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE longName = '"+longName+"';");
         resultSet.next();
-        LocationName aLocationName = new LocationName(resultSet.getString("longname"), resultSet.getString("shortname"), resultSet.getString("nodetype"));
+        LocationName aLocationName = new LocationName(resultSet.getString("longName"), resultSet.getString("shortname"), resultSet.getString("nodetype"));
         return aLocationName;
     }
     LocationName modifyLocationNameShortName(String longName, String newShortName) throws SQLException {
         Connection connection = Configuration.getConnection();
         Statement statement = connection.createStatement();
-        statement.executeUpdate("UPDATE "+Configuration.getLocationNameSchemaNameTableName()+" SET shortname = '"+newShortName+"' WHERE longname = '"+longName+"';");
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE longname = '"+longName+"';");
+        statement.executeUpdate("UPDATE "+Configuration.getLocationNameSchemaNameTableName()+" SET shortname = '"+newShortName+"' WHERE longName = '"+longName+"';");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE longName = '"+longName+"';");
         resultSet.next();
-        LocationName aLocationName = new LocationName(resultSet.getString("longname"), resultSet.getString("shortname"), resultSet.getString("nodetype"));
+        LocationName aLocationName = new LocationName(resultSet.getString("longName"), resultSet.getString("shortname"), resultSet.getString("nodetype"));
 
         return aLocationName;
     }
 
     LocationName addLocationName(String longName, String shortName, String nodeType) throws SQLException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getLocationNameSchemaNameTableName()+"(longname, shortname, nodetype) VALUES(?,?,?);");
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getLocationNameSchemaNameTableName()+"(longName, shortname, nodetype) VALUES(?,?,?);");
         preparedStatement.setString(1, longName);
         preparedStatement.setString(2, shortName);
         preparedStatement.setString(3, nodeType);
@@ -83,14 +83,14 @@ public class LocationNameDAO {
 
     void deleteLocationName(String longName) throws SQLException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE longname=?;");
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getLocationNameSchemaNameTableName()+" WHERE longName=?;");
         preparedStatement.setString(1, longName);
         preparedStatement.executeUpdate();
     }
 
     public void addLocationNames(List<LocationName> locationNames) throws SQLException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getLocationNameSchemaNameTableName()+"(longname, shortname, nodetype) VALUES(?,?,?);");
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getLocationNameSchemaNameTableName()+"(longName, shortname, nodetype) VALUES(?,?,?);");
         for (LocationName l : locationNames) {
             preparedStatement.setString(1, l.getLongName());
             preparedStatement.setString(2, l.getShortName());

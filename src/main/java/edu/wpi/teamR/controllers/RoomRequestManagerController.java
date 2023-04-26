@@ -57,7 +57,7 @@ public class RoomRequestManagerController {
         dataList.addAll(new RequestDatabase().getRoomRequests());
         idColumn.setCellValueFactory(new PropertyValueFactory<>("roomRequestID"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
-        locationColumn.setCellValueFactory(new PropertyValueFactory<>("longname"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory<>("longName"));
         newRequestBtn.getStyleClass().add("Button");
         newRequestBtn.setOnAction(event -> Navigation.navigate(Screen.ROOM_REQUEST));
         addButtonToTable();

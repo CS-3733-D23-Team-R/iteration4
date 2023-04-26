@@ -51,7 +51,7 @@ public class SortOrdersController {
         dataList.addAll(new RequestDatabase().getItemRequests());
         idColumn.setCellValueFactory(new PropertyValueFactory<>("requestID"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("requesterName"));
-        locationColumn.setCellValueFactory(new PropertyValueFactory<>("longname"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory<>("longName"));
         staffMemberColumn.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
         staffMemberColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         notesColumn.setCellValueFactory(new PropertyValueFactory<>("additionalNotes"));
