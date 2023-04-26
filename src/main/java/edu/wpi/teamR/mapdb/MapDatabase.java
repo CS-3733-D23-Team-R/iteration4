@@ -267,8 +267,8 @@ public class MapDatabase {
     }
 
 
-    public DirectionArrow addDirectionArrow(String longName, int kioskID, Direction direction) throws SQLException {
-        return directionArrowDAO.addDirectionArrow(longName, kioskID, direction);
+    public DirectionArrow addDirectionArrow(String longName, int kioskID, Direction direction, Date date) throws SQLException {
+        return directionArrowDAO.addDirectionArrow(longName, kioskID, direction, date);
     }
 
     public void addDirectionArrows(ArrayList<DirectionArrow> directionArrows) throws SQLException {
@@ -293,6 +293,10 @@ public class MapDatabase {
 
     public ArrayList<DirectionArrow> getDirectionArrowsByKiosk(int kioskID) throws SQLException {
         return directionArrowDAO.getDirectionArrowsByKiosk(kioskID);
+    }
+
+    ArrayList<DirectionArrow> getCurrentDirectionArrows() throws SQLException {
+        return directionArrowDAO.getCurrentDirectionArrows();
     }
 
     public Node getNodeFromLocationName(String locationName) throws SQLException, ClassNotFoundException, ItemNotFoundException {
