@@ -63,7 +63,7 @@ public class AdminProfilePageController {
         });
 
         toServiceRequests.setOnMouseClicked(event -> {Navigation.navigate(Screen.SORT_ORDERS);});
-        toConferenceRooms.setOnMouseClicked(event -> {Navigation.navigate(Screen.ROOM_REQUEST);});
+        toConferenceRooms.setOnMouseClicked(event -> {Navigation.navigate(Screen.ROOM_REQUEST_MANAGER);});
         toEditMap.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP_EDITOR));
         toEmployeeManager.setOnMouseClicked(event -> {Navigation.navigate(Screen.EMPLOYEEMANAGER);});
         toSignageConfiguration.setOnMouseClicked(event -> {Navigation.navigate(Screen.SIGNAGECONFIGURATION);});

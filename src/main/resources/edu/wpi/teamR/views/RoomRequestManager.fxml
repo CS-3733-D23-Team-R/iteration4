@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.RoomRequestManagerController">
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="68.0" prefWidth="1247.0" BorderPane.alignment="BOTTOM_LEFT">
+            <BorderPane.margin>
+                <Insets left="20.0" top="5.0" />
+            </BorderPane.margin>
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Room  Request Manager">
+                    <font>
+                        <Font name="Times New Roman" size="48.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets left="30.0" top="20.0" />
+                    </HBox.margin>
+                </Text>
+            <HBox alignment="CENTER_RIGHT" prefHeight="68.0" prefWidth="760.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Button fx:id="newRequestBtn" mnemonicParsing="false" text="Create new Reservation" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="50.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            </children>
+        </HBox>
+    </top>
+    <center>
+        <AnchorPane BorderPane.alignment="CENTER">
+            <children>
+                <VBox alignment="CENTER" layoutX="50.0" layoutY="50.0" style="-fx-background-color: lightgrey;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="10.0">
+                    <children>
+                        <HBox fx:id="buttonBox" fillHeight="false" maxHeight="75.0" prefHeight="14.0" prefWidth="1180.0" style="-fx-background-color: WHITE;" VBox.vgrow="NEVER">
+                            <children>
+                                <AnchorPane maxHeight="100.0" prefHeight="36.0" prefWidth="930.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <HBox alignment="BASELINE_LEFT">
+                                            <children>
+                                                <Button maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" text="Columns" HBox.hgrow="NEVER">
+                                                    <graphic>
+                                                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@../images/table/columnsicon.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                    </graphic>
+                                                </Button>
+                                                <Button maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" text="Filter" HBox.hgrow="NEVER">
+                                                    <graphic>
+                                                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@../images/table/filtericon.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                    </graphic>
+                                                </Button>
+                                                <Button maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" text="Export" HBox.hgrow="NEVER">
+                                                    <graphic>
+                                                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@../images/table/exporticon.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                    </graphic>
+                                                </Button>
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </AnchorPane>
+                                <MFXTextField fx:id="searchField" floatingText="Search" prefHeight="15.0" prefWidth="250.0" styleClass="label" HBox.hgrow="ALWAYS" />
+                            </children>
+                        </HBox>
+                        <TableView fx:id="roomTable" editable="true" prefHeight="576.0" prefWidth="1180.0" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="idColumn" maxWidth="80.0" minWidth="80.0" prefWidth="-1.0" text="ID Number" />
+                                <TableColumn fx:id="nameColumn" minWidth="20.0" prefWidth="115.33326721191406" text="Name" />
+                                <TableColumn fx:id="locationColumn" prefWidth="124.0" text="Location" />
+                                <TableColumn fx:id="startCol" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Start Time" />
+                                <TableColumn fx:id="endCol" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="End Time" />
+                                <TableColumn fx:id="dateCol" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Date" />
+                                <TableColumn fx:id="deleteCol" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" text="Delete" />
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                            </columnResizePolicy>
+                        </TableView>
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </center>
+   <stylesheets>
+      <URL value="@../styles/tables.css" />
+      <URL value="@../styles/employeeManagementTable.css" />
+   </stylesheets>
+</BorderPane>
