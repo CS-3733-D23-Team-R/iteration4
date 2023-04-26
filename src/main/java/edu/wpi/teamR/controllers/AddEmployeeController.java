@@ -56,6 +56,7 @@ public class AddEmployeeController {
         back.setOnMouseClicked(event -> back());
         accesslevel.setValue(AccessLevel.Staff);
         accesslevel.setItems(accessLevels);
+        phoneNumber.setTextLimit(10);
     }
 
         public void clear(){
