@@ -81,7 +81,7 @@ public class ItemCard {
         String imageURL = "images/serviceRequests/availableItems/";
         switch(item.getRequestType()){
             case Furniture -> imageURL = imageURL + "furniture/";
-            case Flower -> imageURL = imageURL + "flower/";
+            case Flower -> imageURL = imageURL + "flowers/";
             case Supplies -> imageURL = imageURL + "supplies/";
             case Meal -> imageURL = imageURL + "food/";
         }
