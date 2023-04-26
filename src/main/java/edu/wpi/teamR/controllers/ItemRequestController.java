@@ -251,12 +251,11 @@ public class ItemRequestController {
         ColumnConstraints col = new ColumnConstraints(458);
         ReadOnlyDoubleProperty pageWidth = cardScrollPane.widthProperty();
         int cardsAcross = 3;
-        cardGridPane.getRowConstraints().setAll(row);
-        for (int i = 1; i<cardsAcross; i++){
-            cardGridPane.getRowConstraints().add(row);
-        }
-
         cardGridPane.getColumnConstraints().setAll(col);
+        for (int i = 1; i<cardsAcross; i++){
+            cardGridPane.getColumnConstraints().add(col);
+        }
+        cardGridPane.getRowConstraints().setAll(row);
         ArrayList<IAvailableItem> filteredList = new ArrayList<>();
         cardGridPane.setHgap(10.0);
         cardGridPane.setVgap(10.0);
@@ -286,13 +285,13 @@ public class ItemRequestController {
                 default:
                     filteredList.addAll(requestDatabase.getAvailableMealsByAttributes(null, null, null, null, this.button2Val, this.button1Val, this.button5Val, this.button4Val, this.button3Val, this.sortOrder));
             }
-            int colCount = filteredList.size()/2 + 1;
-            for (int c = 0; c < colCount; c++){
-                if(c != 0){cardGridPane.getColumnConstraints().add(col);}
-                for (int r = 0; r < cardsAcross; r++){
-                    if(filteredList.size() < c*2 + r + 1) {continue;}
-                    IAvailableItem item = filteredList.get(c*2 + r);
-                    loadCard(r, c, item);
+            int rowCount = filteredList.size()/cardsAcross + 1;
+            for (int r = 0; r < rowCount; r++){
+                if(r != 0) {cardGridPane.getRowConstraints().setAll(row);}
+                for (int c = 0; c < cardsAcross; c++){
+                    if(filteredList.size() < r*cardsAcross + (c + 1)) {continue;} //if list is longer than cells in grid pane, continue until loop exit
+                    IAvailableItem item = filteredList.get(r*cardsAcross + c);
+                    loadCard(c, r, item);
                 }
             }
         } catch (SQLException e) {
