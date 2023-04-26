@@ -22,13 +22,13 @@
       <Insets bottom="25.0" left="100.0" right="25.0" top="25.0" />
    </padding>
    <center>
-      <VBox prefWidth="1115.0" spacing="5.0" style="-fx-background-radius: 30; -fx-background-color: D9D9D9;" stylesheets="@../styles/styles.css" BorderPane.alignment="CENTER">
+      <VBox prefWidth="1115.0" spacing="10.0" style="-fx-background-radius: 30; -fx-background-color: D9D9D9;" stylesheets="@../styles/styles.css" BorderPane.alignment="CENTER">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="This application was made possible by the WPI Computer Science Department, the students of CS3733-D23 taught by Professor Wilson Wong. This team, Team R, was coached by Michael O'Connor." wrappingWidth="1105.0" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Thank you to Andrew Shinn and Brigham and Women's Hospital for their time and input." wrappingWidth="1105.0" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="5.0">
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                      <children>
                         <StackPane prefHeight="180.0" prefWidth="120.0">
                            <children>
@@ -49,12 +49,15 @@
                                     <Image url="@../images/teamPhotos/zeshengChen.png" />
                                  </image>
                               </ImageView>
-                           </children></StackPane>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin></StackPane>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Document Analyst" textAlignment="CENTER" wrappingWidth="200.0" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Zesheng Chen" />
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="5.0">
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                      <children>
                         <StackPane prefHeight="225.0" prefWidth="150.0">
                            <children>
@@ -75,12 +78,15 @@
                                     <Image url="@../images/teamPhotos/gwenDeLeo.png" />
                                  </image>
                               </ImageView>
-                           </children></StackPane>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin></StackPane>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Scrum Master" textAlignment="CENTER" wrappingWidth="200.0" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Gwen DeLeo" />
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="5.0">
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                      <children>
                         <StackPane prefHeight="225.0" prefWidth="150.0">
                            <children>
@@ -101,12 +107,15 @@
                                     <Image url="@../images/teamPhotos/simonScott.png" />
                                  </image>
                               </ImageView>
-                           </children></StackPane>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin></StackPane>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Full Time Developer" textAlignment="CENTER" wrappingWidth="200.0" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Simon Scott" />
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="5.0">
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                      <children>
                         <StackPane prefHeight="225.0" prefWidth="150.0">
                            <children>
@@ -127,12 +136,15 @@
                                     <Image url="@../images/teamPhotos/ashKittur.png" />
                                  </image>
                               </ImageView>
-                           </children></StackPane>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin></StackPane>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Full Time Developer" textAlignment="CENTER" wrappingWidth="200.0" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Ash Kittur" />
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="5.0">
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                      <children>
                         <StackPane prefHeight="225.0" prefWidth="150.0">
                            <children>
@@ -153,7 +165,10 @@
                                     <Image url="@../images/teamPhotos/jpWilusz.png" />
                                  </image>
                               </ImageView>
-                           </children></StackPane>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin></StackPane>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="Full Time Developer" textAlignment="CENTER" wrappingWidth="200.0" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="JP Wilusz" />
                      </children>
