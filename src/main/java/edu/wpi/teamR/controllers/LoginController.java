@@ -64,7 +64,7 @@ public class LoginController {
                     aUser.getEmail(),
                     aUser.getDepartment(),
                     aUser.getJoinDate(),
-                    Integer.parseInt(aUser.getPhoneNum()),
+                    Long.parseLong(aUser.getPhoneNum()),
                     aUser.getJobTitle(),
                     aUser.getImageID());
             thisUserData.setLoggedIn(User);

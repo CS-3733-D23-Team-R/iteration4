@@ -61,6 +61,7 @@ public class EditProfileController {
         pictureSelectorVBox.setVisible(false);
         errorText.setVisible(false);
         editImage.setVisible(false);
+        phoneField.setTextLimit(10);
         CurrentUser currentUser = UserData.getInstance().getLoggedIn();
         Image myImage = new Image(UserData.getInstance().getLoggedIn().getProfilePictureLocation());
         User backendUser = new UserDatabase().getUserByUsername(currentUser.getUsername());
@@ -218,9 +219,6 @@ public class EditProfileController {
         } else if (newPasswordField.getText().length() < 5 && !newPasswordField.getText().isBlank()) {
             errorText.setText("PASSWORD TOO SHORT (too easy to guess)");
             errorText.setVisible(true);
-        } else if (phoneField.getText().length() < 10) {
-            errorText.setText("PHONE NUMBER TOO SHORT");
-            errorText.setVisible(true);
         } else if (phoneField.getText().length() > 10) {
             errorText.setText("PHONE NUMBER TOO LONG");
             errorText.setVisible(true);
@@ -268,6 +266,12 @@ public class EditProfileController {
             ft2.setToValue(0);
             ft1.setOnFinished(event -> {ft2.play();});
             ft1.play();
+            currentPasswordField.setText("");
+            newPasswordField.setText("");
+            retypePasswordField.setText("");
+            nameField.setText(currentUser.getUsername());
+            emailField.setText(currentUser.getEmail());
+            phoneField.setText(String.valueOf(currentUser.getPhoneNum()));
         }
     }
 }

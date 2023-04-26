@@ -21,10 +21,10 @@ public class CurrentUser {
     String email;
     String department;
     Date joinDate;
-    int phoneNum;
+    Long phoneNum;
     String jobTitle;
     String profilePictureLocation;
-    public CurrentUser(String username, AccessLevel accessLevel, String fullname, String email, String department, Date joinDate, int phoneNum, String jobTitle, int profilePictureID){ //TODO: update this with alton's new user class
+    public CurrentUser(String username, AccessLevel accessLevel, String fullname, String email, String department, Date joinDate, Long phoneNum, String jobTitle, int profilePictureID){ //TODO: update this with alton's new user class
         this.username = username;
         this.accessLevel = accessLevel;
         this.fullName = fullname;
@@ -62,7 +62,7 @@ public class CurrentUser {
         UserData userData = UserData.getInstance();
         userData.logout();
         User aUser = new UserDatabase().getUserByUsername(this.username);
-        CurrentUser refreshedUser = new CurrentUser(aUser.getStaffUsername(), aUser.getAccessLevel(), aUser.getName(), aUser.getEmail(), aUser.getDepartment(), aUser.getJoinDate(),Integer.parseInt(aUser.getPhoneNum()), aUser.getJobTitle(), aUser.getImageID());
+        CurrentUser refreshedUser = new CurrentUser(aUser.getStaffUsername(), aUser.getAccessLevel(), aUser.getName(), aUser.getEmail(), aUser.getDepartment(), aUser.getJoinDate(),Long.parseLong(aUser.getPhoneNum()), aUser.getJobTitle(), aUser.getImageID());
         userData.setLoggedIn(refreshedUser);
     }
 }
