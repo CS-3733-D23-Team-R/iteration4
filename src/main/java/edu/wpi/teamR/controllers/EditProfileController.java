@@ -66,6 +66,13 @@ public class EditProfileController {
         applyButton.setOnMouseClicked(event -> {
             try {
                 checkFields(currentUser, backendUser);
+                RootController root = RootController.getInstance();
+                root.setProfileIcon(UserDatabase.getProfilePictureFromID(imageID));
+                if(currentUser.getAccessLevel().equals(AccessLevel.Admin)){
+                    Navigation.navigate(Screen.ADMINPROFILEPAGE);
+                } else {
+                    Navigation.navigate(Screen.STAFFPROFILEPAGE);
+                }
             } catch (SQLException | ItemNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -101,9 +108,10 @@ public class EditProfileController {
             content.setOnMouseClicked(evt -> {
                 if (evt.getTarget() instanceof ImageView) {
                     if (controller.isImageSet()) {
+                        imageID = controller.getImageID();
                         currentImage.setImage(controller.getReturnImage());
-                        backendUser.setImageID(controller.getImageID());
                         System.out.println(controller.getImageID());
+                        backendUser.setImageID(controller.getImageID());
                         displayProfile(backendUser);
                         popOver.hide();
                     }
