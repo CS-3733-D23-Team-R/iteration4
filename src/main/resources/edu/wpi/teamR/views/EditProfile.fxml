@@ -39,11 +39,11 @@
                   </HBox>
                </children>
                 </HBox>
-                <HBox layoutX="18.0" layoutY="51.0" prefHeight="674.0" prefWidth="1280.0" spacing="10.0" stylesheets="@../styles/loginStyles.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="46.0">
+                <HBox layoutX="18.0" layoutY="51.0" prefHeight="674.0" prefWidth="1280.0" spacing="10.0" stylesheets="@../styles/loginStyles.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
                <children>
-                  <StackPane HBox.hgrow="ALWAYS">
+                  <StackPane prefWidth="176.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <VBox fx:id="entireAccountInformation" prefHeight="200.0" prefWidth="100.0" styleClass="boxroundedbordered">
+                        <VBox fx:id="entireAccountInformation" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="boxroundedbordered">
                            <children>
                               <HBox alignment="CENTER" prefHeight="171.0" prefWidth="818.0">
                                  <children>
@@ -68,7 +68,7 @@
                                     <Text fx:id="errorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="MISSING FIELDS" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
-                              <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
@@ -82,7 +82,7 @@
                                     </HBox>
                                  </children>
                               </HBox>
-                              <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
@@ -96,7 +96,7 @@
                                     </HBox>
                                  </children>
                               </HBox>
-                              <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
@@ -110,7 +110,7 @@
                                     </HBox>
                                  </children>
                               </HBox>
-                              <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0" VBox.vgrow="ALWAYS">
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0" VBox.vgrow="ALWAYS">
                                  <children>
                                     <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
@@ -205,7 +205,7 @@
                         </StackPane>
                      </children>
                   </StackPane>
-                  <VBox fx:id="profileCardContainer" prefHeight="664.0" prefWidth="425.0" />
+                  <VBox fx:id="profileCardContainer" HBox.hgrow="ALWAYS" />
                </children>
                 </HBox>
             </children>
