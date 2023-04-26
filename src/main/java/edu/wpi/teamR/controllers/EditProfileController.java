@@ -13,18 +13,22 @@ import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import org.controlsfx.control.PopOver;
 
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -33,36 +37,14 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class EditProfileController {
-    @FXML ImageView currentImage, editImage, oneImage, twoImage, threeImage, fourImage, fiveImage, sixImage, sevenImage, eightImage, nineImage, tenImage;
+    @FXML ImageView currentImage, editImage;
     @FXML MFXTextField nameField, phoneField, emailField;
-    @FXML VBox profileCardContainer, pictureSelectorVBox, entireAccountInformation;
+    @FXML VBox profileCardContainer, entireAccountInformation;
     @FXML Button backButton, applyButton;
-    @FXML Text errorText, pressEscapeText;
+    @FXML Text errorText;
     @FXML MFXPasswordField currentPasswordField, newPasswordField, retypePasswordField;
     int imageID;
     public void initialize() throws SQLException, ItemNotFoundException {
-        pressEscapeText.setVisible(false);
-        Image image1 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/1.png")).toExternalForm());
-        oneImage.setImage(image1);
-        Image image2 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/2.png")).toExternalForm());
-        twoImage.setImage(image2);
-        Image image3 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/3.png")).toExternalForm());
-        threeImage.setImage(image3);
-        Image image4 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/4.png")).toExternalForm());
-        fourImage.setImage(image4);
-        Image image5 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/5.png")).toExternalForm());
-        fiveImage.setImage(image5);
-        Image image6 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/6.png")).toExternalForm());
-        sixImage.setImage(image6);
-        Image image7 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/7.png")).toExternalForm());
-        sevenImage.setImage(image7);
-        Image image8 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/8.png")).toExternalForm());
-        eightImage.setImage(image8);
-        Image image9 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/9.png")).toExternalForm());
-        nineImage.setImage(image9);
-        Image image10 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/10.png")).toExternalForm());
-        tenImage.setImage(image10);
-        pictureSelectorVBox.setVisible(false);
         errorText.setVisible(false);
         editImage.setVisible(false);
         phoneField.setTextLimit(10);
@@ -95,7 +77,6 @@ public class EditProfileController {
             Image invertedEditButton = new Image(Objects.requireNonNull(Main.class.getResource("images/login/invertededitbutton.png")).toExternalForm());
             editImage.setImage(invertedEditButton);
             editImage.setVisible(true);
-
         });
         currentImage.setOnMouseExited(event -> {
             editImage.setVisible(false);
@@ -104,79 +85,36 @@ public class EditProfileController {
             editImage.setVisible(false);
         });
         editImage.setOnMouseClicked(event -> {
-            pictureSelectorVBox.setVisible(true);
-            editImage.setVisible(false);
+            PopOver popOver = new PopOver();
+            final FXMLLoader loader =
+                    new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/ProfilePicture.fxml"));
+            Parent popup;
+            try {
+                popup = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+            ProfilePictureController controller = loader.getController();
+
+            popOver.setContentNode(popup);
+            popOver.setAutoHide(true);
+
+            popOver.getContentNode().addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (controller.isImageSet()) {
+                        currentImage.setImage(controller.getReturnImage());
+                        backendUser.setImageID(controller.getImageID());
+                        System.out.println(controller.getImageID());
+                        displayProfile(backendUser);
+                        popOver.hide();
+                    }
+                }
+            });
+            popOver.show(currentImage);
         });
-        oneImage.setOnMouseClicked(event -> {
-            imageID = 1;
-            pictureSelectorVBox.setVisible(false);
-            currentImage.setImage(image1);
-            backendUser.setImageID(imageID);
-            displayProfile(backendUser);
-        });
-        twoImage.setOnMouseClicked(event -> {
-            imageID = 2;
-            pictureSelectorVBox.setVisible(false);
-            currentImage.setImage(image2);
-            backendUser.setImageID(imageID);
-            displayProfile(backendUser);
-        });
-        threeImage.setOnMouseClicked(event -> {
-            imageID = 3;
-            pictureSelectorVBox.setVisible(false);
-            currentImage.setImage(image3);
-            backendUser.setImageID(imageID);
-            displayProfile(backendUser);
-        });
-        fourImage.setOnMouseClicked(event -> {
-            imageID = 4;
-            pictureSelectorVBox.setVisible(false);
-            currentImage.setImage(image4);
-            backendUser.setImageID(imageID);
-            displayProfile(backendUser);
-        });
-        fiveImage.setOnMouseClicked(event -> {
-            imageID = 5;
-            pictureSelectorVBox.setVisible(false);
-            currentImage.setImage(image5);
-            backendUser.setImageID(imageID);
-            displayProfile(backendUser);
-        });
-        sixImage.setOnMouseClicked(event -> {
-            imageID = 6;
-            pictureSelectorVBox.setVisible(false);
-            currentImage.setImage(image6);
-            backendUser.setImageID(imageID);
-            displayProfile(backendUser);
-        });
-        sevenImage.setOnMouseClicked(event -> {
-            imageID = 7;
-            pictureSelectorVBox.setVisible(false);
-            currentImage.setImage(image7);
-            backendUser.setImageID(imageID);
-            displayProfile(backendUser);
-        });
-        eightImage.setOnMouseClicked(event -> {
-            imageID = 8;
-            pictureSelectorVBox.setVisible(false);
-            currentImage.setImage(image8);
-            backendUser.setImageID(imageID);
-            displayProfile(backendUser);
-        });
-        nineImage.setOnMouseClicked(event -> {
-            imageID = 9;
-            pictureSelectorVBox.setVisible(false);
-            currentImage.setImage(image9);
-            backendUser.setImageID(imageID);
-            displayProfile(backendUser);
-        });
-        tenImage.setOnMouseClicked(event -> {
-            imageID = 10;
-            pictureSelectorVBox.setVisible(false);
-            currentImage.setImage(image10);
-            backendUser.setImageID(imageID);
-            displayProfile(backendUser);
-        });
+
         nameField.textProperty().addListener((observable,oldValue,newValue) -> {
             backendUser.setName(newValue);
             displayProfile(backendUser);
@@ -189,13 +127,6 @@ public class EditProfileController {
             backendUser.setEmail(newValue);
             displayProfile(backendUser);
         });
-        /*
-        pictureSelectorVBox.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ESCAPE) {
-                pictureSelectorVBox.setVisible(false);
-            }
-        });
-         */
 
     }
 

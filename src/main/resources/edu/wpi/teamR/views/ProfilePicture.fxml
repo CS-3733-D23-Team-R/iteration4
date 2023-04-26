@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.ProfilePictureController">
+   <children>
+      <StackPane layoutX="5.0" layoutY="39.0">
+         <children>
+            <VBox fx:id="pictureSelectorVBox" alignment="CENTER" prefHeight="322.0" prefWidth="825.0">
+               <styleClass>
+                  <String fx:value="boxroundedbordered" />
+                  <String fx:value="actuallyRounded" />
+               </styleClass>
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="819.0" spacing="20.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <ImageView fx:id="oneImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                           <image>
+                              <Image url="@../images/login/profilepictures/10.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="twoImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/login/profilepictures/10.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="threeImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/login/profilepictures/10.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="fourImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/login/profilepictures/10.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="fiveImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/login/profilepictures/10.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="819.0" spacing="20.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <ImageView fx:id="sixImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/login/profilepictures/10.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="sevenImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/login/profilepictures/10.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="eightImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/login/profilepictures/10.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="nineImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/login/profilepictures/10.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="tenImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/login/profilepictures/10.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>

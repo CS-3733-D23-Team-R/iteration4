@@ -108,7 +108,7 @@ public class RootController {
       Navigation.navigate(Screen.LOGIN);
     }
     CurrentUser user = thisUserData.getLoggedIn();
-    profileIcon.setImage(new Image(user.getProfilePictureLocation()));
+    setProfileIcon(user.getProfilePictureLocation());
     if(user.getAccessLevel().equals(AccessLevel.Admin)){
       Navigation.navigate(Screen.ADMINPROFILEPAGE);
     } else if(user.getAccessLevel().equals(AccessLevel.Staff)){
@@ -163,5 +163,9 @@ public class RootController {
   public void setLogoutButton(boolean setting) {
     logoutButton.setVisible(setting);
     logoutButton.setManaged(setting);
+  }
+
+  public void setProfileIcon(String location){
+    profileIcon.setImage(new Image(location));
   }
 }
