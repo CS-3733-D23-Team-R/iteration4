@@ -126,78 +126,83 @@
                               </HBox>
                            </children>
                         </VBox>
-                        <VBox fx:id="pictureSelectorVBox" alignment="CENTER" prefHeight="322.0" prefWidth="825.0">
-                           <children>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="819.0" spacing="20.0" VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <ImageView fx:id="oneImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
-                                       <image>
-                                          <Image url="@../images/login/holder/shaggyprofile.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fx:id="twoImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/login/holder/shaggyprofile.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fx:id="threeImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/login/holder/shaggyprofile.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fx:id="fourImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/login/holder/shaggyprofile.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fx:id="fiveImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/login/holder/shaggyprofile.png" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="819.0" spacing="20.0" VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <ImageView fx:id="sixImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/login/holder/shaggyprofile.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fx:id="sevenImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/login/holder/shaggyprofile.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fx:id="eightImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/login/holder/shaggyprofile.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fx:id="nineImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/login/holder/shaggyprofile.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fx:id="tenImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/login/holder/shaggyprofile.png" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </HBox>
-                           </children>
+                        <StackPane>
                            <StackPane.margin>
                               <Insets bottom="300.0" left="200.0" right="200.0" top="90.0" />
                            </StackPane.margin>
-                           <styleClass>
-                              <String fx:value="boxroundedbordered" />
-                              <String fx:value="actuallyRounded" />
-                           </styleClass>
-                        </VBox>
+                           <children>
+                              <VBox fx:id="pictureSelectorVBox" alignment="CENTER" prefHeight="322.0" prefWidth="825.0">
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="819.0" spacing="20.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <ImageView fx:id="oneImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                                             <image>
+                                                <Image url="@../images/login/holder/shaggyprofile.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fx:id="twoImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/login/holder/shaggyprofile.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fx:id="threeImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/login/holder/shaggyprofile.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fx:id="fourImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/login/holder/shaggyprofile.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fx:id="fiveImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/login/holder/shaggyprofile.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="819.0" spacing="20.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <ImageView fx:id="sixImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/login/holder/shaggyprofile.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fx:id="sevenImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/login/holder/shaggyprofile.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fx:id="eightImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/login/holder/shaggyprofile.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fx:id="nineImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/login/holder/shaggyprofile.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fx:id="tenImage" fitHeight="200.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../images/login/holder/shaggyprofile.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </HBox>
+                                 </children>
+                                 <styleClass>
+                                    <String fx:value="boxroundedbordered" />
+                                    <String fx:value="actuallyRounded" />
+                                 </styleClass>
+                              </VBox>
+                              <Text fx:id="pressEscapeText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Press Escape to Exit" />
+                           </children>
+                        </StackPane>
                      </children>
                   </StackPane>
                   <VBox fx:id="profileCardContainer" prefHeight="664.0" prefWidth="425.0" />

@@ -60,11 +60,6 @@
     -fx-font-size: 36px;
 }
 
-.mfx.text-field:focused:filled:selected:expanded{
-    -mfx-color: #0067B1;
-
-}
-
 .body{
     -fx-font-family: 'Nunito Sans', 'regular';
     -fx-font-weight: NORMAL;
@@ -379,17 +374,17 @@
 }
 
 .mfx-text-field {
-    -fx-color: red;
-    -fx-focus-color: red;
-    -fx-text-fill: red;
+    -fx-color: grey;
+    -fx-focus-color: grey;
+    -fx-text-fill: grey;
 }
 
 .mfx-text-field:focused:selected {
-    -fx-focus-color: red;
+    -fx-focus-color: grey;
 }
 
 .mfx-text-field .floating-text {
-    -mfx-floating-label-color: red;
-    -fx-text-fill: red;
-    -fx-fill: red;
+    -mfx-floating-label-color: grey;
+    -fx-text-fill: grey;
+    -fx-fill: grey;
 }

@@ -36,10 +36,11 @@ public class EditProfileController {
     @FXML MFXTextField nameField, phoneField, emailField;
     @FXML VBox profileCardContainer, pictureSelectorVBox, entireAccountInformation;
     @FXML Button backButton, applyButton;
-    @FXML Text errorText;
+    @FXML Text errorText, pressEscapeText;
     @FXML MFXPasswordField currentPasswordField, newPasswordField, retypePasswordField;
     int imageID;
     public void initialize() throws SQLException, ItemNotFoundException {
+        pressEscapeText.setVisible(false);
         Image image1 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/1.png")).toExternalForm());
         oneImage.setImage(image1);
         Image image2 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/2.png")).toExternalForm());
@@ -187,11 +188,14 @@ public class EditProfileController {
             backendUser.setEmail(newValue);
             displayProfile(backendUser);
         });
+        /*
         pictureSelectorVBox.setOnKeyPressed(event -> {
             if(event.getCode() == KeyCode.ESCAPE){
                 pictureSelectorVBox.setVisible(false);
             }
         });
+         */
+
     }
 
     private Node loadCard(User user) throws IOException {
@@ -232,7 +236,7 @@ public class EditProfileController {
         } else if (!new UserDatabase().verifyUser(currentUser.getUsername(), currentPasswordField.getText())) {
             errorText.setText("OLD PASSWORD WRONG TRY AGAIN!");
             errorText.setVisible(true);
-        } else { //TODO: make sure strings are letters and phonenum is a num
+        } else {
             UserDatabase accessToDatabase = new UserDatabase();
             String name;
             String phonenum;
