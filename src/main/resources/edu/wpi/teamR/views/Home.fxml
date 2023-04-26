@@ -18,12 +18,20 @@
          <children>
             <HBox alignment="CENTER" prefHeight="515.0" prefWidth="1180.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Pane prefHeight="720.0" prefWidth="903.0" styleClass="curvedHome" HBox.hgrow="ALWAYS" />
+                  <Pane prefHeight="720.0" prefWidth="903.0" styleClass="curvedHome" HBox.hgrow="ALWAYS">
+                     <children>
+                        <HBox alignment="CENTER" layoutY="670.0" prefHeight="50.0" prefWidth="150.0" spacing="20.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: F1F1F1; -fx-underline: true; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, gray, 5, 0.75, 0, 0);" text="About" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: F1F1F1; -fx-underline: true; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, gray, 5, 0.75, 0, 0);" text="Credits" />
+                           </children>
+                        </HBox>
+                     </children></Pane>
                   <AnchorPane HBox.hgrow="ALWAYS">
                      <children>
                               <VBox alignment="CENTER" prefHeight="720.0" prefWidth="720.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                              <HBox alignment="CENTER_RIGHT">
+                              <HBox alignment="CENTER_RIGHT" spacing="10.0">
                                  <children>
                                     <Text fx:id="time" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="time" text="Time">
                                        <HBox.margin>
