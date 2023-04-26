@@ -13,26 +13,19 @@ public class Pathfinder {
     }
 
     public void setAlgorithm(Algorithm newAlgorithm){
-        this.currentAlgorithm = newAlgorithm;
+        currentAlgorithm = newAlgorithm;
     }
 
     Algorithm getCurrentAlgorithm(){return currentAlgorithm;}
 
     public Path findPath(int startID, int endID, boolean accessible) throws ItemNotFoundException, SQLException {
-        SearchInterface search;
-        switch (currentAlgorithm){
-                case Astar:
-                    search = new AstarSearch(this.mapDatabase);
-                    break;
-                case BFS:
-                    search = new BFSSearch(mapDatabase);
-                    break;
-                case DFS:
-                    search = new DFSSearch(mapDatabase);
-                    break;
-                default:
-                    throw new ItemNotFoundException();
-            }
+        SearchInterface search = switch (currentAlgorithm) {
+            case Astar -> new AstarSearch(mapDatabase);
+            case Dijkstra -> new DijkstraSearch(mapDatabase);
+            case BFS -> new BFSSearch(mapDatabase);
+            case DFS -> new DFSSearch(mapDatabase);
+            default -> throw new ItemNotFoundException();
+        };
         return search.getPath(startID, endID, accessible);
     }
 

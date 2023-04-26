@@ -126,7 +126,7 @@
                   </HBox>
                   <MFXButton fx:id="submitButton" alignment="CENTER" styleClass="yellowButton" text="Submit" VBox.vgrow="ALWAYS">
                      <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" top="10.0" />
+                        <Insets bottom="10.0" left="10.0" top="10.0" />
                      </VBox.margin>
                   </MFXButton>
                </children>
@@ -137,7 +137,7 @@
    <center>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <VBox fx:id="cartPane" prefHeight="356.0" prefWidth="325.0" styleClass="shoppingCartBackground" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <VBox fx:id="cartPane" prefHeight="356.0" prefWidth="325.0" styleClass="shoppingCartBackground" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
    </center>

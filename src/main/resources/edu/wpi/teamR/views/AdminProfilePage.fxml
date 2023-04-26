@@ -1,142 +1,154 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import net.kurobako.gesturefx.GesturePane?>
 
 <BorderPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.AdminProfilePageController">
    <center>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <VBox layoutX="14.0" layoutY="14.0" prefHeight="640.0" prefWidth="640.0" spacing="12.0" AnchorPane.bottomAnchor="44.66666666666663" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="626.0" AnchorPane.topAnchor="14.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="48.0" prefWidth="1280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <HBox alignment="CENTER" prefHeight="217.0" prefWidth="640.0" styleClass="boxShadow">
+                  <HBox alignment="CENTER_LEFT" prefHeight="48.0" prefWidth="269.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <VBox prefWidth="440.0" styleClass="loginRectangle" HBox.hgrow="ALWAYS">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Welcome Back!" wrappingWidth="482.0989761352539" HBox.hgrow="ALWAYS" />
+                     </children>
+                     <HBox.margin>
+                        <Insets left="26.0" />
+                     </HBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="48.0" prefWidth="508.0">
+                     <children>
+                        <Text fx:id="time" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="4:33" HBox.hgrow="ALWAYS" />
+                     </children>
+                     <HBox.margin>
+                        <Insets right="26.0" />
+                     </HBox.margin>
+                  </HBox>
+               </children>
+            </HBox>
+            <HBox fx:id="pageBox" layoutY="46.0" prefHeight="674.0" prefWidth="1280.0" spacing="10.0" stylesheets="@../styles/loginStyles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="46.0">
+               <children>
+                  <VBox prefHeight="664.0" prefWidth="564.0">
+                     <children>
+                        <VBox fx:id="profileCardContainer" prefHeight="735.0" prefWidth="488.0" stylesheets="@../styles/loginStyles.css" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <VBox prefHeight="477.0" prefWidth="416.0" styleClass="boxroundedbordered" VBox.vgrow="ALWAYS">
                            <children>
-                              <Text fx:id="name" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Rick Sanchez" VBox.vgrow="ALWAYS" />
-                              <VBox VBox.vgrow="ALWAYS">
+                              <StackPane fx:id="conferenceRoomImage" prefHeight="343.0" prefWidth="416.0" styleClass="profileToConferenceRoom" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Text fx:id="email" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Email:" VBox.vgrow="ALWAYS" />
-                                    <Text fx:id="email" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="rickisgay@gayforgood.org" VBox.vgrow="ALWAYS" />
+                                    <Button fx:id="toConferenceRooms" mnemonicParsing="false" styleClass="tinyButton" text="Book a Conference Room" />
                                  </children>
-                              </VBox>
-                              <HBox spacing="30.0" VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <AnchorPane HBox.hgrow="ALWAYS">
-                                       <children>
-                                          <VBox>
-                                             <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Job Title:" VBox.vgrow="ALWAYS" />
-                                                <Text fx:id="occupation" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="CFO" VBox.vgrow="ALWAYS" />
-                                             </children>
-                                          </VBox>
-                                          <VBox layoutX="178.6666717529297" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="178.6666717529297" AnchorPane.topAnchor="0.0">
-                                             <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Date of Joining:" VBox.vgrow="ALWAYS" />
-                                                <Text fx:id="DateOfJoining" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="4/15/2023" VBox.vgrow="ALWAYS" />
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                    </AnchorPane>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </HBox>
-                              <VBox VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Phone Number:" VBox.vgrow="ALWAYS" />
-                                    <Text fx:id="phone" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMedium" text="123-456-7890" VBox.vgrow="ALWAYS" />
-                                 </children>
-                              </VBox>
+                              </StackPane>
                            </children>
                         </VBox>
-                        <HBox alignment="CENTER" maxHeight="200.0" maxWidth="200.0" prefHeight="200.0" prefWidth="200.0" styleClass="map-vbox" HBox.hgrow="ALWAYS">
-                           <children>
-                              <ImageView fx:id="ProfilePicture" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
-                                 <image>
-                                    <Image url="@../images/profile.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </HBox>
                      </children>
-                     <padding>
-                        <Insets bottom="5.0" left="12.0" right="12.0" />
-                     </padding>
-                  </HBox>
-                  <StackPane VBox.vgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="26.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox prefHeight="674.0" prefWidth="690.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets bottom="10.0" right="26.0" />
+                     </HBox.margin>
                      <children>
-                        <HBox alignment="CENTER" prefHeight="387.0" prefWidth="633.0">
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
+                        <VBox prefHeight="447.0" prefWidth="672.0">
                            <children>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                              <HBox prefHeight="289.0" prefWidth="672.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Button fx:id="toServiceRequest" mnemonicParsing="false" text="Pending Service Requests" />
+                                    <StackPane alignment="BOTTOM_RIGHT" prefHeight="150.0" prefWidth="200.0" styleClass="boxroundedbordered" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <GesturePane fx:id="gesturePane" />
+                                          <Button fx:id="toEditMap" mnemonicParsing="false" prefHeight="29.0" prefWidth="79.0" styleClass="tinyButton" text="Edit Map" StackPane.alignment="BOTTOM_RIGHT">
+                                             <StackPane.margin>
+                                                <Insets bottom="3.0" />
+                                             </StackPane.margin>
+                                          </Button>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="viewOnly" text="View Only" StackPane.alignment="BOTTOM_LEFT">
+                                             <StackPane.margin>
+                                                <Insets bottom="3.0" />
+                                             </StackPane.margin>
+                                          </Text>
+                                          <Button fx:id="backupButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="104.0" styleClass="tinyButton" text="Backup Data" StackPane.alignment="BOTTOM_CENTER">
+                                             <padding>
+                                                <Insets bottom="3.0" />
+                                             </padding>
+                                          </Button>
+                                       </children>
+                                    </StackPane>
                                  </children>
-                                 <styleClass>
-                                    <String fx:value="profileToServiceRequests" />
-                                    <String fx:value="boxShadow" />
-                                 </styleClass>
-                              </VBox>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <Button fx:id="ToMapEditor" mnemonicParsing="false" text="To Map Editor" />
-                                 </children>
-                                 <styleClass>
-                                    <String fx:value="profileToMapEditor" />
-                                    <String fx:value="boxShadow" />
-                                 </styleClass>
-                              </VBox>
-                           </children></HBox>
-                     </children>
-                  </StackPane>
-                  <StackPane VBox.vgrow="ALWAYS">
-                     <children>
-                        <HBox prefHeight="368.0" prefWidth="640.0">
-                           <children>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <Button fx:id="ToEmployeeManager" mnemonicParsing="false" text="To Employee Manager" />
-                                 </children>
-                                 <styleClass>
-                                    <String fx:value="profileToEmployeeManager" />
-                                    <String fx:value="boxShadow" />
-                                 </styleClass>
-                              </VBox>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="profileToConferenceRoom" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <Button fx:id="toConferenceRoomEditor" mnemonicParsing="false" text="To Conference Room Editor" VBox.vgrow="ALWAYS" />
-                                 </children>
-                              </VBox>
+                              </HBox>
                            </children>
-                        </HBox>
+                        </VBox>
+                        <VBox prefHeight="295.0" prefWidth="672.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <StackPane fx:id="employeeManagementImage" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                       <styleClass>
+                                          <String fx:value="boxroundedbordered" />
+                                          <String fx:value="profileToEmployeeManagement" />
+                                       </styleClass>
+                                       <children>
+                                          <Button fx:id="toEmployeeManager" mnemonicParsing="false" styleClass="tinyButton" text="Employee Management" />
+                                       </children>
+                                    </StackPane>
+                                    <StackPane fx:id="allServiceRequestsImage" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                       <styleClass>
+                                          <String fx:value="boxroundedbordered" />
+                                          <String fx:value="profileToServiceRequests" />
+                                       </styleClass>
+                                       <children>
+                                          <Button fx:id="toServiceRequests" mnemonicParsing="false" styleClass="tinyButton" text="All Service Requests" />
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <StackPane fx:id="createAlertImage" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                       <styleClass>
+                                          <String fx:value="boxroundedbordered" />
+                                          <String fx:value="profileCreateNewAlert" />
+                                       </styleClass>
+                                       <children>
+                                          <Button fx:id="createNewAlert" mnemonicParsing="false" styleClass="tinyButton" text="Create New Alert" />
+                                       </children>
+                                    </StackPane>
+                                    <StackPane fx:id="signageConfigurationImage" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                       <styleClass>
+                                          <String fx:value="boxroundedbordered" />
+                                          <String fx:value="profileToSignageConfiguration" />
+                                       </styleClass>
+                                       <children>
+                                          <Button fx:id="toSignageConfiguration" mnemonicParsing="false" styleClass="tinyButton" text="Signage Configuration" />
+                                       </children>
+                                    </StackPane>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
                      </children>
-                  </StackPane>
+                  </VBox>
                </children>
-            </VBox>
-            <VBox alignment="CENTER" layoutX="698.0" layoutY="26.0" prefHeight="662.0" prefWidth="599.0" AnchorPane.bottomAnchor="44.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
-               <children>
-                  <ImageView fitHeight="648.0" fitWidth="552.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/wipthread.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </VBox>
-            <Text fx:id="time" layoutX="14.0" layoutY="699.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="14:32" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
+            </HBox>
          </children>
+         <stylesheets>
+            <URL value="@../styles/loginStyles.css" />
+            <URL value="@../styles/styles.css" />
+         </stylesheets>
       </AnchorPane>
    </center>
 </BorderPane>

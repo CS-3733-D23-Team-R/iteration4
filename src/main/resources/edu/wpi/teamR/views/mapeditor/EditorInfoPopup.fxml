@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="310.0" prefWidth="600.0" stylesheets="@../../styles/map.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.mapeditor.EditorInfoPopupController">
+   <children>
+      <VBox alignment="CENTER" layoutX="36.0" layoutY="9.0" spacing="10.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-title" text="About the Map Editor" />
+            <VBox alignment="CENTER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-body" text="Click and drag a node to change it's position on the map." />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-body" text="The position of the edges will adjust when you release." />
+               </children>
+            </VBox>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-body" text="Right-click a node to show information about the node." />
+            <VBox alignment="CENTER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-body" text="Shift-click to select multiple nodes." />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-body" text="Then right click to align vertically or horizontally." />
+               </children>
+            </VBox>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-body" text="Right-click an edge to remove it from the map." />
+            <VBox alignment="CENTER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-body" text="Press new edge to draw an edge." />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-body" text="You will be prompted to select two nodes to make an edge between them." />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-body" text="Edges between floors can only be made for elevators and stairs." />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

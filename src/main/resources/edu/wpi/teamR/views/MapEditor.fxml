@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.MFXCheckbox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -13,105 +12,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import net.kurobako.gesturefx.GesturePane?>
+<?import org.controlsfx.control.CheckComboBox?>
 
 <BorderPane fx:id="borderPane" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/map.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.MapEditorController">
    <center>
       <AnchorPane fx:id="anchorPane" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <GesturePane fx:id="gesturePane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="360.0" styleClass="map-vbox">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Map Editor">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
-                  </Text>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Floor">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Text>
-                        <ComboBox fx:id="floorComboBox" prefWidth="150.0" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="319.0" spacing="10.0">
-                     <children>
-                        <Button fx:id="newNodeButton" prefHeight="30.0" prefWidth="170.0" text="New Node">
-                           <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/map/new.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Button fx:id="newEdgeButton" prefHeight="30.0" prefWidth="170.0" text="New Edge">
-                           <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/map/new.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="319.0" spacing="10.0">
-                     <children>
-                        <Button fx:id="newLocationButton" prefHeight="30.0" prefWidth="170.0" text="New Location">
-                           <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/map/new.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Button fx:id="newMoveButton" prefHeight="30.0" prefWidth="170.0" text="New Move">
-                           <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/map/new.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="80.0" spacing="10.0">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Display Location Names">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Text>
-                        <MFXCheckbox fx:id="locationCheckbox" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="344.0" spacing="10.0">
-                     <children>
-                        <Button fx:id="editButton" prefHeight="30.0" prefWidth="170.0" text="Edit Nodes/Edges" />
-                        <Button fx:id="editLocationButton" prefHeight="36.0" prefWidth="170.0" text="Edit Location Name" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="344.0" spacing="10.0">
-                     <children>
-                        <Button fx:id="saveButton" prefHeight="30.0" prefWidth="170.0" text="Save Edits" />
-                        <Button fx:id="undoButton" prefHeight="30.0" prefWidth="170.0" text="Undo" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="353.0" spacing="10.0">
-                     <children>
-                        <Button fx:id="futureMoveButton" prefHeight="30.0" prefWidth="170.0" text="View Future Moves" />
-                     </children>
-                  </HBox>
-               </children>
-               <opaqueInsets>
-                  <Insets top="10.0" />
-               </opaqueInsets></VBox>
-            <VBox alignment="CENTER" layoutX="966.0" layoutY="608.0" prefHeight="81.0" prefWidth="310.0" spacing="5.0" styleClass="map-vbox" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
+            <VBox fx:id="backupBox" alignment="CENTER" layoutX="14.0" layoutY="625.0" prefHeight="81.0" prefWidth="310.0" spacing="5.0" styleClass="map-vbox" translateY="95.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0">
                <children>
                   <HBox alignment="CENTER" prefWidth="200.0" spacing="10.0">
                      <children>
@@ -147,13 +55,105 @@
                   </HBox>
                </children>
             </VBox>
+            <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="300.0" prefWidth="360.0" styleClass="map-vbox">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Map Editor">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
+                  </Text>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="319.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="newNodeButton" prefHeight="30.0" prefWidth="170.0" text="New Node">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/map/new.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="newEdgeButton" prefHeight="30.0" prefWidth="170.0" text="New Edge">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/map/new.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="319.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="newLocationButton" prefHeight="30.0" prefWidth="170.0" text="New Location">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/map/new.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="editLocationButton" prefHeight="36.0" prefWidth="170.0" text="Edit Location Name" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="80.0" spacing="10.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Location Filters:">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Text>
+                        <CheckComboBox fx:id="locationFilters" prefWidth="150.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="344.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="newMoveButton" prefHeight="30.0" prefWidth="170.0" text="New Move">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/map/new.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button fx:id="futureMoveButton" prefHeight="30.0" prefWidth="170.0" text="View Future Moves" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="344.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="saveButton" prefHeight="30.0" prefWidth="170.0" text="Save Edits" />
+                        <Button fx:id="undoButton" prefHeight="30.0" prefWidth="170.0" text="Undo" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="BOTTOM_RIGHT" VBox.vgrow="ALWAYS">
+                     <children>
+                        <ImageView fx:id="infoIcon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                           <image>
+                              <Image url="@../images/map/info.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets bottom="2.0" right="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children>
+               <opaqueInsets>
+                  <Insets top="10.0" />
+               </opaqueInsets></VBox>
             <VBox layoutX="490.0" layoutY="14.0" prefWidth="300.0" spacing="20.0" styleClass="map-vbox">
                <children>
                   <HBox fx:id="edgeHBox" alignment="CENTER" prefHeight="67.0" prefWidth="294.0" spacing="10.0">
                      <children>
                         <VBox alignment="CENTER">
                            <children>
-                              <Text fx:id="dialogText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Select Two Nodes to Draw Edge">
+                              <Text fx:id="dialogText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Click Another Node to Draw Edge">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -163,6 +163,40 @@
                         </VBox>
                      </children>
                   </HBox>
+               </children>
+            </VBox>
+            <VBox layoutX="1201.0" layoutY="500.0" prefHeight="200.0" prefWidth="65.0" styleClass="map-vbox" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
+               <children>
+                  <HBox fx:id="floor3Button" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="floor-box">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="3" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="floor2Button" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="floor-box">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="2" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="floor1Button" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="floor-box-focused">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="1" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="L1Button" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="floor-box">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="L1" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="L2Button" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" styleClass="floor-box">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="L2" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox fx:id="dbBackupButton" alignment="CENTER" layoutX="26.0" layoutY="587.0" prefHeight="38.0" prefWidth="100.0" styleClass="map-tab" translateY="95.0" AnchorPane.bottomAnchor="95.0" AnchorPane.leftAnchor="26.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="info-title" text="Database Backup" />
                </children>
             </VBox>
          </children>

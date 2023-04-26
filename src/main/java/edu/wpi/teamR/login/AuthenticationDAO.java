@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AuthenticationDAO {
     public User addUser(String staffUsername, String password, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department, int imageID) throws SQLException {
@@ -38,13 +39,54 @@ public class AuthenticationDAO {
         preparedStatement.executeUpdate();
         return new User(staffUsername, hashedPassword, saltString, name, email, jobTitle, phoneNum, joinDate, accessLevel, department, imageID);
     }
-    User modifyUserByUsername(String staffUsername, String password, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department, int imageID) throws SQLException, ItemNotFoundException {
+
+    public void addUsers(List<User> users) throws SQLException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE "+Configuration.getUserTableSchemaNameTableName()+" SET password=?, salt=?, name=?, email=?, jobTitle=?, phoneNum=?, joinDate=?, accessLevel=?, department=?, imageID=? WHERE staffUsername=?;");
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getUserTableSchemaNameTableName()+"(staffUsername,password,salt,name,email,jobTitle,phoneNum,joinDate,accessLevel,department,imageID) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+        for (User u : users) {
+            preparedStatement.setString(1, u.getStaffUsername());
+            preparedStatement.setString(2, u.getPassword()); //store password hashed with salt
+            preparedStatement.setString(3, u.getSalt()); //store salt used with password
+            preparedStatement.setString(4, u.getName());
+            preparedStatement.setString(5, u.getEmail());
+            preparedStatement.setString(6, u.getJobTitle());
+            preparedStatement.setString(7, u.getPhoneNum());
+            preparedStatement.setDate(8, u.getJoinDate());
+            preparedStatement.setString(9, u.getAccessLevel().toString());
+            preparedStatement.setString(10, u.getDepartment());
+            preparedStatement.setInt(11, u.getImageID());
+            preparedStatement.executeUpdate();
+        }
+    }
+    User modifyUserByUsername(String staffUsername, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department, int imageID) throws SQLException, ItemNotFoundException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE "+Configuration.getUserTableSchemaNameTableName()+" SET name=?, email=?, jobTitle=?, phoneNum=?, joinDate=?, accessLevel=?, department=?, imageID=? WHERE staffUsername=? RETURNING *;");
+
+        preparedStatement.setString(1, name);
+        preparedStatement.setString(2, email);
+        preparedStatement.setString(3, jobTitle);
+        preparedStatement.setString(4, phoneNum);
+        preparedStatement.setDate(5, joinDate);
+        preparedStatement.setString(6, accessLevel.toString());
+        preparedStatement.setString(7, department);
+        preparedStatement.setInt(8, imageID);
+        preparedStatement.setString(9, staffUsername);
+        preparedStatement.execute();
+        ResultSet resultSet = preparedStatement.getResultSet();
+        if (!resultSet.next())
+            throw new ItemNotFoundException();
+        String hashedPassword = resultSet.getString("password");
+        String saltString = resultSet.getString("salt");
+        return new User(staffUsername, hashedPassword, saltString, name, email, jobTitle, phoneNum, joinDate, accessLevel, department, imageID);
+    }
+
+    User modifyUserPasswordByUsername(String staffUsername, String newPassword) throws SQLException, ItemNotFoundException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE "+Configuration.getUserTableSchemaNameTableName()+" SET password=?, salt=? WHERE staffUsername=? RETURNING *;");
 
         //Handle salting
         String saltString = generateSaltString();
-        String saltedPassword = password + saltString;
+        String saltedPassword = newPassword + saltString;
         String hashedPassword;
         try {
             hashedPassword = hashPassword(saltedPassword);
@@ -55,18 +97,21 @@ public class AuthenticationDAO {
 
         preparedStatement.setString(1, hashedPassword);
         preparedStatement.setString(2, saltString);
-        preparedStatement.setString(3, name);
-        preparedStatement.setString(4, email);
-        preparedStatement.setString(5, jobTitle);
-        preparedStatement.setString(6, phoneNum);
-        preparedStatement.setDate(7, joinDate);
-        preparedStatement.setString(8, accessLevel.toString());
-        preparedStatement.setString(9, department);
-        preparedStatement.setInt(10, imageID);
-        preparedStatement.setString(11, staffUsername);
-        int numRows = preparedStatement.executeUpdate();
-        if (numRows==0)
+        preparedStatement.setString(3, staffUsername);
+        preparedStatement.execute();
+        ResultSet resultSet = preparedStatement.getResultSet();
+        if (!resultSet.next())
             throw new ItemNotFoundException();
+
+        String name = resultSet.getString("name");
+        String email = resultSet.getString("email");
+        String jobTitle = resultSet.getString("jobTitle");
+        String phoneNum = resultSet.getString("phoneNum");
+        Date joinDate = resultSet.getDate("joinDate");
+        AccessLevel accessLevel = AccessLevel.valueOf(resultSet.getString("accessLevel"));
+        String department = resultSet.getString("department");
+        int imageID = resultSet.getInt("imageID");
+
         return new User(staffUsername, hashedPassword, saltString, name, email, jobTitle, phoneNum, joinDate, accessLevel, department, imageID);
     }
 

@@ -1,0 +1,66 @@
+.root {
+    bwhblue: #012D5A;
+    pressed: #BDBDBD;
+    secondaryBlue: #0067B1;
+    secondaryYellow: #F6BD38;
+    primaryWhite: #F1F1F1;
+    darkNeutral: #403C3B;
+    primaryLightGrey: #BDBDBD;
+    cream: #FBF7F5;
+    grey: #D9D9D9;
+}
+
+.requestFilterBar {
+    -fx-background-color: secondaryBlue;
+}
+
+.requestBarText {
+    -fx-fill: White;
+    -fx-font-size: 20;
+    -fx-font-family: 'Lato';
+}
+
+.requestBarText2 {
+    -fx-fill: White;
+    -fx-font-size: 14;
+    -fx-font-family: 'Lato';
+}
+
+.requestBarSubtitle {
+    -fx-fill: White;
+    -fx-font-size: 28;
+    -fx-font-family: 'Lato';
+}
+
+.requestBarTitle {
+    -fx-fill: primaryWhite;
+    -fx-font-family: 'Lato', 'bold';
+    -fx-font-weight: bold;
+    -fx-font-size: 36px;
+}
+
+.requestBackground {
+    -fx-background-image: url(" ../images/brigham-women-s-hospital-welcomes-first-patients-new-facility-17989-10740071.jpeg");
+}
+
+.buttonWithPadding {
+
+}
+
+.shoppingCartBackground{
+    -fx-background-color: #FBF7F5;
+}
+
+.shoppingCartBoxes{
+    -fx-background-color: #D9D9D9;
+    -fx-background-radius: 10px;
+}
+
+.yellowButton{
+    -fx-background-color: secondaryYellow;
+    -fx-text-fill: bwhblue;
+    -fx-font-family: 'Nunito Sans', 'bold';
+    -fx-font-size: 18;
+    -fx-font-weight: 500;
+    border-radius: 4px;
+}

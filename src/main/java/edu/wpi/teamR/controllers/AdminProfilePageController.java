@@ -1,5 +1,9 @@
 package edu.wpi.teamR.controllers;
 
+import edu.wpi.teamR.App;
+import edu.wpi.teamR.controllers.mapeditor.NewLocationPopupController;
+import edu.wpi.teamR.datahandling.MapStorage;
+import edu.wpi.teamR.login.User;
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
 import edu.wpi.teamR.userData.CurrentUser;
@@ -7,33 +11,62 @@ import edu.wpi.teamR.userData.UserData;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+import net.kurobako.gesturefx.GesturePane;
+import org.controlsfx.control.PopOver;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class AdminProfilePageController {
-    @FXML Text name, email, occupation, DateOfJoining, phone, time;
+    @FXML
     ImageView ProfilePicture;
-    @FXML Button ToMapEditor, ToEmployeeManager, toServiceRequest, toConferenceRoomEditor;
+    @FXML
+    Text time;
+    @FXML Button toEmployeeManager, toServiceRequests, toConferenceRooms, toSignageConfiguration, createNewAlert, toEditMap;
+    @FXML VBox profileCardContainer;
+    @FXML StackPane conferenceRoomImage, signageConfigurationImage, createAlertImage, allServiceRequestsImage, employeeManagementImage;
+
+    private final AnchorPane mapPane = new AnchorPane();
+
+    @FXML
+    GesturePane gesturePane;
+    @FXML Button backupButton;
+
     @FXML
     public void initialize(){
         UserData thisUserData = UserData.getInstance();
         CurrentUser user = thisUserData.getLoggedIn();
-        name.setText(user.getFullName());
-        toServiceRequest.setOnMouseClicked(event -> {Navigation.navigate(Screen.SORT_ORDERS);});
-        toConferenceRoomEditor.setOnMouseClicked(event -> {Navigation.navigate(Screen.ROOM_REQUEST);});
-        email.setText(user.getEmail());
-        occupation.setText(user.getJobTitle());
-        DateOfJoining.setText(user.getJoinDate().toString());
-        String num = Integer.toString(user.getPhoneNum());
-        String formattedPhoneNumber = num.replaceAll("(\\d{3})(\\d{3})(\\d{4})", "($1)-$2-$3");
-        phone.setText(formattedPhoneNumber);
+
+        createNewAlert.setOnMouseClicked(event -> {
+            try {
+                newAlert();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        toServiceRequests.setOnMouseClicked(event -> {Navigation.navigate(Screen.SORT_ORDERS);});
+        toConferenceRooms.setOnMouseClicked(event -> {Navigation.navigate(Screen.ROOM_REQUEST);});
+        toEditMap.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP_EDITOR));
+        toEmployeeManager.setOnMouseClicked(event -> {Navigation.navigate(Screen.EMPLOYEEMANAGER);});
+        toSignageConfiguration.setOnMouseClicked(event -> {Navigation.navigate(Screen.SIGNAGECONFIGURATION);});
         LocalDate date = LocalDate.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
         String formattedDate = date.format(dateTimeFormatter);
@@ -53,7 +86,57 @@ public class AdminProfilePageController {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
         time.setText(formattedDate);
-        ToMapEditor.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP_EDITOR));
-        ToEmployeeManager.setOnMouseClicked(event -> {Navigation.navigate(Screen.EMPLOYEEMANAGER);});
+        displayProfile(UserData.getInstance().getLoggedIn());
+
+        gesturePane.setContent(mapPane);
+        mapPane.getChildren().add(MapStorage.getFirstFloor());
+        gesturePane.setMinScale(0.25);
+        gesturePane.setMaxScale(2);
+        gesturePane.zoomTo(0.25, 0.25, new Point2D(2500, 1700));
+
+        backupButton.setOnAction(event -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/ArchivePage.fxml"));
+            try {
+                Parent popupRoot = loader.load();
+
+                Stage popupStage = new Stage();
+                popupStage.initModality(Modality.APPLICATION_MODAL);
+                popupStage.setTitle("Archive Manager");
+                popupStage.setScene(new Scene(popupRoot, 600, 400));
+                popupStage.showAndWait();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private Node loadCard(CurrentUser user) throws IOException, IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/Profile.fxml"));
+        Node node = loader.load();
+        ProfileController contentController = loader.getController();
+        contentController.setInfo(user);
+        return node;
+    }
+
+    private void displayProfile(CurrentUser user){
+        profileCardContainer.getChildren().clear();
+        try {
+            profileCardContainer.getChildren().add(loadCard(user));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void newAlert() throws IOException {
+        final FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/Alerts.fxml"));
+        //final BorderPane alert = loader.load();
+        Parent popup;
+        popup = loader.load();
+        Stage alerts = new Stage();
+        alerts.initModality(Modality.APPLICATION_MODAL);
+        alerts.setTitle("Alerts");
+        alerts.setScene(new Scene(popup, 400, 150));
+        alerts.showAndWait();
+        System.out.print("opened");
     }
 }

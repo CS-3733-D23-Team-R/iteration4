@@ -1,5 +1,7 @@
 package edu.wpi.teamR.navigation;
 
+import edu.wpi.teamR.controllers.EditProfileController;
+
 public enum Screen {
   ROOT("views/Root.fxml"),
   HOME("views/Home.fxml"),
@@ -10,7 +12,6 @@ public enum Screen {
   ROOM_REQUEST("views/ConfrenceRoom.fxml"),
   MAP("views/Map.fxml"),
   LOGIN("views/Login.fxml"),
-  ADMINHOME("views/AdminHome.fxml"),
   MAP_EDITOR("views/MapEditor.fxml"),
   SORT_ORDERS("views/SortOrders.fxml"),
   SCREENSAVER("views/Screensaver.fxml"),
@@ -18,7 +19,11 @@ public enum Screen {
   STAFFPROFILEPAGE("views/StaffProfilePage.fxml"),
   EMPLOYEEMANAGER("views/EmployeeManager.fxml"),
   ITEMREQUEST("views/ItemRequest.fxml"),
-  SIGNAGECONFIGURATION("views/SignageConfiguration.fxml");
+  ADDEMPLOYEE("views/AddEmployee.fxml"),
+  SIGNAGECONFIGURATION("views/SignageConfiguration.fxml"),
+  EDITPROFILE("views/EditProfile.fxml"),
+  CREDITS("views/CreditsPage.fxml"),
+  ABOUT("views/About.fxml");
 
   private final String filename;
 
