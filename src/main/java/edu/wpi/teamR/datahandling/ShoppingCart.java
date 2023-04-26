@@ -4,6 +4,8 @@ import edu.wpi.teamR.controllers.ServiceRequestCartController;
 import edu.wpi.teamR.requestdb.AvailableItem;
 import edu.wpi.teamR.requestdb.IAvailableItem;
 import edu.wpi.teamR.requestdb.ItemRequest;
+import edu.wpi.teamR.requestdb.RequestType;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -59,7 +61,9 @@ public class ShoppingCart {
         Set<IAvailableItem> itemsSet = items.keySet();
         double total = 0;
         for (IAvailableItem i : itemsSet) {
-            total += i.getItemPrice() * items.get(i);
+            if (!i.getRequestType().equals(RequestType.Furniture) && i.getItemPrice() != null){
+                total += i.getItemPrice() * items.get(i);
+            }
         }
         return total;
     }

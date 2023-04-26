@@ -169,7 +169,14 @@ public class ServiceRequestCartController {
             }
         });
 
-        Text price = new Text(String.valueOf("$"+ formatPrice.format(item.getItemPrice())));
+        Text price;
+        if (!item.getRequestType().equals(RequestType.Furniture) && item.getItemPrice() != null){
+            price = new Text(String.valueOf("$"+ formatPrice.format(item.getItemPrice())));
+        }
+        else {
+            price = new Text("$10.00");
+            price.setVisible(false);
+        }
         price.setStyle("-fx-font-size: 18");
 
 //        AnchorPane imageAnchorPane = new AnchorPane();
