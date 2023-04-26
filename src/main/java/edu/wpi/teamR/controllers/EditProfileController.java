@@ -11,6 +11,7 @@ import edu.wpi.teamR.userData.CurrentUser;
 import edu.wpi.teamR.userData.UserData;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -18,8 +19,11 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -33,7 +37,6 @@ public class EditProfileController {
     @FXML Text errorText;
     @FXML MFXPasswordField currentPasswordField, newPasswordField, retypePasswordField;
     int imageID;
-    ArrayList<ImageView> allPossibleProfilePictures;
     public void initialize() throws SQLException, ItemNotFoundException {
         Image image1 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/1.png")).toExternalForm());
         oneImage.setImage(image1);
@@ -103,51 +106,83 @@ public class EditProfileController {
             imageID = 1;
             pictureSelectorVBox.setVisible(false);
             currentImage.setImage(image1);
+            backendUser.setImageID(imageID);
+            displayProfile(backendUser);
         });
         twoImage.setOnMouseClicked(event -> {
             imageID = 2;
             pictureSelectorVBox.setVisible(false);
             currentImage.setImage(image2);
+            backendUser.setImageID(imageID);
+            displayProfile(backendUser);
         });
         threeImage.setOnMouseClicked(event -> {
             imageID = 3;
             pictureSelectorVBox.setVisible(false);
             currentImage.setImage(image3);
+            backendUser.setImageID(imageID);
+            displayProfile(backendUser);
         });
         fourImage.setOnMouseClicked(event -> {
             imageID = 4;
             pictureSelectorVBox.setVisible(false);
             currentImage.setImage(image4);
+            backendUser.setImageID(imageID);
+            displayProfile(backendUser);
         });
         fiveImage.setOnMouseClicked(event -> {
             imageID = 5;
             pictureSelectorVBox.setVisible(false);
             currentImage.setImage(image5);
+            backendUser.setImageID(imageID);
+            displayProfile(backendUser);
         });
         sixImage.setOnMouseClicked(event -> {
             imageID = 6;
             pictureSelectorVBox.setVisible(false);
             currentImage.setImage(image6);
+            backendUser.setImageID(imageID);
+            displayProfile(backendUser);
         });
         sevenImage.setOnMouseClicked(event -> {
             imageID = 7;
             pictureSelectorVBox.setVisible(false);
             currentImage.setImage(image7);
+            backendUser.setImageID(imageID);
+            displayProfile(backendUser);
         });
         eightImage.setOnMouseClicked(event -> {
             imageID = 8;
             pictureSelectorVBox.setVisible(false);
             currentImage.setImage(image8);
+            backendUser.setImageID(imageID);
+            displayProfile(backendUser);
         });
         nineImage.setOnMouseClicked(event -> {
             imageID = 9;
             pictureSelectorVBox.setVisible(false);
             currentImage.setImage(image9);
+            backendUser.setImageID(imageID);
+            displayProfile(backendUser);
         });
         tenImage.setOnMouseClicked(event -> {
             imageID = 10;
             pictureSelectorVBox.setVisible(false);
             currentImage.setImage(image10);
+            backendUser.setImageID(imageID);
+            displayProfile(backendUser);
+        });
+        nameField.textProperty().addListener((observable,oldValue,newValue) -> {
+            backendUser.setName(newValue);
+            displayProfile(backendUser);
+        });
+        phoneField.textProperty().addListener((observable,oldValue,newValue) -> {
+            backendUser.setPhoneNum(newValue);
+            displayProfile(backendUser);
+        });
+        emailField.textProperty().addListener((observable,oldValue,newValue) -> {
+            backendUser.setEmail(newValue);
+            displayProfile(backendUser);
         });
     }
 
@@ -170,11 +205,12 @@ public class EditProfileController {
 
     private void checkFields(CurrentUser currentUser, User backendUser) throws SQLException, ItemNotFoundException {
         errorText.setVisible(false);
-        if(currentPasswordField.getText().isBlank()){
+        errorText.setFill(Color.RED);
+        if(currentPasswordField.getText().isBlank()) {
             errorText.setText("NEED TO RETYPE OLD PASSWORD TO CONFIRM! (good try)");
             errorText.setVisible(true);
         } else if (!newPasswordField.getText().equals(retypePasswordField.getText())) {
-            errorText.setText("PASSWORDS DO NOT MATCH! (did you even check?)");
+            errorText.setText("NEW PASSWORDS DO NOT MATCH! (did you even check?)");
             errorText.setVisible(true);
         } else if (nameField.getText().isBlank() && phoneField.getText().isBlank() && emailField.getText().isBlank() && newPasswordField.getText().isBlank()) {
             errorText.setText("YOU DIDN'T CHANGE ANYTHING! (why are you here)");
@@ -186,7 +222,7 @@ public class EditProfileController {
             errorText.setText("PHONE NUMBER TOO SHORT");
             errorText.setVisible(true);
         } else if (phoneField.getText().length() > 10) {
-            errorText.setText("PHONE NUMBER TOO SHORT");
+            errorText.setText("PHONE NUMBER TOO LONG");
             errorText.setVisible(true);
         } else if (!new UserDatabase().verifyUser(currentUser.getUsername(), currentPasswordField.getText())) {
             errorText.setText("OLD PASSWORD WRONG TRY AGAIN!");
@@ -221,6 +257,17 @@ public class EditProfileController {
             accessToDatabase.modifyUserPasswordByUsername(currentUser.getUsername(), password);
             currentUser.refreshUser();
             displayProfile(backendUser);
+            errorText.setFill(Color.GREEN);
+            errorText.setText("SUCCESS!");
+            errorText.setVisible(true);
+            FadeTransition ft1 = new FadeTransition(Duration.seconds(1), errorText);
+            ft1.setFromValue(0);
+            ft1.setToValue(1);
+            FadeTransition ft2 = new FadeTransition(Duration.seconds(1), errorText);
+            ft2.setFromValue(1.0);
+            ft2.setToValue(0);
+            ft1.setOnFinished(event -> {ft2.play();});
+            ft1.play();
         }
     }
 }

@@ -191,9 +191,9 @@ public class EmployeeManagerController {
                             User data = getTableView().getItems().get(getIndex());
                             theTable.getItems().remove(data);
                             try {
-                                new UserDatabase().deleteUserByUsername(data.getStaffUsername());
                                 new RequestDatabase().deleteItemRequestsByUser(data.getStaffUsername());
                                 new RequestDatabase().deleteRoomRequestByUser(data.getStaffUsername());
+                                new UserDatabase().deleteUserByUsername(data.getStaffUsername());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
