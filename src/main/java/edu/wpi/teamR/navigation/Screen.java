@@ -19,8 +19,9 @@ public enum Screen {
   STAFFPROFILEPAGE("views/StaffProfilePage.fxml"),
   EMPLOYEEMANAGER("views/EmployeeManager.fxml"),
   ITEMREQUEST("views/ItemRequest.fxml"),
-  ADDEMPLOYEE("views/AddEmployee.fxml"),
+  ROOM_REQUEST_MANAGER("views/RoomRequestManager.fxml"),
   SIGNAGECONFIGURATION("views/SignageConfiguration.fxml"),
+  ADDEMPLOYEE("views/AddEmployee.fxml"),
   EDITPROFILE("views/EditProfile.fxml"),
   CREDITS("views/CreditsPage.fxml"),
   ABOUT("views/About.fxml");
