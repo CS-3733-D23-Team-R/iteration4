@@ -54,7 +54,6 @@ public class AdminProfilePageController {
         toEditMap.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP_EDITOR));
         toEmployeeManager.setOnMouseClicked(event -> {Navigation.navigate(Screen.EMPLOYEEMANAGER);});
         toSignageConfiguration.setOnMouseClicked(event -> {Navigation.navigate(Screen.SIGNAGECONFIGURATION);});
-        //toArchiver.setOnMouseClicked(event -> {Navigation.navigate();}); TODO: FIX!
         LocalDate date = LocalDate.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
         String formattedDate = date.format(dateTimeFormatter);

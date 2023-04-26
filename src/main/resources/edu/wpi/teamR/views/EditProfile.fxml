@@ -72,12 +72,12 @@
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <MFXTextField fx:id="nameField" floatingText="New Name:" prefHeight="49.0" prefWidth="155.0" promptText="Type name here" HBox.hgrow="ALWAYS" />
+                                          <MFXTextField fx:id="nameField" floatingText="Edit Name:" prefHeight="49.0" prefWidth="155.0" promptText="Type name here" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <MFXTextField fx:id="phoneField" floatingText="New Phone Number:" prefHeight="49.0" prefWidth="110.0" promptText="i.e. 1234567890" HBox.hgrow="ALWAYS" />
+                                          <MFXTextField fx:id="phoneField" floatingText="Edit Phone Number:" prefHeight="49.0" prefWidth="110.0" promptText="i.e. 1234567890" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -86,7 +86,7 @@
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <MFXTextField fx:id="emailField" floatingText="New Email:" prefHeight="49.0" prefWidth="155.0" promptText="Type email here" HBox.hgrow="ALWAYS" />
+                                          <MFXTextField fx:id="emailField" floatingText="Edit Email:" prefHeight="49.0" prefWidth="155.0" promptText="Type email here" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">

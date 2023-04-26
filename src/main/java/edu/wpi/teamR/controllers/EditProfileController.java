@@ -61,6 +61,9 @@ public class EditProfileController {
         CurrentUser currentUser = UserData.getInstance().getLoggedIn();
         Image myImage = new Image(UserData.getInstance().getLoggedIn().getProfilePictureLocation());
         User backendUser = new UserDatabase().getUserByUsername(currentUser.getUsername());
+        nameField.setText(currentUser.getFullName());
+        emailField.setText(currentUser.getEmail());
+        phoneField.setText(String.valueOf(currentUser.getPhoneNum()));
         currentImage.setImage(myImage);
         imageID = backendUser.getImageID();
         displayProfile(backendUser);

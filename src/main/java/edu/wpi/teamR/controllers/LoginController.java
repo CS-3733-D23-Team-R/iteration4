@@ -53,21 +53,21 @@ public class LoginController {
 
     @FXML
     public void checkLogIn() throws SQLException, ClassNotFoundException, ItemNotFoundException {
-        UserData thisUserData = UserData.getInstance();
         UserDatabase thisUserDatabase = new UserDatabase();
-        User aUser = thisUserDatabase.getUserByUsername(usernameField.getText());
-        CurrentUser User = new CurrentUser(
-                aUser.getStaffUsername(),
-                aUser.getAccessLevel(),
-                aUser.getName(),
-                aUser.getEmail(),
-                aUser.getDepartment(),
-                aUser.getJoinDate(),
-                Integer.parseInt(aUser.getPhoneNum()),
-                aUser.getJobTitle(),
-                aUser.getImageID());
-        thisUserData.setLoggedIn(User);
         if(thisUserDatabase.verifyUser(usernameField.getText(), passwordField.getText())){
+            UserData thisUserData = UserData.getInstance();
+            User aUser = thisUserDatabase.getUserByUsername(usernameField.getText());
+            CurrentUser User = new CurrentUser(
+                    aUser.getStaffUsername(),
+                    aUser.getAccessLevel(),
+                    aUser.getName(),
+                    aUser.getEmail(),
+                    aUser.getDepartment(),
+                    aUser.getJoinDate(),
+                    Integer.parseInt(aUser.getPhoneNum()),
+                    aUser.getJobTitle(),
+                    aUser.getImageID());
+            thisUserData.setLoggedIn(User);
             if(User.getAccessLevel().toString().equals(AccessLevel.Admin.toString())){
                 RootController.getInstance().setSignagePage();
                 navigate(Screen.ADMINPROFILEPAGE);
