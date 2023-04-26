@@ -2,6 +2,7 @@ package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.App;
 import edu.wpi.teamR.ItemNotFoundException;
+import edu.wpi.teamR.Main;
 import edu.wpi.teamR.datahandling.ShoppingCart;
 import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
@@ -20,9 +21,12 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.HLineTo;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import org.controlsfx.control.SearchableComboBox;
@@ -32,9 +36,11 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ServiceRequestCartController {
 
+    @FXML AnchorPane cartAnchor;
     @FXML
     SearchableComboBox<String> userField;
     @FXML
@@ -108,6 +114,29 @@ public class ServiceRequestCartController {
         //FileInputStream input = new FileInputStream("");
         //Image image = new Image(input);
         //ImageView imageView = new ImageView(image);
+//        String imageURL = "images/serviceRequests/availableItems/";
+//        switch(item.getRequestType()){
+//            case Furniture -> imageURL = imageURL + "furniture/";
+//            case Flower -> imageURL = imageURL + "flowers/";
+//            case Supplies -> imageURL = imageURL + "supplies/";
+//            case Meal -> imageURL = imageURL + "food/";
+//        }
+//        imageURL = imageURL + item.getImageReference();
+//        Image requestImage = new Image(Objects.requireNonNull(Main.class.getResource(imageURL)).toExternalForm());
+//        ImageView itemImage = new ImageView(requestImage);
+//        double widthMax = 50;
+//        double imageWidth = requestImage.getWidth();
+//        double imageHeight = requestImage.getHeight();
+//        if(imageWidth > widthMax) {imageWidth = widthMax;}
+//        if(imageHeight > widthMax) {
+//            imageHeight = widthMax;
+//            if(imageWidth < widthMax){
+//
+//            }
+//        }
+//        Rectangle clipRect = new Rectangle(imageWidth, imageHeight);
+//        itemImage.setImage(requestImage);
+//        itemImage.setClip(clipRect);
 
         Text productName = new Text(item.getItemName());
         productName.setFill(Color.BLACK);
@@ -142,6 +171,13 @@ public class ServiceRequestCartController {
 
         Text price = new Text(String.valueOf("$"+ formatPrice.format(item.getItemPrice())));
         price.setStyle("-fx-font-size: 18");
+
+//        AnchorPane imageAnchorPane = new AnchorPane();
+//        imageAnchorPane.setMaxWidth(widthMax);
+//        imageAnchorPane.setMinWidth(widthMax);
+//        imageAnchorPane.setMaxHeight(widthMax);
+//        imageAnchorPane.setMinHeight(widthMax);
+//        imageAnchorPane.getChildren().add(itemImage);
 
         layout.getChildren().addAll(productName, plusButton, quantity, minusButton, price);
         layout.setSpacing(5);
