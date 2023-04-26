@@ -2,31 +2,30 @@ package edu.wpi.teamR.mapdb;
 import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.ItemNotFoundException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class DirectionArrowDAO {
 
-    DirectionArrow addDirectionArrow(String longName, int kioskID, Direction direction) throws SQLException {
+    DirectionArrow addDirectionArrow(String longName, int kioskID, Direction direction, Date date) throws SQLException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+ Configuration.getDirectionArrowSchemaNameTableName()+"(longName, kioskID, direction) VALUES(?, ?, ?);");
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+ Configuration.getDirectionArrowSchemaNameTableName()+"(longName, kioskID, direction, date) VALUES(?, ?, ?, ?);");
         preparedStatement.setString(1, longName);
         preparedStatement.setInt(2, kioskID);
         preparedStatement.setString(3, direction.toString());
+        preparedStatement.setDate(4, date);
         preparedStatement.executeUpdate();
-        return new DirectionArrow(longName, kioskID, direction);
+        return new DirectionArrow(longName, kioskID, direction, date);
     }
 
     public void addDirectionArrows(ArrayList<DirectionArrow> directionArrows) throws SQLException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+ Configuration.getDirectionArrowSchemaNameTableName()+"(longName, kioskID, direction) VALUES(?, ?, ?);");
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+ Configuration.getDirectionArrowSchemaNameTableName()+"(longName, kioskID, direction, date) VALUES(?, ?, ?, ?);");
         for (DirectionArrow d : directionArrows) {
             preparedStatement.setString(1, d.getLongName());
             preparedStatement.setInt(2, d.getKioskID());
             preparedStatement.setString(3, d.getDirection().toString());
+            preparedStatement.setDate(4, d.getDate());
             preparedStatement.executeUpdate();
         }
     }
@@ -64,7 +63,23 @@ public class DirectionArrowDAO {
             String longName = resultSet.getString("longName");
             int kioskID = resultSet.getInt("kioskID");
             Direction direction = Direction.valueOf(resultSet.getString("direction"));
-            directionArrows.add(new DirectionArrow(longName, kioskID, direction));
+            Date date = resultSet.getDate("date");
+            directionArrows.add(new DirectionArrow(longName, kioskID, direction, date));
+        }
+        return directionArrows;
+    }
+
+    ArrayList<DirectionArrow> getCurrentDirectionArrows() throws SQLException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getDirectionArrowSchemaNameTableName()+" WHERE date<CURRENT_DATE;");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        ArrayList<DirectionArrow> directionArrows = new ArrayList<>();
+        while (resultSet.next()){
+            String longName = resultSet.getString("longName");
+            int kioskID = resultSet.getInt("kioskID");
+            Direction direction = Direction.valueOf(resultSet.getString("direction"));
+            Date date = resultSet.getDate("date");
+            directionArrows.add(new DirectionArrow(longName, kioskID, direction, date));
         }
         return directionArrows;
     }
@@ -78,10 +93,9 @@ public class DirectionArrowDAO {
         while (resultSet.next()){
             String longName = resultSet.getString("longName");
             Direction direction = Direction.valueOf(resultSet.getString("direction"));
-            directionArrows.add(new DirectionArrow(longName, kioskID, direction));
+            Date date = resultSet.getDate("date");
+            directionArrows.add(new DirectionArrow(longName, kioskID, direction, date));
         }
         return directionArrows;
     }
-
-
 }
