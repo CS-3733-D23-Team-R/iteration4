@@ -44,11 +44,18 @@ public class CurrentUser {
                     profilePictureLocation = Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/3.png")).toExternalForm();
             case 4 ->
                     profilePictureLocation = Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/4.png")).toExternalForm();
-            case 5 -> profilePictureLocation = "";
-            case 6 -> profilePictureLocation = "";
-            case 7 -> profilePictureLocation = "";
-            case 8 -> profilePictureLocation = "";
-            case 9 -> profilePictureLocation = "";
+            case 5 ->
+                    profilePictureLocation = Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/5.png")).toExternalForm();
+            case 6 ->
+                    profilePictureLocation = Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/6.png")).toExternalForm();
+            case 7 ->
+                    profilePictureLocation = Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/7.png")).toExternalForm();
+            case 8 ->
+                    profilePictureLocation = Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/8.png")).toExternalForm();
+            case 9 ->
+                    profilePictureLocation = Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/9.png")).toExternalForm();
+            case 10 ->
+                    profilePictureLocation = Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/10.png")).toExternalForm();
         }
     }
     public void refreshUser() throws SQLException, ItemNotFoundException {
