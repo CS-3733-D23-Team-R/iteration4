@@ -60,6 +60,11 @@
     -fx-font-size: 36px;
 }
 
+.mfx.text-field:focused:filled:selected:expanded{
+    -mfx-color: #0067B1;
+
+}
+
 .body{
     -fx-font-family: 'Nunito Sans', 'regular';
     -fx-font-weight: NORMAL;

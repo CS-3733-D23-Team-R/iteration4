@@ -12,12 +12,14 @@ import edu.wpi.teamR.userData.UserData;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -184,6 +186,11 @@ public class EditProfileController {
         emailField.textProperty().addListener((observable,oldValue,newValue) -> {
             backendUser.setEmail(newValue);
             displayProfile(backendUser);
+        });
+        pictureSelectorVBox.setOnKeyPressed(event -> {
+            if(event.getCode() == KeyCode.ESCAPE){
+                pictureSelectorVBox.setVisible(false);
+            }
         });
     }
 
