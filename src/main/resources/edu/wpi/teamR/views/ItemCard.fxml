@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Text?>
 
 <fx:root maxHeight="458.0" maxWidth="458.0" prefHeight="458.0" prefWidth="458.0" style="-fx-background-radius: 30;" stylesheets="@../styles/styles.css" type="AnchorPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.ItemCard">
    <children>
-      <VBox fx:id="cardImage" prefHeight="300.0" style="-fx-background-size: stretch;" AnchorPane.bottomAnchor="138.0" AnchorPane.leftAnchor="54.0" AnchorPane.rightAnchor="54.0" AnchorPane.topAnchor="20.0">
+      <HBox alignment="TOP_CENTER" layoutX="54.0" layoutY="20.0" AnchorPane.bottomAnchor="138.0" AnchorPane.leftAnchor="54.0" AnchorPane.rightAnchor="54.0" AnchorPane.topAnchor="20.0">
          <children>
-            <VBox style="-fx-border-color: F6BD38; -fx-border-width: 5; -fx-border-radius: 10; -fx-background-color: transparent;" VBox.vgrow="ALWAYS" />
+            <VBox alignment="TOP_CENTER">
+               <children>
+                  <AnchorPane fx:id="cardImage" maxHeight="300.0" maxWidth="300.0" minHeight="300.0" minWidth="300.0" prefHeight="300.0" prefWidth="300.0">
+                     <children>
+                        <ImageView fx:id="cardImageView" fitHeight="299.0" fitWidth="348.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
          </children>
-         <padding>
-            <Insets bottom="-4.0" left="-4.0" right="-4.0" top="-4.0" />
-         </padding>
-      </VBox>
+      </HBox>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="340.0">
          <children>
             <Text fx:id="cardTitle" layoutX="51.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Title" wrappingWidth="164.4609375" AnchorPane.leftAnchor="51.0" AnchorPane.topAnchor="7.3388671875" />
