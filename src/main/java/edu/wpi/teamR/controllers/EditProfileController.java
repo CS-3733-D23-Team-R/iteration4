@@ -20,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -190,7 +191,7 @@ public class EditProfileController {
         });
         /*
         pictureSelectorVBox.setOnKeyPressed(event -> {
-            if(event.getCode() == KeyCode.ESCAPE){
+            if (event.getCode() == KeyCode.ESCAPE) {
                 pictureSelectorVBox.setVisible(false);
             }
         });
