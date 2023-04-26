@@ -136,6 +136,8 @@ public class EmployeeManagerController {
         for(User aUser : list){
             theTable.getItems().add(aUser);
         }
+
+        theTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
     private void updateUser(User aUser){

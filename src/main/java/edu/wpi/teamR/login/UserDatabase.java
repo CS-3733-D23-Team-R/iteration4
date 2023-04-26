@@ -2,11 +2,13 @@ package edu.wpi.teamR.login;
 
 import edu.wpi.teamR.Configuration;
 import edu.wpi.teamR.ItemNotFoundException;
+import edu.wpi.teamR.Main;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class UserDatabase {
     private final AuthenticationDAO authenticationDAO = new AuthenticationDAO();
@@ -66,6 +68,28 @@ public class UserDatabase {
     }
     public ArrayList<Alert> getAlertsInLastNumDaysDesc(int numDays) throws SQLException { //get all alerts between current time and currentTime - numDays days ordered desc by date
         return alertDAO.getAlertsInLastNumDaysDesc(numDays);
+    }
+
+    public static String getProfilePictureFromID(int profilePictureID) {
+        String profilePictureLocation = "";
+        switch (profilePictureID) {
+            case 0 ->
+                    profilePictureLocation = Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/0.png")).toExternalForm();
+            case 1 ->
+                    profilePictureLocation = Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/1.png")).toExternalForm();
+            case 2 ->
+                    profilePictureLocation = Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/2.png")).toExternalForm();
+            case 3 ->
+                    profilePictureLocation = Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/3.png")).toExternalForm();
+            case 4 ->
+                    profilePictureLocation = Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/4.png")).toExternalForm();
+            case 5 -> profilePictureLocation = "";
+            case 6 -> profilePictureLocation = "";
+            case 7 -> profilePictureLocation = "";
+            case 8 -> profilePictureLocation = "";
+            case 9 -> profilePictureLocation = "";
+        }
+        return profilePictureLocation;
     }
 
 }

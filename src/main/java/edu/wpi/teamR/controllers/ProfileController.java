@@ -5,6 +5,7 @@ import edu.wpi.teamR.Main;
 import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
+import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
 import edu.wpi.teamR.userData.CurrentUser;
@@ -40,9 +41,13 @@ public class ProfileController {
     @FXML Text name, email, dept, hireDate, phoneNumber, jobTitle;
     @FXML ImageView profileImage;
     @FXML Button editProfileBtn;
+    UserDatabase userDatabase;
+    CurrentUser loggedIn;
 
     public void initialize() {
         //ImageView image1 = new ImageView(Objects.requireNonNull((Main.class.getResource("images/.png")).toExternalForm())); TODO:fix
+        userDatabase = new UserDatabase();
+        loggedIn = UserData.getInstance().getLoggedIn();
     }
 
     public void setInfo(User user){
@@ -54,7 +59,7 @@ public class ProfileController {
         jobTitle.setText(user.getJobTitle());
         editProfileBtn.setVisible(false);
         editProfileBtn.setDisable(true);
-        Image image1 = new Image(UserData.getInstance().getLoggedIn().getProfilePictureLocation());
+        Image image1 = new Image(UserDatabase.getProfilePictureFromID(user.getImageID()));
         profileImage.setImage(image1);
         editProfileBtn.setVisible(false);
         editProfileBtn.setDisable(true);
