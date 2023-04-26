@@ -409,6 +409,19 @@
     -fx-background-radius: 30;
 }
 
+.profileToServiceRequests{
+    -fx-background-image: url("../images/blurredprofletopendingservicerequest.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.profileToServiceRequests2{
+    -fx-background-image: url("../images/Screenshot2023-04-25231726.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+
 .shoppingCartPlus {
     -fx-fill: #012D5A;
     -fx-font-family: 'Nunito Sans', 'bold';
