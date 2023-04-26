@@ -215,7 +215,7 @@ public class EditProfileController {
         } else if (nameField.getText().isBlank() && phoneField.getText().isBlank() && emailField.getText().isBlank() && newPasswordField.getText().isBlank()) {
             errorText.setText("YOU DIDN'T CHANGE ANYTHING! (why are you here)");
             errorText.setVisible(true);
-        } else if (newPasswordField.getText().length() < 5) {
+        } else if (newPasswordField.getText().length() < 5 && !newPasswordField.getText().isBlank()) {
             errorText.setText("PASSWORD TOO SHORT (too easy to guess)");
             errorText.setVisible(true);
         } else if (phoneField.getText().length() < 10) {
