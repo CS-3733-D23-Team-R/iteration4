@@ -24,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -86,23 +87,19 @@ public class EditProfileController {
         });
         editImage.setOnMouseClicked(event -> {
             PopOver popOver = new PopOver();
-            final FXMLLoader loader =
-                    new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/ProfilePicture.fxml"));
-            Parent popup;
+            AnchorPane content;
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/ProfilePicture.fxml"));
             try {
-                popup = loader.load();
+                content = loader.load();
             } catch (IOException e) {
-                e.printStackTrace();
                 throw new RuntimeException(e);
             }
             ProfilePictureController controller = loader.getController();
 
-            popOver.setContentNode(popup);
-            popOver.setAutoHide(true);
+            popOver.setContentNode(content);
 
-            popOver.getContentNode().addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
+            content.setOnMouseClicked(evt -> {
+                if (evt.getTarget() instanceof ImageView) {
                     if (controller.isImageSet()) {
                         currentImage.setImage(controller.getReturnImage());
                         backendUser.setImageID(controller.getImageID());
@@ -112,6 +109,9 @@ public class EditProfileController {
                     }
                 }
             });
+
+            popOver.setAutoHide(true);
+
             popOver.show(currentImage);
         });
 
