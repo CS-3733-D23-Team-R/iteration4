@@ -50,11 +50,11 @@ public class EditProfileController {
         Image image7 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/7.png")).toExternalForm());
         sevenImage.setImage(image7);
         Image image8 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/8.png")).toExternalForm());
-        fourImage.setImage(image8);
+        eightImage.setImage(image8);
         Image image9 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/9.png")).toExternalForm());
-        fourImage.setImage(image9);
+        nineImage.setImage(image9);
         Image image10 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/10.png")).toExternalForm());
-        fourImage.setImage(image10);
+        tenImage.setImage(image10);
         pictureSelectorVBox.setVisible(false);
         errorText.setVisible(false);
         editImage.setVisible(false);
@@ -76,8 +76,6 @@ public class EditProfileController {
                 throw new RuntimeException(e);
             }
         });
-
-
         currentImage.setOnMouseEntered(event -> {
             editImage.setVisible(true);
         });
@@ -148,7 +146,6 @@ public class EditProfileController {
             pictureSelectorVBox.setVisible(false);
             currentImage.setImage(image10);
         });
-        //todo: add image setonmouseclicks here
     }
 
     private Node loadCard(User user) throws IOException {

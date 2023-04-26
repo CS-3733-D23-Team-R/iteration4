@@ -27,6 +27,7 @@
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Brigham and Women's Hospital" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
+                  <Text fx:id="errorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitleSmallBold" text="Error" />
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
                         <ImageView fitHeight="56.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">

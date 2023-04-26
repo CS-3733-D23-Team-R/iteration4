@@ -43,7 +43,7 @@
                <children>
                   <StackPane HBox.hgrow="ALWAYS">
                      <children>
-                        <VBox fx:id="entireAccountInformation" prefHeight="200.0" prefWidth="100.0">
+                        <VBox fx:id="entireAccountInformation" prefHeight="200.0" prefWidth="100.0" styleClass="boxroundedbordered">
                            <children>
                               <HBox alignment="CENTER" prefHeight="171.0" prefWidth="818.0">
                                  <children>
@@ -125,10 +125,6 @@
                                  </children>
                               </HBox>
                            </children>
-                           <styleClass>
-                              <String fx:value="boxroundedbordered" />
-                              <String fx:value="actuallyRounded" />
-                           </styleClass>
                         </VBox>
                         <VBox fx:id="pictureSelectorVBox" alignment="CENTER" prefHeight="322.0" prefWidth="825.0">
                            <children>
@@ -204,12 +200,7 @@
                         </VBox>
                      </children>
                   </StackPane>
-                  <VBox fx:id="profileCardContainer" prefHeight="664.0" prefWidth="425.0">
-                     <styleClass>
-                        <String fx:value="boxroundedbordered" />
-                        <String fx:value="actuallyRounded" />
-                     </styleClass>
-                  </VBox>
+                  <VBox fx:id="profileCardContainer" prefHeight="664.0" prefWidth="425.0" />
                </children>
                 </HBox>
             </children>

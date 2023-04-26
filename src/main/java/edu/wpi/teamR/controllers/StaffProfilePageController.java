@@ -48,9 +48,6 @@ public class StaffProfilePageController {
     ObservableList<RequestStatus> statusList = FXCollections.observableArrayList(RequestStatus.values());
     public void initialize() throws SQLException, ClassNotFoundException, SearchException {
         CurrentUser user = UserData.getInstance().getLoggedIn();
-        toConferenceRooms.setVisible(false);
-        conferenceRoomImage.setOnMouseEntered(event -> {toConferenceRooms.setVisible(true);});
-        conferenceRoomImage.setOnMouseExited(event -> {toConferenceRooms.setVisible(false);});
         LocalDate date = LocalDate.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
         String formattedDate = date.format(dateTimeFormatter);

@@ -192,7 +192,8 @@ public class EmployeeManagerController {
                             theTable.getItems().remove(data);
                             try {
                                 new UserDatabase().deleteUserByUsername(data.getStaffUsername());
-                                //TODO: fix here
+                                new RequestDatabase().deleteItemRequestsByUser(data.getStaffUsername());
+                                new RequestDatabase().deleteRoomRequestByUser(data.getStaffUsername());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

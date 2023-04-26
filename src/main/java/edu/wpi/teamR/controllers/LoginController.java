@@ -28,9 +28,11 @@ public class LoginController {
     @FXML MFXTextField usernameField;
     @FXML MFXPasswordField passwordField;
     @FXML MFXButton loginButton;
+    @FXML Text errorText;
 
     @FXML
     public void initialize() {
+        errorText.setVisible(false);
         loginButton.setOnMouseClicked(event -> {
             try {
                 checkLogIn();
@@ -66,14 +68,16 @@ public class LoginController {
                 aUser.getImageID());
         thisUserData.setLoggedIn(User);
         if(thisUserDatabase.verifyUser(usernameField.getText(), passwordField.getText())){
-            if(Objects.equals(thisUserData.getLoggedIn().getAccessLevel().toString(), AccessLevel.Admin.toString())){
+            if(User.getAccessLevel().toString().equals(AccessLevel.Admin.toString())){
                 RootController.getInstance().setSignagePage();
                 navigate(Screen.ADMINPROFILEPAGE);
-            } else if(thisUserData.getLoggedIn().getAccessLevel().toString().equals(AccessLevel.Staff.toString())){
+            } else if(User.getAccessLevel().toString().equals(AccessLevel.Staff.toString())){
                 navigate(Screen.STAFFPROFILEPAGE);
             }
         } else{
             System.out.println("Incorrect Password");
+            errorText.setText("INCORRECT PASSWORD");
+            errorText.setVisible(true);
         }
     }
 
