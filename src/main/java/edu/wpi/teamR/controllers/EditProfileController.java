@@ -55,7 +55,6 @@ public class EditProfileController {
         fourImage.setImage(image9);
         Image image10 = new Image(Objects.requireNonNull(Main.class.getResource("images/login/profilepictures/10.png")).toExternalForm());
         fourImage.setImage(image10);
-        //todo: set images here
         pictureSelectorVBox.setVisible(false);
         errorText.setVisible(false);
         editImage.setVisible(false);

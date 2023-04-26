@@ -19,6 +19,7 @@ import javafx.scene.text.Text;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static edu.wpi.teamR.navigation.Navigation.navigate;
 
@@ -65,10 +66,10 @@ public class LoginController {
                 aUser.getImageID());
         thisUserData.setLoggedIn(User);
         if(thisUserDatabase.verifyUser(usernameField.getText(), passwordField.getText())){
-            if(thisUserData.getLoggedIn().getAccessLevel() == AccessLevel.Admin){
+            if(Objects.equals(thisUserData.getLoggedIn().getAccessLevel().toString(), AccessLevel.Admin.toString())){
                 RootController.getInstance().setSignagePage();
                 navigate(Screen.ADMINPROFILEPAGE);
-            } else if(thisUserData.getLoggedIn().getAccessLevel() == AccessLevel.Staff){
+            } else if(thisUserData.getLoggedIn().getAccessLevel().toString().equals(AccessLevel.Staff.toString())){
                 navigate(Screen.STAFFPROFILEPAGE);
             }
         } else{

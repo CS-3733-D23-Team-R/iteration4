@@ -8,8 +8,9 @@ import edu.wpi.teamR.archive.CSVParameterException;
 import edu.wpi.teamR.archive.CSVWriter;
 import edu.wpi.teamR.datahandling.MapStorage;
 import edu.wpi.teamR.mapdb.update.*;
-import io.github.palexdev.materialfx.controls.MFXCheckbox;
+import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,20 +18,26 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import edu.wpi.teamR.mapdb.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.File;
@@ -41,14 +48,13 @@ import java.sql.SQLException;
 import java.util.*;
 
 import javafx.geometry.Point2D;
+import org.controlsfx.control.CheckComboBox;
 import org.controlsfx.control.PopOver;
 
 public class MapEditorController {
     @FXML
     Button importCSVButton;
     @FXML Button exportCSVButton;
-    @FXML
-    Button editButton;
     @FXML Button saveButton;
     @FXML Button newLocationButton;
     @FXML Button newNodeButton;
@@ -73,20 +79,10 @@ public class MapEditorController {
     GesturePane gesturePane;
 
     @FXML
-    ComboBox<String> floorComboBox;
-    @FXML
     ComboBox<String> tableComboBox;
-    @FXML
-    MFXCheckbox locationCheckbox;
     @FXML Text dialogText;
     ObservableList<String> DAOType =
             FXCollections.observableArrayList("Node", "Edge", "LocationName", "Moves");
-    ObservableList<String> floors =
-            FXCollections.observableArrayList("Lower Level Two",
-                    "Lower Level One",
-                    "First Floor",
-                    "Second Floor",
-                    "Third Floor");
 
     URL firstFloorLink = Main.class.getResource("images/01_thefirstfloor.png");
     URL secondFloorLink = Main.class.getResource("images/02_thesecondfloor.png");
@@ -118,7 +114,6 @@ public class MapEditorController {
     };
 
     AnchorPane[] nodePanes = new AnchorPane[5];
-    AnchorPane[] locationPanes = new AnchorPane[5];
 
     final private AnchorPane mapPane = new AnchorPane();
 
@@ -141,17 +136,43 @@ public class MapEditorController {
     Map<Integer, List<Line>> linesMap = new HashMap<>();
 
     Map<Integer, Node> nodeMap = new HashMap<>();
+    Boolean dragged = false;
+
+    @FXML
+    CheckComboBox<String> locationFilters;
+    ObservableList<String> locationTypes =
+            FXCollections.observableArrayList("Lab", "Elevator", "Services", "Conference Room", "Stairs", "Information", "Restroom", "Department", "Bathroom", "Exit", "Retail");
+    HashMap<String, String> locationMap = new HashMap<>();
+
+    @FXML
+    HBox floor3Button;
+    @FXML
+    HBox floor2Button;
+    @FXML
+    HBox floor1Button;
+    @FXML
+    HBox L1Button;
+    @FXML
+    HBox L2Button;
+    HashMap<Integer, HBox> floorButtonMap = new HashMap<>();
+    HashMap<Circle, Node> alignmentNodesList = new HashMap<>();
+    ArrayList<Circle> alignmentCirclesList = new ArrayList<>();
+    @FXML ImageView infoIcon;
+    @FXML
+    VBox dbBackupButton;
+    @FXML VBox backupBox;
+
+    Color textColor = Color.BLACK;
+    Color pathColor = Color.web("#012D5A");
 
     @FXML
     public void initialize() throws SQLException, ClassNotFoundException, ItemNotFoundException {
         for (int i = 0; i < 5; i++) {
             nodePanes[i] = new AnchorPane();
-            locationPanes[i] = new AnchorPane();
             floorNamesMap.put(nodeFloorNames[i], i);
             floorNamesMap.put(floorNames[i], i);
         }
 
-        floorComboBox.setItems(floors);
         tableComboBox.setItems(DAOType);
         importCSVButton.setOnAction(event -> {
             try {
@@ -171,20 +192,10 @@ public class MapEditorController {
             }
         });
 
-        editButton.setOnAction(event -> gesturePane.setGestureEnabled(false));
         saveButton.setOnAction(event -> {
             try {
                 saveChanges();
             } catch (SQLException | ItemNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
-        floorComboBox.setOnAction(event -> {
-            try {
-                changeFloor(floorNamesMap.get(floorComboBox.getValue()));
-            } catch (SQLException | ItemNotFoundException e) {
-                e.printStackTrace();
                 throw new RuntimeException(e);
             }
         });
@@ -219,7 +230,7 @@ public class MapEditorController {
                 popupStage.showAndWait();
 
                 Node newNode = nodes.get(nodes.size()-1);
-                Circle newCircle = new Circle(newNode.getXCoord(), newNode.getYCoord(), 4, Color.RED);
+                Circle newCircle = new Circle(newNode.getXCoord(), newNode.getYCoord(), 4, pathColor);
                 nodePanes[currentFloor].getChildren().add(newCircle);
                 circlesMap.put(newNode.getNodeID(), newCircle);
 
@@ -235,18 +246,8 @@ public class MapEditorController {
         undoButton.setOnAction(event -> {
             try {
                 undoAction();
-            } catch (SQLException e) {
+            } catch (SQLException | ItemNotFoundException e) {
                 throw new RuntimeException(e);
-            }
-        });
-
-        locationCheckbox.setOnAction(event -> {
-            if (locationCheckbox.isSelected()) {
-                mapPane.getChildren().remove(nodePanes[currentFloor]);
-                mapPane.getChildren().add(locationPanes[currentFloor]);
-                mapPane.getChildren().add(nodePanes[currentFloor]);
-            } else {
-                mapPane.getChildren().remove(locationPanes[currentFloor]);
             }
         });
 
@@ -315,6 +316,125 @@ public class MapEditorController {
 
         cancelEdgeButton.setOnAction(event -> edgeDialog(false));
 
+        locationFilters.getItems().addAll(locationTypes);
+        initializeLocationMap();
+        locationFilters.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) change -> {
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    for (String s: change.getAddedSubList()) {
+                        try {
+                            displayLocationNamesByType(currentFloor, s);
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+                else if (change.wasRemoved()) {
+                    ObservableList<javafx.scene.Node> children = nodePanes[currentFloor].getChildren();
+                    children.removeIf(child -> child instanceof Text);
+                    try {
+                        displayLocationNames(currentFloor);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            }
+        });
+
+        setFloorButtonMap();
+
+        floor3Button.setOnMouseClicked(event -> {
+            try {
+                changeFloor(4);
+            } catch (SQLException | ItemNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        floor2Button.setOnMouseClicked(event -> {
+            try {
+                changeFloor(3);
+            } catch (SQLException | ItemNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        floor1Button.setOnMouseClicked(event -> {
+            try {
+                changeFloor(2);
+            } catch (SQLException | ItemNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        L1Button.setOnMouseClicked(event -> {
+            try {
+                changeFloor(1);
+            } catch (SQLException | ItemNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        L2Button.setOnMouseClicked(event -> {
+            try {
+                changeFloor(0);
+            } catch (SQLException | ItemNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        newMoveButton.setOnAction(event -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/NewMovePopup.fxml"));
+            try {
+                Parent popupRoot = loader.load();
+                NewMovePopupController popupController = loader.getController();
+                popupController.setUpdater(updater);
+
+                Stage popupStage = new Stage();
+                popupStage.initModality(Modality.APPLICATION_MODAL);
+                popupStage.setTitle("Create New Move");
+                popupStage.setScene(new Scene(popupRoot, 400, 200));
+                popupStage.showAndWait();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        infoIcon.setOnMouseClicked(event -> {
+            PopOver popOver = new PopOver();
+            final FXMLLoader loader =
+                    new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/EditorInfoPopup.fxml"));
+            Parent popup;
+            try {
+                popup = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+
+            popOver.setContentNode(popup);
+            popOver.setArrowLocation(PopOver.ArrowLocation.TOP_CENTER);
+            popOver.setAutoHide(true);
+
+            popOver.show(infoIcon);
+        });
+
+        dbBackupButton.setOnMouseClicked(event -> {
+            if (dbBackupButton.getTranslateY() == 95) {
+                TranslateTransition slideUp = new TranslateTransition(Duration.millis(500), backupBox);
+                TranslateTransition slideTab = new TranslateTransition(Duration.millis(500), dbBackupButton);
+                slideTab.setToY(0);
+                slideUp.setToY(0);
+                slideTab.play();
+                slideUp.play();
+            }
+            else {
+                TranslateTransition slideUp = new TranslateTransition(Duration.millis(500), backupBox);
+                TranslateTransition slideTab = new TranslateTransition(Duration.millis(500), dbBackupButton);
+                slideUp.setToY(95);
+                slideTab.setToY(95);
+                slideTab.play();
+                slideUp.play();
+            }
+        });
+
         reset();
     }
 
@@ -324,14 +444,21 @@ public class MapEditorController {
         edgeHBox.setManaged(setting);
         if (selectedCircle != null) {
             selectedNode = null;
-            selectedCircle.setFill(Color.RED);
+            selectedCircle.setFill(pathColor);
             selectedCircle = null;
         }
-        dialogText.setText("Select Two Nodes to Draw Edge");
+        dialogText.setText("Click Another Node to Draw Edge");
     }
 
     public void changeFloor(int floorNum) throws SQLException, ItemNotFoundException {
-        if (floorNum < 4) {
+        if (floorNum <= 4) {
+            HBox currentFloorVbox = floorButtonMap.get(currentFloor);
+            currentFloorVbox.getStyleClass().remove("floor-box-focused");
+            currentFloorVbox.getStyleClass().add("floor-box");
+            HBox newFloorVbox = floorButtonMap.get(floorNum);
+            newFloorVbox.getStyleClass().remove("floor-box");
+            newFloorVbox.getStyleClass().add("floor-box-focused");
+
             currentFloor = floorNum;
             imageView = new ImageView(linkArray[currentFloor].toExternalForm());
             mapPane.getChildren().clear();
@@ -353,7 +480,6 @@ public class MapEditorController {
 
     public void displayNodesByFloor(int floor) throws SQLException, ItemNotFoundException {
         String f = nodeFloorNames[floor];
-        mapPane.getChildren().add(locationPanes[currentFloor]);
         mapPane.getChildren().add(nodePanes[floor]);
 
         ArrayList<MapLocation> mapLocations = mapdb.getMapLocationsByFloor(f);
@@ -362,8 +488,8 @@ public class MapEditorController {
         }
     }
 
-    public void displayEdgesByFloor(int floor) throws SQLException {
-        if (floor < 4) {
+    public void displayEdgesByFloor(int floor) throws SQLException, ItemNotFoundException {
+        if (floor <= 4) {
             String f = nodeFloorNames[floor];
             ArrayList<Edge> edges = mapdb.getEdgesByFloor(f);
             for (Edge e: edges) {
@@ -372,7 +498,7 @@ public class MapEditorController {
 
                 if (n1.getFloorNum().equals(n2.getFloorNum())) {
                     final Line l1 = new Line(n1.getXCoord(), n1.getYCoord(), n2.getXCoord(), n2.getYCoord());
-                    l1.setStroke(Color.RED);
+                    l1.setStroke(pathColor);
                     l1.setStrokeWidth(4);
                     addLine(e.getStartNode(), l1);
                     addLine(e.getEndNode(), l1);
@@ -380,7 +506,7 @@ public class MapEditorController {
                     l1.toBack();
 
                     l1.setOnMouseClicked(event -> {
-                        if (!gesturePane.isGestureEnabled()) {
+                        if (event.getButton().equals(MouseButton.SECONDARY)) {
                             updater.deleteEdge(n1.getNodeID(), n2.getNodeID());
                             try {
                                 mapdb.deleteEdge(n1.getNodeID(), n2.getNodeID());
@@ -452,41 +578,35 @@ public class MapEditorController {
     }
 
     public void drawNode(MapLocation l, int floor) {
-        if (floor < 4) {
-            ArrayList<LocationName> ln = l.getLocationNames();
+        if (floor <= 4) {
             Node n = l.getNode();
-            //Move m = mapdb.getLatestMoveByLocationName(ln.get(0).getLongName());
 
-            Circle c = new Circle(n.getXCoord(), n.getYCoord(), 5, Color.RED);
+            Circle c = new Circle(n.getXCoord(), n.getYCoord(), 5, pathColor);
             nodePanes[floor].getChildren().add(c);
             circlesMap.put(n.getNodeID(), c);
 
             setupMapNode(floor, n, c);
-
-            if (ln.size() > 0) {
-                String shortName = ln.get(0).getShortName();
-                if (!shortName.contains("Hall")) {
-                    Text t = new Text(ln.get(0).getShortName());
-                    t.setX(n.getXCoord() + 10);
-                    t.setY(n.getYCoord());
-                    t.setFill(Color.RED);
-                    locationPanes[floor].getChildren().add(t);
-                }
-                locationCheckbox.setSelected(true);
-            }
         }
     }
 
     private void setupMapNode(int floor, Node n, Circle c) {
         c.setOnMouseClicked(event -> {
-            if (drawEdgesMode) {
+            if (event.isShiftDown()) {
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    alignmentNodesList.put(c, n);
+                    alignmentCirclesList.add(c);
+                    c.setStroke(Color.HOTPINK);
+                    c.setStrokeWidth(2);
+                }
+            }
+            else if (event.getButton() == MouseButton.PRIMARY && !dragged && drawEdgesMode) {
                 if (selectedNode == null) {
                     selectedNode = n;
                     selectedCircle = c;
                     selectedCircle.setFill(Color.YELLOW);
                 } else {
                     if (selectedNode.equals(n)) {
-                        selectedCircle.setFill(Color.RED);
+                        selectedCircle.setFill(pathColor);
                         selectedNode = null;
                         edgeDialog(false);
                         return;
@@ -494,14 +614,14 @@ public class MapEditorController {
                     if (selectedNode.getFloorNum().equals(n.getFloorNum())) {
                         Line l1 = new Line(selectedNode.getXCoord(), selectedNode.getYCoord(), n.getXCoord(), n.getYCoord());
                         l1.setStrokeWidth(4);
-                        l1.setStroke(Color.RED);
+                        l1.setStroke(pathColor);
                         nodePanes[floor].getChildren().add(l1);
                         addLine(n.getNodeID(), l1);
                         addLine(selectedNode.getNodeID(), l1);
                         l1.toBack();
-                        selectedCircle.setFill(Color.RED);
+                        selectedCircle.setFill(pathColor);
                         l1.setOnMouseClicked(evt -> {
-                            if (!gesturePane.isGestureEnabled()) {
+                            if (evt.getButton() == MouseButton.SECONDARY) {
                                 linesMap.remove(n.getNodeID());
                                 nodePanes[floor].getChildren().remove(l1);
                                 System.out.println("Edge removed");
@@ -509,6 +629,11 @@ public class MapEditorController {
                         });
                     }
                     else {
+                        if (Math.abs(selectedNode.getXCoord() - n.getXCoord()) > 20 || Math.abs(selectedNode.getYCoord() - n.getYCoord()) > 20) {
+                            dialogText.setText("Cannot create edge!");
+                            selectedNode = null;
+                            return;
+                        }
                         String startNodeType;
                         String endNodeType;
                         try {
@@ -547,96 +672,162 @@ public class MapEditorController {
                     selectedNode = null;
                     edgeDialog(false);
                 }
-            } else {
-                if (event.getButton().equals(MouseButton.SECONDARY)) return;
-                if(gesturePane.isGestureEnabled()) {
-                    PopOver popOver = new PopOver();
-                    final FXMLLoader loader =
-                            new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/MapPopup.fxml"));
-                    Parent popup;
-                    try {
-                        popup = loader.load();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
-                    MapPopupController controller = loader.getController();
-                    try {
-                        controller.showNodeInformation(updater, n);
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
+            }
+            else if (dragged) {
+                dragged = false;
+            }
+            else {
+                if (event.getButton() == MouseButton.SECONDARY) {
+                    if (alignmentNodesList.size() > 0) {
+                        ContextMenu contextMenu = new ContextMenu();
 
-                    popOver.setContentNode(popup);
-                    popOver.setArrowLocation(PopOver.ArrowLocation.TOP_CENTER);
-                    popOver.setAutoHide(true);
-                    int initialSize = nodes.size();
+                        MenuItem alignVertically = new MenuItem("Align Vertically");
+                        MenuItem alignHorizontally = new MenuItem("Align Horizontally");
 
-                    popOver.showingProperty().addListener((observable, oldValue, newValue) -> {
-                        if (controller.isDeleteButtonPressed()) {
-                            nodePanes[floor].getChildren().remove(c);
-                            if(linesMap.containsKey(n.getNodeID())) {
-                                nodePanes[floor].getChildren().removeAll(linesMap.get(n.getNodeID()));
+                        alignVertically.setOnAction(e -> {
+                            if (alignmentCirclesList.size() > 0) {
+                                for (Circle current: alignmentCirclesList) {
+                                    current.setCenterX(alignmentCirclesList.get(0).getCenterX());
+                                    current.setStroke(Color.TRANSPARENT);
+                                    current.setStrokeWidth(0);
+
+                                    Node associated = alignmentNodesList.get(current);
+                                    try {
+                                        mapdb.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
+                                        updater.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
+                                        updater.endAction();
+                                    } catch (SQLException | ItemNotFoundException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
+                                }
                             }
+                            for (Circle current: alignmentCirclesList) {
+                                Node associated = alignmentNodesList.get(current);
+                                redrawEdges(associated);
+                            }
+                            alignmentNodesList.clear();
+                            alignmentCirclesList.clear();
+                        });
+                        alignHorizontally.setOnAction(e -> {
+                            if (alignmentNodesList.size() > 0) {
+                                for (Circle current: alignmentCirclesList) {
+                                    current.setCenterY(alignmentCirclesList.get(0).getCenterY());
+                                    current.setStroke(Color.TRANSPARENT);
+                                    current.setStrokeWidth(0);
+
+                                    Node associated = alignmentNodesList.get(current);
+                                    try {
+                                        mapdb.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
+                                        updater.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
+                                        updater.endAction();
+                                    } catch (SQLException | ItemNotFoundException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
+                                }
+                            }
+                            for (Circle current: alignmentCirclesList) {
+                                Node associated = alignmentNodesList.get(current);
+                                redrawEdges(associated);
+                            }
+                            alignmentNodesList.clear();
+                            alignmentCirclesList.clear();
+                        });
+
+                        contextMenu.getItems().addAll(alignVertically, alignHorizontally);
+
+                        contextMenu.show(c, event.getScreenX(), event.getScreenY());
+                    }
+                    else if(gesturePane.isGestureEnabled() && alignmentNodesList.size() == 0) {
+                        PopOver popOver = new PopOver();
+                        final FXMLLoader loader =
+                                new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/MapPopup.fxml"));
+                        Parent popup;
+                        try {
+                            popup = loader.load();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            throw new RuntimeException(e);
                         }
-                    });
-                    popOver.show(c);
+                        MapPopupController controller = loader.getController();
+                        try {
+                            controller.showNodeInformation(updater, n);
+                        } catch (SQLException | ItemNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        popOver.setContentNode(popup);
+                        popOver.setArrowLocation(PopOver.ArrowLocation.TOP_CENTER);
+                        popOver.setAutoHide(true);
+
+                        popOver.showingProperty().addListener((observable, oldValue, newValue) -> {
+                            if (controller.isDeleteButtonPressed()) {
+                                nodePanes[floor].getChildren().remove(c);
+                                if(linesMap.containsKey(n.getNodeID())) {
+                                    nodePanes[floor].getChildren().removeAll(linesMap.get(n.getNodeID()));
+                                }
+                            }
+                        });
+                        popOver.show(c);
+                    }
                 }
             }
         });
 
         c.setOnMouseDragged(dragEvent -> {
-            if (!gesturePane.isGestureEnabled()) {
-                c.setCenterX(dragEvent.getX());
-                c.setCenterY(dragEvent.getY());
-            }
+            if (dragEvent.getButton().equals(MouseButton.SECONDARY)|| drawEdgesMode) return;
+            gesturePane.setGestureEnabled(false);
+            c.setCenterX(dragEvent.getX());
+            c.setCenterY(dragEvent.getY());
+            c.setFill(Color.LIMEGREEN);
+            dragged = true;
         });
         c.setOnMouseReleased(dragEvent -> {
-            if (!gesturePane.isGestureEnabled()) {
-                try {
-                    if(linesMap.containsKey(n.getNodeID())) {
-                        nodePanes[floor].getChildren().removeAll(linesMap.get(n.getNodeID()));
-                    }
-                    List<Edge> n_edges;
-                    n_edges = mapdb.getEdgesByNode(n.getNodeID());
-                    Line l1 = null;
-                    for(Edge e: n_edges) {
-                        Node startNode = mapdb.getNodeByID(e.getStartNode());
-                        Node endNode = mapdb.getNodeByID(e.getEndNode());
-                        if (n.getNodeID() == e.getStartNode() && endNode.getFloorNum().equals(nodeFloorNames[floor])) {
-                            l1 = new Line(dragEvent.getX(), dragEvent.getY(), endNode.getXCoord(), endNode.getYCoord());
-                        }
-                        else if (n.getNodeID() == e.getEndNode() && startNode.getFloorNum().equals(nodeFloorNames[floor])){
-                            l1 = new Line(startNode.getXCoord(), startNode.getYCoord(), dragEvent.getX(), dragEvent.getY());
-                        }
-                        if (l1 != null && !nodePanes[floor].getChildren().contains(l1)) {
-                            l1.setStroke(Color.RED);
-                            l1.setStrokeWidth(4);
-                            nodePanes[floor].getChildren().add(l1);
-                            l1.toBack();
-                            addLine(n.getNodeID(), l1);
-                        }
-                    }
-                    updater.modifyCoords(n.getNodeID(), (int) dragEvent.getX(), (int) dragEvent.getY());
-                    mapdb.modifyCoords(n.getNodeID(), (int) dragEvent.getX(), (int) dragEvent.getY());
-                    updater.endAction();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
+            if (dragEvent.getButton().equals(MouseButton.SECONDARY) || drawEdgesMode) return;
+            gesturePane.setGestureEnabled(true);
+            c.setFill(pathColor);
+            try {
+                if(linesMap.containsKey(n.getNodeID())) {
+                    nodePanes[floor].getChildren().removeAll(linesMap.get(n.getNodeID()));
                 }
+                List<Edge> n_edges;
+                n_edges = mapdb.getEdgesByNode(n.getNodeID());
+                Line l1 = null;
+                for(Edge e: n_edges) {
+                    Node startNode = mapdb.getNodeByID(e.getStartNode());
+                    Node endNode = mapdb.getNodeByID(e.getEndNode());
+                    if (n.getNodeID() == e.getStartNode() && endNode.getFloorNum().equals(nodeFloorNames[floor])) {
+                        l1 = new Line(dragEvent.getX(), dragEvent.getY(), endNode.getXCoord(), endNode.getYCoord());
+                    }
+                    else if (n.getNodeID() == e.getEndNode() && startNode.getFloorNum().equals(nodeFloorNames[floor])){
+                        l1 = new Line(startNode.getXCoord(), startNode.getYCoord(), dragEvent.getX(), dragEvent.getY());
+                    }
+                    if (l1 != null && !nodePanes[floor].getChildren().contains(l1)) {
+                        l1.setStroke(pathColor);
+                        l1.setStrokeWidth(4);
+                        nodePanes[floor].getChildren().add(l1);
+                        l1.toBack();
+                        addLine(startNode.getNodeID(), l1);
+                        addLine(endNode.getNodeID(), l1);
+                    }
+                }
+                updater.modifyCoords(n.getNodeID(), (int) dragEvent.getX(), (int) dragEvent.getY());
+                mapdb.modifyCoords(n.getNodeID(), (int) dragEvent.getX(), (int) dragEvent.getY());
+                updater.endAction();
+            } catch (SQLException | ItemNotFoundException e) {
+                throw new RuntimeException(e);
             }
         });
     }
 
     public void redraw() throws SQLException, ItemNotFoundException {
-        locationPanes[currentFloor].getChildren().clear();
         nodePanes[currentFloor].getChildren().clear();
         mapPane.getChildren().remove(nodePanes[currentFloor]);
-        mapPane.getChildren().remove(locationPanes[currentFloor]);
         displayEdgesByFloor(currentFloor);
         displayNodesByFloor(currentFloor);
+        displayLocationNames(currentFloor);
     }
 
-    public void undoAction() throws SQLException {
+    public void undoAction() throws SQLException, ItemNotFoundException {
         List<UndoData> data = updater.undo();
         System.out.println(data);
         for (UndoData undo: data) {
@@ -658,9 +849,10 @@ public class MapEditorController {
                             mod.setCenterX(node.getXCoord());
                             mod.setCenterY(node.getYCoord());
                             mapdb.modifyCoords(node.getNodeID(), node.getXCoord(), node.getYCoord());
+                            redrawEdges(node);
                         }
                         case DELETION -> {
-                            Circle deleted = new Circle(node.getXCoord(), node.getYCoord(), 4, Color.RED);
+                            Circle deleted = new Circle(node.getXCoord(), node.getYCoord(), 4, pathColor);
 
                             setupMapNode(currentFloor, node, deleted);
 
@@ -692,7 +884,24 @@ public class MapEditorController {
                             }
                             Line line = new Line(startNode.getXCoord(), startNode.getYCoord(), endNode.getXCoord(), endNode.getYCoord());
                             line.setStrokeWidth(4);
-                            line.setStroke(Color.RED);
+                            line.setStroke(pathColor);
+
+                            line.setOnMouseClicked(event -> {
+                                if (event.getButton().equals(MouseButton.SECONDARY)) {
+                                    updater.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
+                                    try {
+                                        mapdb.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
+                                    } catch (SQLException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
+                                    updater.endAction();
+                                    linesMap.remove(edge.getStartNode());
+                                    linesMap.remove(edge.getEndNode());
+                                    nodePanes[currentFloor].getChildren().remove(line);
+                                    nodePanes[currentFloor].requestLayout();
+                                }
+                            });
+
                             nodePanes[currentFloor].getChildren().add(line);
                             edges.add(edge);
                             mapdb.addEdge(edge.getStartNode(), edge.getEndNode());
@@ -702,7 +911,7 @@ public class MapEditorController {
                             Node endNode = mapdb.getNodeByID(edge.getEndNode());
                             Line line = new Line(startNode.getXCoord(), startNode.getYCoord(), endNode.getXCoord(), endNode.getYCoord());
                             line.setStrokeWidth(4);
-                            line.setStroke(Color.RED);
+                            line.setStroke(pathColor);
                             nodePanes[currentFloor].getChildren().add(line);
                             edges.add(edge);
                             mapdb.addEdge(edge.getStartNode(), edge.getEndNode());
@@ -737,6 +946,7 @@ public class MapEditorController {
 
     private void saveChanges() throws SQLException, ItemNotFoundException {
         gesturePane.setGestureEnabled(true);
+        updater.endAction();
         updater.submitUpdates();
         redraw();
     }
@@ -749,5 +959,110 @@ public class MapEditorController {
             lines.add(line);
             linesMap.put(nodeID, lines);
         }
+    }
+
+    private void redrawEdges(Node n) {
+        try {
+            if(linesMap.containsKey(n.getNodeID())) {
+                nodePanes[currentFloor].getChildren().removeAll(linesMap.get(n.getNodeID()));
+            }
+            List<Edge> n_edges;
+            n_edges = mapdb.getEdgesByNode(n.getNodeID());
+            for(Edge e: n_edges) {
+                Node startNode = mapdb.getNodeByID(e.getStartNode());
+                Node endNode = mapdb.getNodeByID(e.getEndNode());
+                if (startNode.getFloorNum().equals(endNode.getFloorNum())) {
+                    final Line l1 = new Line(startNode.getXCoord(), startNode.getYCoord(), endNode.getXCoord(), endNode.getYCoord());
+                    l1.setStroke(pathColor);
+                    l1.setStrokeWidth(4);
+                    addLine(e.getStartNode(), l1);
+                    addLine(e.getEndNode(), l1);
+                    nodePanes[currentFloor].getChildren().add(l1);
+                    l1.toBack();
+
+                    l1.setOnMouseClicked(event -> {
+                        if (event.getButton().equals(MouseButton.SECONDARY)) {
+                            updater.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
+                            try {
+                                mapdb.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
+                            } catch (SQLException ex) {
+                                throw new RuntimeException(ex);
+                            }
+                            updater.endAction();
+                            linesMap.remove(e.getStartNode());
+                            linesMap.remove(e.getEndNode());
+                            nodePanes[currentFloor].getChildren().remove(l1);
+                            nodePanes[currentFloor].requestLayout();
+                        }
+                    });
+                }
+            }
+        } catch (SQLException | ItemNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void displayLocationNames(int floor) throws SQLException {
+        if (floor <= 4) {
+            ObservableList<String> checkedItems = locationFilters.getCheckModel().getCheckedItems();
+            for (String s: checkedItems) {
+                displayLocationNamesByType(floor, s);
+            }
+        }
+    }
+
+    public void displayLocationNamesByType(int floor, String type) throws SQLException {
+        String f = nodeFloorNames[floor];
+        ArrayList<MapLocation> locs = mapdb.getMapLocationsByFloor(f);
+        if (locs.size() > 0) {
+            for (MapLocation m: locs) {
+                if (m.getLocationNames().size() > 0) {
+                    String shortName = m.getLocationNames().get(0).getShortName();
+                    String checkedType = locationMap.get(type);
+                    if (checkedType.equals(m.getLocationNames().get(0).getNodeType())) {
+                        Text t = new Text();
+                        Node n = m.getNode();
+                        t.setText(shortName);
+                        t.setFill(textColor);
+
+                        DropShadow dropShadow = new DropShadow();
+                        dropShadow.setColor(Color.WHITE);
+                        dropShadow.setRadius(5);
+                        dropShadow.setOffsetX(3);
+                        dropShadow.setOffsetY(3);
+
+                        t.setEffect(dropShadow);
+                        t.setFont(Font.font(18));
+                        t.setX(n.getXCoord() + 10);
+                        t.setY(n.getYCoord());
+
+                        nodePanes[floor].getChildren().add(t);
+                    }
+                }
+            }
+        }
+    }
+
+    public void initializeLocationMap() {
+        //"Lab", "Elevator", "Services", "Conference Room", "Stairs", "Information", "Restroom", "Department", "Bathroom", "Exit", "Retail"
+        locationMap.put("Lab", "LAB");
+        locationMap.put("Elevator", "ELEV");
+        locationMap.put("Services", "SERV");
+        locationMap.put("Conference Room", "CONF");
+        locationMap.put("Stairs", "STAI");
+        locationMap.put("Information", "INFO");
+        locationMap.put("Restroom", "REST");
+        locationMap.put("Department", "DEPT");
+        locationMap.put("Bathroom", "BATH");
+        locationMap.put("Exit", "EXIT");
+        locationMap.put("Retail", "RETL");
+    }
+
+    public void setFloorButtonMap(){
+        floorButtonMap.put(0, L2Button);
+        floorButtonMap.put(1, L1Button);
+        floorButtonMap.put(2, floor1Button);
+        floorButtonMap.put(3, floor2Button);
+        floorButtonMap.put(4, floor3Button);
     }
 }
