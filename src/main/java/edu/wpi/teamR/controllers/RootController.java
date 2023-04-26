@@ -26,6 +26,8 @@ import org.controlsfx.control.PopOver;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import static edu.wpi.teamR.navigation.Navigation.navigate;
+
 /*TODO
     add signage page in place of sort orders
       if admin is signage config
@@ -65,18 +67,22 @@ public class RootController {
   @FXML
   public void initialize() {
     instance = this;
-    bwhHome.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
+    bwhHome.setOnMouseClicked(event -> navigate(Screen.HOME));
     profileButton.setOnMouseClicked(event -> {
       try {
         openProfile();
-      } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      } catch (ClassNotFoundException e) {
+        throw new RuntimeException(e);
+      } catch (ItemNotFoundException e) {
         throw new RuntimeException(e);
       }
     });
     logoutButton.setOnMouseClicked(event -> logout());
-    newRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.ITEMREQUEST));
-    pathfindingButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
-    signagePageButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
+    newRequestButton.setOnMouseClicked(event -> navigate(Screen.ITEMREQUEST));
+    pathfindingButton.setOnMouseClicked(event -> navigate(Screen.MAP));
+    signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGE));
     exitButton.setOnMouseClicked(event -> Platform.exit());
 
     helpButton.setOnMouseClicked(
@@ -87,6 +93,9 @@ public class RootController {
                 e.printStackTrace();
               }
             });
+
+    sidebarVBox.setVisible(false);
+    sidebarVBox.setManaged(false);
 
     Duration delay = Duration.seconds(120);
     transition = new PauseTransition(delay);
@@ -122,6 +131,35 @@ public class RootController {
     helpPopup.setAutoHide(true);
     helpPopup.show(helpButton);
   }
+//  @FXML
+//  private void openRequest(){
+//    if (sidebarVBox.isVisible()) {
+//      sidebarVBox.setVisible(false);
+//      sidebarVBox.setManaged(false);
+//    }
+//    else {
+//      sidebarVBox.setVisible(true);
+//      sidebarVBox.setManaged(true);
+//      flowerDelivery.setOnMouseClicked(event -> flowerRequest());
+//      furnitureDelivery.setOnMouseClicked(event -> furnitureRequest());
+//      mealDelivery.setOnMouseClicked(event -> mealRequest());
+//    }
+//  }
+////
+//  @FXML private void mealRequest() {
+//    RequestController.requestType = new RequestTypeMeal();
+//    navigate(Screen.MEAL_REQUEST);
+//  }
+//
+//  @FXML private void flowerRequest() {
+//    RequestController.requestType = new RequestTypeFlower();
+//    navigate(Screen.FLOWER_REQUEST);
+//  }
+//
+//  @FXML private void furnitureRequest() {
+//    RequestController.requestType = new RequestTypeFurniture();
+//    navigate(Screen.FURNITURE_REQUEST);
+//  }
 
   /* This is a little buggy and could be worked on more. */
   private void timeout() {
@@ -133,6 +171,12 @@ public class RootController {
 
   public static RootController getInstance() {
     return instance;
+  }
+
+  private void navigate(Screen screen) {
+    sidebarVBox.setVisible(false);
+    sidebarVBox.setManaged(false);
+    Navigation.navigate(screen);
   }
 
   public void showSidebar() {
@@ -149,8 +193,8 @@ public class RootController {
     }
   }
   public void setSignagePage(){
-    //signagePageButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGECONFIGURATION));
+    //signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGECONFIGURATION));
     //signageText.setText("  Edit\nSignage");
-    signagePageButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
+    signagePageButton.setOnMouseClicked(event -> navigate(Screen.SIGNAGE));
   }
 }

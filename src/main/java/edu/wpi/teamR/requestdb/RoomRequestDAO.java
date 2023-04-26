@@ -6,13 +6,12 @@ import edu.wpi.teamR.ItemNotFoundException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 public class RoomRequestDAO {
 
     public RoomRequestDAO() {}
 
-    RoomRequest addRoomRequest(String longname, String staffUsername, Timestamp startTime, Timestamp endTime) throws SQLException {
+    RoomRequest addRoomRequest(String longname, String staffUsername, Timestamp startTime, Timestamp endTime) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement sqlInsert = connection.prepareStatement("INSERT INTO " + Configuration.getRoomRequestSchemaNameTableName()+"(longname,staffUsername,startTime,endTime) VALUES(?,?,?,?);",Statement.RETURN_GENERATED_KEYS);
         sqlInsert.setString(1, longname);
@@ -30,65 +29,52 @@ public class RoomRequestDAO {
         return(new RoomRequest(roomRequestID, longname, staffUsername, startTime, endTime));
     }
 
-    void addRoomRequests(List<RoomRequest> roomRequests) throws SQLException {
-        Connection connection = Configuration.getConnection();
-        PreparedStatement sqlInsert = connection.prepareStatement("INSERT INTO " + Configuration.getRoomRequestSchemaNameTableName()+" VALUES(?,?,?,?,?);");
-        for (RoomRequest r : roomRequests) {
-            sqlInsert.setInt(1, r.getRoomRequestID());
-            sqlInsert.setString(2, r.getLongName());
-            sqlInsert.setString(3, r.getStaffUsername());
-            sqlInsert.setTimestamp(4, r.getStartTime());
-            sqlInsert.setTimestamp(5, r.getEndTime());
-            sqlInsert.executeUpdate();
-        }
-    }
-
-    void deleteRoomRequest(int roomRequestID) throws SQLException {
+    void deleteRoomRequest(int roomRequestID) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement sqlDelete = connection.prepareStatement("DELETE FROM "+ Configuration.getRoomRequestSchemaNameTableName() + " WHERE roomRequestID=?;");
         sqlDelete.setInt(1, roomRequestID);
         sqlDelete.executeUpdate();
     }
 
-    public void deleteAllRoomRequests() throws SQLException {
+    public void deleteAllRoomRequests() throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement sqlDelete = connection.prepareStatement("DELETE FROM "+ Configuration.getRoomRequestSchemaNameTableName() + ";");
         sqlDelete.executeUpdate();
     }
 
 
-    ArrayList<RoomRequest> getRoomRequests() throws SQLException {
+    ArrayList<RoomRequest> getRoomRequests() throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+";");
         ArrayList<RoomRequest> rooms = new ArrayList<>();
         while (resultSet.next()){
             int roomRequestID = resultSet.getInt("roomRequestID");
-            String longName = resultSet.getString("longName");
+            String longname = resultSet.getString("longname");
             String staffUsername = resultSet.getString("staffUsername");
             Timestamp startTime = resultSet.getTimestamp("startTime");
             Timestamp endTime = resultSet.getTimestamp("endTime");
 
-            rooms.add(new RoomRequest(roomRequestID, longName, staffUsername, startTime, endTime));
+            rooms.add(new RoomRequest(roomRequestID, longname, staffUsername, startTime, endTime));
         }
         return rooms;
     }
-    RoomRequest getRoomRequestByID(int roomRequestID) throws SQLException, ItemNotFoundException {
+    RoomRequest getRoomRequestByID(int roomRequestID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE roomRequestID=?;");
         preparedStatement.setInt(1, roomRequestID);
         ResultSet resultSet = preparedStatement.executeQuery();
         if (!resultSet.next())
             throw new ItemNotFoundException();
-        String longName = resultSet.getString("longName");
+        String longname = resultSet.getString("longname");
         String staffUsername = resultSet.getString("staffUsername");
         Timestamp startTime = resultSet.getTimestamp("startTime");
         Timestamp endTime = resultSet.getTimestamp("endTime");
 
-        return new RoomRequest(roomRequestID, longName, staffUsername, startTime, endTime);
+        return new RoomRequest(roomRequestID, longname, staffUsername, startTime, endTime);
     }
 
-    ArrayList<RoomRequest> getRoomRequestsByStaffUsername(String staffUsername) throws SQLException {
+    ArrayList<RoomRequest> getRoomRequestsByStaffUsername(String staffUsername) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE staffUsername=?;");
         preparedStatement.setString(1, staffUsername);
@@ -97,19 +83,19 @@ public class RoomRequestDAO {
         ArrayList<RoomRequest> rooms = new ArrayList<>();
         while (resultSet.next()){
             int roomRequestID = resultSet.getInt("roomRequestID");
-            String longName = resultSet.getString("longName");
+            String longname = resultSet.getString("longname");
             Timestamp startTime = resultSet.getTimestamp("startTime");
             Timestamp endTime = resultSet.getTimestamp("endTime");
 
-            rooms.add(new RoomRequest(roomRequestID, longName, staffUsername, startTime, endTime));
+            rooms.add(new RoomRequest(roomRequestID, longname, staffUsername, startTime, endTime));
         }
         return rooms;
     }
 
-    ArrayList<RoomRequest> getRoomRequestsByLongName(String longName) throws SQLException {
+    ArrayList<RoomRequest> getRoomRequestsByLongname(String longname) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE longname=?;");
-        preparedStatement.setString(1, longName);
+        preparedStatement.setString(1, longname);
         ResultSet resultSet = preparedStatement.executeQuery();
 
         ArrayList<RoomRequest> rooms = new ArrayList<>();
@@ -119,18 +105,18 @@ public class RoomRequestDAO {
             Timestamp startTime = resultSet.getTimestamp("startTime");
             Timestamp endTime = resultSet.getTimestamp("endTime");
 
-            rooms.add(new RoomRequest(roomRequestID, longName, staffUsername, startTime, endTime));
+            rooms.add(new RoomRequest(roomRequestID, longname, staffUsername, startTime, endTime));
         }
         return rooms;
     }
 
-    ArrayList<RoomRequest> getRoomRequestsByDate(LocalDate date) throws SQLException {
+    ArrayList<RoomRequest> getRoomRequestsByDate(LocalDate date) throws SQLException, ClassNotFoundException {
         Timestamp startOfDay = Timestamp.valueOf(date.atStartOfDay());
         Timestamp endOfDay = Timestamp.valueOf(date.atTime(23, 59, 59, 999999999));
         return getRoomRequestsBetweenTimes(startOfDay, endOfDay);
     }
 
-    ArrayList<RoomRequest> getRoomRequestsBetweenTimes(Timestamp firstTime,Timestamp secondTime) throws SQLException {
+    ArrayList<RoomRequest> getRoomRequestsBetweenTimes(Timestamp firstTime,Timestamp secondTime) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getRoomRequestSchemaNameTableName()+" WHERE NOT((startTime<? AND endTime<?) OR (startTime>? AND endTime>?));");
         preparedStatement.setTimestamp(1, firstTime);
@@ -143,12 +129,12 @@ public class RoomRequestDAO {
         ArrayList<RoomRequest> rooms = new ArrayList<>();
         while (resultSet.next()){
             int roomRequestID = resultSet.getInt("roomRequestID");
-            String longName = resultSet.getString("longName");
+            String longname = resultSet.getString("longname");
             String staffUsername = resultSet.getString("staffUsername");
             Timestamp startTime = resultSet.getTimestamp("startTime");
             Timestamp endTime = resultSet.getTimestamp("endTime");
 
-            rooms.add(new RoomRequest(roomRequestID, longName, staffUsername, startTime, endTime));
+            rooms.add(new RoomRequest(roomRequestID, longname, staffUsername, startTime, endTime));
         }
         return rooms;
     }

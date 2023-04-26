@@ -69,7 +69,7 @@ public class RoomRequestController {
         ArrayList<String> locNames = new ArrayList<>();
         locNames.add("Select Location- Optional");
         for(ConferenceRoom conferenceRoom: mapDatabase.getConferenceRooms()){
-            locNames.add(conferenceRoom.getLongname());
+            locNames.add(conferenceRoom.getLongName());
         }
         UserData thisUserData = UserData.getInstance();
         CurrentUser user = thisUserData.getLoggedIn();
@@ -106,7 +106,7 @@ public class RoomRequestController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/RoomCard.fxml"));
         Node node = loader.load();
         RoomCard contentController = loader.getController();
-        contentController.setInfo(item.getLongname(), "Capacity: "+ item.getCapacity(), "Floor: " + mapDatabase.getNodeFromLocationName(item.getLongname()).getFloorNum());
+        contentController.setInfo(item.getLongName(), "Capacity: "+ item.getCapacity(), "Floor: " + mapDatabase.getNodeFromLocationName(item.getLongName()).getFloorNum());
         addDisplayFeatures(item, contentController.getFeatureBox());
         Button btn = contentController.getButton();
         btn.setOnAction(event -> {
@@ -118,7 +118,7 @@ public class RoomRequestController {
             btn.setGraphic(imageView);
             btn.setOnAction(null);
             try {
-                new RequestDatabase().addRoomRequest(item.getLongname(), UserData.getInstance().getLoggedIn().getUsername(), startTime, endTime);
+                new RequestDatabase().addRoomRequest(item.getLongName(), UserData.getInstance().getLoggedIn().getUsername(), startTime, endTime);
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -144,8 +144,8 @@ public class RoomRequestController {
             }
         }
         else{
-            if (isAvailable(mapDatabase.getConferenceRoomByLongname(location))){
-                cardsContainer.getChildren().add(loadCard(mapDatabase.getConferenceRoomByLongname(location)));
+            if (isAvailable(mapDatabase.getConferenceRoomByLongName(location))){
+                cardsContainer.getChildren().add(loadCard(mapDatabase.getConferenceRoomByLongName(location)));
             }
         }
         if(cardsContainer.getChildren().isEmpty()){
@@ -210,7 +210,7 @@ public class RoomRequestController {
         if(plugToggle.isSelected() && !conferenceRoom.isHasOutlets()){
             return false;
         }
-        for(RoomRequest roomRequest: new RequestDatabase().getRoomRequestsByLongname(conferenceRoom.getLongname())){
+        for(RoomRequest roomRequest: new RequestDatabase().getRoomRequestsByLongName(conferenceRoom.getLongName())){
             Timestamp requestStart = roomRequest.getStartTime();
             Timestamp requestEnd = roomRequest.getEndTime();
             if((requestStart.after(startTime) && requestStart.before(endTime)) ||

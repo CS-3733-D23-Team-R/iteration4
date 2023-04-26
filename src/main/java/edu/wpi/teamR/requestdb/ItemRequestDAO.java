@@ -7,11 +7,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ItemRequestDAO {
     public  ItemRequestDAO(){}
-    ItemRequest addItemRequest(RequestType requestType, RequestStatus requestStatus, String longname, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) throws SQLException {
+    ItemRequest addItemRequest(RequestType requestType, RequestStatus requestStatus, String longname, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+ Configuration.getServiceRequestSchemaNameTableName()+"(requestType,requestStatus,longname,staffUsername,itemType,requesterName,additionalNotes,requestDate) VALUES (?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setString(1, requestType.toString());
@@ -30,24 +29,7 @@ public class ItemRequestDAO {
         return new ItemRequest(requestID, requestType, requestStatus, longname, staffUsername, itemType, requesterName, additionalNotes, requestDate);
     }
 
-    void addItemRequests(List<ItemRequest> itemRequests) throws SQLException {
-        Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+ Configuration.getServiceRequestSchemaNameTableName()+" VALUES (?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-        for (ItemRequest i : itemRequests) {
-            preparedStatement.setInt(1, i.getRequestID());
-            preparedStatement.setString(2, i.getRequestType().toString());
-            preparedStatement.setString(3, i.getRequestStatus().toString());
-            preparedStatement.setString(4, i.getLongName());
-            preparedStatement.setString(5, i.getStaffUsername());
-            preparedStatement.setString(6, i.getItemType());
-            preparedStatement.setString(7, i.getRequesterName());
-            preparedStatement.setString(8, i.getAdditionalNotes());
-            preparedStatement.setTimestamp(9, i.getRequestDate());
-            preparedStatement.executeUpdate();
-        }
-    }
-
-    void deleteItemRequest(int requestID) throws SQLException, ItemNotFoundException {
+    void deleteItemRequest(int requestID) throws SQLException, ClassNotFoundException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getServiceRequestSchemaNameTableName()+" WHERE requestID=?;");
         preparedStatement.setInt(1, requestID);
@@ -56,7 +38,7 @@ public class ItemRequestDAO {
             throw new ItemNotFoundException();
     }
 
-    ItemRequest modifyItemRequestByID(int requestID, RequestType requestType, RequestStatus requestStatus, String longname, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) throws SQLException, ItemNotFoundException {
+    ItemRequest modifyItemRequestByID(int requestID, RequestType requestType, RequestStatus requestStatus, String longname, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) throws SQLException, ClassNotFoundException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE "+Configuration.getServiceRequestSchemaNameTableName()+" SET requestType=?, requestStatus=?, longname=?, staffUsername=?, itemType=?, requesterName=?, additionalNotes=?, requestDate=? WHERE requestID=?");
         preparedStatement.setString(1, requestType.toString());
@@ -74,17 +56,17 @@ public class ItemRequestDAO {
         return new ItemRequest(requestID, requestType, requestStatus, longname, staffUsername, requesterName, additionalNotes, additionalNotes, requestDate);
     }
 
-    public void deleteAllItemRequests() throws SQLException {
+    public void deleteAllItemRequests() throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "+Configuration.getServiceRequestSchemaNameTableName()+";");
         preparedStatement.executeUpdate();
     }
-    ArrayList<ItemRequest> getItemRequests() throws SQLException {
+    ArrayList<ItemRequest> getItemRequests() throws SQLException, ClassNotFoundException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getServiceRequestSchemaNameTableName()+";");
         return getItemRequests(preparedStatement);
     }
-    ArrayList<ItemRequest> getItemRequestByAttributes(SearchList searchList) throws SQLException {
+    ArrayList<ItemRequest> getItemRequestByAttributes(SearchList searchList) throws SQLException, ClassNotFoundException {
         //separate the query items into the filter and order requirements because the
         // filter requirements need to be applied first
         ArrayList<Triple<RequestAttribute, Operation, Object>> fullRequirements = searchList.getSearchRequirements();
@@ -162,7 +144,7 @@ public class ItemRequestDAO {
     }
 
     @NotNull
-    private ArrayList<ItemRequest> getItemRequests(PreparedStatement preparedStatement) throws SQLException {
+    private ArrayList<ItemRequest> getItemRequests(PreparedStatement preparedStatement) throws SQLException, ClassNotFoundException {
         Statement statement = Configuration.getConnection().createStatement();
         ResultSet resultSet = statement.executeQuery(preparedStatement.toString()); //preparedStatement.executeQuery();
         ArrayList<ItemRequest> itemRequests = new ArrayList<>();

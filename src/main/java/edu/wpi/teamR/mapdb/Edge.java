@@ -1,13 +1,14 @@
 package edu.wpi.teamR.mapdb;
 
-import edu.wpi.teamR.archive.Archivable;
+import edu.wpi.teamR.csv.CSVReadable;
+import edu.wpi.teamR.csv.CSVWritable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter(AccessLevel.PACKAGE)
-public class Edge implements MapData, Archivable {
+public class Edge implements MapData, CSVReadable, CSVWritable {
     private int startNode, endNode;
 
     public Edge(int startNode, int endNode) {

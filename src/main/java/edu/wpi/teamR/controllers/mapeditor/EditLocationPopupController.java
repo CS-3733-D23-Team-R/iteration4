@@ -89,17 +89,22 @@ public class EditLocationPopupController {
             try {
                 submitLocationChange();
                 close((Stage)submitButton.getScene().getWindow());
-            } catch (SQLException | ItemNotFoundException | ClassNotFoundException e) {
+            } catch (SQLException | ItemNotFoundException e) {
                 throw new RuntimeException(e);
             }
         });
 
         deleteButton.setOnAction(event -> {
             try {
+                //mapUpdater.deleteLocationName(locationComboBox.getValue());
                 mapUpdater.deleteMovesByLocationName(locationComboBox.getValue());
                 mapdb.deleteMovesByLocationName(locationComboBox.getValue());
-                mapUpdater.deleteLocationName(locationComboBox.getValue());
+                /*
+                mapdb.deleteDirectionArrowByLongname(locationComboBox.getValue());
+                mapdb.deleteAllConferenceRooms();
                 mapdb.deleteLocationName(locationComboBox.getValue());
+
+                 */
                 close((Stage)submitButton.getScene().getWindow());
             } catch (SQLException | ItemNotFoundException e) {
                 throw new RuntimeException(e);
@@ -116,18 +121,16 @@ public class EditLocationPopupController {
         this.mapUpdater = updater;
     }
 
-    public void submitLocationChange() throws SQLException, ItemNotFoundException, ClassNotFoundException {
+    public void submitLocationChange() throws SQLException, ItemNotFoundException {
         LocationName ln = mapdb.getLocationNameByLongName(locationComboBox.getValue());
         if (!ln.getShortName().equals(shortField.getText())) {
             mapUpdater.modifyLocationNameShortName(ln.getLongName(), shortField.getText());
             mapdb.modifyLocationNameShortName(ln.getLongName(), shortField.getText());
+            mapdb.addMove(nodeComboBox.getValue(), ln.getLongName(), Date.valueOf(datePicker.getValue()));
         }
         if (!ln.getNodeType().equals(typeComboBox.getValue())) {
             mapUpdater.modifyLocationNameShortName(ln.getLongName(), typeComboBox.getValue());
             mapdb.modifyLocationNameShortName(ln.getLongName(), typeComboBox.getValue());
-        }
-        if (mapdb.getNodeFromLocationName(ln.getLongName()).getNodeID() != nodeComboBox.getValue()) {
-            mapdb.addMove(nodeComboBox.getValue(), ln.getLongName(), Date.valueOf(datePicker.getValue()));
         }
     }
 }

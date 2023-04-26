@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 import static java.lang.Math.abs;
 
-abstract class SearchAlgorithm implements SearchInterface {
+abstract class SearchAlgorithm implements SearchInterface{
 
     MapDatabase mapDatabase;
     SearchAlgorithm(MapDatabase mapDatabase) {
@@ -19,7 +19,7 @@ abstract class SearchAlgorithm implements SearchInterface {
         return nodeDist(currentNodeID, nextNodeID, 100);
     }
 
-    protected int nodeDist(int currentNodeID, int nextNodeID, int zDifMultiplier) throws SQLException, ItemNotFoundException {
+    int nodeDist(int currentNodeID, int nextNodeID, int zDifMultiplier) throws SQLException, ItemNotFoundException {
         //finds difference in x,y
         Node currNode = mapDatabase.getNodeByID(currentNodeID);
         Node nextNode = mapDatabase.getNodeByID(nextNodeID);
@@ -38,11 +38,12 @@ abstract class SearchAlgorithm implements SearchInterface {
     }
 
     //outputs the floor number 0 indexed from the lowest floor (L2)
-    protected int floorNumAsInt(String floorNum) {
-        return switch (floorNum) {
+    int floorNumAsInt(String floorNum) {
+        int output = switch (floorNum) {
             case "L1" -> 1;
             case "L2" -> 0;
             default -> Integer.parseInt(floorNum) + 1;
         };
+        return output;
     }
 }

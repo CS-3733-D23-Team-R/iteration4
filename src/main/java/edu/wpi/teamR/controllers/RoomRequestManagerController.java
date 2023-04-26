@@ -101,7 +101,7 @@ public class RoomRequestManagerController {
 
                 if(roomRequest.getStaffUsername().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true;
-                } else if (roomRequest.getLongname().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                } else if (roomRequest.getLongName().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                     return true;
                 } else if ((roomRequest.getRoomRequestID() + "").indexOf(lowerCaseFilter) != -1) {
                     return true;

@@ -1,6 +1,5 @@
 package edu.wpi.teamR.mapdb;
 import edu.wpi.teamR.Configuration;
-import edu.wpi.teamR.ItemNotFoundException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +38,7 @@ public class NodeDAOTest {
         assertEquals(nodes.size(), 1);
     }
     @Test
-    void getNodeByIDTest() throws SQLException, ItemNotFoundException {
+    void getNodeByIDTest() throws SQLException {
         Node aNode = nodeDAO.addNode(11, 12, "Floor2", "Building2");
         assertEquals(aNode.getNodeID(), nodeDAO.getNodeByID(aNode.getNodeID()).getNodeID());
         assertEquals(aNode.getXCoord(), nodeDAO.getNodeByID(aNode.getNodeID()).getXCoord());
@@ -48,7 +47,7 @@ public class NodeDAOTest {
         assertEquals(aNode.getBuilding(), nodeDAO.getNodeByID(aNode.getNodeID()).getBuilding());
     }
     @Test
-    void getNodesByFloorTest() throws SQLException, ItemNotFoundException {
+    void getNodesByFloorTest() throws SQLException {
         ArrayList<Node> nodes = new ArrayList<Node>();
         Node aNode = nodeDAO.addNode(13, 14, "Floor3", "Building3");
         Node aNode2 = nodeDAO.addNode(15, 16, "Floor3", "Building3");
@@ -63,7 +62,7 @@ public class NodeDAOTest {
         }
     }
     @Test
-    void addNodeTest() throws SQLException, ItemNotFoundException {
+    void addNodeTest() throws SQLException {
         Node node = nodeDAO.addNode(17, 18, "Floor4", "Building4");
         Node dummy = nodeDAO.getNodeByID(node.getNodeID());
         assertEquals(node.getNodeID(), dummy.getNodeID());
@@ -73,7 +72,7 @@ public class NodeDAOTest {
         assertEquals(node.getBuilding(), dummy.getBuilding());
     }
     @Test
-    void modifyCoordsTest() throws SQLException, ItemNotFoundException {
+    void modifyCoordsTest() throws SQLException {
         Node aNode = nodeDAO.addNode(19,  20, "Floor5", "Building5");
         Node updatedNode = nodeDAO.modifyCoords(aNode.getNodeID(), 50, 50);
         Node dummy = nodeDAO.getNodeByID(aNode.getNodeID());
