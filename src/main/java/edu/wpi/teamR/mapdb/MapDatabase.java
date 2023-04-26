@@ -40,7 +40,7 @@ public class MapDatabase {
         return nodeDao.getNodes();
     }
 
-    public Node getNodeByID(int nodeID) throws SQLException {
+    public Node getNodeByID(int nodeID) throws SQLException, ItemNotFoundException {
         return nodeDao.getNodeByID(nodeID);
     }
 
@@ -70,7 +70,7 @@ public class MapDatabase {
         nodeDao.addNodes(nodes);
     }
 
-    public Node modifyCoords(int nodeID, int newXCoord, int newYCoord) throws SQLException {
+    public Node modifyCoords(int nodeID, int newXCoord, int newYCoord) throws SQLException, ItemNotFoundException {
         return nodeDao.modifyCoords(nodeID, newXCoord, newYCoord);
     }
 
@@ -127,6 +127,14 @@ public class MapDatabase {
 
     public ArrayList<Move> getMoves() throws SQLException {
         return moveDao.getMoves();
+    }
+
+    public Move getMoveByLocationAndDate(String longName, Date date) throws SQLException, ItemNotFoundException {
+        return moveDao.getMoveByLocationAndDate(longName, date);
+    }
+
+    public Move getLatestMoveForLocationByDate(String longName, Date date) throws SQLException, ItemNotFoundException {
+        return moveDao.getLatestMoveForLocationByDate(longName, date);
     }
 
     public ArrayList<Move> getMovesForDate(Date date) throws SQLException {
@@ -198,6 +206,24 @@ public class MapDatabase {
 
     public ArrayList<LocationName> getLocationNamesByNodeType(String nodeType) throws SQLException {
         return locationNameDao.getLocationsByNodeType(nodeType);
+    }
+
+    public ArrayList<LocationName> getLocationNamesByNodeIDAtDate(int nodeID, Date date) throws SQLException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM (SELECT longname FROM (SELECT longname, MAX(date) AS date FROM "+Configuration.getMoveSchemaNameTableName()+" WHERE date<? GROUP BY longname) as foo NATURAL JOIN "+Configuration.getMoveSchemaNameTableName()+" WHERE nodeid=? ORDER BY date desc) as foo NATURAL JOIN "+Configuration.getLocationNameSchemaNameTableName()+";");
+        preparedStatement.setDate(1, date);
+        preparedStatement.setInt(2, nodeID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        ArrayList<LocationName> locationNames = new ArrayList<>();
+
+        while(resultSet.next()){
+            String aLongName = resultSet.getString("longname");
+            String aShortName = resultSet.getString("shortname");
+            String aNodeType = resultSet.getString("nodetype");
+            LocationName aLocationName = new LocationName(aLongName, aShortName, aNodeType);
+            locationNames.add(aLocationName);
+        }
+        return locationNames;
     }
 
     public String getNodeTypeByNodeID(int nodeID) throws SQLException, ItemNotFoundException {

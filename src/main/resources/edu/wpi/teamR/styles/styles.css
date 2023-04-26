@@ -427,3 +427,9 @@
     -fx-font-family: 'Nunito Sans', 'bold';
     -fx-font-size: 56;
 }
+
+.card_subtext{
+    -fx-font-family: 'Nunito Sans', 'regular';
+    -fx-font-weight: NORMAL;
+    -fx-font-size: 18;
+}

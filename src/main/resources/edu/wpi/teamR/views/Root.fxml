@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane fx:id="root" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.RootController">
@@ -105,16 +104,6 @@
                         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Roboto;" text="Exit" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
-               </children>
-            </VBox>
-            <VBox fx:id="sidebarVBox" prefHeight="720.0" prefWidth="252.0" style="-fx-background-color: #A3B9C9;" HBox.hgrow="ALWAYS">
-               <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sr-sidebar-title" text="Service Requests" translateX="5.0" VBox.vgrow="ALWAYS" />
-                  <Line endX="240.0" stroke="WHITE" strokeWidth="1.5" translateX="5.0" translateY="3.0" VBox.vgrow="ALWAYS" />
-                  <Text fx:id="flowerDelivery" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Flower Delivery" translateX="15.0" translateY="20.0" VBox.vgrow="ALWAYS" />
-                  <Text fx:id="furnitureDelivery" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Furniture Delivery" translateX="15.0" translateY="30.0" VBox.vgrow="ALWAYS" />
-                  <Text fx:id="mealDelivery" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Meal Delivery" translateX="15.0" translateY="40.0" VBox.vgrow="ALWAYS" />
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sr-sidebar-subtitle" text="Chose an option to get started" translateX="15.0" translateY="70.0" />
                </children>
             </VBox>
          </children>
