@@ -5,10 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class AvailableFlowers implements Archivable {
+public class AvailableFlowers implements IAvailableItem, Archivable {
     private String itemName, imageReference, description;
-    private double itemPrice;
+    private Double itemPrice;
     private boolean isBouqet, hasCard;
+    private RequestType requestType = RequestType.Flower;
 
     public AvailableFlowers(String itemName, String imageReference, String description, double itemPrice, boolean isBouqet, boolean hasCard) {
         this.itemName = itemName;

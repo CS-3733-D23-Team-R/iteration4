@@ -2,6 +2,7 @@ package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.App;
 import edu.wpi.teamR.ItemNotFoundException;
+import edu.wpi.teamR.Main;
 import edu.wpi.teamR.datahandling.ShoppingCart;
 import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
@@ -20,12 +21,12 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.HLineTo;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import org.controlsfx.control.SearchableComboBox;
@@ -35,15 +36,17 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ServiceRequestCartController {
 
+    @FXML AnchorPane cartAnchor;
     @FXML
-    SearchableComboBox userField;
+    SearchableComboBox<String> userField;
     @FXML
-    SearchableComboBox locationField;
+    SearchableComboBox<String> locationField;
     @FXML
-    SearchableComboBox staffField;
+    SearchableComboBox<String> staffField;
     @FXML
     Text paymentField;
     @FXML public VBox cartPane;
@@ -70,16 +73,13 @@ public class ServiceRequestCartController {
         submitButton.setOnMouseClicked(event -> {
             try {
                 submit();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
+            } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         });
         locationNames = App.getMapData().getLocationNames();
 //        AuthenticationDAO authDAO = new AuthenticationDAO();
 //        staffMembers = authDAO.getUsers();
-        //totalPriceLabel.setText("$ " + formatPrice.format(ShoppingCart.getInstance().calculateTotal()));
 
         setLocationChoiceboxes();
         setStaffChoiceBox();
@@ -87,14 +87,14 @@ public class ServiceRequestCartController {
         cartPane.getChildren().clear();
         refreshCart();
 
-        if(ShoppingCart.getInstance().items.isEmpty()){
+        if(cartInstance.items.isEmpty()){
             Text emptyLabel = new Text("Empty Cart");
             emptyLabel.setFill(Color.BLACK);
             //emptyLabel.setFont();
             cartPane.getChildren().add(emptyLabel);
         }else {
             refreshCart();
-            HBox totalPriceLabel = totalView((float) ShoppingCart.getInstance().calculateTotal());
+            HBox totalPriceLabel = totalView((float) cartInstance.calculateTotal());
             totalPriceLabel.setAlignment(Pos.BOTTOM_RIGHT);
             totalPriceLabel.setStyle("-fx-font-size: 18");
             Separator separator = new Separator();
@@ -108,49 +108,79 @@ public class ServiceRequestCartController {
     // input : ItemRequest item, Integer number
     // item -> item added to shopping cart
     // number -> number of that item added
-    @FXML private HBox shoppingCartView(AvailableItem item, Integer number){
+    @FXML private HBox shoppingCartView(IAvailableItem item, Integer number){
         HBox layout = new HBox();
         layout.setAlignment(Pos.CENTER_RIGHT);
         //FileInputStream input = new FileInputStream("");
         //Image image = new Image(input);
         //ImageView imageView = new ImageView(image);
+//        String imageURL = "images/serviceRequests/availableItems/";
+//        switch(item.getRequestType()){
+//            case Furniture -> imageURL = imageURL + "furniture/";
+//            case Flower -> imageURL = imageURL + "flowers/";
+//            case Supplies -> imageURL = imageURL + "supplies/";
+//            case Meal -> imageURL = imageURL + "food/";
+//        }
+//        imageURL = imageURL + item.getImageReference();
+//        Image requestImage = new Image(Objects.requireNonNull(Main.class.getResource(imageURL)).toExternalForm());
+//        ImageView itemImage = new ImageView(requestImage);
+//        double widthMax = 50;
+//        double imageWidth = requestImage.getWidth();
+//        double imageHeight = requestImage.getHeight();
+//        if(imageWidth > widthMax) {imageWidth = widthMax;}
+//        if(imageHeight > widthMax) {
+//            imageHeight = widthMax;
+//            if(imageWidth < widthMax){
+//
+//            }
+//        }
+//        Rectangle clipRect = new Rectangle(imageWidth, imageHeight);
+//        itemImage.setImage(requestImage);
+//        itemImage.setClip(clipRect);
 
         Text productName = new Text(item.getItemName());
         productName.setFill(Color.BLACK);
         productName.setStyle("-fx-font-size: 18");
-        //Text price = new Text("$" + ((Double)item.getItemPrice()).toString());
 
         Text quantity = new Text(String.valueOf(number));
         quantity.setStyle("fx-padding:5px;");
         quantity.setFill(Color.BLACK);
         quantity.setStyle("-fx-font-size: 18");
-        //quantity
 
         MFXButton plusButton = new MFXButton("+");
-        //plusButton.setStyle("-fx-background-color: #f1f1f1");
-        plusButton.setStyle("fx-padding: 5px;");
         plusButton.setUserData(item.getItemName());
         plusButton.setOnAction(event -> {
-            ShoppingCart.getInstance().incrementItem(item);
-            quantity.setText(String.valueOf(ShoppingCart.getInstance().items.get(item)));
-            this.totalPriceLabel.setText("$" + formatPrice.format(ShoppingCart.getInstance().calculateTotal()));
+            cartInstance.incrementItem(item);
+            quantity.setText(String.valueOf(cartInstance.items.get(item)));
+            this.totalPriceLabel.setText("$" + formatPrice.format(cartInstance.calculateTotal()));
         });
 
         MFXButton minusButton = new MFXButton("-");
-        minusButton.setStyle("fx-padding: 5px");
         minusButton.setUserData(item.getItemName());
         minusButton.setOnAction(event -> {
             if(cartInstance.getItemQuantity(item) != 0) {
-                ShoppingCart.getInstance().decrementItem(item);
-                quantity.setText(String.valueOf(String.valueOf(ShoppingCart.getInstance().items.get(item))));
-                this.totalPriceLabel.setText("$" + formatPrice.format(ShoppingCart.getInstance().calculateTotal()));
+                cartInstance.decrementItem(item);
+                quantity.setText(String.valueOf(String.valueOf(cartInstance.items.get(item))));
+                this.totalPriceLabel.setText("$" + formatPrice.format(cartInstance.calculateTotal()));
+                if (cartInstance.getItemQuantity(item) == 0) {
+                    cartInstance.deleteItem(item);
+                    refreshCart();
+                }
             }
         });
 
         Text price = new Text(String.valueOf("$"+ formatPrice.format(item.getItemPrice())));
         price.setStyle("-fx-font-size: 18");
 
+//        AnchorPane imageAnchorPane = new AnchorPane();
+//        imageAnchorPane.setMaxWidth(widthMax);
+//        imageAnchorPane.setMinWidth(widthMax);
+//        imageAnchorPane.setMaxHeight(widthMax);
+//        imageAnchorPane.setMinHeight(widthMax);
+//        imageAnchorPane.getChildren().add(itemImage);
+
         layout.getChildren().addAll(productName, plusButton, quantity, minusButton, price);
+        layout.setSpacing(5);
         return layout;
     }
 
@@ -167,7 +197,7 @@ public class ServiceRequestCartController {
 
     public void refreshCart(){
         cartPane.getChildren().clear();
-        ShoppingCart.getInstance().items.forEach(
+        cartInstance.items.forEach(
                 (item, number) -> {
                     HBox productView = shoppingCartView(item,number);
                     cartPane.getChildren().add(productView);
@@ -176,21 +206,21 @@ public class ServiceRequestCartController {
     }
 
     public Timestamp CurrentDateTime(){
-        LocalDateTime now = LocalDateTime.now();
-        return new Timestamp(now.getYear(), now.getMonthValue(), now.getDayOfMonth(), now.getHour(),now.getMinute(),now.getSecond(),now.getNano());
+        // LocalDateTime now = LocalDateTime.now();
+        return new Timestamp(System.currentTimeMillis());
     }
 
 
     @FXML
     public void submit() throws SQLException, ClassNotFoundException {
         try {
-            String location = locationField.getValue().toString();
-            String staff = staffField.getValue().toString();
-            String requestor = userField.getValue().toString();
+            String location = locationField.getValue();
+            String staff = staffField.getValue();
+            String requestor = userField.getValue();
             String additionalNotes = notesField.getText();
 
 
-        for (AvailableItem itemInHash : cartInstance.items.keySet()){
+        for (IAvailableItem itemInHash : cartInstance.items.keySet()){
             for(int i = 0; i<cartInstance.items.get(itemInHash); i++){
                 reqDatabase.addItemRequest(itemInHash.getRequestType(), RequestStatus.Unstarted, location, staff, itemInHash.getItemName(), requestor, additionalNotes, CurrentDateTime());
             }

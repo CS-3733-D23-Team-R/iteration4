@@ -5,10 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class AvailableMeals implements Archivable {
+public class AvailableMeals implements IAvailableItem, Archivable {
     private String itemName, imageReference, description;
-    private double itemPrice;
+    private Double itemPrice;
     private boolean isVegan, isVegetarian,isDairyFree, isPeanutFree, isGlutenFree;
+    private RequestType requestType = RequestType.Meal;
 
     public AvailableMeals(String itemName, String imageReference, String description, double itemPrice, boolean isVegan, boolean isVegetarian, boolean isDairyFree, boolean isPeanutFree, boolean isGlutenFree) {
         this.itemName = itemName;
