@@ -372,3 +372,19 @@
     -fx-font-weight: 700;
     -fx-border-radius: 4px;
 }
+
+.mfx-text-field {
+    -fx-color: red;
+    -fx-focus-color: red;
+    -fx-text-fill: red;
+}
+
+.mfx-text-field:focused:selected {
+    -fx-focus-color: red;
+}
+
+.mfx-text-field .floating-text {
+    -mfx-floating-label-color: red;
+    -fx-text-fill: red;
+    -fx-fill: red;
+}
