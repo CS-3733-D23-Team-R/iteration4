@@ -76,7 +76,7 @@ public class RootController {
       }
     });
     logoutButton.setOnMouseClicked(event -> logout());
-    newRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.ADDEMPLOYEE));
+    newRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.ITEMREQUEST));
     pathfindingButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
     signagePageButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
     exitButton.setOnMouseClicked(event -> Platform.exit());
