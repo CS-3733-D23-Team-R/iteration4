@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -41,7 +42,7 @@ class DirectionArrowDAOTest {
         locationNameDAO.addLocationName("test1", "", ""); // creates a location for any direction arrows
         directionArrows = directionArrowDAO.getDirectionArrows(); // should return list w/ 0 items
         assertEquals(directionArrows.size(), 0); // should be true
-        directionArrowDAO.addDirectionArrow("test1",0, Direction.Up); // creates a directionArrow
+        directionArrowDAO.addDirectionArrow("test1",0, Direction.Up, new Date(System.currentTimeMillis())); // creates a directionArrow
         directionArrows = directionArrowDAO.getDirectionArrows(); // should return list w/ 1 item
         assertEquals(directionArrows.size(), 1); // should be true
         DirectionArrow directionArrow = directionArrows.get(0);
@@ -57,8 +58,8 @@ class DirectionArrowDAOTest {
         locationNameDAO.addLocationName("test1", "", "");
         locationNameDAO.addLocationName("test2", "", "");
         // creates two directionArrows
-        directionArrowDAO.addDirectionArrow("test1",0, Direction.Up);
-        directionArrowDAO.addDirectionArrow("test2",0, Direction.Up);
+        directionArrowDAO.addDirectionArrow("test1",0, Direction.Up, new Date(System.currentTimeMillis()));
+        directionArrowDAO.addDirectionArrow("test2",0, Direction.Up, new Date(System.currentTimeMillis()));
         // gets directionArrow(s) in directionArrows
         directionArrows = directionArrowDAO.getDirectionArrows(); // should return list w/ 2 items
         DirectionArrow directionArrow = directionArrows.get(0);
@@ -86,8 +87,8 @@ class DirectionArrowDAOTest {
         locationNameDAO.addLocationName("test1", "", "");
         locationNameDAO.addLocationName("test2", "", "");
         // creates two directionArrows
-        directionArrowDAO.addDirectionArrow("test1",1, Direction.Up);
-        directionArrowDAO.addDirectionArrow("test2",2, Direction.Up);
+        directionArrowDAO.addDirectionArrow("test1",1, Direction.Up, new Date(System.currentTimeMillis()));
+        directionArrowDAO.addDirectionArrow("test2",2, Direction.Up, new Date(System.currentTimeMillis()));
         // gets directionArrow(s) in directionArrows
         // uses delete function on one matching specific longName
         directionArrows = directionArrowDAO.getDirectionArrows(); // should return list w/ 1 item
@@ -112,8 +113,8 @@ class DirectionArrowDAOTest {
         ArrayList<DirectionArrow> directionArrows;
         locationNameDAO.addLocationName("test1", "", "");
         locationNameDAO.addLocationName("test2", "", "");
-        directionArrowDAO.addDirectionArrow("test1",1, Direction.Up);
-        directionArrowDAO.addDirectionArrow("test2",2, Direction.Up);
+        directionArrowDAO.addDirectionArrow("test1",1, Direction.Up, new Date(System.currentTimeMillis()));
+        directionArrowDAO.addDirectionArrow("test2",2, Direction.Up, new Date(System.currentTimeMillis()));
         directionArrowDAO.deleteAllDirectionArrows();
         directionArrows = directionArrowDAO.getDirectionArrows(); // should return list w/ 0 items
         assertEquals(directionArrows.size(), 0); // should be true
@@ -131,8 +132,8 @@ class DirectionArrowDAOTest {
         locationNameDAO.addLocationName("test1", "", "");
         locationNameDAO.addLocationName("test2", "", "");
         // creates two directionArrows
-        directionArrowDAO.addDirectionArrow("test1",1, Direction.Up);
-        directionArrowDAO.addDirectionArrow("test2",2, Direction.Up);
+        directionArrowDAO.addDirectionArrow("test1",1, Direction.Up, new Date(System.currentTimeMillis()));
+        directionArrowDAO.addDirectionArrow("test2",2, Direction.Up, new Date(System.currentTimeMillis()));
         // gets directionArrow(s) in directionArrows
         directionArrows = directionArrowDAO.getDirectionArrows(); // should return list w/ 2 items
         DirectionArrow directionArrow = directionArrows.get(0);

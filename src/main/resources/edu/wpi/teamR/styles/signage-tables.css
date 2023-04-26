@@ -149,13 +149,13 @@
 
 /* Button styles */
 .button {
-    font-size: 8px;
+    font-size: 4px;
     font-weight: bold;
     text-align: center;
     text-decoration: none;
-    -fx-background-color: transparent;
+    -fx-background-color: #012D5A;
     cursor: pointer;
-    -fx-text-fill: #012D5A
+    -fx-text-fill: #FFFFFF
 }
 
 /* Button click effect */
