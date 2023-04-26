@@ -293,8 +293,8 @@ public class MapController {
         for (int i = 0; i < 5; i++) {
             paths[i] = new AnchorPane();
         }
-        startField.setValue("Select Start");
-        endField.setValue("Select End");
+        //startField.setValue("Select Start");
+        //endField.setValue("Select End");
         displayLocationNames(currentFloor);
         directionsVBox.getChildren().clear();
         removeIndicators();
