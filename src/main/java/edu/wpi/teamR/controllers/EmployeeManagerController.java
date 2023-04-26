@@ -6,7 +6,7 @@ import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.AuthenticationDAO;
 import edu.wpi.teamR.login.User;
 import edu.wpi.teamR.login.UserDatabase;
-import edu.wpi.teamR.requestdb.RequestDatabase;
+import edu.wpi.teamR.requestdb.*;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import edu.wpi.teamR.navigation.Navigation;
@@ -191,7 +191,21 @@ public class EmployeeManagerController {
                             User data = getTableView().getItems().get(getIndex());
                             theTable.getItems().remove(data);
                             try {
-                                new RequestDatabase().deleteItemRequestsByUser(data.getStaffUsername());
+                                SearchList searchList = new SearchList();
+                                searchList.addComparison(RequestAttribute.requestID, Operation.equalTo, data.getStaffUsername());
+                                ArrayList<ItemRequest> items = new RequestDatabase().getItemRequestByAttributes(searchList);
+                                for(ItemRequest aItem : items){
+                                    new RequestDatabase().modifyItemRequestByID(
+                                            aItem.getRequestID(),
+                                            aItem.getRequestType(),
+                                            aItem.getRequestStatus(),
+                                            aItem.getLongName(),
+                                            null,
+                                            aItem.getItemType(),
+                                            aItem.getRequesterName(),
+                                            aItem.getAdditionalNotes(),
+                                            aItem.getRequestDate());
+                                }
                                 new RequestDatabase().deleteRoomRequestByUser(data.getStaffUsername());
                                 new UserDatabase().deleteUserByUsername(data.getStaffUsername());
                             } catch (Exception e) {
