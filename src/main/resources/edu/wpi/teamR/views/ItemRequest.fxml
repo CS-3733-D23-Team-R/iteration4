@@ -93,7 +93,10 @@
                         <VBox alignment="TOP_CENTER" prefHeight="200.0" styleClass="greyBackgroundBox" HBox.hgrow="ALWAYS">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Filter By Price" />
-                              <ComboBox fx:id="itemFilterByComboBox" prefWidth="150.0" />
+                              <ComboBox fx:id="itemFilterByComboBox" prefWidth="150.0">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin></ComboBox>
                            </children>
                            <padding>
                               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

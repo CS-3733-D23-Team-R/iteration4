@@ -1,10 +1,11 @@
 package edu.wpi.teamR.requestdb;
 
+import edu.wpi.teamR.archive.Archivable;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class AvailableFlowers implements IAvailableItem{
+public class AvailableFlowers implements IAvailableItem, Archivable {
     private String itemName, imageReference, description;
     private Double itemPrice;
     private boolean isBouqet, hasCard;
@@ -19,4 +20,17 @@ public class AvailableFlowers implements IAvailableItem{
         this.hasCard = hasCard;
     }
 
+    private AvailableFlowers(String[] args) {
+        this(args[0], args[1], args[2], Double.parseDouble(args[3]), Boolean.parseBoolean(args[4]), Boolean.parseBoolean(args[5]));
+    }
+
+    @Override
+    public String toCSVEntry() {
+        return itemName+","+imageReference+","+description+","+itemPrice+","+isBouqet+","+hasCard;
+    }
+
+    @Override
+    public String getCSVColumns() {
+        return "itemName,imageReference,description,itemPrice,isBouqet,hasCard";
+    }
 }

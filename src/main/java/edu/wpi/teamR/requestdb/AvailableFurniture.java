@@ -1,10 +1,12 @@
 package edu.wpi.teamR.requestdb;
 
+import edu.wpi.teamR.archive.Archivable;
+import edu.wpi.teamR.archive.Archivable;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class AvailableFurniture implements IAvailableItem{
+public class AvailableFurniture implements IAvailableItem, Archivable {
     private String itemName, imageReference, description;
     private boolean isSeating, isTable, isPillow, isStorage;
     private RequestType requestType = RequestType.Furniture;
@@ -18,5 +20,19 @@ public class AvailableFurniture implements IAvailableItem{
         this.isTable = isTable;
         this.isPillow = isPillow;
         this.isStorage = isStorage;
+    }
+
+    private AvailableFurniture(String[] args) {
+        this(args[0], args[1], args[2], Boolean.parseBoolean(args[3]), Boolean.parseBoolean(args[4]), Boolean.parseBoolean(args[5]), Boolean.parseBoolean(args[6]));
+    }
+
+    @Override
+    public String toCSVEntry() {
+        return itemName+","+imageReference+","+description+","+isSeating+","+isTable+","+isPillow+","+isStorage;
+    }
+
+    @Override
+    public String getCSVColumns() {
+        return "itemName,imageReference,description,isSeating,isTable,isPillow,isStorage";
     }
 }

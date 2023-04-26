@@ -5,6 +5,7 @@ import edu.wpi.teamR.ItemNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AvailableMealsDAO {
     AvailableMeals addAvailableMeals(String itemName, String imageReference, String description, double itemPrice, boolean isVegan, boolean isVegetarian, boolean isDairyFree, boolean isPeanutFree, boolean isGlutenFree) throws SQLException {
@@ -21,6 +22,23 @@ public class AvailableMealsDAO {
         preparedStatement.setBoolean(9, isGlutenFree);
         preparedStatement.executeUpdate();
         return new AvailableMeals(itemName, imageReference, description, itemPrice, isVegan, isVegetarian, isDairyFree, isPeanutFree, isGlutenFree);
+    }
+
+    void addAvailableMeals(List<AvailableMeals> availableMeals) throws SQLException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getAvailableMealsTableSchemaNameTableName()+"(itemName,imageReference,description,itemPrice,isVegan,isVegetarian,isDairyFree,isPeanutFree,isGlutenFree) VALUES(?,?,?,?,?,?,?,?,?);");
+        for (AvailableMeals a : availableMeals) {
+            preparedStatement.setString(1, a.getItemName());
+            preparedStatement.setString(2, a.getImageReference());
+            preparedStatement.setString(3, a.getDescription());
+            preparedStatement.setDouble(4, a.getItemPrice());
+            preparedStatement.setBoolean(5, a.isVegan());
+            preparedStatement.setBoolean(6, a.isVegetarian());
+            preparedStatement.setBoolean(7, a.isDairyFree());
+            preparedStatement.setBoolean(8, a.isPeanutFree());
+            preparedStatement.setBoolean(9, a.isGlutenFree());
+            preparedStatement.executeUpdate();
+        }
     }
 
     void deleteAvailableMeals(String itemName) throws SQLException, ItemNotFoundException {

@@ -5,6 +5,7 @@ import edu.wpi.teamR.ItemNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AvailableSuppliesDAO {
     AvailableSupplies addAvailableSupplies(String itemName, String imageReference, String description, double itemPrice, boolean isPaper, boolean isPen, boolean isOrganization, boolean isComputerAccessory) throws SQLException {
@@ -20,6 +21,22 @@ public class AvailableSuppliesDAO {
         preparedStatement.setBoolean(8, isComputerAccessory);
         preparedStatement.executeUpdate();
         return new AvailableSupplies(itemName, imageReference, description, itemPrice, isPaper, isPen, isOrganization, isComputerAccessory);
+    }
+
+    void addAvailableSupplies(List<AvailableSupplies> availableSupplies) throws SQLException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getAvailableSuppliesTableSchemaNameTableName()+"(itemName,imageReference,description,itemPrice,isPaper,isPen,isOrganization,isComputerAccessory) VALUES(?,?,?,?,?,?,?,?);");
+        for (AvailableSupplies a : availableSupplies) {
+            preparedStatement.setString(1, a.getItemName());
+            preparedStatement.setString(2, a.getImageReference());
+            preparedStatement.setString(3, a.getDescription());
+            preparedStatement.setDouble(4, a.getItemPrice());
+            preparedStatement.setBoolean(5, a.isPaper());
+            preparedStatement.setBoolean(6, a.isPen());
+            preparedStatement.setBoolean(7, a.isOrganization());
+            preparedStatement.setBoolean(8, a.isComputerAccessory());
+            preparedStatement.executeUpdate();
+        }
     }
 
     void deleteAvailableSupplies(String itemName) throws SQLException, ItemNotFoundException {

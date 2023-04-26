@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AuthenticationDAO {
     public User addUser(String staffUsername, String password, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department, int imageID) throws SQLException {
@@ -37,6 +38,25 @@ public class AuthenticationDAO {
         preparedStatement.setInt(11, imageID);
         preparedStatement.executeUpdate();
         return new User(staffUsername, hashedPassword, saltString, name, email, jobTitle, phoneNum, joinDate, accessLevel, department, imageID);
+    }
+
+    public void addUsers(List<User> users) throws SQLException {
+        Connection connection = Configuration.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getUserTableSchemaNameTableName()+"(staffUsername,password,salt,name,email,jobTitle,phoneNum,joinDate,accessLevel,department,imageID) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+        for (User u : users) {
+            preparedStatement.setString(1, u.getStaffUsername());
+            preparedStatement.setString(2, u.getPassword()); //store password hashed with salt
+            preparedStatement.setString(3, u.getSalt()); //store salt used with password
+            preparedStatement.setString(4, u.getName());
+            preparedStatement.setString(5, u.getEmail());
+            preparedStatement.setString(6, u.getJobTitle());
+            preparedStatement.setString(7, u.getPhoneNum());
+            preparedStatement.setDate(8, u.getJoinDate());
+            preparedStatement.setString(9, u.getAccessLevel().toString());
+            preparedStatement.setString(10, u.getDepartment());
+            preparedStatement.setInt(11, u.getImageID());
+            preparedStatement.executeUpdate();
+        }
     }
     User modifyUserByUsername(String staffUsername, String password, String name, String email, String jobTitle, String phoneNum, Date joinDate, AccessLevel accessLevel, String department, int imageID) throws SQLException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
