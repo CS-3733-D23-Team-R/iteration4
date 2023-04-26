@@ -55,6 +55,7 @@ public class SignageController {
       lineView.setFitHeight(40);
       lineView.setFitWidth(1);
 
+
       if(directionArrow.getDirection().equals(Up))
       {
         Image image = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/upArrowWhite.png")));
@@ -75,6 +76,11 @@ public class SignageController {
         Image image = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/rightArrowWhite.png")));
         imageView = new ImageView(image);
       }
+      else if(directionArrow.getDirection().equals(StopHere))
+      {
+        Image image = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/stopHere.png")));
+        imageView = new ImageView(image);
+      }
 
       imageView.setPreserveRatio(false);
       imageView.setFitHeight(40);
@@ -91,6 +97,14 @@ public class SignageController {
         hBox.getChildren().add(imageView);
         hBox.setAlignment(Pos.CENTER_RIGHT);
         hBox.setPadding(new Insets(5, 10, 5, 0));
+      }
+      else if(directionArrow.getDirection().equals(StopHere))
+      {
+        hBox.getChildren().add(imageView);
+        hBox.getChildren().add(lineView);
+        hBox.getChildren().add(text);
+        hBox.setAlignment(Pos.CENTER);
+        hBox.setPadding(new Insets(5, 0, 5, 0));
       }
       else
       {
