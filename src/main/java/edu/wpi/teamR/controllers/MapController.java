@@ -474,7 +474,7 @@ public class MapController {
                 labelCount++;
             }
         }
-        if (labelCount == 0){
+        if (labelCount == 1){
             indicator.setTranslateX(-25);
         }
         else {
