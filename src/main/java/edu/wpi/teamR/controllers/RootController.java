@@ -98,6 +98,8 @@ public class RootController {
     App.getPrimaryStage().addEventFilter(InputEvent.ANY, ssevent);
 
     transition.play();
+
+    setLogoutButton(false);
   }
 
   private void openProfile() throws SQLException, ClassNotFoundException, ItemNotFoundException {
@@ -149,11 +151,17 @@ public class RootController {
       UserData.getInstance().logout();
       ShoppingCart.getInstance().clearCart();
       Navigation.navigate(Screen.HOME);
+      setLogoutButton(false);
     }
   }
   public void setSignagePage(){
     //signagePageButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGECONFIGURATION));
     //signageText.setText("  Edit\nSignage");
     signagePageButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
+  }
+
+  public void setLogoutButton(boolean setting) {
+    logoutButton.setVisible(setting);
+    logoutButton.setManaged(setting);
   }
 }

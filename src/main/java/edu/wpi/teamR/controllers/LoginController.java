@@ -68,6 +68,10 @@ public class LoginController {
                     aUser.getJobTitle(),
                     aUser.getImageID());
             thisUserData.setLoggedIn(User);
+
+            RootController root = RootController.getInstance();
+            root.setLogoutButton(true);
+
             if(User.getAccessLevel().toString().equals(AccessLevel.Admin.toString())){
                 RootController.getInstance().setSignagePage();
                 navigate(Screen.ADMINPROFILEPAGE);
