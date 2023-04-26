@@ -70,7 +70,7 @@
                                  <children>
                                     <StackPane alignment="BOTTOM_RIGHT" prefHeight="150.0" prefWidth="200.0" styleClass="boxroundedbordered" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <GesturePane />
+                                          <GesturePane fx:id="mapPane" />
                                           <HBox alignment="BOTTOM_CENTER" prefHeight="357.0" prefWidth="666.0" StackPane.alignment="TOP_CENTER">
                                              <children>
                                                 <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
