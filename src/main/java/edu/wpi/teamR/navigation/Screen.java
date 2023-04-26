@@ -21,7 +21,9 @@ public enum Screen {
   ITEMREQUEST("views/ItemRequest.fxml"),
   ADDEMPLOYEE("views/AddEmployee.fxml"),
   SIGNAGECONFIGURATION("views/SignageConfiguration.fxml"),
-  EDITPROFILE("views/EditProfile.fxml");
+  EDITPROFILE("views/EditProfile.fxml"),
+  CREDITS("views/CreditsPage.fxml"),
+  ABOUT("views/About.fxml");
 
   private final String filename;
 

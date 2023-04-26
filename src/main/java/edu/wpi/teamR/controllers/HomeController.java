@@ -43,7 +43,10 @@ public class HomeController {
   UserDatabase userDatabase = new UserDatabase();
   ArrayList<Alert> alerts;
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+  SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+
+  @FXML Text aboutText;
+  @FXML Text creditsText;
 
   @FXML
   public void initialize() throws SQLException {
@@ -86,6 +89,8 @@ public class HomeController {
           );
       }
 
+      creditsText.setOnMouseClicked(event -> {Navigation.navigate(Screen.CREDITS);});
+      aboutText.setOnMouseClicked(event -> {Navigation.navigate(Screen.ABOUT);});
   }
 
   private HBox alertView(Alert alert){

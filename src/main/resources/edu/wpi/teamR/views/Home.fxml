@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
@@ -19,15 +18,16 @@
          <children>
             <HBox alignment="CENTER" prefHeight="515.0" prefWidth="1180.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Pane prefHeight="720.0" prefWidth="903.0" styleClass="curvedHome" HBox.hgrow="ALWAYS">
+                  <AnchorPane prefHeight="720.0" prefWidth="899.0" styleClass="curvedHome" HBox.hgrow="ALWAYS">
                      <children>
-                        <HBox alignment="CENTER" layoutY="670.0" prefHeight="50.0" prefWidth="150.0" spacing="20.0">
+                        <HBox alignment="CENTER" prefHeight="50.0" prefWidth="150.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: F1F1F1; -fx-underline: true; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, gray, 5, 0.75, 0, 0);" text="About" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: F1F1F1; -fx-underline: true; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, gray, 5, 0.75, 0, 0);" text="Credits" />
+                              <Text fx:id="aboutText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: F1F1F1; -fx-underline: true; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, gray, 5, 0.75, 0, 0);" text="About" />
+                              <Text fx:id="creditsText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: F1F1F1; -fx-underline: true; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, gray, 5, 0.75, 0, 0);" text="Credits" />
                            </children>
                         </HBox>
-                     </children></Pane>
+                     </children>
+                  </AnchorPane>
                   <AnchorPane HBox.hgrow="ALWAYS">
                      <children>
                               <VBox alignment="CENTER" prefHeight="720.0" prefWidth="720.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
