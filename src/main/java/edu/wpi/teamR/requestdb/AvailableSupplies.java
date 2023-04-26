@@ -5,10 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Setter @Getter
-public class AvailableSupplies implements Archivable {
+public class AvailableSupplies implements IAvailableItem, Archivable {
     private String itemName, imageReference, description;
-    private double itemPrice;
+    private Double itemPrice;
     private boolean isPaper, isPen, isOrganization, isComputerAccessory;
+    private RequestType requestType = RequestType.Supplies;
 
     public AvailableSupplies(String itemName, String imageReference, String description, double itemPrice, boolean isPaper, boolean isPen, boolean isOrganization, boolean isComputerAccessory) {
         this.itemName = itemName;

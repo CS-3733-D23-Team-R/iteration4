@@ -2,27 +2,28 @@
 
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane fx:id="itemRequestPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.ItemRequestController">
    <center>
-      <AnchorPane BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="itemRequestAnchorPane" BorderPane.alignment="CENTER">
          <children>
             <VBox layoutX="53.0" prefHeight="400.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <StackPane prefHeight="0.0" prefWidth="1059.0" VBox.vgrow="ALWAYS">
+                  <StackPane alignment="TOP_CENTER" prefHeight="0.0" prefWidth="1059.0" VBox.vgrow="ALWAYS">
                      <children>
                         <AnchorPane fx:id="requestPageBackground" maxHeight="175.0" prefHeight="90.0" prefWidth="1059.0" styleClass="requestBackground" StackPane.alignment="TOP_CENTER" />
                         <ImageView fitHeight="129.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_RIGHT">
@@ -43,105 +44,101 @@
                         <Insets />
                      </VBox.margin>
                   </StackPane>
-                  <AnchorPane fx:id="itemPane" VBox.vgrow="ALWAYS" />
+                  <HBox prefHeight="34.0" prefWidth="1280.0">
+                     <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="110.0" styleClass="greyBackgroundBox" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Type of Delivery Request" />
+                              <HBox alignment="TOP_CENTER" prefHeight="50.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <ToggleButton fx:id="foodButton" mnemonicParsing="false" styleClass="yellowToggleButton" text="Food" HBox.hgrow="ALWAYS" />
+                                    <ToggleButton fx:id="furnitureButton" mnemonicParsing="false" styleClass="yellowToggleButton" text="Furniture" HBox.hgrow="ALWAYS" />
+                                    <ToggleButton fx:id="suppliesButton" mnemonicParsing="false" styleClass="yellowToggleButton" text="Office Supplies" HBox.hgrow="ALWAYS" />
+                                    <ToggleButton fx:id="flowersButton" mnemonicParsing="false" styleClass="yellowToggleButton" text="Flower" HBox.hgrow="ALWAYS" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+                                 </VBox.margin>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </HBox.margin>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" prefHeight="108.0" styleClass="greyBackgroundBox" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Text fx:id="otherFilterTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Other Filters" />
+                              <HBox fx:id="otherFilterHBox" alignment="TOP_CENTER" prefHeight="50.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <ToggleButton fx:id="FilterButton1" mnemonicParsing="false" styleClass="yellowToggleButton" text="Button1" />
+                                    <ToggleButton fx:id="FilterButton2" mnemonicParsing="false" styleClass="yellowToggleButton" text="Button2" />
+                                    <ToggleButton fx:id="FilterButton3" mnemonicParsing="false" styleClass="yellowToggleButton" text="Button3" />
+                                    <ToggleButton fx:id="FilterButton4" mnemonicParsing="false" styleClass="yellowToggleButton" text="Button4" />
+                                    <ToggleButton fx:id="FilterButton5" mnemonicParsing="false" styleClass="yellowToggleButton" text="Button5" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                                 </VBox.margin></HBox>
+                           </children>
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </HBox.margin>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" prefHeight="200.0" styleClass="greyBackgroundBox" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Filter By Price" />
+                              <ComboBox fx:id="itemFilterByComboBox" prefWidth="150.0">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin></ComboBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </HBox.margin></VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="TOP_CENTER" spacing="30.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <ScrollPane fx:id="cardScrollPane" hbarPolicy="NEVER">
+                           <content>
+                              <GridPane fx:id="cardGridPane" alignment="TOP_CENTER" gridLinesVisible="true">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </GridPane>
+                           </content>
+                           <padding>
+                              <Insets bottom="10.0" left="50.0" right="50.0" top="10.0" />
+                           </padding>
+                        </ScrollPane>
+                     </children>
+                     <padding>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                     </padding>
+                  </HBox>
                </children></VBox>
          </children>
       </AnchorPane>
    </center>
-   <left>
-      <SplitPane dividerPositions="0.4" orientation="VERTICAL" prefHeight="720.0" prefWidth="221.0" styleClass="requestFilterBar" stylesheets="@../styles/request.css" BorderPane.alignment="CENTER">
-        <items>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <VBox alignment="CENTER" layoutY="10.0" prefHeight="116.0" prefWidth="158.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0">
-                     <children>
-                        <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
-                           <children>
-                              <VBox prefHeight="300.0" prefWidth="157.0" spacing="10.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarTitle" text="Request" VBox.vgrow="ALWAYS">
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" top="10.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                    <ToggleButton fx:id="foodButton" mnemonicParsing="false" prefWidth="120.0" styleClass="inverseButton" text="Food" VBox.vgrow="ALWAYS" />
-                                    <ToggleButton fx:id="furnitureButton" mnemonicParsing="false" prefWidth="120.0" styleClass="inverseButton" text="Furniture" VBox.vgrow="ALWAYS" />
-                                    <ToggleButton fx:id="suppliesButton" mnemonicParsing="false" prefWidth="120.0" styleClass="inverseButton" text="Supplies" VBox.vgrow="ALWAYS" />
-                                    <ToggleButton fx:id="flowersButton" mnemonicParsing="false" prefWidth="120.0" styleClass="inverseButton" text="Flowers" VBox.vgrow="ALWAYS" />
-                                 </children>
-                                 <HBox.margin>
-                                    <Insets left="20.0" right="20.0" />
-                                 </HBox.margin>
-                              </VBox>
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-               </children>
-            </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-               <children>
-                  <VBox prefHeight="172.0" prefWidth="158.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarSubtitle" text="Filters" VBox.vgrow="ALWAYS">
-                           <VBox.margin>
-                              <Insets left="15.0" top="15.0" />
-                           </VBox.margin>
-                        </Text>
-                        <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <Text fx:id="itemZerotoTen" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText" text="\$0 - $10" VBox.vgrow="ALWAYS" />
-                              <Text fx:id="itemTentoTwenty" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText" text="\$10 - $20" VBox.vgrow="ALWAYS" />
-                              <Text fx:id="itemTwentytoThirty" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText" text="\$20 - $30" VBox.vgrow="ALWAYS" />
-                              <Text fx:id="itemThirtytoForty" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText" text="\$30 - $40" VBox.vgrow="ALWAYS" />
-                              <Text fx:id="itemThirtyPlus" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText" text="\$30+" VBox.vgrow="ALWAYS" />
-                           </children>
-                           <VBox.margin>
-                              <Insets left="30.0" right="10.0" top="10.0" />
-                           </VBox.margin>
-                        </VBox>
-                        <HBox alignment="CENTER" prefHeight="122.0" prefWidth="219.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText2" text="Min $ " HBox.hgrow="ALWAYS">
-                                 <HBox.margin>
-                                    <Insets left="5.0" />
-                                 </HBox.margin>
-                              </Text>
-                              <TextField fx:id="itemMinField" prefHeight="25.0" prefWidth="30.0" HBox.hgrow="ALWAYS" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="requestBarText2" text="Max $ " HBox.hgrow="ALWAYS">
-                                 <HBox.margin>
-                                    <Insets left="5.0" />
-                                 </HBox.margin>
-                              </Text>
-                              <TextField fx:id="itemMaxField" prefHeight="25.0" prefWidth="30.0" HBox.hgrow="ALWAYS" />
-                              <Button fx:id="minMaxGoButton" ellipsisString="" mnemonicParsing="false" prefHeight="39.0" prefWidth="56.0" text="Go" textFill="#1e0202" textOverrun="WORD_ELLIPSIS" HBox.hgrow="ALWAYS">
-                                 <HBox.margin>
-                                    <Insets left="5.0" right="5.0" />
-                                 </HBox.margin>
-                                 <font>
-                                    <Font size="8.0" />
-                                 </font>
-                              </Button>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="15.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Button fx:id="clearFiltersButton" mnemonicParsing="false" styleClass="signage-configuration-button" text="Clear filters" HBox.hgrow="ALWAYS">
-                                 <HBox.margin>
-                                    <Insets left="5.0" />
-                                 </HBox.margin>
-                              </Button>
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-               </children></AnchorPane>
-        </items>
-      </SplitPane>
-   </left>
    <stylesheets>
       <URL value="@../styles/request.css" />
       <URL value="@../styles/styles.css" />

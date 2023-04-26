@@ -6,6 +6,10 @@
     primaryWhite: #F1F1F1;
     darkNeutral: #403C3B;
     primaryLightGrey: #BDBDBD;
+    secondayLightGrey: #D9D9D9;
+    largeRadius: 30;
+    mediumRadius: 10;
+    smallRadius: 4;
 }
 
 /*
@@ -41,9 +45,23 @@
     border-radius: 4px;
 }
 
-.yellowButton:pressed {
-    -fx-background-color: secondayYellow;
-    -fx-text-fill: bwhblue;
+.yellowToggleButton{
+    -fx-background-color: bwhblue;
+    -fx-text-fill: white;
+    -fx-font-family: 'Nunito Sans', 'bold';
+    -fx-font-size: 18;
+    -fx-font-weight: 500;
+    border-radius: 4px;
+}
+
+.yellowToggleButton:selected {
+    -fx-background-color: #F6BD38;
+    -fx-text-fill: #012D5A;
+}
+
+.yellowToggleButton:pressed {
+    -fx-background-color: #F6BD38;
+    -fx-text-fill: #012D5A;
 }
 
 
@@ -397,6 +415,17 @@
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
     -fx-background-position: center;
+}
+
+.greyBackgroundBox {
+    -fx-background-color: #D9D9D9;
+    -fx-background-radius: 30;
+}
+
+.shoppingCartPlus {
+    -fx-fill: #012D5A;
+    -fx-font-family: 'Nunito Sans', 'bold';
+    -fx-font-size: 56;
 }
 
 .card_subtext{

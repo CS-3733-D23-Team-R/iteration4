@@ -1,13 +1,16 @@
 package edu.wpi.teamR.requestdb;
 
 import edu.wpi.teamR.archive.Archivable;
+import edu.wpi.teamR.archive.Archivable;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class AvailableFurniture implements Archivable {
+public class AvailableFurniture implements IAvailableItem, Archivable {
     private String itemName, imageReference, description;
     private boolean isSeating, isTable, isPillow, isStorage;
+    private RequestType requestType = RequestType.Furniture;
+    private Double itemPrice = null;
 
     public AvailableFurniture(String itemName, String imageReference, String description, boolean isSeating, boolean isTable, boolean isPillow, boolean isStorage) {
         this.itemName = itemName;
