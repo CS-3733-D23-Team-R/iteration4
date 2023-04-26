@@ -438,7 +438,18 @@ public class MapController {
                 indicator.setTextFill(Color.RED);
                 StackPane indicate_button = floorButtonMap.get(drawFloor);
                 indicate_button.getChildren().add(indicator);
-                indicator.setTranslateX(-20);
+                int labelCount = 0;
+                for (javafx.scene.Node currentItem: indicate_button.getChildren()) {
+                    if (currentItem instanceof Label) {
+                        labelCount++;
+                    }
+                }
+                if (labelCount == 1){
+                    indicator.setTranslateX(-25);
+                }
+                else {
+                    indicator.setTranslateX(25);
+                }
 
                 drawFloor = newFloor;
             }
@@ -457,7 +468,18 @@ public class MapController {
         indicator.setTextFill(Color.RED);
         StackPane indicate_button = floorButtonMap.get(drawFloor);
         indicate_button.getChildren().add(indicator);
-        indicator.setTranslateX(-20);
+        int labelCount = 0;
+        for (javafx.scene.Node currentItem: indicate_button.getChildren()) {
+            if (currentItem instanceof Label) {
+                labelCount++;
+            }
+        }
+        if (labelCount == 0){
+            indicator.setTranslateX(-25);
+        }
+        else {
+            indicator.setTranslateX(25);
+        }
 
         gesturePane.zoomTo(1, 1, new Point2D(startNode.getXCoord(), startNode.getYCoord()));
         gesturePane.centreOn(new Point2D(startNode.getXCoord(), startNode.getYCoord()));

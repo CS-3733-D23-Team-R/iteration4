@@ -194,7 +194,7 @@
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="L1" />
                      </children>
                   </StackPane>
-                  <StackPane fx:id="L2Button" styleClass="floor-unfocused">
+                  <StackPane fx:id="L2Button" styleClass="floor-box">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="L2" />
                      </children>
