@@ -2,6 +2,7 @@ package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.App;
 import edu.wpi.teamR.ItemNotFoundException;
+import edu.wpi.teamR.Main;
 import edu.wpi.teamR.datahandling.ShoppingCart;
 import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.UserDatabase;
@@ -76,7 +77,7 @@ public class RootController {
       }
     });
     logoutButton.setOnMouseClicked(event -> logout());
-    newRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.ADDEMPLOYEE));
+    newRequestButton.setOnMouseClicked(event -> Navigation.navigate(Screen.ITEMREQUEST));
     pathfindingButton.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP));
     signagePageButton.setOnMouseClicked(event -> Navigation.navigate(Screen.SIGNAGE));
     exitButton.setOnMouseClicked(event -> Platform.exit());
@@ -108,7 +109,7 @@ public class RootController {
       Navigation.navigate(Screen.LOGIN);
     }
     CurrentUser user = thisUserData.getLoggedIn();
-    profileIcon.setImage(new Image(user.getProfilePictureLocation()));
+    setProfileIcon(user.getProfilePictureLocation());
     if(user.getAccessLevel().equals(AccessLevel.Admin)){
       Navigation.navigate(Screen.ADMINPROFILEPAGE);
     } else if(user.getAccessLevel().equals(AccessLevel.Staff)){
@@ -152,6 +153,7 @@ public class RootController {
       ShoppingCart.getInstance().clearCart();
       Navigation.navigate(Screen.HOME);
       setLogoutButton(false);
+      setProfileIcon(Main.class.getResource("images/login/profilepictures/0.png").toExternalForm());
     }
   }
   public void setSignagePage(){
@@ -163,5 +165,9 @@ public class RootController {
   public void setLogoutButton(boolean setting) {
     logoutButton.setVisible(setting);
     logoutButton.setManaged(setting);
+  }
+
+  public void setProfileIcon(String location){
+    profileIcon.setImage(new Image(location));
   }
 }

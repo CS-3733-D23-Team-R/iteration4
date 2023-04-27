@@ -68,13 +68,14 @@ public class StaffProfilePageController {
         timeline.play();
         time.setText(formattedDate);
         displayProfile(UserData.getInstance().getLoggedIn());
+        toConferenceRooms.setOnAction(event -> Navigation.navigate(Screen.ROOM_REQUEST));
 
         SearchList aSearchList = new SearchList();
         aSearchList.addComparison(RequestAttribute.staffUsername, Operation.equalTo, user.getUsername());
         dataList.addAll(new RequestDatabase().getItemRequestByAttributes(aSearchList));
         idCol.setCellValueFactory(new PropertyValueFactory<>("requestID"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("requesterName"));
-        locationCol.setCellValueFactory(new PropertyValueFactory<>("longname"));
+        locationCol.setCellValueFactory(new PropertyValueFactory<>("longName"));
         requestTypeCol.setCellValueFactory(new PropertyValueFactory<>("requestType"));
         itemCol.setCellValueFactory(new PropertyValueFactory<>("itemType"));
         notesCol.setCellValueFactory(new PropertyValueFactory<>("additionalNotes"));

@@ -11,12 +11,12 @@ import java.util.List;
 
 public class ItemRequestDAO {
     public  ItemRequestDAO(){}
-    ItemRequest addItemRequest(RequestType requestType, RequestStatus requestStatus, String longname, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) throws SQLException {
+    ItemRequest addItemRequest(RequestType requestType, RequestStatus requestStatus, String longName, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) throws SQLException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+ Configuration.getServiceRequestSchemaNameTableName()+"(requestType,requestStatus,longname,staffUsername,itemType,requesterName,additionalNotes,requestDate) VALUES (?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setString(1, requestType.toString());
         preparedStatement.setString(2, requestStatus.toString());
-        preparedStatement.setString(3, longname);
+        preparedStatement.setString(3, longName);
         preparedStatement.setString(4, staffUsername);
         preparedStatement.setString(5, itemType);
         preparedStatement.setString(6, requesterName);
@@ -27,7 +27,7 @@ public class ItemRequestDAO {
         int requestID = 0;
         if (resultSet.next())
             requestID = resultSet.getInt("requestID");
-        return new ItemRequest(requestID, requestType, requestStatus, longname, staffUsername, itemType, requesterName, additionalNotes, requestDate);
+        return new ItemRequest(requestID, requestType, requestStatus, longName, staffUsername, itemType, requesterName, additionalNotes, requestDate);
     }
 
     void addItemRequests(List<ItemRequest> itemRequests) throws SQLException {
@@ -56,12 +56,12 @@ public class ItemRequestDAO {
             throw new ItemNotFoundException();
     }
 
-    ItemRequest modifyItemRequestByID(int requestID, RequestType requestType, RequestStatus requestStatus, String longname, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) throws SQLException, ItemNotFoundException {
+    ItemRequest modifyItemRequestByID(int requestID, RequestType requestType, RequestStatus requestStatus, String longName, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) throws SQLException, ItemNotFoundException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE "+Configuration.getServiceRequestSchemaNameTableName()+" SET requestType=?, requestStatus=?, longname=?, staffUsername=?, itemType=?, requesterName=?, additionalNotes=?, requestDate=? WHERE requestID=?");
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE "+Configuration.getServiceRequestSchemaNameTableName()+" SET requestType=?, requestStatus=?, longName=?, staffUsername=?, itemType=?, requesterName=?, additionalNotes=?, requestDate=? WHERE requestID=?");
         preparedStatement.setString(1, requestType.toString());
         preparedStatement.setString(2, requestStatus.toString());
-        preparedStatement.setString(3, longname);
+        preparedStatement.setString(3, longName);
         preparedStatement.setString(4, staffUsername);
         preparedStatement.setString(5, itemType);
         preparedStatement.setString(6, requesterName);
@@ -71,7 +71,7 @@ public class ItemRequestDAO {
         int rows = preparedStatement.executeUpdate();
         if (rows==0)
             throw new ItemNotFoundException();
-        return new ItemRequest(requestID, requestType, requestStatus, longname, staffUsername, requesterName, additionalNotes, additionalNotes, requestDate);
+        return new ItemRequest(requestID, requestType, requestStatus, longName, staffUsername, requesterName, additionalNotes, additionalNotes, requestDate);
     }
 
     public void deleteAllItemRequests() throws SQLException {
@@ -179,14 +179,14 @@ public class ItemRequestDAO {
             int requestID = resultSet.getInt("requestID");
             RequestType requestType = RequestType.valueOf(resultSet.getString("requestType"));
             RequestStatus requestStatus = RequestStatus.valueOf(resultSet.getString("requestStatus"));
-            String longname = resultSet.getString("longname");
+            String longName = resultSet.getString("longName");
             String staffUsername = resultSet.getString("staffUsername");
             String itemType = resultSet.getString("itemType");
             String requesterName = resultSet.getString("requesterName");
             String additionalNotes = resultSet.getString("additionalNotes");
             Timestamp requestDate = resultSet.getTimestamp("requestDate");
 
-            itemRequests.add(new ItemRequest(requestID, requestType, requestStatus, longname, staffUsername, itemType, requesterName, additionalNotes, requestDate));
+            itemRequests.add(new ItemRequest(requestID, requestType, requestStatus, longName, staffUsername, itemType, requesterName, additionalNotes, requestDate));
         }
         return itemRequests;
     }

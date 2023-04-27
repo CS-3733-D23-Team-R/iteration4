@@ -91,6 +91,14 @@
     -fx-font-size: 12px;
 }
 
+.subtitle-bigger{
+    -fx-font-family: 'Roboto', 'bold';
+    -fx-font-weight: bold;
+    -fx-font-size: 25px;
+}
+
+.date-picker{}
+
 .sidebar{
     -fx-font-family: 'Roboto';
     -fx-font-size: 12px;

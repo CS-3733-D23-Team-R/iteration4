@@ -71,6 +71,7 @@ public class LoginController {
 
             RootController root = RootController.getInstance();
             root.setLogoutButton(true);
+            root.setProfileIcon(User.getProfilePictureLocation());
 
             if(User.getAccessLevel().toString().equals(AccessLevel.Admin.toString())){
                 RootController.getInstance().setSignagePage();

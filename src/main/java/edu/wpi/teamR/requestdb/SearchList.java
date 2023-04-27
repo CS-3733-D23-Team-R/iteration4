@@ -24,7 +24,7 @@ public class SearchList {
      *                     RequestAttribute.requestID: Integer
      *                     RequestAttribute.requestType: RequestType
      *                     RequestAttribute.requestStatus: RequestStatus
-     *                     RequestAttribute.longname, staffUsername, itemType, requesterName, additionalNotes: String
+     *                     RequestAttribute.longName, staffUsername, itemType, requesterName, additionalNotes: String
      *                     RequestAttribute.requestDate: Timestamp
      *
      * @throws SearchException
@@ -39,7 +39,7 @@ public class SearchList {
         boolean shouldBeInteger = rA==RequestAttribute.requestID;
         boolean shouldBeRequestType = rA==RequestAttribute.requestType;
         boolean shouldBeRequestStatus = rA==RequestAttribute.requestStatus;
-        boolean shouldBeString = rA==RequestAttribute.longname || rA==RequestAttribute.itemType || rA==RequestAttribute.requesterName;
+        boolean shouldBeString = rA==RequestAttribute.longName || rA==RequestAttribute.itemType || rA==RequestAttribute.requesterName;
         boolean shouldBeStringOrNull = rA==RequestAttribute.staffUsername || rA==RequestAttribute.additionalNotes;
         boolean shouldBeTimestamp = rA==RequestAttribute.requestDate;
         boolean isInteger = compareValue instanceof Integer;
