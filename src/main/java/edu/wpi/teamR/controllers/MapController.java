@@ -125,7 +125,7 @@ public class MapController {
     @FXML
     CheckComboBox<String> locationFilters;
     ObservableList<String> locationTypes =
-            FXCollections.observableArrayList("Lab", "Elevator", "Services", "Conference Room", "Stairs", "Information", "Restroom", "Department", "Bathroom", "Exit", "Retail");
+            FXCollections.observableArrayList("Select All", "Lab", "Elevator", "Services", "Conference Room", "Stairs", "Information", "Restroom", "Department", "Bathroom", "Exit", "Retail");
     HashMap<String, String> locationMap = new HashMap<>();
 
     UserDatabase userdb = new UserDatabase();
@@ -169,6 +169,8 @@ public class MapController {
         clearButton.setOnMouseClicked(event -> {
             try {
                 clearPath();
+                startField.setValue("Select Start");
+                endField.setValue("Select End");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -293,8 +295,6 @@ public class MapController {
         for (int i = 0; i < 5; i++) {
             paths[i] = new AnchorPane();
         }
-        //startField.setValue("Select Start");
-        //endField.setValue("Select End");
         displayLocationNames(currentFloor);
         directionsVBox.getChildren().clear();
         removeIndicators();
@@ -393,8 +393,9 @@ public class MapController {
                 square.setOnMouseClicked(event -> {
                     try {
                         displayFloorNum(newFloor);
-                        gesturePane.zoomTo(1, 1, new Point2D(n2.getXCoord(), n2.getYCoord()));
-                        gesturePane.centreOn(new Point2D(n2.getXCoord(), n2.getYCoord()));
+                        animateZoomTo(n2.getXCoord(), n2.getYCoord(), 5);
+                        //gesturePane.zoomTo(1, 1, new Point2D(n2.getXCoord(), n2.getYCoord()));
+                        //gesturePane.centreOn(new Point2D(n2.getXCoord(), n2.getYCoord()));
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }

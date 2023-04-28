@@ -693,13 +693,13 @@ public class MapEditorController {
 
                                     Node associated = alignmentNodesList.get(current);
                                     try {
-                                        mapdb.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
                                         updater.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
-                                        updater.endAction();
+                                        mapdb.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
                                     } catch (SQLException | ItemNotFoundException ex) {
                                         throw new RuntimeException(ex);
                                     }
                                 }
+                                updater.endAction();
                             }
                             for (Circle current: alignmentCirclesList) {
                                 Node associated = alignmentNodesList.get(current);
@@ -717,13 +717,13 @@ public class MapEditorController {
 
                                     Node associated = alignmentNodesList.get(current);
                                     try {
-                                        mapdb.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
                                         updater.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
-                                        updater.endAction();
+                                        mapdb.modifyCoords(associated.getNodeID(), (int)current.getCenterX(), (int)current.getCenterY());
                                     } catch (SQLException | ItemNotFoundException ex) {
                                         throw new RuntimeException(ex);
                                     }
                                 }
+                                updater.endAction();
                             }
                             for (Circle current: alignmentCirclesList) {
                                 Node associated = alignmentNodesList.get(current);
@@ -774,7 +774,7 @@ public class MapEditorController {
         });
 
         c.setOnMouseDragged(dragEvent -> {
-            if (dragEvent.getButton().equals(MouseButton.SECONDARY)|| drawEdgesMode) return;
+            if (dragEvent.getButton().equals(MouseButton.SECONDARY)|| drawEdgesMode || dragEvent.isShiftDown()) return;
             gesturePane.setGestureEnabled(false);
             c.setCenterX(dragEvent.getX());
             c.setCenterY(dragEvent.getY());
@@ -782,7 +782,7 @@ public class MapEditorController {
             dragged = true;
         });
         c.setOnMouseReleased(dragEvent -> {
-            if (dragEvent.getButton().equals(MouseButton.SECONDARY) || drawEdgesMode) return;
+            if (dragEvent.getButton().equals(MouseButton.SECONDARY) || drawEdgesMode || dragEvent.isShiftDown()) return;
             gesturePane.setGestureEnabled(true);
             c.setFill(pathColor);
             try {
