@@ -141,7 +141,7 @@ public class MapEditorController {
     @FXML
     CheckComboBox<String> locationFilters;
     ObservableList<String> locationTypes =
-            FXCollections.observableArrayList("Lab", "Elevator", "Services", "Conference Room", "Stairs", "Information", "Restroom", "Department", "Bathroom", "Exit", "Retail");
+            FXCollections.observableArrayList("Select All", "Lab", "Elevator", "Services", "Conference Room", "Stairs", "Information", "Restroom", "Department", "Bathroom", "Exit", "Retail");
     HashMap<String, String> locationMap = new HashMap<>();
 
     @FXML
@@ -164,6 +164,8 @@ public class MapEditorController {
 
     Color textColor = Color.BLACK;
     Color pathColor = Color.web("#012D5A");
+
+    boolean userAction = true;
 
     @FXML
     public void initialize() throws SQLException, ClassNotFoundException, ItemNotFoundException {
@@ -319,25 +321,43 @@ public class MapEditorController {
         locationFilters.getItems().addAll(locationTypes);
         initializeLocationMap();
         locationFilters.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) change -> {
-            while (change.next()) {
-                if (change.wasAdded()) {
-                    for (String s: change.getAddedSubList()) {
+            if (userAction) {
+                while (change.next()) {
+                    if (change.wasAdded()) {
+                        if (change.getAddedSubList().contains("Select All")) {
+                            userAction = false;
+                            locationFilters.getCheckModel().checkAll();
+                            try {
+                                displayLocationNames(currentFloor);
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+                            userAction = true;
+                        }
+                        else {
+                            for (String s : change.getAddedSubList()) {
+                                try {
+                                    displayLocationNamesByType(currentFloor, s);
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        }
+                    }
+                    else if (change.wasRemoved()) {
+                        if (change.getRemoved().contains("Select All")) {
+                            userAction = false;
+                            locationFilters.getCheckModel().clearChecks();
+                            userAction = true;
+                        }
+                        ObservableList<javafx.scene.Node> children = nodePanes[currentFloor].getChildren();
+                        children.removeIf(child -> child instanceof Text);
                         try {
-                            displayLocationNamesByType(currentFloor, s);
+                            displayLocationNames(currentFloor);
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         }
                     }
-                }
-                else if (change.wasRemoved()) {
-                    ObservableList<javafx.scene.Node> children = nodePanes[currentFloor].getChildren();
-                    children.removeIf(child -> child instanceof Text);
-                    try {
-                        displayLocationNames(currentFloor);
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-
                 }
             }
         });
@@ -1006,7 +1026,9 @@ public class MapEditorController {
         if (floor <= 4) {
             ObservableList<String> checkedItems = locationFilters.getCheckModel().getCheckedItems();
             for (String s: checkedItems) {
-                displayLocationNamesByType(floor, s);
+                if (!s.equals("Select All")) {
+                    displayLocationNamesByType(floor, s);
+                }
             }
         }
     }

@@ -141,6 +141,8 @@ public class MapController {
     Color textColor = Color.BLACK;
     Color pathColor = Color.web("#012D5A");
 
+    boolean userAction = true;
+
     @FXML
     public void initialize() throws Exception {
         mapdb = App.getMapData().getMapdb();
@@ -232,31 +234,47 @@ public class MapController {
         locationFilters.getItems().addAll(locationTypes);
         initializeLocationMap();
         locationFilters.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) change -> {
-            while (change.next()) {
-                if (change.wasAdded()) {
-                    for (String s: change.getAddedSubList()) {
+            if (userAction) {
+                while (change.next()) {
+                    if (change.wasAdded()) {
+                        if (change.getAddedSubList().contains("Select All")) {
+                            userAction = false;
+                            locationFilters.getCheckModel().checkAll();
+                            try {
+                                displayLocationNames(currentFloor);
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+                            userAction = true;
+                        }
+                        else {
+                            for (String s : change.getAddedSubList()) {
+                                try {
+                                    displayLocationNamesByType(currentFloor, s);
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        }
+                    }
+                    else if (change.wasRemoved()) {
+                        if (change.getRemoved().contains("Select All")) {
+                            userAction = false;
+                            locationFilters.getCheckModel().clearChecks();
+                            userAction = true;
+                        }
+                        ObservableList<javafx.scene.Node> children = paths[currentFloor].getChildren();
+                        children.removeIf(child -> child instanceof Text);
                         try {
-                            displayLocationNamesByType(currentFloor, s);
+                            displayLocationNames(currentFloor);
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         }
                     }
                 }
-                else if (change.wasRemoved()) {
-                    ObservableList<javafx.scene.Node> children = paths[currentFloor].getChildren();
-                    for (javafx.scene.Node child : children) {
-                        if (child instanceof Text) {
-                            anchorPane.getChildren().remove(child);
-                        }
-                    }
-                    try {
-                        displayLocationNames(currentFloor);
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
             }
         });
+
 
         Platform.runLater(() -> moveDatePicker.setValue(LocalDate.now()));
 
@@ -313,14 +331,6 @@ public class MapController {
     }
 
     public void search() throws Exception {
-    /*TODO
-    take info from fields
-    calculate route
-    find spread of nodes on current floor
-    animateZoom to show all nodes on this floor
-    create path between nodes on ALL floors
-    create/display textual path? (would have to add spot to display)
-     */
         String start = startField.getValue();
         String end = endField.getValue();
         Boolean isAccessible = accessibleCheckbox.isSelected();
@@ -342,7 +352,7 @@ public class MapController {
             mapPane.getChildren().add(imageView);
             mapPane.getChildren().add(paths[currentFloor]);
             floorText.setText(floorNames[currentFloor]);
-            
+
             if (locationFilters.getCheckModel().getCheckedItems().size() > 0) {
                 displayLocationNames(currentFloor);
             }
@@ -525,7 +535,9 @@ public class MapController {
         if (floor <= 4) {
             ObservableList<String> checkedItems = locationFilters.getCheckModel().getCheckedItems();
             for (String s: checkedItems) {
-                displayLocationNamesByType(floor, s);
+                if (!s.equals("Select All")) {
+                    displayLocationNamesByType(floor, s);
+                }
             }
         }
     }
