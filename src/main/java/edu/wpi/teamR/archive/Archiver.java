@@ -6,14 +6,18 @@ import edu.wpi.teamR.login.User;
 import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.mapdb.*;
 import edu.wpi.teamR.requestdb.*;
-
-import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
-
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.apache.commons.compress.archivers.zip.ZipFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Archiver {
     private final MapDatabase mapdb;
@@ -24,6 +28,20 @@ public class Archiver {
         mapdb = mapDatabase;
         requestdb = requestDatabase;
         userdb = userDatabase;
+    }
+
+    public void createArchive() throws SQLException, IOException {
+        StringBuilder filename = new StringBuilder();
+        Path p = Paths.get("./backups/");
+        File backupDir = new File(p.toUri());
+        if (!backupDir.exists())
+            Files.createDirectory(p);
+        filename.append("./backups/csv_archive_");
+        LocalDateTime dateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_hh.mm.ss");
+        filename.append(dateTime.format(formatter));
+        filename.append(".zip");
+        createArchive(filename.toString());
     }
 
     public void createArchive(String archivePath) throws SQLException {
@@ -119,17 +137,5 @@ public class Archiver {
 
     private void deleteALL() throws SQLException {
         Configuration.deleteEverything();
-        /*
-        requestdb.deleteAllItemRequests();
-        requestdb.deleteAllRoomRequests();
-        userdb.deleteAllAlerts();
-        userdb.deleteAllUsers();
-        mapdb.deleteAllEdges();
-        mapdb.deleteAllMoves();
-        mapdb.deleteAllDirectionArrows();
-        mapdb.deleteAllConferenceRooms();
-        mapdb.deleteAllLocationNames();
-        mapdb.deleteAllNodes();
-        */
     }
 }
