@@ -36,20 +36,20 @@ public class PathToText {
 //        for (Integer num : newPath){ nodeList.add(mapDatabase.getNodeByID(num)); }
         ArrayList <String> textList = new ArrayList<>();
         Node lastNode = mapDatabase.getNodeByID(newPath.get(0));
-        textList.add("Start at " + mapDatabase.getLocationNamesByNodeIDAtDate(newPath.get(0), date).get(0).getShortName());
+        textList.add("Start at " + mapDatabase.getLocationNamesByNodeIDAtDate(newPath.get(0), date).get(0).getLongName());
 
         if(mapDatabase.getNodeTypeByNodeID(newPath.get(0)).equals("STAI") && 1 < newPath.size() && mapDatabase.getNodeTypeByNodeID(newPath.get(1)).equals("STAI")){
             textList.add("Take the staircase to floor " + mapDatabase.getNodeByID(newPath.get(1)).getFloorNum().toString());
             lastNode = mapDatabase.getNodeByID(newPath.get(1));
         } else if(mapDatabase.getNodeTypeByNodeID(newPath.get(0)).equals("ELEV") && 1 < newPath.size() && mapDatabase.getNodeTypeByNodeID(newPath.get(1)).equals("ELEV")){
-            textList.add("Take the staircase to floor " + mapDatabase.getNodeByID(newPath.get(1)).getFloorNum().toString());
+            textList.add("Take the elevator to floor " + mapDatabase.getNodeByID(newPath.get(1)).getFloorNum().toString());
             lastNode = mapDatabase.getNodeByID(newPath.get(1));
         }
 
         //Break path into segments that need directions
         for (int i = 1; i < newPath.size(); i++){
             if(i == newPath.size() - 1){
-                textList.add("You have arrived at your destination");
+                textList.add("You have arrived at " + mapDatabase.getLocationNamesByNodeIDAtDate(newPath.get(i), date).get(0).getLongName());
                 break;
             }
 
@@ -64,7 +64,7 @@ public class PathToText {
             }
 
 
-            if(abs(node.getXCoord() - lastNode.getXCoord()) > 150 && abs(node.getYCoord() - lastNode.getYCoord()) > 150){
+            if(abs(node.getXCoord() - lastNode.getXCoord()) > 100 && abs(node.getYCoord() - lastNode.getYCoord()) > 100){
                 String forwardText = "Error";
                 if(!locationName.getNodeType().equals("HALL")) forwardText = "Walk forwards until you reach " + locationName.getShortName();
                 else forwardText = "Continue for " + nodeDiffToFeet(lastNode, mapDatabase.getNodeByID(newPath.get(i))) + " feet until you reach the hallway junction";
@@ -83,8 +83,8 @@ public class PathToText {
         return diff / 3;
     }
     private String turnText(Node firstNode, Node middleNode, Node secondNode){
-        double firstSlope = (middleNode.getYCoord() - firstNode.getYCoord())/(middleNode.getXCoord() - firstNode.getYCoord());
-        double secondSlope = (secondNode.getYCoord() - middleNode.getYCoord())/(secondNode.getXCoord() - middleNode.getYCoord());
+        double firstSlope = (middleNode.getYCoord() - firstNode.getYCoord() * 1.0)/(middleNode.getXCoord() - firstNode.getXCoord());
+        double secondSlope = (secondNode.getYCoord() - middleNode.getYCoord() * 1.0)/(secondNode.getXCoord() - middleNode.getXCoord());
         double difference = secondSlope - firstSlope;
         if (difference > 0) return "Turn Right";
         else return "Turn Left";
