@@ -58,7 +58,7 @@ public class AlertDAO {
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM "+Configuration.getAlertSchemaNameTableName()+" WHERE time > cast((CURRENT_DATE - ?) as timestamp) AND time <= CURRENT_TIMESTAMP ORDER BY time desc;");
         //preparedStatement.setString(1, numDays + " DAYS");
         preparedStatement.setInt(1, numDays);
-        System.out.println(preparedStatement);
+        //System.out.println(preparedStatement);
         ResultSet resultSet = preparedStatement.executeQuery();
         ArrayList<Alert> alerts = new ArrayList<>();
 

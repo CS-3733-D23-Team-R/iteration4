@@ -35,31 +35,38 @@ public class MapUpdater {
         currentAction = null;
     }
 
+    @Deprecated
     public void submitUpdates() throws SQLException {
-        if (currentAction != null) actionQueue.addFirst(currentAction);
-        List<UpdateData> action;
-        List<Integer> nodeIDs = new ArrayList<>();
-        try {
-            while (!actionQueue.isEmpty()) {
-                action = actionQueue.removeLast().getUpdates();
-                for (UpdateData data : action) {
-                    if (data.method().getName().equals("addNode")) {
-                        Node returnedNode = (Node)data.method().invoke(mapdb, data.args());
-                        nodeIDs.add(returnedNode.getNodeID());
-                    } else if (data.method().getName().equals("addEdge")) {
-                        int start = (int)data.args()[0];
-                        int startNode = (start < 0) ? nodeIDs.get(Math.abs(start) - 1) : start;
-                        int end = (int)data.args()[1];
-                        int endNode = (end < 0) ? nodeIDs.get(Math.abs(end) - 1) : end;
-                        data.method().invoke(mapdb, (Object)new Object[]{startNode, endNode});
-                        continue;
-                    }
-                    data.method().invoke(mapdb, data.args());
-                }
-            }
-        } catch (InvocationTargetException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        clearUpdates();
+//        if (currentAction != null) actionQueue.addFirst(currentAction);
+//        List<UpdateData> action;
+//        List<Integer> nodeIDs = new ArrayList<>();
+//        try {
+//            while (!actionQueue.isEmpty()) {
+//                action = actionQueue.removeLast().getUpdates();
+//                for (UpdateData data : action) {
+//                    if (data.method().getName().equals("addNode")) {
+//                        Node returnedNode = (Node)data.method().invoke(mapdb, data.args());
+//                        nodeIDs.add(returnedNode.getNodeID());
+//                    } else if (data.method().getName().equals("addEdge")) {
+//                        int start = (int)data.args()[0];
+//                        int startNode = (start < 0) ? nodeIDs.get(Math.abs(start) - 1) : start;
+//                        int end = (int)data.args()[1];
+//                        int endNode = (end < 0) ? nodeIDs.get(Math.abs(end) - 1) : end;
+//                        data.method().invoke(mapdb, (Object)new Object[]{startNode, endNode});
+//                        continue;
+//                    }
+//                    data.method().invoke(mapdb, data.args());
+//                }
+//            }
+//        } catch (InvocationTargetException | IllegalAccessException e) {
+//            throw new RuntimeException(e);
+//        }
+    }
+
+    public void clearUpdates() {
+        currentAction = null;
+        actionQueue = new ArrayDeque<>();
     }
 
     public List<UndoData> undo() {
