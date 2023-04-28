@@ -35,6 +35,7 @@ public class MapUpdater {
         currentAction = null;
     }
 
+    @Deprecated
     public void submitUpdates() throws SQLException {
         if (currentAction != null) actionQueue.addFirst(currentAction);
         List<UpdateData> action;
