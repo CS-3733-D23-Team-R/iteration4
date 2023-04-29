@@ -1,19 +1,15 @@
 package edu.wpi.teamR;
 
-import edu.wpi.teamR.archive.Archiver;
-import edu.wpi.teamR.archive.CSVParameterException;
-import edu.wpi.teamR.login.UserDatabase;
-import edu.wpi.teamR.mapdb.MapDatabase;
-import edu.wpi.teamR.requestdb.RequestDatabase;
+import edu.wpi.teamR.login.AccessLevel;
 
 import java.io.IOException;
-import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class Main {
 
-  public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException, CSVParameterException {
+  public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
+//    new UserDatabase().addUser("admin", "admin", "","","","1234567890", new Date(System.currentTimeMillis()), AccessLevel.Admin, "", 1);
     App.launch(App.class, args);
     // shortcut: psvm
   }
