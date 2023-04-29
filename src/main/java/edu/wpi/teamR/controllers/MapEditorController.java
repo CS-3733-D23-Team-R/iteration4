@@ -528,10 +528,18 @@ public class MapEditorController {
         c.setOnMouseClicked(event -> {
             if (event.isShiftDown()) {
                 if (event.getButton() == MouseButton.PRIMARY) {
-                    alignmentNodesList.put(c, n);
-                    alignmentCirclesList.add(c);
-                    c.setStroke(Color.web("#F6BD38"));
-                    c.setStrokeWidth(2);
+                    if (alignmentCirclesList.contains(c)) {
+                        alignmentNodesList.remove(c);
+                        alignmentCirclesList.remove(c);
+                        c.setStroke(Color.TRANSPARENT);
+                        c.setStrokeWidth(0);
+                    }
+                    else {
+                        alignmentNodesList.put(c, n);
+                        alignmentCirclesList.add(c);
+                        c.setStroke(Color.web("#F6BD38"));
+                        c.setStrokeWidth(2);
+                    }
                 }
             }
             else if (event.getButton() == MouseButton.PRIMARY && !dragged && drawEdgesMode) {
