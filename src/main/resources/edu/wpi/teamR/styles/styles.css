@@ -442,3 +442,8 @@
     -fx-font-weight: NORMAL;
     -fx-font-size: 18;
 }
+
+.credits{
+    -fx-font-family: 'Nunito Sans', 'regular';
+    -fx-font-weight: NORMAL;
+}
