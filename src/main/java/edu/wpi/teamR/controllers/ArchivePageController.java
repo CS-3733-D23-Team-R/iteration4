@@ -71,6 +71,7 @@ public class ArchivePageController {
     public void submit() throws SQLException, FileNotFoundException, ClassNotFoundException, CSVParameterException {
         archiver.restoreArchive(selectedFile.getAbsolutePath());
         selectedFile = null;
+        fileText.setText("");
     }
 
     public void chooseDirectory() {
@@ -83,5 +84,6 @@ public class ArchivePageController {
     public void export() throws SQLException, IOException, ClassNotFoundException {
         archiver.createArchive(selectedDirectory.getAbsolutePath() + "/archive.zip");
         selectedDirectory = null;
+        pathText.setText("");
     }
 }
