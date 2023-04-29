@@ -530,7 +530,7 @@ public class MapEditorController {
                 if (event.getButton() == MouseButton.PRIMARY) {
                     alignmentNodesList.put(c, n);
                     alignmentCirclesList.add(c);
-                    c.setStroke(Color.HOTPINK);
+                    c.setStroke(Color.web("#F6BD38"));
                     c.setStrokeWidth(2);
                 }
             }
