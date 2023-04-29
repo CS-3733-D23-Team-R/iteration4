@@ -1,10 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.CreditsPageController">
+<BorderPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.CreditsPageController">
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="profileToServiceRequests2" stylesheets="@../styles/styles.css" BorderPane.alignment="CENTER" />
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="63.0" layoutY="41.0" styleClass="title" text="Credits" AnchorPane.leftAnchor="63.0" AnchorPane.topAnchor="41.0" />
+            <VBox alignment="CENTER" layoutX="59.20000076293945" layoutY="100.19999694824219" AnchorPane.bottomAnchor="33.400003051757835" AnchorPane.leftAnchor="59.20000076293945" AnchorPane.rightAnchor="57.5999992370605">
+               <children>
+                  <MFXScrollPane prefHeight="586.0" prefWidth="1163.0" VBox.vgrow="ALWAYS">
+                     <content>
+                        <VBox alignment="TOP_CENTER" prefHeight="586.0" prefWidth="1163.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Thank you to those who made this application possible!" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="We would like to extend our gratitude to the following sources for images, APIs and other resources:" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="4B Icons, Image/Icon, The Noun Project https://thenounproject.com/4bicons/" wrappingWidth="989.4110099077225">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="284.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="credits" text="Information Desk, Image/Icon, Flaticon https://www.flaticon.com/free-icon/information-desk_825875" wrappingWidth="988.128221988678">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="284.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Emergency Room, Image/Icon, Flaticon https://www.flaticon.com/free-icon/information-desk_825875" wrappingWidth="991.9767017364502">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="284.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ear/Nose/Throat, Image/Icon, The Noun Project https://thenounproject.com/icon/ear-nose-throat-3756636/" wrappingWidth="993.2596304416656">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="284.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ultrasound Labs, Image/Icon, Flaticon https://www.flaticon.com/free-icon/ultrasound_414227" wrappingWidth="995.8252739012241">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="284.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Restrooms, Image/Icon, Flaticon https://www.flaticon.com/free-icon/toilet_185547" wrappingWidth="995.8252739906311">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="284.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stop Here, Image/Icon, The Noun Project https://thenounproject.com/icon/stop-sign-258043/" wrappingWidth="993.2596306800842">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="284.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lock, Image/Icon, The Noun Project https://thenounproject.com/icon/lock-5664255/" wrappingWidth="995.8253350257874">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="284.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" text="b farias, Image/Icon, The Noun Project https://thenounproject.com/bfarias/" wrappingWidth="994.5424365997314">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="284.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delta, Image/Icon, The Noun Project https://thenounproject.com/browse/icons/term/delta/" wrappingWidth="994.5424365997314">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="284.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Material UI Icons, Image/Icon, The Noun Project https://thenounproject.com/browse/icons/term/material-ui/" wrappingWidth="997.1082329750061">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="284.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exit, Image/Icon, The Noun Project https://thenounproject.com/icon/exit-1610857/" wrappingWidth="997.1082329750061">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="284.0" layoutY="294.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cart, Image/Icon, The Noun Project https://thenounproject.com/icon/cart-5668278/" wrappingWidth="999.6739068031311">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="284.0" layoutY="305.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Staff, Image/Icon, The Noun Project https://thenounproject.com/icon/staff-4199815/" wrappingWidth="999.6739068031311">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="284.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Payment, Image/Icon, The Noun Project https://thenounproject.com/icon/money-5663864/" wrappingWidth="999.6738456487656">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="284.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Notes, Image/Icon, The Noun Project https://thenounproject.com/icon/notes-1847104/" wrappingWidth="1000.9567437171936">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="284.0" layoutY="361.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MaterialFX, API, palexdev https://github.com/palexdev/MaterialFX" wrappingWidth="1003.5223865509033">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="284.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Commons Compress, API, Apache Software https://commons.apache.org/proper/commons-compress/" wrappingWidth="1003.5223870277405">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="284.0" layoutY="389.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GestureFX, API, tom91136 https://github.com/tom91136/GestureFX" wrappingWidth="1004.8052845001221">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="284.0" layoutY="414.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ControlsFX, API, controlsfx https://controlsfx.github.io/" wrappingWidth="1004.8053455352783">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="284.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Graphic Elements, Image/Icon, The Noun Project https://thenounproject.com/browse/icons/term/graphic-element/" wrappingWidth="1008.6539177894592">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="94.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="bodyMediumBold" text="Additionally, we would like to give thanks to Brigham &amp; Women's Hospital for their support, and the Romantic Raijuus for designing and implementing this application!" wrappingWidth="1007.6433217525482" />
+                           </children>
+                        </VBox>
+                     </content>
+                  </MFXScrollPane>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
    </center>
 </BorderPane>
