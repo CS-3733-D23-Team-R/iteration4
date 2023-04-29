@@ -54,14 +54,7 @@ public class AdminProfilePageController {
         UserData thisUserData = UserData.getInstance();
         CurrentUser user = thisUserData.getLoggedIn();
 
-        createNewAlert.setOnMouseClicked(event -> {
-            try {
-                newAlert();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
+        createNewAlert.setOnMouseClicked(event -> { Navigation.navigate(Screen.ALERTS);});
         toServiceRequests.setOnMouseClicked(event -> {Navigation.navigate(Screen.SORT_ORDERS);});
         toConferenceRooms.setOnMouseClicked(event -> {Navigation.navigate(Screen.ROOM_REQUEST_MANAGER);});
         toEditMap.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP_EDITOR));
@@ -102,7 +95,7 @@ public class AdminProfilePageController {
                 Stage popupStage = new Stage();
                 popupStage.initModality(Modality.APPLICATION_MODAL);
                 popupStage.setTitle("Archive Manager");
-                popupStage.setScene(new Scene(popupRoot, 600, 400));
+                popupStage.setScene(new Scene(popupRoot, 550, 300));
                 popupStage.showAndWait();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -127,16 +120,4 @@ public class AdminProfilePageController {
         }
     }
 
-    private void newAlert() throws IOException {
-        final FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/Alerts.fxml"));
-        //final BorderPane alert = loader.load();
-        Parent popup;
-        popup = loader.load();
-        Stage alerts = new Stage();
-        alerts.initModality(Modality.APPLICATION_MODAL);
-        alerts.setTitle("Alerts");
-        alerts.setScene(new Scene(popup, 400, 150));
-        alerts.showAndWait();
-        System.out.print("opened");
-    }
 }
