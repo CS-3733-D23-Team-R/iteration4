@@ -27,6 +27,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.sql.Date;
 import java.util.Objects;
 
 public class AlertsController {
@@ -36,11 +37,11 @@ public class AlertsController {
     @FXML
     TextArea messageField;
     @FXML
-    MFXDatePicker datePicker, setStart, setEnd;
+    MFXDatePicker startPicker, endPicker, setStart, setEnd;
     @FXML
     Button submitButton, submitSet;
     @FXML
-    TableView alertTable;
+    TableView<Alert> alertTable;
     @FXML
     TableColumn<Alert, String> messageColumn;
     @FXML TableColumn<Alert, String> startDate, endDate;
@@ -64,10 +65,10 @@ public class AlertsController {
         messageField.setWrapText(true);
         messageColumn.setCellValueFactory(new PropertyValueFactory<>("message"));
         messageColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        startDate.setCellValueFactory(new PropertyValueFactory<>("time"));
+        startDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         //startDate.setCellFactory(TextFieldTableCell.forTableColumn());
-//        endDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-//        endDate.setCellFactory(TextFieldTableCell.forTableColumn());
+        endDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+        //endDate.setCellFactory(TextFieldTableCell.forTableColumn());
         addButtonToTable();
 
         for (Alert alert : new UserDatabase().getAlerts()) {
@@ -88,7 +89,7 @@ public class AlertsController {
     }
 
     private void submitAlert() throws SQLException {
-        alerts.addAlert(messageField.getText(), Timestamp.valueOf(datePicker.getValue().atTime(LocalTime.now())));
+        alerts.addAlert(messageField.getText(), Date.valueOf(startPicker.getValue()), Date.valueOf(endPicker.getValue()));
     }
 
 
@@ -109,7 +110,7 @@ public class AlertsController {
                             Alert data = getTableView().getItems().get(getIndex());
                             filteredData.getSource().remove(data);
                             try {
-                                new UserDatabase().deleteAlert(data.getMessage(), data.getTime());
+                                new UserDatabase().deleteAlert(data.getMessage(), data.getStartDate());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

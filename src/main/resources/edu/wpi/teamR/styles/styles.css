@@ -442,3 +442,13 @@
     -fx-font-weight: NORMAL;
     -fx-font-size: 18;
 }
+
+#custom-pos {
+  position: relative;
+  right: -70px;
+}
+.dropdown-menu {
+   left: auto !important;
+   right: -70px;
+   -fx-background-position: TOP_CENTER;
+}

@@ -44,7 +44,7 @@
                                     <Insets top="20.0" />
                                  </VBox.margin>
                               </Text>
-                              <MFXDatePicker fx:id="datePicker" floatingText="Select Date" VBox.vgrow="ALWAYS">
+                              <MFXDatePicker fx:id="startPicker" floatingText="Select Date" styleClass="dropdown-menu" VBox.vgrow="ALWAYS">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -54,7 +54,7 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                               </Text>
-                              <MFXDatePicker VBox.vgrow="ALWAYS" />
+                              <MFXDatePicker fx:id="endPicker" styleClass="dropdown-menu" VBox.vgrow="ALWAYS" />
                               <Button fx:id="submitButton" mnemonicParsing="false" text="Submit">
                                  <VBox.margin>
                                     <Insets top="20.0" />
@@ -75,33 +75,13 @@
                         <HBox prefHeight="0.0" prefWidth="907.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Existing Alerts" HBox.hgrow="ALWAYS" />
-                              <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Set Alerts" HBox.hgrow="ALWAYS">
-                                       <HBox.margin>
-                                          <Insets right="5.0" />
-                                       </HBox.margin>
-                                    </Text>
-                                    <MFXDatePicker fx:id="setStart" floatingText="Start" HBox.hgrow="ALWAYS" />
-                                    <MFXDatePicker fx:id="setEnd" floatingText="End" HBox.hgrow="ALWAYS">
-                                       <HBox.margin>
-                                          <Insets left="5.0" />
-                                       </HBox.margin>
-                                    </MFXDatePicker>
-                                    <Button fx:id="submitSet" mnemonicParsing="false" styleClass="food_furniture-clear-button" text="Submit">
-                                       <HBox.margin>
-                                          <Insets left="5.0" />
-                                       </HBox.margin>
-                                    </Button>
-                                 </children>
-                              </HBox>
                            </children>
                         </HBox>
                         <TableView fx:id="alertTable" prefHeight="200.0" prefWidth="200.0" stylesheets="@../styles/tables.css" VBox.vgrow="ALWAYS">
                           <columns>
                             <TableColumn fx:id="messageColumn" prefWidth="279.9999796152115" text="Message" />
-                            <TableColumn fx:id="startDate" minWidth="0.0" prefWidth="248.66668701171875" text="Starting Time" />
-                              <TableColumn fx:id="endDate" prefWidth="283.77783203125" text="Time" />
+                            <TableColumn fx:id="startDate" minWidth="0.0" prefWidth="248.66668701171875" text="Starting Date" />
+                              <TableColumn fx:id="endDate" prefWidth="283.77783203125" text="Ending Date" />
                               <TableColumn fx:id="deleteCol" prefWidth="93.77777099609375" text="Delete" />
                           </columns>
                            <VBox.margin>
