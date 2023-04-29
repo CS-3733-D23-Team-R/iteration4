@@ -4,29 +4,31 @@ import edu.wpi.teamR.archive.Archivable;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 @Getter @Setter
 public class Alert implements Archivable {
     private String message;
-    private Timestamp time;
+    private Date startDate;
+    private Date endDate;
 
-    public Alert(String message, Timestamp time){
+    public Alert(String message, Date startDate, Date endDate){
         this.message = message;
-        this.time = time;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     private Alert(String[] args) {
-        this(args[0], Timestamp.valueOf(args[1]));
+        this(args[0], Date.valueOf(args[1]), Date.valueOf(args[2]));
     }
 
     @Override
     public String toCSVEntry() {
-        return message + "," + time.toString();
+        return message + "," + startDate.toString() + "," + endDate.toString();
     }
 
     @Override
     public String getCSVColumns() {
-        return "message,time";
+        return "message,startDate,endDate";
     }
 }

@@ -6,14 +6,20 @@ import edu.wpi.teamR.login.User;
 import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.mapdb.*;
 import edu.wpi.teamR.requestdb.*;
-
-import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
-
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.apache.commons.compress.archivers.zip.ZipFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Enumeration;
+import java.util.List;
 
 public class Archiver {
     private final MapDatabase mapdb;
@@ -26,9 +32,24 @@ public class Archiver {
         userdb = userDatabase;
     }
 
+    public void createArchive() throws SQLException, IOException {
+        StringBuilder filename = new StringBuilder();
+        Path p = Paths.get("./backups/");
+        File backupDir = new File(p.toUri());
+        if (!backupDir.exists())
+            Files.createDirectory(p);
+        filename.append("./backups/csv_archive_");
+        LocalDateTime dateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_hh.mm.ss");
+        filename.append(dateTime.format(formatter));
+        filename.append(".zip");
+        createArchive(filename.toString());
+    }
+
     public void createArchive(String archivePath) throws SQLException {
         try (ZipArchiveOutputStream outputStream = new ZipArchiveOutputStream(new File(archivePath))) {
             CSVWriter writer = new CSVWriter();
+            Paths.get(archivePath);
             outputStream.putArchiveEntry(new ZipArchiveEntry("Node.csv"));
             writer.writeCSV(outputStream, mapdb.getNodes());
             outputStream.closeArchiveEntry();
@@ -80,37 +101,62 @@ public class Archiver {
 
     public void restoreArchive(String archivePath) throws SQLException, CSVParameterException {
         try (ZipFile zipFile = new ZipFile(archivePath)) {
-            deleteALL();
+            String folder = "";
+            ZipArchiveEntry z = zipFile.getEntries().nextElement();
+            if (z.isDirectory()) {
+                folder = z.getName();
+            }
+            for (Enumeration<ZipArchiveEntry> e = zipFile.getEntries(); e.hasMoreElements();) {
+                System.out.println(e.nextElement().getName());
+            }
+
             CSVReader reader = new CSVReader();
             ZipArchiveEntry entry;
-            entry = zipFile.getEntry("Node.csv");
-            mapdb.addNodes(reader.parseCSV(Node.class, zipFile.getInputStream(entry)));
-            entry = zipFile.getEntry("Edge.csv");
-            mapdb.addEdges(reader.parseCSV(Edge.class, zipFile.getInputStream(entry)));
-            entry = zipFile.getEntry("LocationName.csv");
-            mapdb.addLocationNames(reader.parseCSV(LocationName.class, zipFile.getInputStream(entry)));
-            entry = zipFile.getEntry("Move.csv");
-            mapdb.addMoves(reader.parseCSV(Move.class, zipFile.getInputStream(entry)));
-            entry = zipFile.getEntry("User.csv");
-            userdb.addUsers(reader.parseCSV(User.class, zipFile.getInputStream(entry)));
-            entry = zipFile.getEntry("Alert.csv");
-            userdb.addAlerts(reader.parseCSV(Alert.class, zipFile.getInputStream(entry)));
-            entry = zipFile.getEntry("DirectionArrow.csv");
-            mapdb.addDirectionArrows(reader.parseCSV(DirectionArrow.class, zipFile.getInputStream(entry)));
-            entry = zipFile.getEntry("ConferenceRoom.csv");
-            mapdb.addConferenceRooms(reader.parseCSV(ConferenceRoom.class, zipFile.getInputStream(entry)));
-            entry = zipFile.getEntry("ItemRequest.csv");
-            requestdb.addItemRequests(reader.parseCSV(ItemRequest.class, zipFile.getInputStream(entry)));
-            entry = zipFile.getEntry("RoomRequest.csv");
-            requestdb.addRoomRequests(reader.parseCSV(RoomRequest.class, zipFile.getInputStream(entry)));
-            entry = zipFile.getEntry("AvailableFlowers.csv");
-            requestdb.addAvailableFlowers(reader.parseCSV(AvailableFlowers.class, zipFile.getInputStream(entry)));
-            entry = zipFile.getEntry("AvailableFurniture.csv");
-            requestdb.addAvailableFurniture(reader.parseCSV(AvailableFurniture.class, zipFile.getInputStream(entry)));
-            entry = zipFile.getEntry("AvailableMeals.csv");
-            requestdb.addAvailableMeals(reader.parseCSV(AvailableMeals.class, zipFile.getInputStream(entry)));
-            entry = zipFile.getEntry("AvailableSupplies.csv");
-            requestdb.addAvailableSupplies(reader.parseCSV(AvailableSupplies.class, zipFile.getInputStream(entry)));
+            entry = zipFile.getEntry(folder + "Node.csv");
+            List<Node> nodes = reader.parseCSV(Node.class, zipFile.getInputStream(entry));
+            entry = zipFile.getEntry(folder + "Edge.csv");
+            List<Edge> edges = reader.parseCSV(Edge.class, zipFile.getInputStream(entry));
+            entry = zipFile.getEntry(folder + "LocationName.csv");
+            List<LocationName> locationNames = reader.parseCSV(LocationName.class, zipFile.getInputStream(entry));
+            entry = zipFile.getEntry(folder + "Move.csv");
+            List<Move> moves = reader.parseCSV(Move.class, zipFile.getInputStream(entry));
+            entry = zipFile.getEntry(folder + "User.csv");
+            List<User> users = reader.parseCSV(User.class, zipFile.getInputStream(entry));
+            entry = zipFile.getEntry(folder + "Alert.csv");
+            List<Alert> alerts = reader.parseCSV(Alert.class, zipFile.getInputStream(entry));
+            entry = zipFile.getEntry(folder + "DirectionArrow.csv");
+            List<DirectionArrow> directionArrows = reader.parseCSV(DirectionArrow.class, zipFile.getInputStream(entry));
+            entry = zipFile.getEntry(folder + "ConferenceRoom.csv");
+            List<ConferenceRoom> conferenceRooms = reader.parseCSV(ConferenceRoom.class, zipFile.getInputStream(entry));
+            entry = zipFile.getEntry(folder + "ItemRequest.csv");
+            List<ItemRequest> itemRequests = reader.parseCSV(ItemRequest.class, zipFile.getInputStream(entry));
+            entry = zipFile.getEntry(folder + "RoomRequest.csv");
+            List<RoomRequest> roomRequests = reader.parseCSV(RoomRequest.class, zipFile.getInputStream(entry));
+            entry = zipFile.getEntry(folder + "AvailableFlowers.csv");
+            List<AvailableFlowers> availableFlowers = reader.parseCSV(AvailableFlowers.class, zipFile.getInputStream(entry));
+            entry = zipFile.getEntry(folder + "AvailableFurniture.csv");
+            List<AvailableFurniture> availableFurniture = reader.parseCSV(AvailableFurniture.class, zipFile.getInputStream(entry));
+            entry = zipFile.getEntry(folder + "AvailableMeals.csv");
+            List<AvailableMeals> availableMeals = reader.parseCSV(AvailableMeals.class, zipFile.getInputStream(entry));
+            entry = zipFile.getEntry(folder + "AvailableSupplies.csv");
+            List<AvailableSupplies> availableSupplies = reader.parseCSV(AvailableSupplies.class, zipFile.getInputStream(entry));
+
+            deleteALL();
+
+            mapdb.addNodes(nodes);
+            mapdb.addEdges(edges);
+            mapdb.addLocationNames(locationNames);
+            mapdb.addMoves(moves);
+            userdb.addUsers(users);
+            userdb.addAlerts(alerts);
+            mapdb.addDirectionArrows(directionArrows);
+            mapdb.addConferenceRooms(conferenceRooms);
+            requestdb.addItemRequests(itemRequests);
+            requestdb.addRoomRequests(roomRequests);
+            requestdb.addAvailableFlowers(availableFlowers);
+            requestdb.addAvailableFurniture(availableFurniture);
+            requestdb.addAvailableMeals(availableMeals);
+            requestdb.addAvailableSupplies(availableSupplies);
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -119,17 +165,5 @@ public class Archiver {
 
     private void deleteALL() throws SQLException {
         Configuration.deleteEverything();
-        /*
-        requestdb.deleteAllItemRequests();
-        requestdb.deleteAllRoomRequests();
-        userdb.deleteAllAlerts();
-        userdb.deleteAllUsers();
-        mapdb.deleteAllEdges();
-        mapdb.deleteAllMoves();
-        mapdb.deleteAllDirectionArrows();
-        mapdb.deleteAllConferenceRooms();
-        mapdb.deleteAllLocationNames();
-        mapdb.deleteAllNodes();
-        */
     }
 }
