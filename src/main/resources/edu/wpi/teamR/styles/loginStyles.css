@@ -83,6 +83,209 @@
 .actuallyRounded{
     -fx-background-radius: 30;
     -fx-border-radius: 30;
-    -fx-border-width:3;
+    -fx-background-color: #D9D9D9;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0.0, 0.0);
+}
+
+.benFace{
+    -fx-background-image: url("../images/ourTeamPics/ben.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
     -fx-border-color: black;
+    -fx-border-width: 3;
+}
+
+.altonFace{
+    -fx-background-image: url("../images/ourTeamPics/alton.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+}
+
+.nathanielFace{
+    -fx-background-image: url("../images/ourTeamPics/nathaniel.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+}
+
+.bryceFace{
+    -fx-background-image: url("../images/ourTeamPics/bryce.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+}
+
+.johnFace{
+    -fx-background-image: url("../images/ourTeamPics/john.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+}
+
+.gwenFace{
+    -fx-background-image: url("../images/ourTeamPics/gwen.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+}
+
+.zeshFace{
+    -fx-background-image: url("../images/ourTeamPics/zesh.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+}
+
+.simonFace{
+    -fx-background-image: url("../images/ourTeamPics/simon.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+}
+
+.ashFace{
+    -fx-background-image: url("../images/ourTeamPics/ash.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+}
+
+.jpFace{
+    -fx-background-image: url("../images/ourTeamPics/jp.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+}
+
+.benPet{
+    -fx-background-image: url("../images/ourTeamPets/ben.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+}
+
+.altonPet{
+    -fx-background-image: url("../images/ourTeamPets/alton.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+}
+
+.nathanielPet{
+    -fx-background-image: url("../images/ourTeamPets/nathaniel.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+}
+
+.zeshPet{
+    -fx-background-image: url("../images/ourTeamPets/zesh.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+}
+
+.simonPet{
+    -fx-background-image: url("../images/ourTeamPets/simon.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+}
+.ashPet{
+    -fx-background-image: url("../images/ourTeamPets/ash.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+}
+
+.gwenPet{
+    -fx-background-image: url("../images/ourTeamPets/gwen.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+}
+
+.brycePet{
+    -fx-background-color: #FFFFFF;
+    /*
+    remove ^
+    -fx-background-image: url("../images/ourTeamPets/");
+    */
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-width: 3;
+    -fx-border-color: black;
+}
+
+.johnPet{
+    -fx-background-color: #FFFFFF;
+    /*
+    remove ^
+    -fx-background-image: url("../images/ourTeamPets/");
+    */
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-width: 3;
+    -fx-border-color: black;
+}
+
+.jpPet{
+    -fx-background-color: #FFFFFF;
+    /*
+    remove ^
+    -fx-background-image: url("../images/ourTeamPets/");
+    */
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-border-width: 3;
+    -fx-border-color: black;
+}
+.aboutBackBold {
+    -fx-font-family: 'Roboto', 'bold';
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.aboutBack{
+    -fx-font-family: 'Nunito Sans', 'regular';
+    -fx-font-weight: NORMAL;
+    -fx-font-size: 14;
+    -fx-text-fill: white;
 }
