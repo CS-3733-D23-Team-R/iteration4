@@ -44,7 +44,7 @@ class AlertDAOTest {
         assertEquals(1,alerts.size());
         alert2 = alerts.get(0);
         assertEquals(alert1.getMessage(), alert2.getMessage());
-        assertEquals(alert1.getStartDate(), alert2.getStartDate());
+        assertEquals(alert1.getStartDate().toString(), alert2.getStartDate().toString());
 
         alert1 = alertDAO.addAlert("test2", new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()));
         alerts = alertDAO.getAlerts();
@@ -69,7 +69,7 @@ class AlertDAOTest {
         assertEquals(1,alerts.size());
         alert2 = alerts.get(0);
         assertEquals(alert1.getMessage(), alert2.getMessage());
-        assertEquals(alert1.getStartDate(), alert2.getStartDate());
+        assertEquals(alert1.getStartDate().toString(), alert2.getStartDate().toString());
 
         alertDAO.deleteAlert(alert1.getMessage(), alert1.getStartDate());
 
