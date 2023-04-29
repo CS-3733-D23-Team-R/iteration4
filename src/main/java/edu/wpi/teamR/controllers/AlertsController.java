@@ -37,9 +37,9 @@ public class AlertsController {
     @FXML
     TextArea messageField;
     @FXML
-    MFXDatePicker startPicker, endPicker, setStart, setEnd;
+    MFXDatePicker startPicker, endPicker;
     @FXML
-    Button submitButton, submitSet;
+    Button submitButton;
     @FXML
     TableView<Alert> alertTable;
     @FXML
