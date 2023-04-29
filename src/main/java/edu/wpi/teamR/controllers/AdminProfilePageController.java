@@ -103,7 +103,10 @@ public class AdminProfilePageController {
                 popupStage.initModality(Modality.APPLICATION_MODAL);
                 popupStage.setTitle("Archive Manager");
                 popupStage.setScene(new Scene(popupRoot, 600, 400));
+                RootController root = RootController.getInstance();
+                root.setPopupState(true);
                 popupStage.showAndWait();
+                root.setPopupState(false);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -136,7 +139,10 @@ public class AdminProfilePageController {
         alerts.initModality(Modality.APPLICATION_MODAL);
         alerts.setTitle("Alerts");
         alerts.setScene(new Scene(popup, 400, 150));
+        RootController root = RootController.getInstance();
+        root.setPopupState(true);
         alerts.showAndWait();
+        root.setPopupState(false);
         System.out.print("opened");
     }
 }
