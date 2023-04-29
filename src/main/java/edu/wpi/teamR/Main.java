@@ -13,7 +13,7 @@ public class Main {
   public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
     Archiver archiver = new Archiver(new MapDatabase(), new UserDatabase(), new RequestDatabase());
     archiver.createArchive();
-    //App.launch(App.class, args);
+    App.launch(App.class, args);
     // shortcut: psvm
   }
 }
