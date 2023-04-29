@@ -10,7 +10,7 @@ import java.util.List;
 public class AlertDAO {
     Alert addAlert(String message, Date startDate, Date endDate) throws SQLException {
         Connection connection = Configuration.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getAlertSchemaNameTableName()+"(message,time,duration) VALUES(?,?,?);");
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getAlertSchemaNameTableName()+"(message,startDate,endDate) VALUES(?,?,?);");
         preparedStatement.setString(1, message);
         preparedStatement.setDate(2, startDate);
         preparedStatement.setDate(3, endDate);

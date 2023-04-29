@@ -89,7 +89,8 @@ public class AlertsController {
     }
 
     private void submitAlert() throws SQLException {
-        alerts.addAlert(messageField.getText(), Date.valueOf(startPicker.getValue()), Date.valueOf(endPicker.getValue()));
+        Alert a = alerts.addAlert(messageField.getText(), Date.valueOf(startPicker.getValue()), Date.valueOf(endPicker.getValue()));
+        alertTable.getItems().add(a);
     }
 
 
@@ -111,6 +112,7 @@ public class AlertsController {
                             filteredData.getSource().remove(data);
                             try {
                                 new UserDatabase().deleteAlert(data.getMessage(), data.getStartDate());
+                                alertTable.getItems().remove(data);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
