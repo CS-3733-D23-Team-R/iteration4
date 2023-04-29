@@ -1,22 +1,19 @@
 package edu.wpi.teamR.controllers;
 
-import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.App;
+import edu.wpi.teamR.Main;
 import edu.wpi.teamR.datahandling.MapStorage;
 import edu.wpi.teamR.login.Alert;
-import edu.wpi.teamR.login.AlertDAO;
 import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.mapdb.MapDatabase;
-import edu.wpi.teamR.userData.UserData;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
@@ -27,10 +24,11 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -289,9 +287,7 @@ public class MapController {
 
         setFloorButtonMap();
         textDirections(false);
-        textCheckbox.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            textDirections(newVal);
-        });
+        textCheckbox.selectedProperty().addListener((obs, oldVal, newVal) -> textDirections(newVal));
 
         closeAlert.setOnMouseClicked(event -> {
             alertPane.setVisible(false);
@@ -471,8 +467,24 @@ public class MapController {
         ArrayList<String> textualDirections = ptt.getTextualPath();
         for (String dir: textualDirections) {
             Text curr = new Text(dir);
+            HBox directionSet = new HBox();
+            ImageView arrow = new ImageView();
+            directionSet.setAlignment(Pos.CENTER_LEFT);
+            arrow.setFitWidth(20);
+            arrow.setFitHeight(20);
+            if (dir.contains("left")|| dir.contains("Left")) {
+                arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/leftArrowBlack.png"))));
+            }
+            else if (dir.contains("right") || dir.contains("Right")) {
+                arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/rightArrowBlack.png"))));
+            }
             curr.getStyleClass().add("body");
-            directionsVBox.getChildren().add(curr);
+            directionSet.getChildren().add(arrow);
+            directionSet.getChildren().add(curr);
+            directionsVBox.getChildren().add(directionSet);
+            if (dir.contains("Staircase") || dir.contains("Elevator")) {
+                directionsVBox.getChildren().add(new Text(""));
+            }
         }
 
         Label indicator = new Label(Integer.toString(currentStage++));

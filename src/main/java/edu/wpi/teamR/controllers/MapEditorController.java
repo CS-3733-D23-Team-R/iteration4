@@ -65,12 +65,6 @@ public class MapEditorController {
     @FXML Button cancelEdgeButton;
     @FXML Button futureMoveButton;
 
-    static File selectedFile;
-    static File selectedDirectory;
-    FileChooser fileChooser;
-
-    DirectoryChooser directoryChooser;
-
     @FXML
     BorderPane borderPane;
     @FXML AnchorPane anchorPane;
@@ -78,11 +72,7 @@ public class MapEditorController {
     @FXML
     GesturePane gesturePane;
 
-    @FXML
-    ComboBox<String> tableComboBox;
     @FXML Text dialogText;
-    ObservableList<String> DAOType =
-            FXCollections.observableArrayList("Node", "Edge", "LocationName", "Moves");
 
     URL firstFloorLink = Main.class.getResource("images/01_thefirstfloor.png");
     URL secondFloorLink = Main.class.getResource("images/02_thesecondfloor.png");
@@ -175,25 +165,6 @@ public class MapEditorController {
             floorNamesMap.put(floorNames[i], i);
         }
 
-        tableComboBox.setItems(DAOType);
-        importCSVButton.setOnAction(event -> {
-            try {
-                importCSV();
-            } catch (IOException | NoSuchMethodException | IllegalAccessException | InstantiationException |
-                     InvocationTargetException | CSVParameterException | SQLException | ItemNotFoundException |
-                     ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        exportCSVButton.setOnAction(event -> {
-            try {
-                export();
-            } catch (IOException | SQLException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-        });
-
         saveButton.setOnAction(event -> {
             try {
                 saveChanges();
@@ -213,7 +184,10 @@ public class MapEditorController {
                 popupStage.initModality(Modality.APPLICATION_MODAL);
                 popupStage.setTitle("Create New Location");
                 popupStage.setScene(new Scene(popupRoot, 400, 200));
+                RootController root = RootController.getInstance();
+                root.setPopupState(true);
                 popupStage.showAndWait();
+                root.setPopupState(false);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -229,7 +203,10 @@ public class MapEditorController {
                 popupStage.initModality(Modality.APPLICATION_MODAL);
                 popupStage.setTitle("Create New Node");
                 popupStage.setScene(new Scene(popupRoot, 400, 200));
+                RootController root = RootController.getInstance();
+                root.setPopupState(true);
                 popupStage.showAndWait();
+                root.setPopupState(false);
 
                 Node newNode = nodes.get(nodes.size()-1);
                 Circle newCircle = new Circle(newNode.getXCoord(), newNode.getYCoord(), 4, pathColor);
@@ -295,7 +272,10 @@ public class MapEditorController {
                 popupStage.initModality(Modality.APPLICATION_MODAL);
                 popupStage.setTitle("Edit Location");
                 popupStage.setScene(new Scene(popupRoot, 300, 400));
+                RootController root = RootController.getInstance();
+                root.setPopupState(true);
                 popupStage.showAndWait();
+                root.setPopupState(false);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -310,7 +290,10 @@ public class MapEditorController {
                 popupStage.initModality(Modality.APPLICATION_MODAL);
                 popupStage.setTitle("Future Moves");
                 popupStage.setScene(new Scene(popupRoot, 400, 500));
+                RootController root = RootController.getInstance();
+                root.setPopupState(true);
                 popupStage.showAndWait();
+                root.setPopupState(false);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -411,7 +394,10 @@ public class MapEditorController {
                 popupStage.initModality(Modality.APPLICATION_MODAL);
                 popupStage.setTitle("Create New Move");
                 popupStage.setScene(new Scene(popupRoot, 400, 200));
+                RootController root = RootController.getInstance();
+                root.setPopupState(true);
                 popupStage.showAndWait();
+                root.setPopupState(false);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -434,25 +420,6 @@ public class MapEditorController {
             popOver.setAutoHide(true);
 
             popOver.show(infoIcon);
-        });
-
-        dbBackupButton.setOnMouseClicked(event -> {
-            if (dbBackupButton.getTranslateY() == 95) {
-                TranslateTransition slideUp = new TranslateTransition(Duration.millis(500), backupBox);
-                TranslateTransition slideTab = new TranslateTransition(Duration.millis(500), dbBackupButton);
-                slideTab.setToY(0);
-                slideUp.setToY(0);
-                slideTab.play();
-                slideUp.play();
-            }
-            else {
-                TranslateTransition slideUp = new TranslateTransition(Duration.millis(500), backupBox);
-                TranslateTransition slideTab = new TranslateTransition(Duration.millis(500), dbBackupButton);
-                slideUp.setToY(95);
-                slideTab.setToY(95);
-                slideTab.play();
-                slideUp.play();
-            }
         });
 
         reset();
@@ -545,58 +512,6 @@ public class MapEditorController {
         }
     }
 
-    public void importCSV () throws IOException, CSVParameterException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException, SQLException, ItemNotFoundException, ClassNotFoundException {
-        openFile();
-        String choice = tableComboBox.getValue();
-        switch (choice) {
-            case "Node" -> mapdb.readCSV(selectedFile.getAbsolutePath(), Node.class);
-            case "Edge" -> mapdb.readCSV(selectedFile.getAbsolutePath(), Edge.class);
-            case "LocationName" -> mapdb.readCSV(selectedFile.getAbsolutePath(), LocationName.class);
-            case "Moves" -> mapdb.readCSV(selectedFile.getAbsolutePath(), Move.class);
-        }
-        tableComboBox.getSelectionModel().clearSelection();
-        tableComboBox.setValue(null);
-    }
-
-    public void openFile() {
-        fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
-        fileChooser.setTitle("Open File");
-        selectedFile = fileChooser.showOpenDialog(importCSVButton.getScene().getWindow());
-    }
-
-    public void chooseDirectory() {
-        directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Choose Directory");
-        selectedDirectory = directoryChooser.showDialog(exportCSVButton.getScene().getWindow());
-    }
-
-    public void export() throws IOException, SQLException {
-        String choice = tableComboBox.getValue();
-        chooseDirectory();
-        switch (choice) {
-            case "Node" -> {
-                CSVWriter nodeCSVWriter = new CSVWriter();
-                nodeCSVWriter.writeCSV(selectedDirectory.getAbsolutePath() + "/Nodes.csv", mapdb.getNodes());
-            }
-            case "Edge" -> {
-                CSVWriter edgeCSVWriter = new CSVWriter();
-                edgeCSVWriter.writeCSV(selectedDirectory.getAbsolutePath() + "/Edges.csv", mapdb.getEdges());
-            }
-            case "LocationName" -> {
-                CSVWriter locationCSVWriter = new CSVWriter();
-                locationCSVWriter.writeCSV(selectedDirectory.getAbsolutePath() + "/LocationNames.csv", mapdb.getLocationNames());
-            }
-            case "Moves" -> {
-                CSVWriter moveCSVWriter = new CSVWriter();
-                moveCSVWriter.writeCSV(selectedDirectory.getAbsolutePath() + "/Moves.csv", mapdb.getMoves());
-            }
-        }
-        selectedDirectory = null;
-        tableComboBox.getSelectionModel().clearSelection();
-        tableComboBox.setValue(null);
-    }
-
     public void drawNode(MapLocation l, int floor) {
         if (floor <= 4) {
             Node n = l.getNode();
@@ -678,7 +593,10 @@ public class MapEditorController {
                         popupStage.initModality(Modality.APPLICATION_MODAL);
                         popupStage.setTitle("Edge Created");
                         popupStage.setScene(new Scene(popupRoot, 400, 200));
+                        RootController root = RootController.getInstance();
+                        root.setPopupState(true);
                         popupStage.showAndWait();
+                        root.setPopupState(false);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -965,9 +883,8 @@ public class MapEditorController {
     }
 
     private void saveChanges() throws SQLException, ItemNotFoundException {
-        gesturePane.setGestureEnabled(true);
         updater.endAction();
-        updater.submitUpdates();
+        updater.clearUpdates();
         redraw();
     }
 
