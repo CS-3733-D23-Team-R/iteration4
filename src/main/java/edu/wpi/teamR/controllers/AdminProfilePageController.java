@@ -96,7 +96,10 @@ public class AdminProfilePageController {
                 popupStage.initModality(Modality.APPLICATION_MODAL);
                 popupStage.setTitle("Archive Manager");
                 popupStage.setScene(new Scene(popupRoot, 550, 300));
+                RootController root = RootController.getInstance();
+                root.setPopupState(true);
                 popupStage.showAndWait();
+                root.setPopupState(false);
             } catch (IOException e) {
                 e.printStackTrace();
             }

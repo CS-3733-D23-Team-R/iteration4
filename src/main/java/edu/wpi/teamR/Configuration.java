@@ -10,8 +10,8 @@ public class Configuration {
     private static final String username = "teamr";
     private static final String password = "teamr150";
     private static Connection connection;
-    private static String schemaName = "iteration3";
-    private static String testSchemaName = "iteration3test";
+    private static String schemaName = "iteration4";
+    private static String testSchemaName = "iteration4test";
     private static final String nodeTableName = "node";
     private static final String edgeTableName = "edge";
     private static final String moveTableName = "move";
