@@ -124,7 +124,7 @@
                                           <String fx:value="profileCreateNewAlert" />
                                        </styleClass>
                                        <children>
-                                          <Button fx:id="createNewAlert" mnemonicParsing="false" styleClass="tinyButton" text="Create New Alert" />
+                                          <Button fx:id="toAlerts" mnemonicParsing="false" styleClass="tinyButton" text="All Alerts" />
                                        </children>
                                     </StackPane>
                                     <StackPane fx:id="signageConfigurationImage" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">

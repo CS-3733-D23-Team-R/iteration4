@@ -10,10 +10,7 @@ import io.github.palexdev.materialfx.controls.MFXCheckbox;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
@@ -127,7 +124,7 @@ public class MapController {
     HashMap<String, String> locationMap = new HashMap<>();
 
     UserDatabase userdb = new UserDatabase();
-    ArrayList<Alert> alertList;
+    List<Alert> alertList;
     @FXML Text alertText;
     @FXML StackPane alertPane;
     @FXML VBox textVBox;
@@ -276,7 +273,7 @@ public class MapController {
 
         Platform.runLater(() -> moveDatePicker.setValue(LocalDate.now()));
 
-        alertList = userdb.getAlertsInLastNumDaysDesc(3);
+        alertList = userdb.getCurrentAlerts();
         if (alertList.size() > 0) {
             alertText.setText(alertList.get(0).getMessage());
         }

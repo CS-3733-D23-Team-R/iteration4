@@ -15,16 +15,18 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 public class ArchivePageController {
-    @FXML MFXButton backButton;
-    @FXML MFXButton fileButton;
-    @FXML MFXButton pathButton;
-    @FXML MFXButton submitImport;
-    @FXML MFXButton submitExport;
+
+    @FXML
+    Button fileButton;
+    @FXML Button pathButton;
+    @FXML Button submitImport;
+    @FXML Button submitExport;
     @FXML Text fileText;
     @FXML Text pathText;
 
@@ -69,7 +71,7 @@ public class ArchivePageController {
     public void submit() throws SQLException, FileNotFoundException, ClassNotFoundException, CSVParameterException {
         archiver.restoreArchive(selectedFile.getAbsolutePath());
         selectedFile = null;
-        fileText.setText("...");
+        fileText.setText("");
     }
 
     public void chooseDirectory() {
@@ -82,6 +84,6 @@ public class ArchivePageController {
     public void export() throws SQLException, IOException, ClassNotFoundException {
         archiver.createArchive(selectedDirectory.getAbsolutePath() + "/archive.zip");
         selectedDirectory = null;
-        pathText.setText("...");
+        pathText.setText("");
     }
 }
