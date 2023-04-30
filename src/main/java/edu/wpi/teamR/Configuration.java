@@ -9,6 +9,10 @@ public class Configuration {
     private static final String connectionURL = "jdbc:postgresql://database.cs.wpi.edu:5432/teamrdb";
     private static final String username = "teamr";
     private static final String password = "teamr150";
+    private static final String awsConnectionURL = "jdbc:postgresql://teamrdb.cjimrohummbk.us-east-1.rds.amazonaws.com:5432/postgres";
+    private static final String awsUsername = "teamr";
+    private static final String awsPassword = "teamr151";
+    private static boolean isAws = false;
     private static Connection connection;
     private static String schemaName = "iteration4";
     private static String testSchemaName = "iteration4test";
@@ -36,8 +40,18 @@ public class Configuration {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        Configuration.connection = DriverManager.getConnection(connectionURL, username, password);
+        if (!isAws)
+            Configuration.connection = DriverManager.getConnection(connectionURL, username, password);
+        else
+            Configuration.connection = DriverManager.getConnection(awsConnectionURL, awsUsername, awsPassword);
         return Configuration.connection;
+    }
+
+    //returns true if aws after swap and false if WPI
+    public boolean swapDatabase() throws SQLException {
+        isAws = !isAws;
+        connection.close();
+        return isAws;
     }
     public static void changeSchemaToTest() throws SQLException {
         Configuration.schemaName = Configuration.testSchemaName;
