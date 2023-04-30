@@ -26,8 +26,8 @@ public class Node implements MapData, Archivable {
     }
 
     @Override
-    public String toCSVEntry() {
-        return nodeID + "," + xCoord + "," + yCoord + "," + floorNum + "," + building;
+    public String[] toCSVEntry() {
+        return new String[]{String.valueOf(nodeID), String.valueOf(xCoord), String.valueOf(yCoord), floorNum, building};
     }
 
     @Override

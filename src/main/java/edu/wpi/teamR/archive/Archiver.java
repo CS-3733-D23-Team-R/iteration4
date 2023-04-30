@@ -6,6 +6,7 @@ import edu.wpi.teamR.login.User;
 import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.mapdb.*;
 import edu.wpi.teamR.requestdb.*;
+import org.apache.commons.compress.archivers.zip.Zip64Mode;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.apache.commons.compress.archivers.zip.ZipFile;
@@ -18,7 +19,6 @@ import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Enumeration;
 import java.util.List;
 
 public class Archiver {
@@ -47,9 +47,14 @@ public class Archiver {
     }
 
     public void createArchive(String archivePath) throws SQLException {
+        createArchive(archivePath, "|");
+    }
+
+    public void createArchive(String archivePath, String delimiter) throws SQLException {
         try (ZipArchiveOutputStream outputStream = new ZipArchiveOutputStream(new File(archivePath))) {
-            CSVWriter writer = new CSVWriter();
-            Paths.get(archivePath);
+            CSVWriter writer = new CSVWriter(delimiter);
+            //Paths.get(archivePath);
+            outputStream.setUseZip64(Zip64Mode.Never);
             outputStream.putArchiveEntry(new ZipArchiveEntry("Node.csv"));
             writer.writeCSV(outputStream, mapdb.getNodes());
             outputStream.closeArchiveEntry();
@@ -92,6 +97,12 @@ public class Archiver {
             outputStream.putArchiveEntry(new ZipArchiveEntry("AvailableSupplies.csv"));
             writer.writeCSV(outputStream, requestdb.getAvailableSupplies());
             outputStream.closeArchiveEntry();
+            outputStream.putArchiveEntry(new ZipArchiveEntry("Patient.csv"));
+            writer.writeCSV(outputStream, requestdb.getPatients());
+            outputStream.closeArchiveEntry();
+            outputStream.putArchiveEntry(new ZipArchiveEntry("PatientMove.csv"));
+            writer.writeCSV(outputStream, requestdb.getPatientMoves());
+            outputStream.closeArchiveEntry();
             outputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -106,9 +117,6 @@ public class Archiver {
             if (z.isDirectory()) {
                 folder = z.getName();
             }
-            for (Enumeration<ZipArchiveEntry> e = zipFile.getEntries(); e.hasMoreElements();) {
-                System.out.println(e.nextElement().getName());
-            }
 
             CSVReader reader = new CSVReader();
             ZipArchiveEntry entry;
@@ -122,6 +130,10 @@ public class Archiver {
             List<Move> moves = reader.parseCSV(Move.class, zipFile.getInputStream(entry));
             entry = zipFile.getEntry(folder + "User.csv");
             List<User> users = reader.parseCSV(User.class, zipFile.getInputStream(entry));
+            entry = zipFile.getEntry(folder + "Patient.csv");
+            List<Patient> patients = reader.parseCSV(Patient.class, zipFile.getInputStream(entry));
+            entry = zipFile.getEntry(folder + "PatientMove.csv");
+            List<PatientMove> patientMoves = reader.parseCSV(PatientMove.class, zipFile.getInputStream(entry));
             entry = zipFile.getEntry(folder + "Alert.csv");
             List<Alert> alerts = reader.parseCSV(Alert.class, zipFile.getInputStream(entry));
             entry = zipFile.getEntry(folder + "DirectionArrow.csv");
@@ -143,23 +155,88 @@ public class Archiver {
 
             deleteALL();
 
-            mapdb.addNodes(nodes);
-            mapdb.addEdges(edges);
-            mapdb.addLocationNames(locationNames);
-            mapdb.addMoves(moves);
-            userdb.addUsers(users);
-            userdb.addAlerts(alerts);
-            mapdb.addDirectionArrows(directionArrows);
-            mapdb.addConferenceRooms(conferenceRooms);
-            requestdb.addItemRequests(itemRequests);
-            requestdb.addRoomRequests(roomRequests);
-            requestdb.addAvailableFlowers(availableFlowers);
-            requestdb.addAvailableFurniture(availableFurniture);
-            requestdb.addAvailableMeals(availableMeals);
-            requestdb.addAvailableSupplies(availableSupplies);
+            try {
+                mapdb.addNodes(nodes);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                mapdb.addEdges(edges);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                mapdb.addLocationNames(locationNames);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                mapdb.addMoves(moves);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                userdb.addUsers(users);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                requestdb.addPatients(patients);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                requestdb.addPatientMoves(patientMoves);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                userdb.addAlerts(alerts);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                mapdb.addDirectionArrows(directionArrows);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                mapdb.addConferenceRooms(conferenceRooms);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                requestdb.addItemRequests(itemRequests);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                requestdb.addRoomRequests(roomRequests);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                requestdb.addAvailableFlowers(availableFlowers);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                requestdb.addAvailableFurniture(availableFurniture);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                requestdb.addAvailableMeals(availableMeals);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                requestdb.addAvailableSupplies(availableSupplies);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
         }
     }
 
