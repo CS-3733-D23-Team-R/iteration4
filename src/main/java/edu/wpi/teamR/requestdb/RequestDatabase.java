@@ -198,4 +198,66 @@ public class RequestDatabase {
     public ArrayList<AvailableSupplies> getAvailableSuppliesByAttributes(String itemName, String imageReference, String description, Double itemPrice, Boolean isPaper, Boolean isPen, Boolean isOrganization, Boolean isComputerAccessory, SortOrder sortOrder) throws SQLException {
         return new AvailableSuppliesDAO().getAvailableSuppliesByAttributes(itemName, imageReference, description, itemPrice, isPaper, isPen, isOrganization, isComputerAccessory, sortOrder);
     }
+
+    public Patient addPatient(String patientName) throws SQLException {
+        return new PatientDAO().addPatient(patientName);
+    }
+
+    public void addPatients(List<Patient> patients) throws SQLException {
+        new PatientDAO().addPatients(patients);
+    }
+
+    public Patient modifyPatient(int patientID, String patientName) throws SQLException, ItemNotFoundException {
+        return new PatientDAO().modifyPatient(patientID, patientName);
+    }
+
+    public void deletePatient(int patientID) throws SQLException, ItemNotFoundException {
+        new PatientDAO().deletePatient(patientID);
+    }
+
+    public void deleteAllPatients() throws SQLException {
+        new PatientDAO().deleteAllPatients();
+    }
+
+    public ArrayList<Patient> getPatients() throws SQLException {
+        return new PatientDAO().getPatients();
+    }
+
+    public Patient getPatientByID(int patientID) throws SQLException, ItemNotFoundException {
+        return new PatientDAO().getPatientByID(patientID);
+    }
+
+    public PatientMove addPatientMove(int patientID, Timestamp time, String longName, String staffUsername) throws SQLException {
+        return new PatientMoveDAO().addPatientMove(patientID, time, longName, staffUsername);
+    }
+
+    public void addPatientMoves(List<PatientMove> patientMoves) throws SQLException {
+        new PatientMoveDAO().addPatientMoves(patientMoves);
+    }
+
+    //Matches on both patientID and time
+    public PatientMove modifyPatientMove(int patientID, Timestamp time, String longName, String staffUsername) throws SQLException, ItemNotFoundException {
+        return new PatientMoveDAO().modifyPatientMove(patientID, time, longName, staffUsername);
+    }
+
+    //Matches on both patientID and time
+    public void deletePatientMove(int patientID, Timestamp time) throws SQLException, ItemNotFoundException {
+        new PatientMoveDAO().deletePatientMove(patientID, time);
+    }
+
+    public void deleteAllPatientMoves() throws SQLException {
+        new PatientMoveDAO().deleteAllPatientMoves();
+    }
+
+    public ArrayList<PatientMove> getPatientMoves() throws SQLException {
+        return new PatientMoveDAO().getPatientMoves();
+    }
+
+    public ArrayList<PatientMove> getPatientMovesByPatient(int patientID) throws SQLException {
+        return new PatientMoveDAO().getPatientMovesByPatient(patientID);
+    }
+
+    public PatientMove getCurrentPatientMove(int patientID) throws SQLException, ItemNotFoundException {
+        return new PatientMoveDAO().getCurrentPatientMove(patientID);
+    }
 }

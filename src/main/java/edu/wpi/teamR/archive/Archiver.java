@@ -19,7 +19,6 @@ import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Enumeration;
 import java.util.List;
 
 public class Archiver {
@@ -98,6 +97,12 @@ public class Archiver {
             outputStream.putArchiveEntry(new ZipArchiveEntry("AvailableSupplies.csv"));
             writer.writeCSV(outputStream, requestdb.getAvailableSupplies());
             outputStream.closeArchiveEntry();
+            outputStream.putArchiveEntry(new ZipArchiveEntry("Patient.csv"));
+            writer.writeCSV(outputStream, requestdb.getPatients());
+            outputStream.closeArchiveEntry();
+            outputStream.putArchiveEntry(new ZipArchiveEntry("PatientMove.csv"));
+            writer.writeCSV(outputStream, requestdb.getPatientMoves());
+            outputStream.closeArchiveEntry();
             outputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -125,6 +130,10 @@ public class Archiver {
             List<Move> moves = reader.parseCSV(Move.class, zipFile.getInputStream(entry));
             entry = zipFile.getEntry(folder + "User.csv");
             List<User> users = reader.parseCSV(User.class, zipFile.getInputStream(entry));
+            entry = zipFile.getEntry(folder + "Patient.csv");
+            List<Patient> patients = reader.parseCSV(Patient.class, zipFile.getInputStream(entry));
+            entry = zipFile.getEntry(folder + "PatientMove.csv");
+            List<PatientMove> patientMoves = reader.parseCSV(PatientMove.class, zipFile.getInputStream(entry));
             entry = zipFile.getEntry(folder + "Alert.csv");
             List<Alert> alerts = reader.parseCSV(Alert.class, zipFile.getInputStream(entry));
             entry = zipFile.getEntry(folder + "DirectionArrow.csv");
@@ -168,6 +177,16 @@ public class Archiver {
             }
             try {
                 userdb.addUsers(users);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                requestdb.addPatients(patients);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                requestdb.addPatientMoves(patientMoves);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
