@@ -39,7 +39,7 @@ public class AdminProfilePageController {
     ImageView ProfilePicture;
     @FXML
     Text time;
-    @FXML Button toEmployeeManager, toServiceRequests, toConferenceRooms, toSignageConfiguration, createNewAlert, toEditMap;
+    @FXML Button toEmployeeManager, toServiceRequests, toConferenceRooms, toSignageConfiguration, toEditMap, backupButton, moveDataButton;
     @FXML VBox profileCardContainer;
     @FXML StackPane conferenceRoomImage, signageConfigurationImage, createAlertImage, allServiceRequestsImage, employeeManagementImage;
 
@@ -47,21 +47,11 @@ public class AdminProfilePageController {
 
     @FXML
     GesturePane gesturePane;
-    @FXML Button backupButton;
-    @FXML Button moveDataButton;
 
     @FXML
     public void initialize(){
         UserData thisUserData = UserData.getInstance();
         CurrentUser user = thisUserData.getLoggedIn();
-
-        createNewAlert.setOnMouseClicked(event -> {
-            try {
-                newAlert();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
 
         toServiceRequests.setOnMouseClicked(event -> {Navigation.navigate(Screen.SORT_ORDERS);});
         toConferenceRooms.setOnMouseClicked(event -> {Navigation.navigate(Screen.ROOM_REQUEST_MANAGER);});
