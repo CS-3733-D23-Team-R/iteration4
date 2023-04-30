@@ -234,7 +234,7 @@
                                                 <Insets top="5.0" />
                                              </VBox.margin>
                                           </Text>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="MISSING FOOD">
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="Loves Bread!">
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>
