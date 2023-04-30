@@ -25,6 +25,7 @@ public enum Screen {
   EDITPROFILE("views/EditProfile.fxml"),
   CREDITS("views/CreditsPage.fxml"),
   ABOUT("views/About.fxml"),
+  DASHBOARD("views/Dashboard.fxml"),
   ALERTS("views/Alerts.fxml");
 
   private final String filename;

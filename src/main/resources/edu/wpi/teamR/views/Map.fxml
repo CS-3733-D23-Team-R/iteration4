@@ -174,33 +174,34 @@
             </HBox>
             <VBox layoutX="1195.0" layoutY="460.0" prefHeight="200.0" prefWidth="65.0" styleClass="map-vbox" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
                <children>
-                  <StackPane fx:id="floor3Button" styleClass="floor-box">
+                  <StackPane fx:id="floor3Button" styleClass="floor-box" VBox.vgrow="ALWAYS">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="3" />
                      </children>
                   </StackPane>
-                  <StackPane fx:id="floor2Button" styleClass="floor-box">
+                  <StackPane fx:id="floor2Button" styleClass="floor-box" VBox.vgrow="ALWAYS">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="2" />
                      </children>
                   </StackPane>
-                  <StackPane fx:id="floor1Button" styleClass="floor-box-focused">
+                  <StackPane fx:id="floor1Button" styleClass="floor-box-focused" VBox.vgrow="ALWAYS">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="1" />
                      </children>
                   </StackPane>
-                  <StackPane fx:id="L1Button" styleClass="floor-box">
+                  <StackPane fx:id="L1Button" styleClass="floor-box" VBox.vgrow="ALWAYS">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="L1" />
                      </children>
                   </StackPane>
-                  <StackPane fx:id="L2Button" styleClass="floor-box">
+                  <StackPane fx:id="L2Button" styleClass="floor-box" VBox.vgrow="ALWAYS">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="L2" />
                      </children>
                   </StackPane>
                </children>
             </VBox>
+            <StackPane fx:id="compassPane" layoutX="1110.0" layoutY="6.0" prefHeight="100.0" prefWidth="100.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
    </center>

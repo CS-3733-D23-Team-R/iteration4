@@ -48,6 +48,7 @@ public class AdminProfilePageController {
     @FXML
     GesturePane gesturePane;
     @FXML Button backupButton;
+    @FXML Button moveDataButton;
 
     @FXML
     public void initialize(){
@@ -111,6 +112,7 @@ public class AdminProfilePageController {
                 e.printStackTrace();
             }
         });
+        moveDataButton.setOnMouseClicked(event -> Navigation.navigate(Screen.DASHBOARD));
     }
 
     private Node loadCard(CurrentUser user) throws IOException, IOException {

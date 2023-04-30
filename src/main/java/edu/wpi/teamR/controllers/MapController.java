@@ -17,7 +17,9 @@ import java.util.Objects;
 
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
+import javafx.animation.Animation;
 import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -140,6 +142,7 @@ public class MapController {
     Color pathColor = Color.web("#012D5A");
 
     boolean userAction = true;
+    @FXML StackPane compassPane;
 
     @FXML
     public void initialize() throws Exception {
@@ -276,7 +279,7 @@ public class MapController {
 
         Platform.runLater(() -> moveDatePicker.setValue(LocalDate.now()));
 
-        alertList = userdb.getAlertsInLastNumDaysDesc(3);
+        alertList = (ArrayList<Alert>) userdb.getCurrentAlerts();
         if (alertList.size() > 0) {
             alertText.setText(alertList.get(0).getMessage());
         }
@@ -293,6 +296,70 @@ public class MapController {
             alertPane.setVisible(false);
             alertPane.setManaged(false);
         });
+
+        // compass code
+        Circle base = new Circle(37, Color.LIGHTGRAY);
+        base.setStroke(Color.SILVER);
+        base.setStrokeWidth(2);
+
+        Line needle = new Line(0, 0, 30, 0);
+        needle.setStroke(Color.RED);
+        needle.setStrokeWidth(3);
+        needle.setRotate(-45);
+
+        compassPane.getChildren().addAll(base, needle);
+
+        Label north = new Label("N");
+        north.setTranslateY(-30);
+        north.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
+        compassPane.getChildren().add(north);
+
+        Label south = new Label("S");
+        south.setTranslateY(30);
+        south.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
+        compassPane.getChildren().add(south);
+
+        Label east = new Label("E");
+        east.setTranslateX(30);
+        east.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
+        compassPane.getChildren().add(east);
+
+        Label west = new Label("W");
+        west.setTranslateX(-30);
+        west.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
+        compassPane.getChildren().add(west);
+
+        Label northeast = new Label("NE");
+        northeast.setTranslateX(21);
+        northeast.setTranslateY(-21);
+        northeast.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
+        northeast.setTextFill(Color.RED);
+        compassPane.getChildren().add(northeast);
+
+        Label southeast = new Label("SE");
+        southeast.setTranslateX(21);
+        southeast.setTranslateY(21);
+        southeast.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
+        compassPane.getChildren().add(southeast);
+
+        Label southwest = new Label("SW");
+        southwest.setTranslateX(-21);
+        southwest.setTranslateY(21);
+        southwest.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
+        compassPane.getChildren().add(southwest);
+
+        Label northwest = new Label("NW");
+        northwest.setTranslateX(-21);
+        northwest.setTranslateY(-21);
+        northwest.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
+        compassPane.getChildren().add(northwest);
+
+        RotateTransition rotate = new RotateTransition(Duration.seconds(2), needle);
+        rotate.setByAngle(10);
+        rotate.setCycleCount(Animation.INDEFINITE);
+        rotate.setInterpolator(Interpolator.LINEAR);
+        rotate.setAutoReverse(true);
+        rotate.play();
     }
 
     // Reset to original zoom

@@ -86,6 +86,11 @@
                                                 <Insets bottom="3.0" />
                                              </padding>
                                           </Button>
+                                          <Button fx:id="moveDataButton" mnemonicParsing="false" prefHeight="29.0" prefWidth="79.0" styleClass="tinyButton" text="Edit Map" StackPane.alignment="TOP_RIGHT">
+                                             <StackPane.margin>
+                                                <Insets top="5.0" />
+                                             </StackPane.margin>
+                                          </Button>
                                        </children>
                                     </StackPane>
                                  </children>
