@@ -23,6 +23,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.stage.PopupWindow;
+import javafx.stage.Window;
 import javafx.util.Duration;
 import org.controlsfx.control.PopOver;
 
@@ -63,7 +65,9 @@ public class RootController {
 
   private static RootController instance;
 
-  EventHandler<InputEvent> ssevent = evt -> transition.playFromStart();
+  EventHandler<InputEvent> ssevent;
+
+  boolean popupOpen;
 
   @FXML
   public void initialize() {
@@ -95,9 +99,15 @@ public class RootController {
     transition = new PauseTransition(delay);
     transition.setOnFinished(evt -> timeout());
 
-    // restart transition on user interaction
-    App.getPrimaryStage().addEventFilter(InputEvent.ANY, ssevent);
+    ssevent = event -> {
+      if (!popupOpen) {
+        transition.playFromStart();
+      } else {
+        transition.stop();
+      }
+    };
 
+    App.getPrimaryStage().addEventFilter(InputEvent.ANY, ssevent);
     transition.play();
 
     setLogoutButton(false);
@@ -170,4 +180,9 @@ public class RootController {
   public void setProfileIcon(String location){
     profileIcon.setImage(new Image(location));
   }
+
+  public void setPopupState(boolean setting) {
+    popupOpen = setting;
+  }
+
 }

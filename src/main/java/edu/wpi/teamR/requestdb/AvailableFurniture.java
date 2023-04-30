@@ -27,8 +27,8 @@ public class AvailableFurniture implements IAvailableItem, Archivable {
     }
 
     @Override
-    public String toCSVEntry() {
-        return itemName+","+imageReference+","+description+","+isSeating+","+isTable+","+isPillow+","+isStorage;
+    public String[] toCSVEntry() {
+        return new String[]{itemName, imageReference, description, String.valueOf(isSeating), String.valueOf(isTable), String.valueOf(isPillow), String.valueOf(isStorage)};
     }
 
     @Override

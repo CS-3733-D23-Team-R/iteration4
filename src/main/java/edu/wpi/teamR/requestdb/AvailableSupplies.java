@@ -27,8 +27,8 @@ public class AvailableSupplies implements IAvailableItem, Archivable {
     }
 
     @Override
-    public String toCSVEntry() {
-        return itemName+","+imageReference+","+description+","+itemPrice+","+isPaper+","+isPen+","+isOrganization+","+isComputerAccessory;
+    public String[] toCSVEntry() {
+        return new String[]{itemName, imageReference, description, String.valueOf(itemPrice), String.valueOf(isPaper), String.valueOf(isPen), String.valueOf(isOrganization), String.valueOf(isComputerAccessory)};
     }
 
     @Override

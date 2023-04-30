@@ -50,15 +50,15 @@ public class UserDatabase {
         return authenticationDAO.verifyUser(username, password);
     }
 
-    public Alert addAlert(String message, Timestamp time) throws SQLException {
-        return alertDAO.addAlert(message, time);
+    public Alert addAlert(String message, Date startDate, Date endDate) throws SQLException {
+        return alertDAO.addAlert(message, startDate, endDate);
     }
 
     public void addAlerts(List<Alert> alerts) throws SQLException {
         alertDAO.addAlerts(alerts);
     }
-    public void deleteAlert(String message, Timestamp time) throws SQLException, ItemNotFoundException {
-        alertDAO.deleteAlert(message, time);
+    public void deleteAlert(String message, Date startDate) throws SQLException, ItemNotFoundException {
+        alertDAO.deleteAlert(message, startDate);
     }
     public void deleteAllAlerts() throws SQLException {
         alertDAO.deleteAllAlerts();
@@ -68,6 +68,10 @@ public class UserDatabase {
     }
     public ArrayList<Alert> getAlertsInLastNumDaysDesc(int numDays) throws SQLException { //get all alerts between current time and currentTime - numDays days ordered desc by date
         return alertDAO.getAlertsInLastNumDaysDesc(numDays);
+    }
+
+    public List<Alert> getCurrentAlerts() throws SQLException {
+        return alertDAO.getCurrentAlerts();
     }
 
     public static String getProfilePictureFromID(int profilePictureID) {

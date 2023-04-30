@@ -10,8 +10,8 @@ public class Configuration {
     private static final String username = "teamr";
     private static final String password = "teamr150";
     private static Connection connection;
-    private static String schemaName = "iteration3";
-    private static String testSchemaName = "iteration3test";
+    private static String schemaName = "iteration4";
+    private static String testSchemaName = "iteration4test";
     private static final String nodeTableName = "node";
     private static final String edgeTableName = "edge";
     private static final String moveTableName = "move";
@@ -26,6 +26,8 @@ public class Configuration {
     private static final String availableSuppliesTableName = "availableSupplies";
     private static final String alertTableName = "alerts";
     private static final String userTableName = "user";
+    private static final String patientTableName = "patient";
+    private static final String patientMoveTableName = "patientMove";
     public static Connection getConnection() throws SQLException {
         if (connection!=null && !connection.isClosed())
             return Configuration.connection;
@@ -76,6 +78,12 @@ public class Configuration {
     public static String getAlertSchemaNameTableName(){
         return schemaName+"."+alertTableName;
     }
+    public static String getPatientSchemaNameTableName(){
+        return schemaName+"."+patientTableName;
+    }
+    public static String getPatientMoveSchemaNameTableName(){
+        return schemaName+"."+patientMoveTableName;
+    }
     public static void deleteEverything() throws SQLException {
         Connection connection = Configuration.getConnection();
         Statement statement = connection.createStatement();
@@ -86,6 +94,8 @@ public class Configuration {
         statement.executeUpdate("DELETE FROM " + Configuration.getRoomRequestSchemaNameTableName() + ";");
         statement.executeUpdate("DELETE FROM " + Configuration.getConferenceRoomSchemaNameTableName() + ";");
         statement.executeUpdate("DELETE FROM " + Configuration.getServiceRequestSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE FROM " + Configuration.getPatientMoveSchemaNameTableName() + ";");
+        statement.executeUpdate("DELETE FROM " + Configuration.getPatientSchemaNameTableName() + ";");
         statement.executeUpdate("DELETE FROM " + Configuration.getUserTableSchemaNameTableName() + ";");
         statement.executeUpdate("DELETE FROM " + Configuration.getLocationNameSchemaNameTableName() + ";");
         statement.executeUpdate("DELETE FROM " + Configuration.getAlertSchemaNameTableName() + ";");
