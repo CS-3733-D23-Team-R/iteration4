@@ -7,19 +7,13 @@ import edu.wpi.teamR.requestdb.ItemRequest;
 import edu.wpi.teamR.requestdb.RequestType;
 import javafx.scene.text.Text;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 public class ShoppingCart {
+    private List<CartObserver> observers = new ArrayList<CartObserver>();
     public HashMap<IAvailableItem, Integer> items = new HashMap<IAvailableItem, Integer>();
 
     private static ShoppingCart instance;
-
-    //ServiceRequestCartController test = new ServiceRequestCartController();
-
-
 
     private ShoppingCart() {}
 
@@ -28,6 +22,16 @@ public class ShoppingCart {
             instance = new ShoppingCart();
         }
         return instance;
+    }
+
+    public void attach(CartObserver observer){
+        observers.add(observer);
+    }
+
+    public void notifyAllObservers(){
+        for (CartObserver observer : observers) {
+            observer.update();
+        }
     }
 
     public void deleteCartInstance(){
@@ -39,17 +43,24 @@ public class ShoppingCart {
             items.putIfAbsent(item, quantity);
            // test.refreshCart();
         } else {incrementItem(item);}
+        notifyAllObservers();
     }
     public void incrementItem(IAvailableItem item){
         items.replace(item, items.get(item) + 1);
+        notifyAllObservers();
     }
     public void deleteItem(IAvailableItem item){
         items.remove(item);
+        notifyAllObservers();
     }
     public void decrementItem(IAvailableItem item) {
         items.replace(item, items.get(item) - 1);
+        notifyAllObservers();
     }
-    public void clearCart(){ items.clear(); }
+    public void clearCart(){
+        items.clear();
+        notifyAllObservers();
+    }
 
     public int getItemQuantity(IAvailableItem item){
         return items.get(item);
