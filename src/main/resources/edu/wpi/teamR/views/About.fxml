@@ -190,17 +190,17 @@
                                                 <Insets top="5.0" />
                                              </VBox.margin>
                                           </Text>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="MISSING FOOD">
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="Loves Baby Back Ribs!">
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>
                                           </Text>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="MISSING QUOTE">
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="&quot;It's not the mountain we">
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>
                                           </Text>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="MISSING QUOTE" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="conquer, its ourselves&quot;" />
                                           <AnchorPane prefHeight="100.0" prefWidth="150.0" styleClass="brycePet" VBox.vgrow="ALWAYS">
                                              <VBox.margin>
                                                 <Insets bottom="15.0" left="15.0" right="15.0" />
@@ -239,12 +239,12 @@
                                                 <Insets />
                                              </VBox.margin>
                                           </Text>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="MISSING QUOTE">
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="“Mama said there’d">
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>
                                           </Text>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="MISSING QUOTE" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="be days like this”" />
                                           <AnchorPane prefHeight="100.0" prefWidth="150.0" styleClass="johnPet" VBox.vgrow="ALWAYS">
                                              <VBox.margin>
                                                 <Insets bottom="15.0" left="15.0" right="15.0" />
@@ -458,7 +458,7 @@
                                                 <Insets top="5.0" />
                                              </VBox.margin>
                                           </Text>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="MISSING FOOD">
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="Loves Spaghetti and Meatballs!">
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>

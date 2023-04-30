@@ -240,11 +240,7 @@
 }
 
 .brycePet{
-    -fx-background-color: #FFFFFF;
-    /*
-    remove ^
-    -fx-background-image: url("../images/ourTeamPets/");
-    */
+    -fx-background-image: url("../images/ourTeamPets/bryce.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
     -fx-background-position: center;
@@ -253,11 +249,7 @@
 }
 
 .johnPet{
-    -fx-background-color: #FFFFFF;
-    /*
-    remove ^
-    -fx-background-image: url("../images/ourTeamPets/");
-    */
+    -fx-background-image: url("../images/ourTeamPets/john.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
     -fx-background-position: center;
@@ -266,11 +258,7 @@
 }
 
 .jpPet{
-    -fx-background-color: #FFFFFF;
-    /*
-    remove ^
-    -fx-background-image: url("../images/ourTeamPets/");
-    */
+    -fx-background-image: url("../images/ourTeamPets/jp.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
     -fx-background-position: center;
