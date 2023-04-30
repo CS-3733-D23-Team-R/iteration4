@@ -12,7 +12,7 @@ public class Configuration {
     private static final String awsConnectionURL = "jdbc:postgresql://teamrdb.cjimrohummbk.us-east-1.rds.amazonaws.com:5432/postgres";
     private static final String awsUsername = "teamr";
     private static final String awsPassword = "teamr151";
-    private static boolean isAws = false;
+    private static boolean isAws = true;
     private static Connection connection;
     private static String schemaName = "iteration4";
     private static String testSchemaName = "iteration4test";
@@ -48,7 +48,7 @@ public class Configuration {
     }
 
     //returns true if aws after swap and false if WPI
-    public boolean swapDatabase() throws SQLException {
+    public static boolean swapDatabase() throws SQLException {
         isAws = !isAws;
         connection.close();
         return isAws;
