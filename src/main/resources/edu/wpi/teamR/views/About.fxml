@@ -31,14 +31,11 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </VBox>
-                  <StackPane VBox.vgrow="ALWAYS">
-                     <VBox.margin>
-                        <Insets left="20.0" right="20.0" />
-                     </VBox.margin>
+                  <VBox prefHeight="625.0" prefWidth="1280.0" spacing="30.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <VBox prefHeight="625.0" prefWidth="1280.0" spacing="30.0">
+                        <HBox alignment="CENTER" prefWidth="1280.0" spacing="45.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <HBox alignment="CENTER" prefWidth="1280.0" spacing="45.0" VBox.vgrow="ALWAYS">
+                              <StackPane>
                                  <children>
                                     <VBox fx:id="benFront" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
                                        <children>
@@ -55,6 +52,35 @@
                                           </Text>
                                        </children>
                                     </VBox>
+                                    <VBox fx:id="benBack" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBackBold" text="CS Major">
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="Loves Pumpkin Pie!">
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="“Don’t judge a fish by">
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="its ability to climb trees.”" />
+                                          <AnchorPane prefHeight="100.0" prefWidth="150.0" styleClass="benPet" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets bottom="15.0" left="15.0" right="15.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </StackPane>
+                              <StackPane>
+                                 <children>
                                     <VBox fx:id="altonFront" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
                                        <children>
                                           <AnchorPane prefHeight="337.0" prefWidth="211.0" styleClass="altonFace" VBox.vgrow="ALWAYS">
@@ -68,161 +94,6 @@
                                                 <Insets bottom="5.0" />
                                              </VBox.margin>
                                           </Text>
-                                       </children>
-                                    </VBox>
-                                    <VBox fx:id="nathanielFront" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
-                                       <children>
-                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="nathanielFace" VBox.vgrow="ALWAYS">
-                                             <VBox.margin>
-                                                <Insets left="15.0" right="15.0" top="15.0" />
-                                             </VBox.margin>
-                                          </AnchorPane>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sr-sidebar-subtitle" text="Nathaniel Itty" />
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitleSmallBold" text="Front-End Lead">
-                                             <VBox.margin>
-                                                <Insets bottom="5.0" />
-                                             </VBox.margin>
-                                          </Text>
-                                       </children>
-                                    </VBox>
-                                    <VBox fx:id="bryceFront" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
-                                       <children>
-                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="bryceFace" VBox.vgrow="ALWAYS">
-                                             <VBox.margin>
-                                                <Insets left="15.0" right="15.0" top="15.0" />
-                                             </VBox.margin>
-                                          </AnchorPane>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sr-sidebar-subtitle" text="Bryce McKinley" />
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitleSmallBold" text="Product Owner">
-                                             <VBox.margin>
-                                                <Insets bottom="5.0" />
-                                             </VBox.margin>
-                                          </Text>
-                                       </children>
-                                    </VBox>
-                                    <VBox fx:id="johnFront" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
-                                       <children>
-                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="johnFace" VBox.vgrow="ALWAYS">
-                                             <VBox.margin>
-                                                <Insets left="15.0" right="15.0" top="15.0" />
-                                             </VBox.margin>
-                                          </AnchorPane>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sr-sidebar-subtitle" text="John Robinson" />
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitleSmallBold" text="Product Manager">
-                                             <VBox.margin>
-                                                <Insets bottom="5.0" />
-                                             </VBox.margin>
-                                          </Text>
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefWidth="1280.0" spacing="45.0" VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <VBox fx:id="gwenFront" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
-                                       <children>
-                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="gwenFace" VBox.vgrow="ALWAYS">
-                                             <VBox.margin>
-                                                <Insets left="15.0" right="15.0" top="15.0" />
-                                             </VBox.margin>
-                                          </AnchorPane>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sr-sidebar-subtitle" text="Gwen DeLeo" />
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitleSmallBold" text="Scrum Master">
-                                             <VBox.margin>
-                                                <Insets bottom="5.0" />
-                                             </VBox.margin>
-                                          </Text>
-                                       </children>
-                                    </VBox>
-                                    <VBox fx:id="zeshFront" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
-                                       <children>
-                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="zeshFace" VBox.vgrow="ALWAYS">
-                                             <VBox.margin>
-                                                <Insets left="15.0" right="15.0" top="15.0" />
-                                             </VBox.margin>
-                                          </AnchorPane>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sr-sidebar-subtitle" text="Zesheng Chen" />
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitleSmallBold" text="Documentation Analyst">
-                                             <VBox.margin>
-                                                <Insets bottom="5.0" />
-                                             </VBox.margin>
-                                          </Text>
-                                       </children>
-                                    </VBox>
-                                    <VBox fx:id="simonFront" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
-                                       <children>
-                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="simonFace" VBox.vgrow="ALWAYS">
-                                             <VBox.margin>
-                                                <Insets left="15.0" right="15.0" top="15.0" />
-                                             </VBox.margin>
-                                          </AnchorPane>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sr-sidebar-subtitle" text="Simon Scott" />
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitleSmallBold" text="Full Stack Developer">
-                                             <VBox.margin>
-                                                <Insets bottom="5.0" />
-                                             </VBox.margin>
-                                          </Text>
-                                       </children>
-                                    </VBox>
-                                    <VBox fx:id="ashFront" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
-                                       <children>
-                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="ashFace" VBox.vgrow="ALWAYS">
-                                             <VBox.margin>
-                                                <Insets left="15.0" right="15.0" top="15.0" />
-                                             </VBox.margin>
-                                          </AnchorPane>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sr-sidebar-subtitle" text="Ash Kittur" />
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitleSmallBold" text="Full Stack Developer">
-                                             <VBox.margin>
-                                                <Insets bottom="5.0" />
-                                             </VBox.margin>
-                                          </Text>
-                                       </children>
-                                    </VBox>
-                                    <VBox fx:id="jpFront" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
-                                       <children>
-                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="jpFace" VBox.vgrow="ALWAYS">
-                                             <VBox.margin>
-                                                <Insets left="15.0" right="15.0" top="15.0" />
-                                             </VBox.margin>
-                                          </AnchorPane>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sr-sidebar-subtitle" text="JP Wilusz" />
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitleSmallBold" text="Front-End Developer">
-                                             <VBox.margin>
-                                                <Insets bottom="5.0" />
-                                             </VBox.margin>
-                                          </Text>
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="625.0" prefWidth="1280.0" spacing="30.0">
-                           <children>
-                              <HBox alignment="CENTER" prefWidth="1280.0" spacing="45.0" VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <VBox fx:id="benBack" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
-                                       <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBackBold" text="CS Major">
-                                             <VBox.margin>
-                                                <Insets top="5.0" />
-                                             </VBox.margin></Text>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="Loves Pumpkin Pie!">
-                                             <VBox.margin>
-                                                <Insets />
-                                             </VBox.margin></Text>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="“Don’t judge a fish by">
-                                             <VBox.margin>
-                                                <Insets />
-                                             </VBox.margin>
-                                          </Text>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="its ability to climb trees.”" />
-                                          <AnchorPane prefHeight="100.0" prefWidth="150.0" styleClass="benPet" VBox.vgrow="ALWAYS">
-                                             <VBox.margin>
-                                                <Insets bottom="15.0" left="15.0" right="15.0" />
-                                             </VBox.margin>
-                                          </AnchorPane>
                                        </children>
                                     </VBox>
                                     <VBox fx:id="altonBack" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
@@ -250,6 +121,25 @@
                                           </AnchorPane>
                                        </children>
                                     </VBox>
+                                 </children>
+                              </StackPane>
+                              <StackPane>
+                                 <children>
+                                    <VBox fx:id="nathanielFront" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
+                                       <children>
+                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="nathanielFace" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets left="15.0" right="15.0" top="15.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sr-sidebar-subtitle" text="Nathaniel Itty" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitleSmallBold" text="Front-End Lead">
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                       </children>
+                                    </VBox>
                                     <VBox fx:id="nathanielBack" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
                                        <children>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBackBold" text="CS &amp; DS Major">
@@ -272,6 +162,25 @@
                                                 <Insets bottom="15.0" left="15.0" right="15.0" />
                                              </VBox.margin>
                                           </AnchorPane>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </StackPane>
+                              <StackPane>
+                                 <children>
+                                    <VBox fx:id="bryceFront" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
+                                       <children>
+                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="bryceFace" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets left="15.0" right="15.0" top="15.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sr-sidebar-subtitle" text="Bryce McKinley" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitleSmallBold" text="Product Owner">
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                             </VBox.margin>
+                                          </Text>
                                        </children>
                                     </VBox>
                                     <VBox fx:id="bryceBack" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
@@ -297,6 +206,25 @@
                                                 <Insets bottom="15.0" left="15.0" right="15.0" />
                                              </VBox.margin>
                                           </AnchorPane>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </StackPane>
+                              <StackPane>
+                                 <children>
+                                    <VBox fx:id="johnFront" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
+                                       <children>
+                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="johnFace" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets left="15.0" right="15.0" top="15.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sr-sidebar-subtitle" text="John Robinson" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitleSmallBold" text="Product Manager">
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                             </VBox.margin>
+                                          </Text>
                                        </children>
                                     </VBox>
                                     <VBox fx:id="johnBack" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
@@ -325,9 +253,28 @@
                                        </children>
                                     </VBox>
                                  </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefWidth="1280.0" spacing="45.0" VBox.vgrow="ALWAYS">
+                              </StackPane>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefWidth="1280.0" spacing="45.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <StackPane>
                                  <children>
+                                    <VBox fx:id="gwenFront" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
+                                       <children>
+                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="gwenFace" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets left="15.0" right="15.0" top="15.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sr-sidebar-subtitle" text="Gwen DeLeo" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitleSmallBold" text="Scrum Master">
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                       </children>
+                                    </VBox>
                                     <VBox fx:id="gwenBack" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
                                        <children>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBackBold" text="RBE Major">
@@ -351,6 +298,25 @@
                                                 <Insets bottom="15.0" left="15.0" right="15.0" />
                                              </VBox.margin>
                                           </AnchorPane>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </StackPane>
+                              <StackPane>
+                                 <children>
+                                    <VBox fx:id="zeshFront" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
+                                       <children>
+                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="zeshFace" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets left="15.0" right="15.0" top="15.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sr-sidebar-subtitle" text="Zesheng Chen" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitleSmallBold" text="Documentation Analyst">
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                             </VBox.margin>
+                                          </Text>
                                        </children>
                                     </VBox>
                                     <VBox fx:id="zeshBack" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
@@ -378,6 +344,25 @@
                                           </AnchorPane>
                                        </children>
                                     </VBox>
+                                 </children>
+                              </StackPane>
+                              <StackPane>
+                                 <children>
+                                    <VBox fx:id="simonFront" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
+                                       <children>
+                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="simonFace" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets left="15.0" right="15.0" top="15.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sr-sidebar-subtitle" text="Simon Scott" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitleSmallBold" text="Full Stack Developer">
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                       </children>
+                                    </VBox>
                                     <VBox fx:id="simonBack" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
                                        <children>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBackBold" text="CS Major">
@@ -403,6 +388,25 @@
                                           </AnchorPane>
                                        </children>
                                     </VBox>
+                                 </children>
+                              </StackPane>
+                              <StackPane>
+                                 <children>
+                                    <VBox fx:id="ashFront" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
+                                       <children>
+                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="ashFace" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets left="15.0" right="15.0" top="15.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sr-sidebar-subtitle" text="Ash Kittur" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitleSmallBold" text="Full Stack Developer">
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                       </children>
+                                    </VBox>
                                     <VBox fx:id="ashBack" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
                                        <children>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBackBold" text="CS &amp; DS Major">
@@ -426,6 +430,25 @@
                                                 <Insets bottom="15.0" left="15.0" right="15.0" />
                                              </VBox.margin>
                                           </AnchorPane>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </StackPane>
+                              <StackPane>
+                                 <children>
+                                    <VBox fx:id="jpFront" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
+                                       <children>
+                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="jpFace" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets left="15.0" right="15.0" top="15.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sr-sidebar-subtitle" text="JP Wilusz" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitleSmallBold" text="Front-End Developer">
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                             </VBox.margin>
+                                          </Text>
                                        </children>
                                     </VBox>
                                     <VBox fx:id="jpBack" alignment="CENTER" prefHeight="2.0" prefWidth="484.0" styleClass="actuallyRounded">
@@ -454,11 +477,14 @@
                                        </children>
                                     </VBox>
                                  </children>
-                              </HBox>
+                              </StackPane>
                            </children>
-                        </VBox>
+                        </HBox>
                      </children>
-                  </StackPane>
+                     <VBox.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </VBox.margin>
+                  </VBox>
                   <HBox alignment="CENTER" maxHeight="25.0" prefHeight="0.0" prefWidth="1280.0" VBox.vgrow="ALWAYS">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="sr-sidebar-subtitle" text="The Brigham &amp; Women’s Hospital maps and data used in this application are copyrighted and provided for the sole use of educational purposes." textAlignment="CENTER" />

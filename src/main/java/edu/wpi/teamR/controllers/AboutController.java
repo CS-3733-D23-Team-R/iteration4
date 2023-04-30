@@ -1,7 +1,14 @@
 package edu.wpi.teamR.controllers;
 
+import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.transform.Rotate;
+import javafx.util.Duration;
 
 public class AboutController {
     @FXML VBox
@@ -17,16 +24,42 @@ public class AboutController {
             jpFront, jpBack;
     @FXML
     public void initialize(){
-        benBack.setVisible(false);
-        altonBack.setVisible(false);
-        nathanielBack.setVisible(false);
-        bryceBack.setVisible(false);
-        johnBack.setVisible(false);
-        gwenBack.setVisible(false);
-        zeshBack.setVisible(false);
-        simonBack.setVisible(false);
-        ashBack.setVisible(false);
-        ashBack.setVisible(false);
-        johnBack.setVisible(false);
+        VBox[] VboxFront = new VBox[]{benFront, altonFront, nathanielFront, bryceFront, johnFront, gwenFront, zeshFront, simonFront, ashFront, jpFront};
+        VBox[] VboxBack = new VBox[]{benBack, altonBack, nathanielBack, bryceBack, johnBack, gwenBack, zeshBack, simonBack, ashBack, jpBack};
+        for(int i = 0; i< VboxFront.length; i++){
+            int finalI = i;
+            VboxFront[i].setOnMouseClicked(event -> {
+                RotateTransition rotateTransition = createRotation(0,90,VboxFront[finalI]);
+                RotateTransition rotateTransition1 = createRotation(90, 0, VboxBack[finalI]);
+                rotateTransition.setOnFinished(event1 -> {
+                    VboxFront[finalI].setVisible(false);
+                    VboxBack[finalI].setVisible(true);
+                    rotateTransition1.play();
+                });
+                rotateTransition.play();
+            });
+        }
+        for(int i = 0; i< VboxBack.length; i++){
+            VboxBack[i].setVisible(false);
+            int finalI = i;
+            VboxBack[i].setOnMouseClicked(event -> {
+                RotateTransition rotateTransition = createRotation(0,90,VboxBack[finalI]);
+                RotateTransition rotateTransition1 = createRotation(90, 0, VboxFront[finalI]);
+                rotateTransition.setOnFinished(event1 -> {
+                    VboxBack[finalI].setVisible(false);
+                    VboxFront[finalI].setVisible(true);
+                    rotateTransition1.play();
+                });
+                rotateTransition.play();
+            });
+        }
+    }
+    private RotateTransition createRotation(double fromAngle, double toAngle, Node node) {
+        RotateTransition rotation = new RotateTransition(Duration.millis(250), node);
+        rotation.setAxis(Rotate.Y_AXIS);
+        rotation.setFromAngle(fromAngle);
+        rotation.setToAngle(toAngle);
+        rotation.setInterpolator(Interpolator.LINEAR);
+        return rotation;
     }
 }
