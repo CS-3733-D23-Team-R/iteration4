@@ -39,7 +39,7 @@ public class AdminProfilePageController {
     ImageView ProfilePicture;
     @FXML
     Text time;
-    @FXML Button toEmployeeManager, toServiceRequests, toConferenceRooms, toSignageConfiguration, toEditMap, backupButton, moveDataButton;
+    @FXML Button toEmployeeManager, toServiceRequests, toConferenceRooms, toSignageConfiguration, toAlerts, toEditMap, toMovePatients;
     @FXML VBox profileCardContainer;
     @FXML StackPane conferenceRoomImage, signageConfigurationImage, createAlertImage, allServiceRequestsImage, employeeManagementImage;
 
@@ -47,12 +47,14 @@ public class AdminProfilePageController {
 
     @FXML
     GesturePane gesturePane;
+    @FXML Button backupButton;
 
     @FXML
     public void initialize(){
         UserData thisUserData = UserData.getInstance();
         CurrentUser user = thisUserData.getLoggedIn();
 
+        toAlerts.setOnMouseClicked(event -> { Navigation.navigate(Screen.ALERTS);});
         toServiceRequests.setOnMouseClicked(event -> {Navigation.navigate(Screen.SORT_ORDERS);});
         toConferenceRooms.setOnMouseClicked(event -> {Navigation.navigate(Screen.ROOM_REQUEST_MANAGER);});
         toEditMap.setOnMouseClicked(event -> Navigation.navigate(Screen.MAP_EDITOR));
@@ -93,7 +95,7 @@ public class AdminProfilePageController {
                 Stage popupStage = new Stage();
                 popupStage.initModality(Modality.APPLICATION_MODAL);
                 popupStage.setTitle("Archive Manager");
-                popupStage.setScene(new Scene(popupRoot, 600, 400));
+                popupStage.setScene(new Scene(popupRoot, 550, 300));
                 RootController root = RootController.getInstance();
                 root.setPopupState(true);
                 popupStage.showAndWait();
@@ -102,7 +104,7 @@ public class AdminProfilePageController {
                 e.printStackTrace();
             }
         });
-        moveDataButton.setOnMouseClicked(event -> Navigation.navigate(Screen.DASHBOARD));
+        toMovePatients.setOnMouseClicked(event -> {Navigation.navigate(Screen.MOVEPATIENT);});
     }
 
     private Node loadCard(CurrentUser user) throws IOException, IOException {
@@ -122,19 +124,4 @@ public class AdminProfilePageController {
         }
     }
 
-    private void newAlert() throws IOException {
-        final FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/Alerts.fxml"));
-        //final BorderPane alert = loader.load();
-        Parent popup;
-        popup = loader.load();
-        Stage alerts = new Stage();
-        alerts.initModality(Modality.APPLICATION_MODAL);
-        alerts.setTitle("Alerts");
-        alerts.setScene(new Scene(popup, 400, 150));
-        RootController root = RootController.getInstance();
-        root.setPopupState(true);
-        alerts.showAndWait();
-        root.setPopupState(false);
-        System.out.print("opened");
-    }
 }
