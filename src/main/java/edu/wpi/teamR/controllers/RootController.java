@@ -145,6 +145,7 @@ public class RootController {
       rootHbox.setManaged(false);
       Navigation.navigate(Screen.SCREENSAVER);
       App.getPrimaryStage().removeEventFilter(InputEvent.ANY, ssevent);
+      logout();
   }
 
   public static RootController getInstance() {
