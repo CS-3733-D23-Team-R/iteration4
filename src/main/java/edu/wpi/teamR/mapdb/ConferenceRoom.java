@@ -24,8 +24,8 @@ public class ConferenceRoom implements Archivable {
     }
 
     @Override
-    public String toCSVEntry() {
-        return longName + "," + capacity + "," + isAccessible + "," + hasOutlets + "," + hasScreen;
+    public String[] toCSVEntry() {
+        return new String[]{longName, String.valueOf(capacity), String.valueOf(isAccessible), String.valueOf(hasOutlets), String.valueOf(hasScreen)};
     }
 
     @Override

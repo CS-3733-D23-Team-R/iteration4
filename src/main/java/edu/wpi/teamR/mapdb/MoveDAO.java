@@ -5,6 +5,7 @@ import edu.wpi.teamR.ItemNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MoveDAO {
     ArrayList<Move> getMoves() throws SQLException {
@@ -107,7 +108,7 @@ public class MoveDAO {
         preparedStatement.executeUpdate();
     }
 
-    public void addMoves(ArrayList<Move> moves) throws SQLException {
+    public void addMoves(List<Move> moves) throws SQLException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+Configuration.getMoveSchemaNameTableName()+"(nodeID, longName, date) VALUES(?, ?, ?);");
         for (Move m : moves) {
