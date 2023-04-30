@@ -27,8 +27,8 @@ public class DirectionArrow implements Archivable {
     }
 
     @Override
-    public String toCSVEntry() {
-        return longName + "," + kioskID + "," + direction + "," + date.toString();
+    public String[] toCSVEntry() {
+        return new String[]{longName, String.valueOf(kioskID), String.valueOf(direction), date.toString()};
     }
 
     @Override

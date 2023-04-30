@@ -5,6 +5,16 @@ import java.util.List;
 
 public class CSVWriter {
 
+    String delimiter;
+
+    public CSVWriter(String delimiter) {
+        this.delimiter = delimiter;
+    }
+
+    public CSVWriter() {
+        this.delimiter = "|";
+    }
+
     public void writeCSV(String filename, List<? extends Archivable> data) throws IOException {
         OutputStream out = new FileOutputStream(filename);
         writeCSV(out, data);
@@ -15,10 +25,14 @@ public class CSVWriter {
         if (data.size() == 0)
             return;
         Writer writer = new BufferedWriter(new OutputStreamWriter(out));
-        writer.write(data.get(0).getCSVColumns());
+        String columns = data.get(0).getCSVColumns();
+        if (!delimiter.equals(","))
+            columns = String.join(delimiter, columns.split(","));
+        writer.write(columns);
         writer.write("\n");
         for (Archivable d : data) {
-            writer.write(d.toCSVEntry());
+            String[] entry = d.toCSVEntry();
+            writer.write(String.join(delimiter, entry));
             writer.write("\n");
         }
         writer.flush();
