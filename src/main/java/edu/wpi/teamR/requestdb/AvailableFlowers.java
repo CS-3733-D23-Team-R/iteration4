@@ -25,8 +25,8 @@ public class AvailableFlowers implements IAvailableItem, Archivable {
     }
 
     @Override
-    public String toCSVEntry() {
-        return itemName+","+imageReference+","+description+","+itemPrice+","+isBouqet+","+hasCard;
+    public String[] toCSVEntry() {
+        return new String[]{itemName, imageReference, description, String.valueOf(itemPrice), String.valueOf(isBouqet), String.valueOf(hasCard)};
     }
 
     @Override

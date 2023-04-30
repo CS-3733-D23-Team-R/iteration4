@@ -16,8 +16,18 @@ public class CSVReader {
         //System.out.println("Parsing");
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         ArrayList<T> data = new ArrayList<>();
-        if (reader.readLine() == null)
+
+        String startLine = reader.readLine();
+        String delimiter;
+        if (startLine == null)
             return data;
+        if (startLine.contains("|")) {
+            delimiter = "\\|";
+        } else if (startLine.contains(",")) {
+            delimiter = ",";
+        } else {
+            return null;
+        }
         Constructor<T> c;
         try {
             c = _class.getDeclaredConstructor(String[].class);
@@ -29,8 +39,7 @@ public class CSVReader {
         String[] args;
         try {
             while ((line = reader.readLine()) != null) {
-                args = line.split(",");
-                //System.out.println(line);
+                args = line.split(delimiter);
                 data.add(c.newInstance((Object) args));
             }
             c.setAccessible(false);

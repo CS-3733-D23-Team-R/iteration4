@@ -39,7 +39,7 @@ public class AdminProfilePageController {
     ImageView ProfilePicture;
     @FXML
     Text time;
-    @FXML Button toEmployeeManager, toServiceRequests, toConferenceRooms, toSignageConfiguration, toAlerts, toEditMap;
+    @FXML Button toEmployeeManager, toServiceRequests, toConferenceRooms, toSignageConfiguration, toAlerts, toEditMap, toMovePatients;
     @FXML VBox profileCardContainer;
     @FXML StackPane conferenceRoomImage, signageConfigurationImage, createAlertImage, allServiceRequestsImage, employeeManagementImage;
 
@@ -104,6 +104,7 @@ public class AdminProfilePageController {
                 e.printStackTrace();
             }
         });
+        toMovePatients.setOnMouseClicked(event -> {Navigation.navigate(Screen.MOVEPATIENT);});
     }
 
     private Node loadCard(CurrentUser user) throws IOException, IOException {

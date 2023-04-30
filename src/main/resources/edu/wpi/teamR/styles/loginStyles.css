@@ -277,3 +277,10 @@
     -fx-font-size: 14;
     -fx-text-fill: white;
 }
+
+.profileToMovePatient{
+    -fx-background-image: url("../images/login/movePatient.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <padding>
+      <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+   </padding>
+   <center>
+      <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="Patient Name" />
+                  <MFXComboBox />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="Patient Destination" />
+                  <MFXComboBox />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="Staff Member" />
+                  <MFXComboBox />
+               </children>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="Patient Location" />
+                  <MFXComboBox caretVisible="false" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="Patient Move Date" />
+                  <MFXDatePicker />
+                  <MFXButton />
+               </children>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0">
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="Map" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="Patient Movements" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </center>
+   <stylesheets>
+      <URL value="@../styles/styles.css" />
+      <URL value="@../styles/tables.css" />
+   </stylesheets>
+</BorderPane>
