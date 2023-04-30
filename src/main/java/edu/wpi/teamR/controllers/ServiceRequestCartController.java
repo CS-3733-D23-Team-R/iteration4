@@ -2,43 +2,30 @@ package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.App;
 import edu.wpi.teamR.ItemNotFoundException;
-import edu.wpi.teamR.Main;
-import edu.wpi.teamR.datahandling.ShoppingCart;
-import edu.wpi.teamR.login.AuthenticationDAO;
+import edu.wpi.teamR.datahandling.CartObserver;
 import edu.wpi.teamR.login.User;
 import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.mapdb.LocationName;
-import edu.wpi.teamR.mapdb.MapDatabase;
 import edu.wpi.teamR.requestdb.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.css.Size;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.HLineTo;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import org.controlsfx.control.SearchableComboBox;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class ServiceRequestCartController {
+public class ServiceRequestCartController extends CartObserver {
 
     @FXML AnchorPane cartAnchor;
     @FXML
@@ -60,7 +47,7 @@ public class ServiceRequestCartController {
     ArrayList<LocationName> locationNames;
     //ArrayList<StaffMembers> staffMembers;
 
-    ShoppingCart cartInstance = ShoppingCart.getInstance();
+//    ShoppingCart cartInstance = ShoppingCart.getInstance();
 
     DecimalFormat formatPrice = new DecimalFormat("###.00");
 
@@ -68,6 +55,8 @@ public class ServiceRequestCartController {
 
 
     @FXML public void initialize() throws SQLException, ClassNotFoundException, ItemNotFoundException {
+        this.cartInstance = cartInstance;
+        this.cartInstance.attach(this);
         locationField.setValue("Select location");
         staffField.setValue("Select staff");
         submitButton.setOnMouseClicked(event -> {
@@ -87,14 +76,14 @@ public class ServiceRequestCartController {
         cartPane.getChildren().clear();
         refreshCart();
 
-        if(cartInstance.items.isEmpty()){
+        if(this.cartInstance.items.isEmpty()){
             Text emptyLabel = new Text("Empty Cart");
             emptyLabel.setFill(Color.BLACK);
             //emptyLabel.setFont();
             cartPane.getChildren().add(emptyLabel);
         }else {
             refreshCart();
-            HBox totalPriceLabel = totalView((float) cartInstance.calculateTotal());
+            HBox totalPriceLabel = totalView((float) this.cartInstance.calculateTotal());
             totalPriceLabel.setAlignment(Pos.BOTTOM_RIGHT);
             totalPriceLabel.setStyle("-fx-font-size: 18");
             Separator separator = new Separator();
@@ -150,20 +139,20 @@ public class ServiceRequestCartController {
         MFXButton plusButton = new MFXButton("+");
         plusButton.setUserData(item.getItemName());
         plusButton.setOnAction(event -> {
-            cartInstance.incrementItem(item);
-            quantity.setText(String.valueOf(cartInstance.items.get(item)));
-            this.totalPriceLabel.setText("$" + formatPrice.format(cartInstance.calculateTotal()));
+            this.cartInstance.incrementItem(item);
+            quantity.setText(String.valueOf(this.cartInstance.items.get(item)));
+            this.totalPriceLabel.setText("$" + formatPrice.format(this.cartInstance.calculateTotal()));
         });
 
         MFXButton minusButton = new MFXButton("-");
         minusButton.setUserData(item.getItemName());
         minusButton.setOnAction(event -> {
-            if(cartInstance.getItemQuantity(item) != 0) {
-                cartInstance.decrementItem(item);
-                quantity.setText(String.valueOf(String.valueOf(cartInstance.items.get(item))));
-                this.totalPriceLabel.setText("$" + formatPrice.format(cartInstance.calculateTotal()));
-                if (cartInstance.getItemQuantity(item) == 0) {
-                    cartInstance.deleteItem(item);
+            if(this.cartInstance.getItemQuantity(item) != 0) {
+                this.cartInstance.decrementItem(item);
+                quantity.setText(String.valueOf(String.valueOf(this.cartInstance.items.get(item))));
+                this.totalPriceLabel.setText("$" + formatPrice.format(this.cartInstance.calculateTotal()));
+                if (this.cartInstance.getItemQuantity(item) == 0) {
+                    this.cartInstance.deleteItem(item);
                     refreshCart();
                 }
             }
@@ -178,13 +167,6 @@ public class ServiceRequestCartController {
             price.setVisible(false);
         }
         price.setStyle("-fx-font-size: 18");
-
-//        AnchorPane imageAnchorPane = new AnchorPane();
-//        imageAnchorPane.setMaxWidth(widthMax);
-//        imageAnchorPane.setMinWidth(widthMax);
-//        imageAnchorPane.setMaxHeight(widthMax);
-//        imageAnchorPane.setMinHeight(widthMax);
-//        imageAnchorPane.getChildren().add(itemImage);
 
         layout.getChildren().addAll(productName, plusButton, quantity, minusButton, price);
         layout.setSpacing(5);
@@ -204,7 +186,7 @@ public class ServiceRequestCartController {
 
     public void refreshCart(){
         cartPane.getChildren().clear();
-        cartInstance.items.forEach(
+        this.cartInstance.items.forEach(
                 (item, number) -> {
                     HBox productView = shoppingCartView(item,number);
                     cartPane.getChildren().add(productView);
@@ -227,8 +209,8 @@ public class ServiceRequestCartController {
             String additionalNotes = notesField.getText();
 
 
-        for (IAvailableItem itemInHash : cartInstance.items.keySet()){
-            for(int i = 0; i<cartInstance.items.get(itemInHash); i++){
+        for (IAvailableItem itemInHash : this.cartInstance.items.keySet()){
+            for(int i = 0; i<this.cartInstance.items.get(itemInHash); i++){
                 reqDatabase.addItemRequest(itemInHash.getRequestType(), RequestStatus.Unstarted, location, staff, itemInHash.getItemName(), requestor, additionalNotes, CurrentDateTime());
             }
         }
@@ -269,4 +251,8 @@ public class ServiceRequestCartController {
         }
     }
 
+    @Override
+    public void update() {
+        refreshCart();
+    }
 }
