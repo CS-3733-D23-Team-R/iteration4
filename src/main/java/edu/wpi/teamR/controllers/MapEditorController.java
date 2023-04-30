@@ -9,6 +9,7 @@ import edu.wpi.teamR.archive.CSVWriter;
 import edu.wpi.teamR.datahandling.MapStorage;
 import edu.wpi.teamR.mapdb.update.*;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -22,6 +23,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -420,6 +422,21 @@ public class MapEditorController {
             popOver.setAutoHide(true);
 
             popOver.show(infoIcon);
+        });
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                App.getPrimaryStage().getScene().setOnKeyPressed(event -> {
+                    if (event.getCode() == KeyCode.Z && event.isControlDown()) {
+                        try {
+                            undoAction();
+                        } catch (SQLException | ItemNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+            }
         });
 
         reset();
