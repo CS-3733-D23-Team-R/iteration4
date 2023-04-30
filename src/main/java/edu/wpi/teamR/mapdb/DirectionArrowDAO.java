@@ -4,6 +4,7 @@ import edu.wpi.teamR.ItemNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DirectionArrowDAO {
 
@@ -18,7 +19,7 @@ public class DirectionArrowDAO {
         return new DirectionArrow(longName, kioskID, direction, date);
     }
 
-    public void addDirectionArrows(ArrayList<DirectionArrow> directionArrows) throws SQLException {
+    public void addDirectionArrows(List<DirectionArrow> directionArrows) throws SQLException {
         Connection connection = Configuration.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO "+ Configuration.getDirectionArrowSchemaNameTableName()+"(longName, kioskID, direction, date) VALUES(?, ?, ?, ?);");
         for (DirectionArrow d : directionArrows) {
