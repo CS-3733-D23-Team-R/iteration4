@@ -203,6 +203,10 @@ public class RequestDatabase {
         return new PatientDAO().addPatient(patientName);
     }
 
+    public void addPatients(List<Patient> patients) throws SQLException {
+        new PatientDAO().addPatients(patients);
+    }
+
     public Patient modifyPatient(int patientID, String patientName) throws SQLException, ItemNotFoundException {
         return new PatientDAO().modifyPatient(patientID, patientName);
     }
@@ -225,6 +229,10 @@ public class RequestDatabase {
 
     public PatientMove addPatientMove(int patientID, Timestamp time, String longName, String staffUsername) throws SQLException {
         return new PatientMoveDAO().addPatientMove(patientID, time, longName, staffUsername);
+    }
+
+    public void addPatientMoves(List<PatientMove> patientMoves) throws SQLException {
+        new PatientMoveDAO().addPatientMoves(patientMoves);
     }
 
     //Matches on both patientID and time

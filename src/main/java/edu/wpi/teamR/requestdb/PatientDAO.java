@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PatientDAO {
     Patient addPatient(String patientName) throws SQLException {
@@ -21,6 +22,16 @@ public class PatientDAO {
         if (resultSet.next())
             patientID = resultSet.getInt("patientID");
         return new Patient(patientID, patientName);
+    }
+
+    void addPatients(List<Patient> patients) throws SQLException {
+        PreparedStatement preparedStatement = Configuration.getConnection().prepareStatement("INSERT INTO "+Configuration.getPatientSchemaNameTableName()+" VALUES(?,?);");
+        for (Patient p : patients) {
+            preparedStatement.setInt(1, p.getPatientID());
+            preparedStatement.setString(2, p.getPatientName());
+            preparedStatement.executeUpdate();
+        }
+        preparedStatement.close();
     }
 
     Patient modifyPatient(int patientID, String patientName) throws SQLException, ItemNotFoundException {

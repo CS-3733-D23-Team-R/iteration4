@@ -5,6 +5,7 @@ import edu.wpi.teamR.ItemNotFoundException;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PatientMoveDAO {
     PatientMove addPatientMove(int patientID, Timestamp time, String longName, String staffUsername) throws SQLException {
@@ -15,6 +16,18 @@ public class PatientMoveDAO {
         preparedStatement.setString(4, staffUsername);
         preparedStatement.executeUpdate();
         return new PatientMove(patientID, time, longName, staffUsername);
+    }
+
+    void addPatientMoves(List<PatientMove> patientMoves) throws SQLException {
+        PreparedStatement preparedStatement = Configuration.getConnection().prepareStatement("INSERT INTO "+Configuration.getPatientMoveSchemaNameTableName()+"(patientID,time,longName,staffUsername) VALUES(?,?,?,?);");
+        for (PatientMove p : patientMoves) {
+            preparedStatement.setInt(1, p.getPatientID());
+            preparedStatement.setTimestamp(2, p.getTime());
+            preparedStatement.setString(3, p.getLongName());
+            preparedStatement.setString(4, p.getStaffUsername());
+            preparedStatement.executeUpdate();
+        }
+        preparedStatement.close();
     }
 
     //Matches on both patientID and time
