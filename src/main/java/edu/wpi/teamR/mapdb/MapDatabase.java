@@ -164,7 +164,7 @@ public class MapDatabase {
         return moveDao.addMove(nodeID, longName, moveDate);
     }
 
-    public void addMoves(ArrayList<Move> moves) throws SQLException {
+    public void addMoves(List<Move> moves) throws SQLException {
         moveDao.addMoves(moves);
     }
 
@@ -271,7 +271,7 @@ public class MapDatabase {
         return directionArrowDAO.addDirectionArrow(longName, kioskID, direction, date);
     }
 
-    public void addDirectionArrows(ArrayList<DirectionArrow> directionArrows) throws SQLException {
+    public void addDirectionArrows(List<DirectionArrow> directionArrows) throws SQLException {
         directionArrowDAO.addDirectionArrows(directionArrows);
     }
 

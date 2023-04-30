@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class HomeController {
 
@@ -41,9 +42,9 @@ public class HomeController {
   private static Parent root;
 
   UserDatabase userDatabase = new UserDatabase();
-  ArrayList<Alert> alerts;
+  List<Alert> alerts;
 
-  SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+  SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
   @FXML Text aboutText;
   @FXML Text creditsText;
@@ -74,7 +75,7 @@ public class HomeController {
     timeline.setCycleCount(Timeline.INDEFINITE);
     timeline.play();
 
-     alerts = userDatabase.getAlertsInLastNumDaysDesc(10);
+     alerts = userDatabase.getCurrentAlerts();
 
       if(alerts.isEmpty()){
           Text emptyLabel = new Text("No New Announcements");
@@ -104,7 +105,7 @@ public class HomeController {
       Text message = new Text(alert.getMessage());
       message.setFill(Color.WHITE);
       message.setStyle("-fx-font-size: 18;");
-      Text date = new Text(dateFormat.format(alert.getTime()));
+      Text date = new Text(dateFormat.format(alert.getStartDate()));
       date.setFill(Color.WHITE);
       date.setStyle("-fx-font-size: 20;");
       leftBox.getChildren().add(message);

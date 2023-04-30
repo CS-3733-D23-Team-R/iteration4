@@ -28,8 +28,8 @@ public class AvailableMeals implements IAvailableItem, Archivable {
     }
 
     @Override
-    public String toCSVEntry() {
-        return itemName+","+imageReference+","+description+","+itemPrice+","+isVegan+","+isVegetarian+","+isDairyFree+","+isPeanutFree+","+isGlutenFree;
+    public String[] toCSVEntry() {
+        return new String[]{itemName, imageReference, description, String.valueOf(itemPrice), String.valueOf(isVegan), String.valueOf(isVegetarian), String.valueOf(isDairyFree), String.valueOf(isPeanutFree), String.valueOf(isGlutenFree)};
     }
 
     @Override
