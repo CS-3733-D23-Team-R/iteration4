@@ -25,11 +25,22 @@ public class CSVReader {
             throw new RuntimeException(e);
         }
         c.setAccessible(true);
+
+        String delimiter;
         String line;
         String[] args;
         try {
+            line = reader.readLine();
+            if (line.contains("|")) {
+                delimiter = "|";
+            } else if (line.contains(",")) {
+                delimiter = ",";
+            } else {
+                return null;
+            }
+
             while ((line = reader.readLine()) != null) {
-                args = line.split(",");
+                args = line.split(delimiter);
                 //System.out.println(line);
                 data.add(c.newInstance((Object) args));
             }

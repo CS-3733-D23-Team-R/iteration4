@@ -42,8 +42,8 @@ public class ItemRequest implements Archivable {
     }
 
     @Override
-    public String toCSVEntry() {
-        return requestID + "," + requestType + "," + requestStatus + "," + longName + "," + staffUsername + "," + itemType + "," + requesterName + "," + additionalNotes + "," + requestDate.toString();
+    public String[] toCSVEntry() {
+        return new String[]{String.valueOf(requestID), requestType.toString(), requestStatus.toString(), longName, staffUsername, itemType, requesterName, additionalNotes, requestDate.toString()};
     }
 
     @Override

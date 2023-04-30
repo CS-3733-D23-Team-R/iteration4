@@ -10,7 +10,11 @@ import java.sql.SQLException;
 public class Main {
 
   public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
-    new UserDatabase().addUser("admin", "admin", "","","","1234567890", new Date(System.currentTimeMillis()), AccessLevel.Admin, "", 1);
+    try {
+      new UserDatabase().getUserByUsername("admin");
+    } catch (ItemNotFoundException e) {
+      new UserDatabase().addUser("admin", "admin", "","","","1234567890", new Date(System.currentTimeMillis()), AccessLevel.Admin, "", 1);
+    }
     App.launch(App.class, args);
     // shortcut: psvm
   }
