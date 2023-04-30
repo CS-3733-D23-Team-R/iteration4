@@ -5,17 +5,23 @@ import java.util.List;
 
 public class CSVWriter {
 
+    String delimiter;
+
+    public CSVWriter(String delimiter) {
+        this.delimiter = delimiter;
+    }
+
+    public CSVWriter() {
+        this.delimiter = "|";
+    }
+
     public void writeCSV(String filename, List<? extends Archivable> data) throws IOException {
         OutputStream out = new FileOutputStream(filename);
-        writeCSV(out, data, "|");
+        writeCSV(out, data);
         out.close();
     }
 
     public void writeCSV(OutputStream out, List<? extends Archivable> data) throws IOException {
-        writeCSV(out, data, "|");
-    }
-
-    public void writeCSV(OutputStream out, List<? extends Archivable> data, String delimiter) throws IOException {
         if (data.size() == 0)
             return;
         Writer writer = new BufferedWriter(new OutputStreamWriter(out));

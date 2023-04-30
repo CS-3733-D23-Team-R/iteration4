@@ -39,7 +39,7 @@ public class Move implements MapData, Archivable {
 
     @Override
     public String[] toCSVEntry() {
-        return new String[]{String.valueOf(nodeID), longName, String.valueOf(moveDate)};
+        return new String[]{String.valueOf(nodeID), longName, moveDate.toString()};
     }
 
     @Override
