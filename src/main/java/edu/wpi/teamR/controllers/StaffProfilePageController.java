@@ -120,7 +120,7 @@ public class StaffProfilePageController {
         for(ItemRequest request: new RequestDatabase().getItemRequests()){
             table.getItems().add(request);
         }
-        //toMovePatients.setOnMouseClicked(Navigation.navigate(););
+        toMovePatients.setOnMouseClicked(event -> {Navigation.navigate(Screen.MOVEPATIENT);});
     }
 
     private Node loadCard(CurrentUser user) throws IOException, IOException {
