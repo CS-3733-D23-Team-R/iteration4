@@ -29,8 +29,8 @@ public class RoomRequest implements Archivable {
     }
 
     @Override
-    public String toCSVEntry() {
-        return roomRequestID + "," + longName + "," + staffUsername + "," + startTime.toString() + "," + endTime.toString();
+    public String[] toCSVEntry() {
+        return new String[]{String.valueOf(roomRequestID), longName, staffUsername, startTime.toString(), endTime.toString()};
     }
 
     @Override
