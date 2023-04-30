@@ -1,22 +1,16 @@
 package edu.wpi.teamR.controllers;
 
-import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.App;
+import edu.wpi.teamR.Main;
 import edu.wpi.teamR.datahandling.MapStorage;
 import edu.wpi.teamR.login.Alert;
-import edu.wpi.teamR.login.AlertDAO;
 import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.mapdb.MapDatabase;
-import edu.wpi.teamR.userData.UserData;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
@@ -27,10 +21,11 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -125,11 +120,11 @@ public class MapController {
     @FXML
     CheckComboBox<String> locationFilters;
     ObservableList<String> locationTypes =
-            FXCollections.observableArrayList("Lab", "Elevator", "Services", "Conference Room", "Stairs", "Information", "Restroom", "Department", "Bathroom", "Exit", "Retail");
+            FXCollections.observableArrayList("Select All", "Lab", "Elevator", "Services", "Conference Room", "Stairs", "Information", "Restroom", "Department", "Bathroom", "Exit", "Retail");
     HashMap<String, String> locationMap = new HashMap<>();
 
     UserDatabase userdb = new UserDatabase();
-    ArrayList<Alert> alertList;
+    List<Alert> alertList;
     @FXML Text alertText;
     @FXML StackPane alertPane;
     @FXML VBox textVBox;
@@ -140,6 +135,8 @@ public class MapController {
 
     Color textColor = Color.BLACK;
     Color pathColor = Color.web("#012D5A");
+
+    boolean userAction = true;
 
     @FXML
     public void initialize() throws Exception {
@@ -169,6 +166,8 @@ public class MapController {
         clearButton.setOnMouseClicked(event -> {
             try {
                 clearPath();
+                startField.setValue("Select Start");
+                endField.setValue("Select End");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -230,35 +229,51 @@ public class MapController {
         locationFilters.getItems().addAll(locationTypes);
         initializeLocationMap();
         locationFilters.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) change -> {
-            while (change.next()) {
-                if (change.wasAdded()) {
-                    for (String s: change.getAddedSubList()) {
+            if (userAction) {
+                while (change.next()) {
+                    if (change.wasAdded()) {
+                        if (change.getAddedSubList().contains("Select All")) {
+                            userAction = false;
+                            locationFilters.getCheckModel().checkAll();
+                            try {
+                                displayLocationNames(currentFloor);
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+                            userAction = true;
+                        }
+                        else {
+                            for (String s : change.getAddedSubList()) {
+                                try {
+                                    displayLocationNamesByType(currentFloor, s);
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        }
+                    }
+                    else if (change.wasRemoved()) {
+                        if (change.getRemoved().contains("Select All")) {
+                            userAction = false;
+                            locationFilters.getCheckModel().clearChecks();
+                            userAction = true;
+                        }
+                        ObservableList<javafx.scene.Node> children = paths[currentFloor].getChildren();
+                        children.removeIf(child -> child instanceof Text);
                         try {
-                            displayLocationNamesByType(currentFloor, s);
+                            displayLocationNames(currentFloor);
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         }
                     }
                 }
-                else if (change.wasRemoved()) {
-                    ObservableList<javafx.scene.Node> children = paths[currentFloor].getChildren();
-                    for (javafx.scene.Node child : children) {
-                        if (child instanceof Text) {
-                            anchorPane.getChildren().remove(child);
-                        }
-                    }
-                    try {
-                        displayLocationNames(currentFloor);
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
             }
         });
 
+
         Platform.runLater(() -> moveDatePicker.setValue(LocalDate.now()));
 
-        alertList = userdb.getAlertsInLastNumDaysDesc(3);
+        alertList = userdb.getCurrentAlerts();
         if (alertList.size() > 0) {
             alertText.setText(alertList.get(0).getMessage());
         }
@@ -269,9 +284,7 @@ public class MapController {
 
         setFloorButtonMap();
         textDirections(false);
-        textCheckbox.selectedProperty().addListener((obs, oldVal, newVal) -> {
-            textDirections(newVal);
-        });
+        textCheckbox.selectedProperty().addListener((obs, oldVal, newVal) -> textDirections(newVal));
 
         closeAlert.setOnMouseClicked(event -> {
             alertPane.setVisible(false);
@@ -293,8 +306,6 @@ public class MapController {
         for (int i = 0; i < 5; i++) {
             paths[i] = new AnchorPane();
         }
-        //startField.setValue("Select Start");
-        //endField.setValue("Select End");
         displayLocationNames(currentFloor);
         directionsVBox.getChildren().clear();
         removeIndicators();
@@ -313,14 +324,6 @@ public class MapController {
     }
 
     public void search() throws Exception {
-    /*TODO
-    take info from fields
-    calculate route
-    find spread of nodes on current floor
-    animateZoom to show all nodes on this floor
-    create path between nodes on ALL floors
-    create/display textual path? (would have to add spot to display)
-     */
         String start = startField.getValue();
         String end = endField.getValue();
         Boolean isAccessible = accessibleCheckbox.isSelected();
@@ -342,7 +345,7 @@ public class MapController {
             mapPane.getChildren().add(imageView);
             mapPane.getChildren().add(paths[currentFloor]);
             floorText.setText(floorNames[currentFloor]);
-            
+
             if (locationFilters.getCheckModel().getCheckedItems().size() > 0) {
                 displayLocationNames(currentFloor);
             }
@@ -393,8 +396,9 @@ public class MapController {
                 square.setOnMouseClicked(event -> {
                     try {
                         displayFloorNum(newFloor);
-                        gesturePane.zoomTo(1, 1, new Point2D(n2.getXCoord(), n2.getYCoord()));
-                        gesturePane.centreOn(new Point2D(n2.getXCoord(), n2.getYCoord()));
+                        animateZoomTo(n2.getXCoord(), n2.getYCoord(), 5);
+                        //gesturePane.zoomTo(1, 1, new Point2D(n2.getXCoord(), n2.getYCoord()));
+                        //gesturePane.centreOn(new Point2D(n2.getXCoord(), n2.getYCoord()));
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
@@ -460,8 +464,24 @@ public class MapController {
         ArrayList<String> textualDirections = ptt.getTextualPath();
         for (String dir: textualDirections) {
             Text curr = new Text(dir);
+            HBox directionSet = new HBox();
+            ImageView arrow = new ImageView();
+            directionSet.setAlignment(Pos.CENTER_LEFT);
+            arrow.setFitWidth(20);
+            arrow.setFitHeight(20);
+            if (dir.contains("left")|| dir.contains("Left")) {
+                arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/leftArrowBlack.png"))));
+            }
+            else if (dir.contains("right") || dir.contains("Right")) {
+                arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/rightArrowBlack.png"))));
+            }
             curr.getStyleClass().add("body");
-            directionsVBox.getChildren().add(curr);
+            directionSet.getChildren().add(arrow);
+            directionSet.getChildren().add(curr);
+            directionsVBox.getChildren().add(directionSet);
+            if (dir.contains("Staircase") || dir.contains("Elevator")) {
+                directionsVBox.getChildren().add(new Text(""));
+            }
         }
 
         Label indicator = new Label(Integer.toString(currentStage++));
@@ -524,7 +544,9 @@ public class MapController {
         if (floor <= 4) {
             ObservableList<String> checkedItems = locationFilters.getCheckModel().getCheckedItems();
             for (String s: checkedItems) {
-                displayLocationNamesByType(floor, s);
+                if (!s.equals("Select All")) {
+                    displayLocationNamesByType(floor, s);
+                }
             }
         }
     }
