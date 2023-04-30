@@ -23,8 +23,8 @@ public class Alert implements Archivable {
     }
 
     @Override
-    public String toCSVEntry() {
-        return message + "," + startDate.toString() + "," + endDate.toString();
+    public String[] toCSVEntry() {
+        return new String[]{message, startDate.toString(), endDate.toString()};
     }
 
     @Override

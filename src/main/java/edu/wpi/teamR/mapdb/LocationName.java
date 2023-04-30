@@ -21,8 +21,8 @@ public class LocationName implements MapData, Archivable {
     }
 
     @Override
-    public String toCSVEntry() {
-        return longName + "," +shortName + "," + nodeType;
+    public String[] toCSVEntry() {
+        return new String[]{longName, shortName, nodeType};
     }
 
     @Override

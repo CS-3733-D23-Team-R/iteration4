@@ -20,8 +20,8 @@ public class Edge implements MapData, Archivable {
     }
 
     @Override
-    public String toCSVEntry() {
-        return startNode + "," + endNode;
+    public String[] toCSVEntry() {
+        return new String[]{String.valueOf(startNode), String.valueOf(endNode)};
     }
 
     @Override
