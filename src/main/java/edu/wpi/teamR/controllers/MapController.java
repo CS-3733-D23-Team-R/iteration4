@@ -112,16 +112,16 @@ public class MapController {
     Pathfinder pathfinder;
 
     @FXML
-    StackPane floor3Button;
+    AnchorPane floor3Button;
     @FXML
-    StackPane floor2Button;
+    AnchorPane floor2Button;
     @FXML
-    StackPane floor1Button;
+    AnchorPane floor1Button;
     @FXML
-    StackPane L1Button;
+    AnchorPane L1Button;
     @FXML
-    StackPane L2Button;
-    HashMap<Integer, StackPane> floorButtonMap = new HashMap<>();
+    AnchorPane L2Button;
+    HashMap<Integer, AnchorPane> floorButtonMap = new HashMap<>();
     @FXML
     CheckComboBox<String> locationFilters;
     ObservableList<String> locationTypes =
@@ -305,52 +305,53 @@ public class MapController {
         Line needle = new Line(0, 0, 30, 0);
         needle.setStroke(Color.RED);
         needle.setStrokeWidth(3);
-        needle.setRotate(-45);
+        needle.setRotate(90);
 
         compassPane.getChildren().addAll(base, needle);
 
         Label north = new Label("N");
-        north.setTranslateY(-30);
+        north.setTranslateX(-21);
+        north.setTranslateY(-21);
         north.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
         compassPane.getChildren().add(north);
 
         Label south = new Label("S");
-        south.setTranslateY(30);
+        south.setTranslateX(21);
+        south.setTranslateY(21);
         south.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
         compassPane.getChildren().add(south);
 
         Label east = new Label("E");
-        east.setTranslateX(30);
+        east.setTranslateX(21);
+        east.setTranslateY(-21);
         east.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
         compassPane.getChildren().add(east);
 
         Label west = new Label("W");
-        west.setTranslateX(-30);
+        west.setTranslateX(-21);
+        west.setTranslateY(21);
         west.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
         compassPane.getChildren().add(west);
 
         Label northeast = new Label("NE");
-        northeast.setTranslateX(21);
-        northeast.setTranslateY(-21);
+        northeast.setTranslateY(-30);
         northeast.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
         northeast.setTextFill(Color.RED);
         compassPane.getChildren().add(northeast);
 
         Label southeast = new Label("SE");
-        southeast.setTranslateX(21);
-        southeast.setTranslateY(21);
+        southeast.setTranslateX(30);
         southeast.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
         compassPane.getChildren().add(southeast);
 
         Label southwest = new Label("SW");
-        southwest.setTranslateX(-21);
-        southwest.setTranslateY(21);
+        southwest.setTranslateY(30);
         southwest.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
         compassPane.getChildren().add(southwest);
 
         Label northwest = new Label("NW");
-        northwest.setTranslateX(-21);
-        northwest.setTranslateY(-21);
+        northwest.setTranslateX(-30);
+
         northwest.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
         compassPane.getChildren().add(northwest);
 
@@ -402,10 +403,10 @@ public class MapController {
 
     public void displayFloorNum(int floorNum) throws SQLException {
         if (floorNum <= 4) {
-            StackPane currentFloorVbox = floorButtonMap.get(currentFloor);
+            AnchorPane currentFloorVbox = floorButtonMap.get(currentFloor);
             currentFloorVbox.getStyleClass().remove("floor-box-focused");
             currentFloorVbox.getStyleClass().add("floor-box");
-            StackPane newFloorVbox = floorButtonMap.get(floorNum);
+            AnchorPane newFloorVbox = floorButtonMap.get(floorNum);
             newFloorVbox.getStyleClass().remove("floor-box");
             newFloorVbox.getStyleClass().add("floor-box-focused");
 
@@ -510,7 +511,7 @@ public class MapController {
 
                 Label indicator = new Label(Integer.toString(currentStage++));
                 indicator.setTextFill(Color.RED);
-                StackPane indicate_button = floorButtonMap.get(drawFloor);
+                AnchorPane indicate_button = floorButtonMap.get(drawFloor);
                 indicate_button.getChildren().add(indicator);
                 int labelCount = 0;
                 for (javafx.scene.Node currentItem: indicate_button.getChildren()) {
@@ -556,7 +557,7 @@ public class MapController {
 
         Label indicator = new Label(Integer.toString(currentStage++));
         indicator.setTextFill(Color.RED);
-        StackPane indicate_button = floorButtonMap.get(drawFloor);
+        AnchorPane indicate_button = floorButtonMap.get(drawFloor);
         indicate_button.getChildren().add(indicator);
         int labelCount = 0;
         for (javafx.scene.Node currentItem: indicate_button.getChildren()) {
@@ -703,9 +704,9 @@ public class MapController {
     }
 
     public void removeIndicators() {
-        for (Map.Entry<Integer, StackPane> entry : floorButtonMap.entrySet()) {
-            StackPane stackPane = entry.getValue();
-            ObservableList<javafx.scene.Node> children = stackPane.getChildren();
+        for (Map.Entry<Integer, AnchorPane> entry : floorButtonMap.entrySet()) {
+            AnchorPane anchorPane = entry.getValue();
+            ObservableList<javafx.scene.Node> children = anchorPane.getChildren();
             children.removeIf(child -> child instanceof Label);
         }
     }
