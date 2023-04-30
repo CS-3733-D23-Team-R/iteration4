@@ -19,12 +19,7 @@ public class Main {
     } catch (ItemNotFoundException e) {
       new UserDatabase().addUser("admin", "admin", "","","","1234567890", new Date(System.currentTimeMillis()), AccessLevel.Admin, "", 1);
     }
-    Configuration.changeSchemaToTest();
-    Archiver archiver = new Archiver(new MapDatabase(), new UserDatabase(), new RequestDatabase());
-    //archiver.createArchive("backups/test2.zip", "|");
-    archiver.restoreArchive("./backups/test2.zip");
-
-    //App.launch(App.class, args);
+    App.launch(App.class, args);
     // shortcut: psvm
   }
 }
