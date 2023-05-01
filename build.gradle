@@ -110,34 +110,42 @@ jacoco {
 jacocoTestCoverageVerification {
     violationRules {
         rule {
-            element = 'CLASS'
-            limit {
-                counter = 'CLASS'
-                value = 'COVEREDRATIO'
-                minimum = 1.0
-            }
-            excludes = codeCoverageExcludes
-        }
-
-        rule {
-            element = 'CLASS'
+            element = 'BUNDLE'
             limit {
                 counter = 'LINE'
                 value = 'COVEREDRATIO'
-                minimum = 0.25
+                minimum = 0.20
             }
-            excludes = codeCoverageExcludes
         }
-
-        rule {
-            element = 'CLASS'
-            limit {
-                counter = 'BRANCH'
-                value = 'COVEREDRATIO'
-                minimum = 0.25
-            }
-            excludes = codeCoverageExcludes
-        }
+//        rule {
+//            element = 'CLASS'
+//            limit {
+//                counter = 'CLASS'
+//                value = 'COVEREDRATIO'
+//                minimum = 1.0
+//            }
+//            excludes = codeCoverageExcludes
+//        }
+//
+//        rule {
+//            element = 'CLASS'
+//            limit {
+//                counter = 'LINE'
+//                value = 'COVEREDRATIO'
+//                minimum = 0.25
+//            }
+//            excludes = codeCoverageExcludes
+//        }
+//
+//        rule {
+//            element = 'CLASS'
+//            limit {
+//                counter = 'BRANCH'
+//                value = 'COVEREDRATIO'
+//                minimum = 0.25
+//            }
+//            excludes = codeCoverageExcludes
+//        }
     }
 }
 

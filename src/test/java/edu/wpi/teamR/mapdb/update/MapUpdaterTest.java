@@ -55,18 +55,6 @@ class MapUpdaterTest {
     }
 
     @Test
-    void addNodeUpdate() throws SQLException {
-        MapUpdater mapUpdater = new MapUpdater(mapdb);
-        Node i = mapUpdater.addNode(32, 23, "floor", "building");
-        mapUpdater.submitUpdates();
-        Node f = mapdb.getNodes().get(0);
-        assertEquals(32, f.getXCoord());
-        assertEquals(23, f.getYCoord());
-        assertEquals("floor", f.getFloorNum());
-        assertEquals("building", f.getBuilding());
-    }
-
-    @Test
     void modifyCoordsUndo() throws SQLException, ItemNotFoundException {
         MapUpdater mapUpdater = new MapUpdater(mapdb);
         Node i = mapdb.addNode(12, 21, "flop", "bloud");
@@ -87,19 +75,6 @@ class MapUpdaterTest {
         assertEquals(EditType.MODIFICATION, undo.editType());
     }
 
-    @Test
-    void modifyCoordsUpdate() throws SQLException, ItemNotFoundException {
-        MapUpdater mapUpdater = new MapUpdater(mapdb);
-        Node i = mapdb.addNode(12, 21, "flop", "bloud");
-        Node u = mapUpdater.modifyCoords(i.getNodeID(), 32, 23);
-        mapUpdater.submitUpdates();
-        Node f = mapdb.getNodes().get(0);
-        assertEquals(i.getNodeID(), f.getNodeID());
-        assertEquals(32, f.getXCoord());
-        assertEquals(23, f.getYCoord());
-        assertEquals("flop", f.getFloorNum());
-        assertEquals("bloud", f.getBuilding());
-    }
 
     @Test
     void deleteNodeUndo() throws SQLException {

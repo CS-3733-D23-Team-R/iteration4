@@ -23,7 +23,7 @@
                            <children>
                               <HBox prefHeight="28.0" prefWidth="232.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                          <Text fx:id="importText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Import Data" HBox.hgrow="ALWAYS">
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Import Data" HBox.hgrow="ALWAYS">
                                               <font>
                                                   <Font name="Times New Roman" size="24.0" />
                                               </font>
@@ -34,13 +34,13 @@
                                     <Insets right="20.0" />
                                  </VBox.margin>
                               </HBox>
-                              <Button fx:id="fileButton" mnemonicParsing="false" styleClass="inverseButton" text="Choose File" />
-                                      <Text fx:id="fileText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" VBox.vgrow="ALWAYS">
+                              <Button fx:id="chooseImportButton" mnemonicParsing="false" styleClass="inverseButton" text="Choose File" />
+                                      <Text fx:id="importText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" VBox.vgrow="ALWAYS">
                                           <font>
                                               <Font name="Times New Roman" size="24.0" />
                                           </font>
                                       </Text>
-                              <Button fx:id="submitImport" mnemonicParsing="false" text="Submit" />
+                              <Button fx:id="submitImport" mnemonicParsing="false" text="Import" />
                            </children>
                            <VBox.margin>
                               <Insets bottom="40.0" left="20.0" top="30.0" />
@@ -57,7 +57,7 @@
                            <children>
                               <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                          <Text fx:id="exportText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Export Data" HBox.hgrow="ALWAYS">
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Export Data" HBox.hgrow="ALWAYS">
                                               <font>
                                                   <Font name="Times New Roman" size="24.0" />
                                               </font>
@@ -68,13 +68,12 @@
                                     <Insets right="20.0" />
                                  </VBox.margin>
                               </HBox>
-                              <Button fx:id="pathButton" mnemonicParsing="false" styleClass="inverseButton" text="Choose Path" />
-                                      <Text fx:id="pathText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" VBox.vgrow="ALWAYS">
+                                      <Text fx:id="exportText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" VBox.vgrow="ALWAYS">
                                           <font>
                                               <Font name="Times New Roman" size="12.0" />
                                           </font>
                                       </Text>
-                              <Button fx:id="submitExport" mnemonicParsing="false" text="Submit" />
+                              <Button fx:id="submitExport" mnemonicParsing="false" text="Export" />
                            </children>
                            <VBox.margin>
                               <Insets bottom="40.0" left="20.0" top="30.0" />
