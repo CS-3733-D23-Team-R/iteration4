@@ -7,6 +7,7 @@ import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.requestdb.Patient;
 import edu.wpi.teamR.requestdb.PatientMove;
 import edu.wpi.teamR.requestdb.RequestDatabase;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -14,6 +15,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -39,12 +41,16 @@ public class movePatientController {
     @FXML TableColumn<PatientMove, String> locCol, staffCol;
     @FXML TableColumn<PatientMove, Integer> idCol;
     @FXML TableColumn<PatientMove, Timestamp> dateCol;
+    @FXML MFXButton clearButton, submitButton;
 
     public void initialize() throws SQLException, ItemNotFoundException {
         db = new RequestDatabase();
         udb = new UserDatabase();
+        mapPane = new AnchorPane();
         mapPane.getChildren().add(MapStorage.getFirstFloor());
         miniMap.setContent(mapPane);
+        miniMap.setMinScale(0.2);
+        miniMap.zoomTo(0.2, new Point2D(2500, 1700));
 
         ArrayList<Patient> pList = db.getPatients();
         ArrayList<String> pList0 = new ArrayList<>();
@@ -85,5 +91,6 @@ public class movePatientController {
                 e.printStackTrace();
             }
         });
+
     }
 }
