@@ -45,7 +45,7 @@ public class PathToText {
         }
 //        this.textualPath = getTextualDirections(newPath, date); //deprecate this
         //testing only prints first part
-        this.textualPath = getTextualDirectionsByFloor(textualPathByFloor.get(0).getNodeIDs(), date, newPath.get(newPath.size() - 1), textualPathByFloor.get(1).floorNum);
+        this.textualPath = getTextualDirectionsByFloor(textualPathByFloor.get(2).getNodeIDs(), date, newPath.get(newPath.size() - 1), textualPathByFloor.get(2).floorNum);
     }
 
     private ArrayList<TextByFloor> splitPathByFloor(ArrayList<Integer> newPath, Date date) throws SQLException, ItemNotFoundException {
@@ -244,8 +244,8 @@ public class PathToText {
         int NESW = firstNode.getYCoord() - secondNode.getYCoord(); //images are indexed from top left corner
         int SENW = secondNode.getXCoord() - firstNode.getXCoord();
         int nodeDiff = nodeDiffPixels(firstNode, secondNode);
-        if(abs(NESW) < nodeDiff/2) NESW = 0; //account for nodes that are more or less straight
-        if(abs(SENW) < nodeDiff/2) SENW = 0;
+//        if(abs(NESW) < nodeDiff/2) NESW = 0; //account for nodes that are more or less straight
+//        if(abs(SENW) < nodeDiff/2) SENW = 0;
         if(NESW == 0){
             if(SENW == 0){
                 System.out.println("Nodes on top of each other? PathToText Error");
