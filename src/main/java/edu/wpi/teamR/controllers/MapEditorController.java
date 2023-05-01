@@ -1026,12 +1026,12 @@ public class MapEditorController {
             root.setPopupState(false);
 
             Node newNode = nodes.get(nodes.size()-1);
-            Circle newCircle = new Circle(newNode.getXCoord(), newNode.getYCoord(), 4, pathColor);
-            nodePanes[currentFloor].getChildren().add(newCircle);
-            circlesMap.put(newNode.getNodeID(), newCircle);
-
-            setupMapNode(currentFloor, newNode, newCircle);
-
+            if (newNode.getFloorNum().equals(nodeFloorNames[currentFloor])) {
+                Circle newCircle = new Circle(newNode.getXCoord(), newNode.getYCoord(), 4, pathColor);
+                nodePanes[currentFloor].getChildren().add(newCircle);
+                circlesMap.put(newNode.getNodeID(), newCircle);
+                setupMapNode(currentFloor, newNode, newCircle);
+            }
             edgeDialog(false);
             createNode = false;
         } catch (IOException e) {

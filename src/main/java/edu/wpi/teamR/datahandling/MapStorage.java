@@ -4,12 +4,13 @@ import edu.wpi.teamR.Main;
 import edu.wpi.teamR.mapdb.*;
 import javafx.scene.image.ImageView;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
 
-@Getter
+@Getter @Setter
 public class MapStorage {
 
     static URL firstFloorLink = Main.class.getResource("images/01_thefirstfloor.png");

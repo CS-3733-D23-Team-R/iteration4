@@ -62,6 +62,7 @@ public class NewNodePopupController {
     public void createNewNode() throws SQLException {
         Node n = mapdb.addNode(Integer.parseInt(xField.getText()), Integer.parseInt(yField.getText()), floorCB.getValue(), buildingCB.getValue());
         nodes.add(n);
+        App.getMapData().setNodes(nodes);
         mapUpdater.addNode(n);
     }
 
