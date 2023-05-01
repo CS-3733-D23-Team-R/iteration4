@@ -112,16 +112,16 @@ public class MapController {
     Pathfinder pathfinder;
 
     @FXML
-    AnchorPane floor3Button;
+    HBox floor3Button;
     @FXML
-    AnchorPane floor2Button;
+    HBox floor2Button;
     @FXML
-    AnchorPane floor1Button;
+    HBox floor1Button;
     @FXML
-    AnchorPane L1Button;
+    HBox L1Button;
     @FXML
-    AnchorPane L2Button;
-    HashMap<Integer, AnchorPane> floorButtonMap = new HashMap<>();
+    HBox L2Button;
+    HashMap<Integer, HBox> floorButtonMap = new HashMap<>();
     @FXML
     CheckComboBox<String> locationFilters;
     ObservableList<String> locationTypes =
@@ -143,6 +143,7 @@ public class MapController {
 
     boolean userAction = true;
     @FXML StackPane compassPane;
+    @FXML HBox floorOrderHBox;
 
     @FXML
     public void initialize() throws Exception {
@@ -241,6 +242,7 @@ public class MapController {
                         if (change.getAddedSubList().contains("Select All")) {
                             userAction = false;
                             locationFilters.getCheckModel().checkAll();
+                            locationFilters.setTitle("All");
                             try {
                                 displayLocationNames(currentFloor);
                             } catch (SQLException e) {
@@ -262,6 +264,7 @@ public class MapController {
                         if (change.getRemoved().contains("Select All")) {
                             userAction = false;
                             locationFilters.getCheckModel().clearChecks();
+                            locationFilters.setTitle("");
                             userAction = true;
                         }
                         ObservableList<javafx.scene.Node> children = paths[currentFloor].getChildren();
@@ -390,7 +393,6 @@ public class MapController {
         gesturePane
                 .animate(Duration.millis(time))
                 .interpolateWith(Interpolator.EASE_BOTH)
-                .afterFinished(() -> System.out.println("Done!"))
                 .centreOn(new Point2D(x, y));
     }
 
@@ -403,10 +405,10 @@ public class MapController {
 
     public void displayFloorNum(int floorNum) throws SQLException {
         if (floorNum <= 4) {
-            AnchorPane currentFloorVbox = floorButtonMap.get(currentFloor);
+            HBox currentFloorVbox = floorButtonMap.get(currentFloor);
             currentFloorVbox.getStyleClass().remove("floor-box-focused");
             currentFloorVbox.getStyleClass().add("floor-box");
-            AnchorPane newFloorVbox = floorButtonMap.get(floorNum);
+            HBox newFloorVbox = floorButtonMap.get(floorNum);
             newFloorVbox.getStyleClass().remove("floor-box");
             newFloorVbox.getStyleClass().add("floor-box-focused");
 
@@ -507,69 +509,68 @@ public class MapController {
                     }
                 });
 
-                Label indicator = new Label(Integer.toString(currentStage++));
-                indicator.setTextFill(Color.RED);
-                AnchorPane indicate_button = floorButtonMap.get(drawFloor);
-                indicate_button.getChildren().add(indicator);
-                int labelCount = 0;
-                for (javafx.scene.Node currentItem: indicate_button.getChildren()) {
-                    if (currentItem instanceof Label) {
-                        labelCount++;
-                    }
-                }
-                if (labelCount == 1){
-                    indicator.setTranslateX(-25);
-                }
-                else {
-                    indicator.setTranslateX(25);
-                }
-
                 drawFloor = newFloor;
             }
         }
         createCircle(endNode, drawFloor, endLocation);
 
         PathToText ptt = new PathToText(mapPath, java.sql.Date.valueOf(moveDatePicker.getValue()));
-        ArrayList<String> textualDirections = ptt.getTextualPath();
-        for (String dir: textualDirections) {
-            Text curr = new Text(dir);
-            HBox directionSet = new HBox();
-            ImageView arrow = new ImageView();
-            directionSet.setAlignment(Pos.CENTER_LEFT);
-            arrow.setFitWidth(20);
-            arrow.setFitHeight(20);
-            if (dir.contains("left")|| dir.contains("Left")) {
-                arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/leftArrowBlack.png"))));
+        ArrayList<TextByFloor> textualDirections = ptt.getTextualPathByFloor();
+        for (int i = 0; i < textualDirections.size(); i++) {
+            TextByFloor dir = textualDirections.get(i);
+            Text nextFloorText = new Text("Floor: " + dir.getFloorNum());
+            HBox newFloorSet = new HBox();
+            newFloorSet.setAlignment(Pos.CENTER_LEFT);
+            nextFloorText.getStyleClass().add("bodyMediumBold");
+            newFloorSet.getChildren().addAll(nextFloorText);
+            directionsVBox.getChildren().add(newFloorSet);
+            if (i == textualDirections.size() -1) {
+                Text traverseText = new Text(dir.getFloorNum());
+                traverseText.getStyleClass().add("body");
+                floorOrderHBox.getChildren().add(traverseText);
             }
-            else if (dir.contains("right") || dir.contains("Right")) {
-                arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/rightArrowBlack.png"))));
+            else {
+                Text traverseText = new Text(dir.getFloorNum() + ">>");
+                traverseText.getStyleClass().add("body");
+                floorOrderHBox.getChildren().add(traverseText);
             }
-            curr.getStyleClass().add("body");
-            directionSet.getChildren().add(arrow);
-            directionSet.getChildren().add(curr);
-            directionsVBox.getChildren().add(directionSet);
-            if (dir.contains("Staircase") || dir.contains("Elevator")) {
-                directionsVBox.getChildren().add(new Text(""));
+            ArrayList<String> floorText = dir.getFloorText();
+            for (int j = 0; j < floorText.size(); j++) {
+                String textDir = floorText.get(j);
+                Text curr = new Text(textDir);
+                HBox directionSet = new HBox();
+                ImageView arrow = new ImageView();
+                directionSet.setAlignment(Pos.CENTER_LEFT);
+                arrow.setFitWidth(20);
+                arrow.setFitHeight(20);
+                if (textDir.contains("left")|| textDir.contains("Left")) {
+                    arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/leftArrowBlack.png"))));
+                }
+                else if (textDir.contains("right") || textDir.contains("Right")) {
+                    arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/rightArrowBlack.png"))));
+                }
+                else if (j == floorText.size() - 1 && i != textualDirections.size() - 1) {
+                    int currFloor = floorNamesMap.get(dir.getFloorNum());
+                    int nextFloor = floorNamesMap.get(textualDirections.get(i+1).getFloorNum());
+                    if (currFloor < nextFloor) {
+                        arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/upArrowBlack.png"))));
+                    }
+                    else if (currFloor > nextFloor) {
+                        arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/downArrowBlack.png"))));
+                    }
+                }
+                curr.getStyleClass().add("body");
+                curr.setWrappingWidth(275);
+                directionSet.getChildren().add(arrow);
+                directionSet.getChildren().add(curr);
+                directionSet.setSpacing(5);
+                directionsVBox.getChildren().add(directionSet);
             }
+            directionsVBox.getChildren().add(new Text(""));
         }
 
-        Label indicator = new Label(Integer.toString(currentStage++));
-        indicator.setTextFill(Color.RED);
-        AnchorPane indicate_button = floorButtonMap.get(drawFloor);
-        indicate_button.getChildren().add(indicator);
-        int labelCount = 0;
-        for (javafx.scene.Node currentItem: indicate_button.getChildren()) {
-            if (currentItem instanceof Label) {
-                labelCount++;
-            }
-        }
-        if (labelCount == 1){
-            indicator.setTranslateX(-5);
-        }
-        else {
-            indicator.setTranslateX(5);
-        }
-
+        floorOrderHBox.setVisible(true);
+        floorOrderHBox.setManaged(true);
         gesturePane.zoomTo(1, 1, new Point2D(startNode.getXCoord(), startNode.getYCoord()));
         gesturePane.centreOn(new Point2D(startNode.getXCoord(), startNode.getYCoord()));
     }
@@ -687,7 +688,6 @@ public class MapController {
     }
 
     public void selectLocation(String locationName){
-        System.out.println(startField.getValue());
         if (startField.getValue().equals("Select Start") || startField.getValue() == null) {
             startField.setValue(locationName);
         }
@@ -702,11 +702,8 @@ public class MapController {
     }
 
     public void removeIndicators() {
-        for (Map.Entry<Integer, AnchorPane> entry : floorButtonMap.entrySet()) {
-            AnchorPane anchorPane = entry.getValue();
-            ObservableList<javafx.scene.Node> children = anchorPane.getChildren();
-            children.removeIf(child -> child instanceof Label);
-        }
+        floorOrderHBox.getChildren().clear();
+        floorOrderHBox.setVisible(false);
+        floorOrderHBox.setManaged(false);
     }
-
 }
