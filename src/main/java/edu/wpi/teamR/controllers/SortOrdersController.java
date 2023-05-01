@@ -39,19 +39,19 @@ public class SortOrdersController {
     @FXML TableColumn<ItemRequest, String> staffMemberColumn;
     @FXML TableColumn<ItemRequest, String> timeColumn;
     @FXML TableColumn<ItemRequest, String> statusColumn;
-    @FXML
-    MFXTextField searchField;
+    @FXML MFXTextField searchField;
 
     @FXML TableColumn<ItemRequest, Void> deleteCol;
     ObservableList<RequestStatus> statusList = FXCollections.observableArrayList(RequestStatus.values());
     private final ObservableList<ItemRequest> dataList = FXCollections.observableArrayList();
+    FilteredList<ItemRequest> filteredData = new FilteredList<>(dataList, b -> true);
 
     @FXML
     public void initialize() throws SQLException, ClassNotFoundException {
         dataList.addAll(new RequestDatabase().getItemRequests());
         idColumn.setCellValueFactory(new PropertyValueFactory<>("requestID"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("requesterName"));
-        locationColumn.setCellValueFactory(new PropertyValueFactory<>("longName"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory<>("longname"));
         staffMemberColumn.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
         staffMemberColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         notesColumn.setCellValueFactory(new PropertyValueFactory<>("additionalNotes"));
@@ -64,48 +64,48 @@ public class SortOrdersController {
             requestTable.getItems().add(request);
         }
 
-            staffMemberColumn.setOnEditCommit(event -> {
-                ItemRequest request = event.getRowValue();
-                request.setStaffMember(event.getNewValue());
-                try {
-                    //RequestDatabase.getInstance().modifyItemRequestByID(request.getRequestID(), request.getRequesterName(),request.getLongname(), event.getNewValue(), request.getAdditionalNotes(), request.getRequestDate(), request.getRequestStatus(),request.getItemType());
-                    new RequestDatabase().modifyItemRequestByID(
-                            request.getRequestID(),
-                            request.getRequestType(),
-                            request.getRequestStatus(),
-                            request.getLongName(),
-                            event.getNewValue(),
-                            request.getItemType(),
-                            request.getRequesterName(),
-                            request.getAdditionalNotes(),
-                            request.getRequestDate());
-                } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+        staffMemberColumn.setOnEditCommit(event -> {
+            ItemRequest request = event.getRowValue();
+            request.setStaffMember(event.getNewValue());
+            try {
+                //RequestDatabase.getInstance().modifyItemRequestByID(request.getRequestID(), request.getRequesterName(),request.getLongname(), event.getNewValue(), request.getAdditionalNotes(), request.getRequestDate(), request.getRequestStatus(),request.getItemType());
+                new RequestDatabase().modifyItemRequestByID(
+                        request.getRequestID(),
+                        request.getRequestType(),
+                        request.getRequestStatus(),
+                        request.getLongName(),
+                        event.getNewValue(),
+                        request.getItemType(),
+                        request.getRequesterName(),
+                        request.getAdditionalNotes(),
+                        request.getRequestDate());
+            } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         statusColumn.setCellFactory(column -> new TableCell<>() {
             private final ComboBox<RequestStatus> changeStatusButton = new ComboBox<RequestStatus>(statusList);
             {
-                    changeStatusButton.setOnAction(event -> {
-                        ItemRequest request = (ItemRequest) getTableView().getItems().get(getIndex());
-                        try {
-                            RequestStatus status = changeStatusButton.getSelectionModel().getSelectedItem();
-                            request.setRequestStatus(status);
-                            new RequestDatabase().modifyItemRequestByID(
-                                    request.getRequestID(),
-                                    request.getRequestType(),
-                                    status,
-                                    request.getLongName(),
-                                    request.getStaffUsername(),
-                                    request.getItemType(),
-                                    request.getRequesterName(),
-                                    request.getAdditionalNotes(),
-                                    request.getRequestDate());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
+                changeStatusButton.setOnAction(event -> {
+                    ItemRequest request = (ItemRequest) getTableView().getItems().get(getIndex());
+                    try {
+                        RequestStatus status = changeStatusButton.getSelectionModel().getSelectedItem();
+                        request.setRequestStatus(status);
+                        new RequestDatabase().modifyItemRequestByID(
+                                request.getRequestID(),
+                                request.getRequestType(),
+                                status,
+                                request.getLongName(),
+                                request.getStaffUsername(),
+                                request.getItemType(),
+                                request.getRequesterName(),
+                                request.getAdditionalNotes(),
+                                request.getRequestDate());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
 
             }
             @Override
@@ -161,34 +161,34 @@ public class SortOrdersController {
             }
         });
 
-        FilteredList<ItemRequest> filteredData = new FilteredList<>(dataList, b -> true);
-
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData = new FilteredList<>(dataList, b -> true);
             filteredData.setPredicate(itemRequest -> {
-                    if(newValue == null || newValue.isEmpty()) {
-                        return true;
-            }
+                if(newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
 
-            String lowerCaseFilter = newValue.toLowerCase();
+                String lowerCaseFilter = newValue.toLowerCase();
 
-            if(itemRequest.getRequesterName().toLowerCase().contains(lowerCaseFilter)) {
-                return true;
-            } else if (itemRequest.getLongName().toLowerCase().contains(lowerCaseFilter)) {
-                return true;
-            } else if (itemRequest.getRequestType().toString().toLowerCase().contains(lowerCaseFilter)) {
-                return true;
-            } else if (itemRequest.getAdditionalNotes().toLowerCase().contains(lowerCaseFilter)) {
-                return true;
-            } else if (itemRequest.getRequestDate().toString().toLowerCase().contains(lowerCaseFilter)) {
-                return true;
-            } else
-                return itemRequest.getRequestStatus().toString().toLowerCase().contains(lowerCaseFilter);
+                if(itemRequest.getRequesterName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (itemRequest.getLongName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (itemRequest.getRequestType().toString().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (itemRequest.getAdditionalNotes().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (itemRequest.getRequestDate().toString().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else
+                    return itemRequest.getRequestStatus().toString().toLowerCase().contains(lowerCaseFilter);
             });
+            SortedList<ItemRequest> sortedData = new SortedList<>(filteredData);
+            sortedData.comparatorProperty().bind(requestTable.comparatorProperty());
+            requestTable.setItems(sortedData);
+            statusColumn.setVisible(false);
+            statusColumn.setVisible(true);
         });
-        SortedList<ItemRequest> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(requestTable.comparatorProperty());
-        requestTable.setItems(sortedData);
-
     }
 
     private void addButtonToTable() {
@@ -196,7 +196,6 @@ public class SortOrdersController {
             @Override
             public TableCell<ItemRequest, Void> call(final TableColumn<ItemRequest, Void> param) {
                 return new TableCell<ItemRequest, Void>() {
-
                     private final Button btn = new Button();
                     {
                         ImageView imageView = new ImageView(Objects.requireNonNull(Main.class.getResource("images/delete.png")).toExternalForm());
@@ -204,9 +203,9 @@ public class SortOrdersController {
                         imageView.setFitHeight(30);
                         btn.getStyleClass().add("food_furniture-clear-button");
                         btn.setGraphic(imageView);
-                            btn.setOnAction((ActionEvent event) -> {
+                        btn.setOnAction((ActionEvent event) -> {
                             ItemRequest data = getTableView().getItems().get(getIndex());
-                            requestTable.getItems().remove(data);
+                            filteredData.getSource().remove(data);
                             try {
                                 new RequestDatabase().deleteItemRequest(data.getRequestID());
                             } catch (Exception e) {
