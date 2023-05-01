@@ -83,7 +83,10 @@ public class EditLocationPopupController {
         for (Node n: nodes) {
             nodeIDs.add(n.getNodeID());
         }
-        nodeComboBox.setItems(FXCollections.observableArrayList(nodeIDs));
+
+        ObservableList<Integer> observableNodes = FXCollections.observableArrayList(nodeIDs);
+        FXCollections.sort(observableNodes);
+        nodeComboBox.setItems(observableNodes);
         nodeComboBox.setPromptText("Choose Node.");
 
         submitButton.setOnAction(event -> {

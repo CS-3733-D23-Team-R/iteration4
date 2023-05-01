@@ -44,6 +44,7 @@ public class NewMovePopupController {
             ids.add(n.getNodeID());
         }
         nodeIDs = FXCollections.observableArrayList(ids);
+        FXCollections.sort(nodeIDs);
 
         ArrayList<LocationName> ln_objects = App.getMapData().getLocationNames();
         ArrayList<String> names = new ArrayList<>();
@@ -53,6 +54,7 @@ public class NewMovePopupController {
             }
         }
         locationNames = FXCollections.observableArrayList(names);
+        FXCollections.sort(locationNames);
 
         nodeBox.setItems(nodeIDs);
         locationBox.setItems(locationNames);
