@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import static java.lang.Math.abs;
@@ -45,7 +46,7 @@ public class PathToText {
         }
 //        this.textualPath = getTextualDirections(newPath, date); //deprecate this
         //testing only prints first part
-        this.textualPath = getTextualDirectionsByFloor(textualPathByFloor.get(2).getNodeIDs(), date, newPath.get(newPath.size() - 1), textualPathByFloor.get(2).floorNum);
+        this.textualPath = getTextualDirectionsByFloor(textualPathByFloor.get(0).getNodeIDs(), date, newPath.get(newPath.size() - 1), textualPathByFloor.get(0).floorNum);
     }
 
     private ArrayList<TextByFloor> splitPathByFloor(ArrayList<Integer> newPath, Date date) throws SQLException, ItemNotFoundException {
@@ -85,28 +86,32 @@ public class PathToText {
             else {nextNextNode = null;}
 
             if(i == 0 && floorNodes.get(0) != lastNodeID){ //start of floor
-                String initialText = "";
-                if(getNodeTypeByNodeID(floorNodes.get(i), date).equals("ELEV")){
-                    initialText = initialText + "Exit the elevator and turn " + turnDirection(currentNode, nextNode, nextNextNode)
-                            + " to face " + cardinalText(nextNode, nextNextNode);
-                    lastNode = nextNode;
-                } else if (getNodeTypeByNodeID(floorNodes.get(i), date).equals("STAI")){
-                    initialText = initialText + "Exit the stairs and turn " + turnDirection(currentNode, nextNode, nextNextNode)
-                            + " to face " + cardinalText(nextNode, nextNextNode);
-                    lastNode = nextNode;
-                } else {
-                    initialText = initialText + "Start at " + this.mapDatabase.getLocationNamesByNodeIDAtDate(floorNodes.get(0), date).get(0).getLongName()
-                            + "\n      and turn to face " + cardinalText(currentNode, nextNode);
-                    lastNode = currentNode;
+                if(floorNodesSize == 2){
+                    floorTextList.add("Walk " + cardinalText(currentNode, nextNode) +
+                            " for " + nodeDiffToFeet(currentNode, nextNode) + " feet");
                 }
-                floorTextList.add(initialText);
+                else {
+                    String initialText = "";
+                    if (getNodeTypeByNodeID(floorNodes.get(i), date).equals("ELEV")) {
+                        initialText = initialText + "Exit the elevator and " + turnText(currentNode, nextNode, nextNextNode);
+                        lastNode = nextNode;
+                    } else if (getNodeTypeByNodeID(floorNodes.get(i), date).equals("STAI")) {
+                        initialText = initialText + "Exit the stairs and turn " + turnText(currentNode, nextNode, nextNextNode);
+                        lastNode = nextNode;
+                    } else {
+                        initialText = initialText + "Start at " + this.mapDatabase.getLocationNamesByNodeIDAtDate(floorNodes.get(0), date).get(0).getLongName()
+                                + " and turn to face " + cardinalText(currentNode, nextNode);
+                        lastNode = currentNode;
+                    }
+                    floorTextList.add(initialText);
+                }
 
             } else { //anything intermediate or at the end
                 if(detectTurn(currentNode, lastNode, nextNode)){
                     String intermediateText = "";
                     intermediateText = "Continue for " + nodeDiffToFeet(lastNode, currentNode) + " feet until you reach the hallway junction";
                     floorTextList.add(intermediateText);
-                    turnText(lastNode, currentNode, nextNode, floorTextList); //sets list by reference
+                    floorTextList.add(turnText(lastNode, currentNode, nextNode));
                     lastNode = currentNode;
                 }
 
@@ -196,8 +201,9 @@ public class PathToText {
 //        double turnThreshold = 0.2;
 //        return dotProduct / (magnitude1 * magnitude2) > turnThreshold;
         String turnDirection = turnDirection(lastNode, currentNode, nextNode);
-        if(turnDirection != null && (turnDirection.equals("right") || turnDirection.equals("left"))) return true;
-        else return false;
+        if(turnDirection == null) return false;
+        else if(turnDirection.equals("continue forwards facing ")) return false;
+        else return true;
     }
 
     //updates textual directions list
@@ -221,22 +227,22 @@ public class PathToText {
 //    }
 
     private String turnDirection(Node firstNode, Node middleNode, Node secondNode){
-        double turnThreshold = 0.0;
+        double turnThreshold = 0.1;
         if(middleNode != null && firstNode != null && secondNode != null) {
             double firstSlope = (middleNode.getYCoord() - firstNode.getYCoord() * 1.0) / (middleNode.getXCoord() - firstNode.getXCoord());
             double secondSlope = (secondNode.getYCoord() - middleNode.getYCoord() * 1.0) / (secondNode.getXCoord() - middleNode.getXCoord());
             double difference = secondSlope - firstSlope;
-            if (difference > turnThreshold) return "right";
-            else if (difference < turnThreshold) return "left";
-            else return "continue";
+            if (abs(difference) < turnThreshold) return "continue forwards facing ";
+            else if(difference > turnThreshold) return "turn right to face ";
+            else return "turn left to face "; //difference < turnThreshold
         } else {
             return null;
         }
     }
 
-    private void turnText(Node firstNode, Node middleNode, Node secondNode, ArrayList<String> textList){
-        String outputText = "Turn " + turnDirection(firstNode, middleNode, secondNode) + " to face " + cardinalText(firstNode, secondNode);
-        textList.add(outputText);
+    private String turnText(Node firstNode, Node middleNode, Node secondNode){
+        String outputText = turnDirection(firstNode, middleNode, secondNode) + cardinalText(firstNode, secondNode);
+        return outputText;
     }
 
     //returns cardinal direction between two nodes
@@ -275,6 +281,9 @@ public class PathToText {
     }
 
     private String getNodeTypeByNodeID(int nodeID, Date date) throws SQLException {
-        return this.mapDatabase.getLocationNamesByNodeIDAtDate(nodeID, date).get(0).getNodeType();
+        ArrayList<LocationName> locationNames = this.mapDatabase.getLocationNamesByNodeIDAtDate(nodeID, date);
+        if(locationNames.size() > 0) return locationNames.get(0).getNodeType();
+        else
+            return "";
     }
 }
