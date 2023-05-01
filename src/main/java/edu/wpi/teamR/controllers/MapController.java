@@ -242,6 +242,7 @@ public class MapController {
                         if (change.getAddedSubList().contains("Select All")) {
                             userAction = false;
                             locationFilters.getCheckModel().checkAll();
+                            locationFilters.setTitle("All");
                             try {
                                 displayLocationNames(currentFloor);
                             } catch (SQLException e) {
@@ -263,6 +264,7 @@ public class MapController {
                         if (change.getRemoved().contains("Select All")) {
                             userAction = false;
                             locationFilters.getCheckModel().clearChecks();
+                            locationFilters.setTitle("");
                             userAction = true;
                         }
                         ObservableList<javafx.scene.Node> children = paths[currentFloor].getChildren();
