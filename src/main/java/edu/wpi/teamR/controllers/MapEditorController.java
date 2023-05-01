@@ -158,7 +158,7 @@ public class MapEditorController {
     Color pathColor = Color.web("#012D5A");
 
     boolean userAction = true;
-    boolean createNode = true;
+    boolean createNode = false;
 
     @FXML
     public void initialize() throws SQLException, ClassNotFoundException, ItemNotFoundException {
@@ -210,7 +210,10 @@ public class MapEditorController {
 
 
         edgeDialog(false);
-        newEdgeButton.setOnAction(event -> edgeDialog(true));
+        newEdgeButton.setOnAction(event -> {
+            drawEdgesMode=true;
+            edgeDialog(true);
+        });
 
         undoButton.setOnAction(event -> {
             try {
@@ -288,7 +291,10 @@ public class MapEditorController {
             }
         });
 
-        cancelEdgeButton.setOnAction(event -> edgeDialog(false));
+        cancelEdgeButton.setOnAction(event -> {
+            edgeDialog(false);
+            drawEdgesMode = false;
+        });
 
         locationFilters.getItems().addAll(locationTypes);
         initializeLocationMap();
@@ -430,13 +436,13 @@ public class MapEditorController {
     }
 
     private void edgeDialog(boolean setting) {
-        drawEdgesMode=setting;
         edgeHBox.setVisible(setting);
         edgeHBox.setManaged(setting);
         if (selectedCircle != null) {
             selectedNode = null;
             selectedCircle.setFill(pathColor);
             selectedCircle = null;
+            drawEdgesMode = false;
         }
         if (setting == false) {
             dialogText.setText("Click Another Node to Draw Edge");
