@@ -67,10 +67,10 @@ public class MapStorage {
         }
 
         for (int i = 0; i < 5; i++) {
-            nodes = mapdb.getNodesByFloor(nodeFloorNames[i]);
+            ArrayList<Node> nodeArrayList = mapdb.getNodesByFloor(nodeFloorNames[i]);
             Map<Integer, Node> nodeMap = new HashMap<>();
             floorNodeMaps.add(nodeMap);
-            for (Node n : nodes) {
+            for (Node n : nodeArrayList) {
                 nodeMap.put(n.getNodeID(), n);
             }
         }
