@@ -530,9 +530,14 @@ public class MapController {
                 floorOrderHBox.getChildren().add(traverseText);
             }
             else {
-                Text traverseText = new Text(dir.getFloorNum() + "->");
+                Text traverseText = new Text("Floor " + dir.getFloorNum() + " ");
                 traverseText.getStyleClass().add("body");
+                ImageView triangle = new ImageView();
+                triangle.setFitWidth(20);
+                triangle.setFitHeight(20);
+                triangle.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/map/pathTriangle.png"))));
                 floorOrderHBox.getChildren().add(traverseText);
+                floorOrderHBox.getChildren().add(triangle);
             }
             ArrayList<String> floorText = dir.getFloorText();
             for (int j = 0; j < floorText.size(); j++) {
