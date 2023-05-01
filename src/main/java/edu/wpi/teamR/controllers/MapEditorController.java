@@ -23,7 +23,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -37,6 +36,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javafx.geometry.Point2D;
 import org.controlsfx.control.CheckComboBox;
@@ -488,7 +488,7 @@ public class MapEditorController {
                     l1.toBack();
                     l1.setPickOnBounds(true);
 
-                    boolean edgeDeleted = false;
+                    AtomicBoolean edgeDeleted = new AtomicBoolean(false);
                     l1.setOnMouseClicked(event -> {
                         l1.requestFocus();
                         if (event.getButton().equals(MouseButton.SECONDARY)) {
@@ -500,9 +500,10 @@ public class MapEditorController {
                             linesMap.remove(e.getStartNode());
                             linesMap.remove(e.getEndNode());
                             nodePanes[floor].getChildren().remove(l1);
-                            if (!edgeDeleted) {
+                            if (!edgeDeleted.get()) {
                                 updater.deleteEdge(n1.getNodeID(), n2.getNodeID());
                                 updater.endAction();
+                                edgeDeleted.set(true);
                             }
                         }
                     });
@@ -780,6 +781,7 @@ public class MapEditorController {
                                 if (!edgeDeleted) {
                                     updater.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
                                     updater.endAction();
+                                    edgeDeleted = true;
                                 }
                             }
                         });
@@ -862,7 +864,7 @@ public class MapEditorController {
                             line.setStroke(pathColor);
                             line.setPickOnBounds(true);
 
-                            boolean edgeDeleted = false;
+                            final boolean[] edgeDeleted = {false};
                             line.setOnMouseClicked(event -> {
                                 line.requestFocus();
                                 if (event.getButton().equals(MouseButton.SECONDARY)) {
@@ -874,9 +876,10 @@ public class MapEditorController {
                                     linesMap.remove(edge.getStartNode());
                                     linesMap.remove(edge.getEndNode());
                                     nodePanes[currentFloor].getChildren().remove(line);
-                                    if (!edgeDeleted) {
+                                    if (!edgeDeleted[0]) {
                                         updater.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
                                         updater.endAction();
+                                        edgeDeleted[0] = true;
                                     }
                                 }
                             });
@@ -895,7 +898,7 @@ public class MapEditorController {
                             line.setStroke(pathColor);
                             line.setPickOnBounds(true);
 
-                            boolean edgeDeleted = false;
+                            AtomicBoolean edgeDeleted = new AtomicBoolean(false);
                             line.setOnMouseClicked(event -> {
                                 line.requestFocus();
                                 if (event.getButton().equals(MouseButton.SECONDARY)) {
@@ -907,9 +910,10 @@ public class MapEditorController {
                                     linesMap.remove(edge.getStartNode());
                                     linesMap.remove(edge.getEndNode());
                                     nodePanes[currentFloor].getChildren().remove(line);
-                                    if (!edgeDeleted) {
+                                    if (!edgeDeleted.get()) {
                                         updater.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
                                         updater.endAction();
+                                        edgeDeleted.set(true);
                                     }
                                 }
                             });
@@ -998,6 +1002,7 @@ public class MapEditorController {
                             if (!edgeDeleted) {
                                 updater.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
                                 updater.endAction();
+                                edgeDeleted = true;
                             }
                         }
                     });
