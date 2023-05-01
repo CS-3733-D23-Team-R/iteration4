@@ -25,6 +25,8 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import static java.lang.Math.round;
+
 public class ServiceRequestCartController extends CartObserver {
 
     @FXML AnchorPane cartAnchor;
@@ -74,7 +76,6 @@ public class ServiceRequestCartController extends CartObserver {
         setStaffChoiceBox();
 
         cartPane.getChildren().clear();
-        refreshCart();
 
         if(this.cartInstance.items.isEmpty()){
             Text emptyLabel = new Text("Empty Cart");
@@ -83,12 +84,6 @@ public class ServiceRequestCartController extends CartObserver {
             cartPane.getChildren().add(emptyLabel);
         }else {
             refreshCart();
-            HBox totalPriceLabel = totalView((float) this.cartInstance.calculateTotal());
-            totalPriceLabel.setAlignment(Pos.BOTTOM_RIGHT);
-            totalPriceLabel.setStyle("-fx-font-size: 18");
-            Separator separator = new Separator();
-            separator.setOrientation(Orientation.HORIZONTAL);
-            cartPane.getChildren().addAll(separator, totalPriceLabel);
         }
 
     }
@@ -156,6 +151,12 @@ public class ServiceRequestCartController extends CartObserver {
                     refreshCart();
                 }
             }
+            if(this.cartInstance.items.isEmpty()) {
+                cartPane.getChildren().clear();
+                Text emptyLabel = new Text("Empty Cart");
+                emptyLabel.setFill(Color.BLACK);
+                cartPane.getChildren().add(emptyLabel);
+            }
         });
 
         Text price;
@@ -168,8 +169,23 @@ public class ServiceRequestCartController extends CartObserver {
         }
         price.setStyle("-fx-font-size: 18");
 
-        layout.getChildren().addAll(productName, plusButton, quantity, minusButton, price);
+
+        HBox nameBox = new HBox();
+        nameBox.getChildren().add(productName);
+        nameBox.setAlignment(Pos.CENTER_LEFT);
+        HBox quantityBox = new HBox();
+        quantityBox.getChildren().addAll(plusButton,quantity, minusButton);
+        quantityBox.setAlignment(Pos.CENTER_RIGHT);
+        HBox priceBox = new HBox();
+        priceBox.getChildren().add(price);
+        priceBox.setAlignment(Pos.CENTER_RIGHT);
+
+        layout.getChildren().addAll(nameBox, quantityBox, priceBox);
         layout.setSpacing(5);
+        HBox.setHgrow(nameBox, Priority.ALWAYS);
+        //HBox.setHgrow(quantityBox, Priority.ALWAYS);
+        //HBox.setHgrow(priceBox, Priority.ALWAYS);
+
         return layout;
     }
 
@@ -192,6 +208,12 @@ public class ServiceRequestCartController extends CartObserver {
                     cartPane.getChildren().add(productView);
                 }
         );
+        HBox totalPriceLabel = totalView((float) this.cartInstance.calculateTotal());
+        totalPriceLabel.setAlignment(Pos.BOTTOM_RIGHT);
+        totalPriceLabel.setStyle("-fx-font-size: 18");
+        Separator separator = new Separator();
+        separator.setOrientation(Orientation.HORIZONTAL);
+        cartPane.getChildren().addAll(separator, totalPriceLabel);
     }
 
     public Timestamp CurrentDateTime(){

@@ -35,6 +35,7 @@ dependencies {
             'io.github.palexdev:materialfx:11.13.1',
             'net.kurobako:gesturefx:0.7.1',
             'org.controlsfx:controlsfx:11.1.2',
+            'com.calendarfx:view:11.12.5',
 
             'org.slf4j:slf4j-api:2.0.5',
             'org.slf4j:slf4j-simple:2.0.5',
