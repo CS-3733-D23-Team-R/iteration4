@@ -1,6 +1,10 @@
 package edu.wpi.teamR.controllers;
 
+import edu.wpi.teamR.App;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import edu.wpi.teamR.requestdb.*;
@@ -82,6 +86,8 @@ public class ItemRequestController {
     private ObservableList<String> priceList = FXCollections.observableArrayList("Unsorted", "Price: High to Low", "Price: Low to High");
 
     boolean cartOpen = false;
+    int cardsAcross = 3;
+    double x;
 
 
     @FXML public void initialize() throws IOException {
@@ -130,7 +136,22 @@ public class ItemRequestController {
                 throw new RuntimeException(e);
             }
         });
+        Platform.runLater(new Runnable() {
 
+            @Override
+            public void run() {
+                App.getRootPane().widthProperty().addListener((observable, oldValue, newValue) -> {
+                    if(cardsAcross != 2 && newValue.doubleValue() < 1600) {
+                        cardsAcross = 2;
+                        regenerateCards();
+                    }
+                    else if(cardsAcross != 3 && newValue.doubleValue() >= 1600) {
+                        cardsAcross = 3;
+                        regenerateCards();
+                    }
+                });
+            }
+        });
     }
 
     private void openCart() throws IOException {
@@ -232,7 +253,6 @@ public class ItemRequestController {
         ItemCard contentController = loader.getController();
         contentController.setInfo(item);
     }
-
     private void regenerateCards(){
         RequestDatabase requestDatabase = new RequestDatabase();
         cardGridPane.getChildren().clear();
@@ -240,8 +260,6 @@ public class ItemRequestController {
         cardGridPane.getRowConstraints().clear();
         RowConstraints row = new RowConstraints(458);
         ColumnConstraints col = new ColumnConstraints(458);
-        ReadOnlyDoubleProperty pageWidth = cardScrollPane.widthProperty();
-        int cardsAcross = 3;
         cardGridPane.getColumnConstraints().setAll(col);
         for (int i = 1; i<cardsAcross; i++){
             cardGridPane.getColumnConstraints().add(col);
