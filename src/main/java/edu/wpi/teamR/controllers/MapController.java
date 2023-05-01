@@ -530,7 +530,7 @@ public class MapController {
                 floorOrderHBox.getChildren().add(traverseText);
             }
             else {
-                Text traverseText = new Text(dir.getFloorNum() + ">>");
+                Text traverseText = new Text(dir.getFloorNum() + "->");
                 traverseText.getStyleClass().add("body");
                 floorOrderHBox.getChildren().add(traverseText);
             }
