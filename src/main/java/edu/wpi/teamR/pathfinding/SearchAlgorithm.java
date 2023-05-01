@@ -28,7 +28,7 @@ abstract class SearchAlgorithm implements SearchInterface {
         int yDif = abs(currNode.getYCoord() - nextNode.getYCoord());
         int zDif = abs(floorNumAsInt(currNode.getFloorNum()) - floorNumAsInt(nextNode.getFloorNum()));
 
-        if (mapDatabase.getNodeTypeByNodeID(currentNodeID).equals("STAI") && mapDatabase.getNodeTypeByNodeID(nextNodeID).equals("STAI")) {
+        if (nodeTypeEquals(currentNodeID, "STAI") && nodeTypeEquals(nextNodeID, "STAI")) {
             zDif = zDif * zDifMultiplier * 2;
         } else {
             zDif = zDif * zDifMultiplier;
@@ -44,5 +44,13 @@ abstract class SearchAlgorithm implements SearchInterface {
             case "L2" -> 0;
             default -> Integer.parseInt(floorNum) + 1;
         };
+    }
+
+    protected boolean nodeTypeEquals(int nodeID, String type) throws SQLException{
+        try {
+            return mapDatabase.getNodeTypeByNodeID(nodeID).equals(type);
+        } catch (ItemNotFoundException e){
+            return false;
+        }
     }
 }
