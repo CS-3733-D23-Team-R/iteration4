@@ -91,6 +91,9 @@ public class AlertsController {
     private void submitAlert() throws SQLException {
         Alert a = alerts.addAlert(messageField.getText(), Date.valueOf(startPicker.getValue()), Date.valueOf(endPicker.getValue()));
         alertTable.getItems().add(a);
+        messageField.clear();
+        startPicker.clear();
+        endPicker.clear();
     }
 
 

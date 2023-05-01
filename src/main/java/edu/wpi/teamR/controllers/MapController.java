@@ -10,11 +10,16 @@ import io.github.palexdev.materialfx.controls.MFXCheckbox;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
+import javafx.animation.Animation;
 import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -107,16 +112,16 @@ public class MapController {
     Pathfinder pathfinder;
 
     @FXML
-    StackPane floor3Button;
+    HBox floor3Button;
     @FXML
-    StackPane floor2Button;
+    HBox floor2Button;
     @FXML
-    StackPane floor1Button;
+    HBox floor1Button;
     @FXML
-    StackPane L1Button;
+    HBox L1Button;
     @FXML
-    StackPane L2Button;
-    HashMap<Integer, StackPane> floorButtonMap = new HashMap<>();
+    HBox L2Button;
+    HashMap<Integer, HBox> floorButtonMap = new HashMap<>();
     @FXML
     CheckComboBox<String> locationFilters;
     ObservableList<String> locationTypes =
@@ -124,7 +129,7 @@ public class MapController {
     HashMap<String, String> locationMap = new HashMap<>();
 
     UserDatabase userdb = new UserDatabase();
-    List<Alert> alertList;
+    ArrayList<Alert> alertList;
     @FXML Text alertText;
     @FXML StackPane alertPane;
     @FXML VBox textVBox;
@@ -137,6 +142,8 @@ public class MapController {
     Color pathColor = Color.web("#012D5A");
 
     boolean userAction = true;
+    @FXML StackPane compassPane;
+    @FXML HBox floorOrderHBox;
 
     @FXML
     public void initialize() throws Exception {
@@ -180,7 +187,7 @@ public class MapController {
             }
         });
         floorText.setText(floorNames[currentFloor]);
-        startField.setValue("Select Start");
+        startField.setValue(App.getKioskLocationString());
         endField.setValue("Select End");
 
         reset();
@@ -235,6 +242,7 @@ public class MapController {
                         if (change.getAddedSubList().contains("Select All")) {
                             userAction = false;
                             locationFilters.getCheckModel().checkAll();
+                            locationFilters.setTitle("All");
                             try {
                                 displayLocationNames(currentFloor);
                             } catch (SQLException e) {
@@ -256,6 +264,7 @@ public class MapController {
                         if (change.getRemoved().contains("Select All")) {
                             userAction = false;
                             locationFilters.getCheckModel().clearChecks();
+                            locationFilters.setTitle("");
                             userAction = true;
                         }
                         ObservableList<javafx.scene.Node> children = paths[currentFloor].getChildren();
@@ -273,7 +282,7 @@ public class MapController {
 
         Platform.runLater(() -> moveDatePicker.setValue(LocalDate.now()));
 
-        alertList = userdb.getCurrentAlerts();
+        alertList = (ArrayList<Alert>) userdb.getCurrentAlerts();
         if (alertList.size() > 0) {
             alertText.setText(alertList.get(0).getMessage());
         }
@@ -290,6 +299,71 @@ public class MapController {
             alertPane.setVisible(false);
             alertPane.setManaged(false);
         });
+
+        // compass code
+        Circle base = new Circle(37, Color.LIGHTGRAY);
+        base.setStroke(Color.SILVER);
+        base.setStrokeWidth(2);
+
+        Line needle = new Line(0, 0, 30, 0);
+        needle.setStroke(Color.RED);
+        needle.setStrokeWidth(3);
+        needle.setRotate(90);
+
+        compassPane.getChildren().addAll(base, needle);
+
+        Label north = new Label("N");
+        north.setTranslateX(-21);
+        north.setTranslateY(-21);
+        north.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
+        compassPane.getChildren().add(north);
+
+        Label south = new Label("S");
+        south.setTranslateX(21);
+        south.setTranslateY(21);
+        south.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
+        compassPane.getChildren().add(south);
+
+        Label east = new Label("E");
+        east.setTranslateX(21);
+        east.setTranslateY(-21);
+        east.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
+        compassPane.getChildren().add(east);
+
+        Label west = new Label("W");
+        west.setTranslateX(-21);
+        west.setTranslateY(21);
+        west.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
+        compassPane.getChildren().add(west);
+
+        Label northeast = new Label("NE");
+        northeast.setTranslateY(-30);
+        northeast.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
+        northeast.setTextFill(Color.RED);
+        compassPane.getChildren().add(northeast);
+
+        Label southeast = new Label("SE");
+        southeast.setTranslateX(30);
+        southeast.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
+        compassPane.getChildren().add(southeast);
+
+        Label southwest = new Label("SW");
+        southwest.setTranslateY(30);
+        southwest.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
+        compassPane.getChildren().add(southwest);
+
+        Label northwest = new Label("NW");
+        northwest.setTranslateX(-30);
+
+        northwest.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
+        compassPane.getChildren().add(northwest);
+
+        RotateTransition rotate = new RotateTransition(Duration.seconds(2), needle);
+        rotate.setByAngle(10);
+        rotate.setCycleCount(Animation.INDEFINITE);
+        rotate.setInterpolator(Interpolator.LINEAR);
+        rotate.setAutoReverse(true);
+        rotate.play();
     }
 
     // Reset to original zoom
@@ -319,7 +393,6 @@ public class MapController {
         gesturePane
                 .animate(Duration.millis(time))
                 .interpolateWith(Interpolator.EASE_BOTH)
-                .afterFinished(() -> System.out.println("Done!"))
                 .centreOn(new Point2D(x, y));
     }
 
@@ -332,10 +405,10 @@ public class MapController {
 
     public void displayFloorNum(int floorNum) throws SQLException {
         if (floorNum <= 4) {
-            StackPane currentFloorVbox = floorButtonMap.get(currentFloor);
+            HBox currentFloorVbox = floorButtonMap.get(currentFloor);
             currentFloorVbox.getStyleClass().remove("floor-box-focused");
             currentFloorVbox.getStyleClass().add("floor-box");
-            StackPane newFloorVbox = floorButtonMap.get(floorNum);
+            HBox newFloorVbox = floorButtonMap.get(floorNum);
             newFloorVbox.getStyleClass().remove("floor-box");
             newFloorVbox.getStyleClass().add("floor-box-focused");
 
@@ -397,8 +470,6 @@ public class MapController {
                     try {
                         displayFloorNum(newFloor);
                         animateZoomTo(n2.getXCoord(), n2.getYCoord(), 5);
-                        //gesturePane.zoomTo(1, 1, new Point2D(n2.getXCoord(), n2.getYCoord()));
-                        //gesturePane.centreOn(new Point2D(n2.getXCoord(), n2.getYCoord()));
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
@@ -438,69 +509,73 @@ public class MapController {
                     }
                 });
 
-                Label indicator = new Label(Integer.toString(currentStage++));
-                indicator.setTextFill(Color.RED);
-                StackPane indicate_button = floorButtonMap.get(drawFloor);
-                indicate_button.getChildren().add(indicator);
-                int labelCount = 0;
-                for (javafx.scene.Node currentItem: indicate_button.getChildren()) {
-                    if (currentItem instanceof Label) {
-                        labelCount++;
-                    }
-                }
-                if (labelCount == 1){
-                    indicator.setTranslateX(-25);
-                }
-                else {
-                    indicator.setTranslateX(25);
-                }
-
                 drawFloor = newFloor;
             }
         }
         createCircle(endNode, drawFloor, endLocation);
 
         PathToText ptt = new PathToText(mapPath, java.sql.Date.valueOf(moveDatePicker.getValue()));
-        ArrayList<String> textualDirections = ptt.getTextualPath();
-        for (String dir: textualDirections) {
-            Text curr = new Text(dir);
-            HBox directionSet = new HBox();
-            ImageView arrow = new ImageView();
-            directionSet.setAlignment(Pos.CENTER_LEFT);
-            arrow.setFitWidth(20);
-            arrow.setFitHeight(20);
-            if (dir.contains("left")|| dir.contains("Left")) {
-                arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/leftArrowBlack.png"))));
+        ArrayList<TextByFloor> textualDirections = ptt.getTextualPathByFloor();
+        for (int i = 0; i < textualDirections.size(); i++) {
+            TextByFloor dir = textualDirections.get(i);
+            Text nextFloorText = new Text("Floor: " + dir.getFloorNum());
+            HBox newFloorSet = new HBox();
+            newFloorSet.setAlignment(Pos.CENTER_LEFT);
+            nextFloorText.getStyleClass().add("bodyMediumBold");
+            newFloorSet.getChildren().addAll(nextFloorText);
+            directionsVBox.getChildren().add(newFloorSet);
+            if (i == textualDirections.size() -1) {
+                Text traverseText = new Text(dir.getFloorNum());
+                traverseText.getStyleClass().add("body");
+                floorOrderHBox.getChildren().add(traverseText);
             }
-            else if (dir.contains("right") || dir.contains("Right")) {
-                arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/rightArrowBlack.png"))));
+            else {
+                Text traverseText = new Text("Floor " + dir.getFloorNum() + " ");
+                traverseText.getStyleClass().add("body");
+                ImageView triangle = new ImageView();
+                triangle.setFitWidth(20);
+                triangle.setFitHeight(20);
+                triangle.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/map/pathTriangle.png"))));
+                floorOrderHBox.getChildren().add(traverseText);
+                floorOrderHBox.getChildren().add(triangle);
             }
-            curr.getStyleClass().add("body");
-            directionSet.getChildren().add(arrow);
-            directionSet.getChildren().add(curr);
-            directionsVBox.getChildren().add(directionSet);
-            if (dir.contains("Staircase") || dir.contains("Elevator")) {
-                directionsVBox.getChildren().add(new Text(""));
+            ArrayList<String> floorText = dir.getFloorText();
+            for (int j = 0; j < floorText.size(); j++) {
+                String textDir = floorText.get(j);
+                Text curr = new Text(textDir);
+                HBox directionSet = new HBox();
+                ImageView arrow = new ImageView();
+                directionSet.setAlignment(Pos.CENTER_LEFT);
+                arrow.setFitWidth(20);
+                arrow.setFitHeight(20);
+                if (textDir.contains("left")|| textDir.contains("Left")) {
+                    arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/leftArrowBlack.png"))));
+                }
+                else if (textDir.contains("right") || textDir.contains("Right")) {
+                    arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/rightArrowBlack.png"))));
+                }
+                else if (j == floorText.size() - 1 && i != textualDirections.size() - 1) {
+                    int currFloor = floorNamesMap.get(dir.getFloorNum());
+                    int nextFloor = floorNamesMap.get(textualDirections.get(i+1).getFloorNum());
+                    if (currFloor < nextFloor) {
+                        arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/upArrowBlack.png"))));
+                    }
+                    else if (currFloor > nextFloor) {
+                        arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/downArrowBlack.png"))));
+                    }
+                }
+                curr.getStyleClass().add("body");
+                curr.setWrappingWidth(275);
+                directionSet.getChildren().add(arrow);
+                directionSet.getChildren().add(curr);
+                directionSet.setSpacing(5);
+                directionsVBox.getChildren().add(directionSet);
             }
+            directionsVBox.getChildren().add(new Text(""));
         }
 
-        Label indicator = new Label(Integer.toString(currentStage++));
-        indicator.setTextFill(Color.RED);
-        StackPane indicate_button = floorButtonMap.get(drawFloor);
-        indicate_button.getChildren().add(indicator);
-        int labelCount = 0;
-        for (javafx.scene.Node currentItem: indicate_button.getChildren()) {
-            if (currentItem instanceof Label) {
-                labelCount++;
-            }
-        }
-        if (labelCount == 1){
-            indicator.setTranslateX(-25);
-        }
-        else {
-            indicator.setTranslateX(25);
-        }
-
+        floorOrderHBox.setVisible(true);
+        floorOrderHBox.setManaged(true);
         gesturePane.zoomTo(1, 1, new Point2D(startNode.getXCoord(), startNode.getYCoord()));
         gesturePane.centreOn(new Point2D(startNode.getXCoord(), startNode.getYCoord()));
     }
@@ -618,7 +693,6 @@ public class MapController {
     }
 
     public void selectLocation(String locationName){
-        System.out.println(startField.getValue());
         if (startField.getValue().equals("Select Start") || startField.getValue() == null) {
             startField.setValue(locationName);
         }
@@ -633,11 +707,8 @@ public class MapController {
     }
 
     public void removeIndicators() {
-        for (Map.Entry<Integer, StackPane> entry : floorButtonMap.entrySet()) {
-            StackPane stackPane = entry.getValue();
-            ObservableList<javafx.scene.Node> children = stackPane.getChildren();
-            children.removeIf(child -> child instanceof Label);
-        }
+        floorOrderHBox.getChildren().clear();
+        floorOrderHBox.setVisible(false);
+        floorOrderHBox.setManaged(false);
     }
-
 }

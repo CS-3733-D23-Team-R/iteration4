@@ -60,12 +60,19 @@ public class NewNodePopupController {
     }
 
     public void createNewNode() throws SQLException {
-        nodes.add(new Node(-1, Integer.parseInt(xField.getText()), Integer.parseInt(yField.getText()), floorCB.getValue(), buildingCB.getValue()));
         Node n = mapdb.addNode(Integer.parseInt(xField.getText()), Integer.parseInt(yField.getText()), floorCB.getValue(), buildingCB.getValue());
+        nodes.add(n);
+        App.getMapData().setNodes(nodes);
         mapUpdater.addNode(n);
     }
 
     public void setUpdater(MapUpdater updater) {
         mapUpdater = updater;
+    }
+
+    public void open(int x, int y, String floor) {
+        xField.setText(Integer.toString(x));
+        yField.setText(Integer.toString(y));
+        floorCB.setValue(floor);
     }
 }

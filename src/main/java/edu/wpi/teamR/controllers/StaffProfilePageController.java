@@ -73,8 +73,7 @@ public class StaffProfilePageController {
         timeline.play();
         time.setText(formattedDate);
         displayProfile(UserData.getInstance().getLoggedIn());
-        toConferenceRooms.setOnAction(event -> Navigation.navigate(Screen.ROOM_REQUEST));
-
+        toConferenceRooms.setOnAction(event -> Navigation.navigate(Screen.MY_ROOM_RESERVATIONS));
         SearchList aSearchList = new SearchList();
         aSearchList.addComparison(RequestAttribute.staffUsername, Operation.equalTo, user.getUsername());
         dataList.addAll(new RequestDatabase().getItemRequestByAttributes(aSearchList));

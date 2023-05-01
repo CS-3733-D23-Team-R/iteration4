@@ -46,6 +46,8 @@ public class RoomRequestController {
 
     @FXML Button backBtn;
 
+    @FXML Button myRequestsBtn;
+
     ArrayList<String> timeArray = new ArrayList<>();
     MapDatabase mapDatabase;
     String start;
@@ -68,6 +70,7 @@ public class RoomRequestController {
         fillArray();
         ArrayList<String> locNames = new ArrayList<>();
         locNames.add("Select Location- Optional");
+        myRequestsBtn.setOnAction(event -> Navigation.navigate(Screen.MY_ROOM_RESERVATIONS));
         for(ConferenceRoom conferenceRoom: mapDatabase.getConferenceRooms()){
             locNames.add(conferenceRoom.getLongName());
         }
@@ -81,6 +84,7 @@ public class RoomRequestController {
         Text text = new Text("Select Desired Room Specifications");
         text.getStyleClass().add("title");
         cardsContainer.getChildren().add(text);
+        datePicker.setValue(LocalDate.now());
         ObservableList<String> startTimeList = FXCollections.observableArrayList(timeArray);
         ObservableList<String> locList = FXCollections.observableArrayList(locNames);
         startTimeBox.setValue("Start Time");
@@ -159,7 +163,7 @@ public class RoomRequestController {
         String[] timeList = time.split(":");
         int hour = Integer.parseInt(timeList[0]);
         int min = Integer.parseInt(timeList[1]);
-        return new Timestamp(date.getYear(),date.getMonthValue(), date.getDayOfMonth(), hour, min, 0, 0);
+        return new Timestamp(date.getYear() - 1900,date.getMonthValue() - 1, date.getDayOfMonth(), hour, min, 0, 0);
     }
 
     void reset(){
