@@ -32,7 +32,7 @@ public class Archiver {
         userdb = userDatabase;
     }
 
-    public void createArchive() throws SQLException, IOException {
+    public String createArchive() throws SQLException, IOException {
         StringBuilder filename = new StringBuilder();
         Path p = Paths.get("./backups/");
         File backupDir = new File(p.toUri());
@@ -43,14 +43,14 @@ public class Archiver {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_hh.mm.ss");
         filename.append(dateTime.format(formatter));
         filename.append(".zip");
-        createArchive(filename.toString());
+        return createArchive(filename.toString());
     }
 
-    public void createArchive(String archivePath) throws SQLException {
-        createArchive(archivePath, "|");
+    public String createArchive(String archivePath) throws SQLException, IOException {
+        return createArchive(archivePath, "|");
     }
 
-    public void createArchive(String archivePath, String delimiter) throws SQLException {
+    public String createArchive(String archivePath, String delimiter) throws SQLException, IOException {
         try (ZipArchiveOutputStream outputStream = new ZipArchiveOutputStream(new File(archivePath))) {
             CSVWriter writer = new CSVWriter(delimiter);
             //Paths.get(archivePath);
@@ -104,13 +104,11 @@ public class Archiver {
             writer.writeCSV(outputStream, requestdb.getPatientMoves());
             outputStream.closeArchiveEntry();
             outputStream.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
         }
+        return archivePath;
     }
 
-    public void restoreArchive(String archivePath) throws SQLException, CSVParameterException {
+    public void restoreArchive(String archivePath) throws SQLException, IOException, CSVParameterException {
         try (ZipFile zipFile = new ZipFile(archivePath)) {
             String folder = "";
             ZipArchiveEntry z = zipFile.getEntries().nextElement();
@@ -235,8 +233,6 @@ public class Archiver {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
