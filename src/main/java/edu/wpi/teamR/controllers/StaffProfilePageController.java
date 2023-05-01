@@ -1,6 +1,7 @@
 package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.ItemNotFoundException;
+import edu.wpi.teamR.datahandling.MapStorage;
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
 import edu.wpi.teamR.requestdb.*;
@@ -15,15 +16,18 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import net.kurobako.gesturefx.GesturePane;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -37,13 +41,14 @@ import java.util.Date;
 
 public class StaffProfilePageController {
     @FXML Text time;
-    @FXML Button viewAllRequests, toConferenceRooms, toMovePatients;
+    @FXML Button viewAllRequests, toConferenceRooms, toMovePatients, statsButton;
     @FXML VBox profileCardContainer;
     @FXML StackPane conferenceRoomImage;
     @FXML TableView<ItemRequest> table;
     @FXML TableColumn<ItemRequest, Integer> idCol;
     @FXML TableColumn<ItemRequest, String> requestTypeCol, nameCol, locationCol, notesCol, dateCol, statusCol, itemCol;
-    @FXML StackPane checkmark;
+    @FXML GesturePane gesturePane;
+    private final AnchorPane mapPane = new AnchorPane();
     private final ObservableList<ItemRequest> dataList = FXCollections.observableArrayList();
     ObservableList<RequestStatus> statusList = FXCollections.observableArrayList(RequestStatus.values());
     public void initialize() throws SQLException, ClassNotFoundException, SearchException {
@@ -51,7 +56,6 @@ public class StaffProfilePageController {
         LocalDate date = LocalDate.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
         String formattedDate = date.format(dateTimeFormatter);
-
         Timeline timeline =
                 new Timeline(
                         new KeyFrame(
@@ -69,6 +73,7 @@ public class StaffProfilePageController {
         time.setText(formattedDate);
         displayProfile(UserData.getInstance().getLoggedIn());
         toConferenceRooms.setOnAction(event -> Navigation.navigate(Screen.MY_ROOM_RESERVATIONS));
+        statsButton.setOnAction(event -> {Navigation.navigate(Screen.DASHBOARD);});
         SearchList aSearchList = new SearchList();
         aSearchList.addComparison(RequestAttribute.staffUsername, Operation.equalTo, user.getUsername());
         dataList.addAll(new RequestDatabase().getItemRequestByAttributes(aSearchList));
@@ -120,6 +125,12 @@ public class StaffProfilePageController {
             table.getItems().add(request);
         }
         toMovePatients.setOnMouseClicked(event -> {Navigation.navigate(Screen.MOVEPATIENT);});
+
+        gesturePane.setContent(mapPane);
+        mapPane.getChildren().add(MapStorage.getFirstFloor());
+        gesturePane.setMinScale(0.25);
+        gesturePane.setMaxScale(2);
+        gesturePane.zoomTo(0.25, 0.25, new Point2D(2500, 1700));
     }
 
     private Node loadCard(CurrentUser user) throws IOException, IOException {

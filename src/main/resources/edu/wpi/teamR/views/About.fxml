@@ -287,12 +287,12 @@
                                                 <Insets />
                                              </VBox.margin>
                                           </Text>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="MISSING QUOTE">
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="&quot;It is never too late to be what">
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>
                                           </Text>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="MISSING QUOTE" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="aboutBack" text="you might have been.&quot;" />
                                           <AnchorPane prefHeight="100.0" prefWidth="150.0" styleClass="gwenPet" VBox.vgrow="ALWAYS">
                                              <VBox.margin>
                                                 <Insets bottom="15.0" left="15.0" right="15.0" />
