@@ -764,6 +764,25 @@ public class MapEditorController {
                         l1.setPickOnBounds(true);
                         addLine(startNode.getNodeID(), l1);
                         addLine(endNode.getNodeID(), l1);
+                        Line finalL = l1;
+                        l1.setOnMouseClicked(event -> {
+                            finalL.requestFocus();
+                            boolean edgeDeleted = false;
+                            if (event.getButton().equals(MouseButton.SECONDARY)) {
+                                try {
+                                    mapdb.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
+                                } catch (SQLException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+                                linesMap.remove(e.getStartNode());
+                                linesMap.remove(e.getEndNode());
+                                nodePanes[currentFloor].getChildren().remove(finalL);
+                                if (!edgeDeleted) {
+                                    updater.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
+                                    updater.endAction();
+                                }
+                            }
+                        });
                     }
                 }
                 updater.modifyCoords(n.getNodeID(), (int) dragEvent.getX(), (int) dragEvent.getY());
