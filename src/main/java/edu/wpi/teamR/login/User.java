@@ -33,8 +33,8 @@ public class User implements Archivable {
     }
 
     @Override
-    public String toCSVEntry() {
-        return staffUsername+","+password+","+salt+","+name+","+email+","+jobTitle+","+phoneNum+","+joinDate.toString()+","+accessLevel.toString()+","+department+","+imageID;
+    public String[] toCSVEntry() {
+        return new String[]{staffUsername, password, salt, name, email, jobTitle, phoneNum, joinDate.toString(), accessLevel.toString(), department, String.valueOf(imageID)};
     }
 
     @Override

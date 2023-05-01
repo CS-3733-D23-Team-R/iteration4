@@ -143,15 +143,6 @@ public class ItemRequestController {
             itemRequestPane.setRight(null);
             cartOpen = false;
         }
-
-
-//        PopOver popover = new PopOver();
-//        Parent popup;
-//        popup = loader.load();
-//        popover.setContentNode(popup);
-//        popover.setArrowLocation(PopOver.ArrowLocation.TOP_RIGHT);
-//        popover.setAutoHide(true);
-//        popover.show(cartButton);
         System.out.println("opened");
     }
 
