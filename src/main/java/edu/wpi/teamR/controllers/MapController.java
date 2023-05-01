@@ -112,16 +112,16 @@ public class MapController {
     Pathfinder pathfinder;
 
     @FXML
-    AnchorPane floor3Button;
+    HBox floor3Button;
     @FXML
-    AnchorPane floor2Button;
+    HBox floor2Button;
     @FXML
-    AnchorPane floor1Button;
+    HBox floor1Button;
     @FXML
-    AnchorPane L1Button;
+    HBox L1Button;
     @FXML
-    AnchorPane L2Button;
-    HashMap<Integer, AnchorPane> floorButtonMap = new HashMap<>();
+    HBox L2Button;
+    HashMap<Integer, HBox> floorButtonMap = new HashMap<>();
     @FXML
     CheckComboBox<String> locationFilters;
     ObservableList<String> locationTypes =
@@ -143,6 +143,7 @@ public class MapController {
 
     boolean userAction = true;
     @FXML StackPane compassPane;
+    @FXML HBox floorOrderHBox;
 
     @FXML
     public void initialize() throws Exception {
@@ -402,10 +403,10 @@ public class MapController {
 
     public void displayFloorNum(int floorNum) throws SQLException {
         if (floorNum <= 4) {
-            AnchorPane currentFloorVbox = floorButtonMap.get(currentFloor);
+            HBox currentFloorVbox = floorButtonMap.get(currentFloor);
             currentFloorVbox.getStyleClass().remove("floor-box-focused");
             currentFloorVbox.getStyleClass().add("floor-box");
-            AnchorPane newFloorVbox = floorButtonMap.get(floorNum);
+            HBox newFloorVbox = floorButtonMap.get(floorNum);
             newFloorVbox.getStyleClass().remove("floor-box");
             newFloorVbox.getStyleClass().add("floor-box-focused");
 
@@ -506,23 +507,6 @@ public class MapController {
                     }
                 });
 
-                Label indicator = new Label(Integer.toString(currentStage++));
-                indicator.setTextFill(Color.RED);
-                AnchorPane indicate_button = floorButtonMap.get(drawFloor);
-                indicate_button.getChildren().add(indicator);
-                int labelCount = 0;
-                for (javafx.scene.Node currentItem: indicate_button.getChildren()) {
-                    if (currentItem instanceof Label) {
-                        labelCount++;
-                    }
-                }
-                if (labelCount == 1){
-                    indicator.setTranslateX(-25);
-                }
-                else {
-                    indicator.setTranslateX(25);
-                }
-
                 drawFloor = newFloor;
             }
         }
@@ -534,13 +518,20 @@ public class MapController {
             TextByFloor dir = textualDirections.get(i);
             Text nextFloorText = new Text("Floor: " + dir.getFloorNum());
             HBox newFloorSet = new HBox();
-            ImageView separator = new ImageView();
             newFloorSet.setAlignment(Pos.CENTER_LEFT);
-            separator.setFitWidth(20);
-            separator.setFitHeight(20);
             nextFloorText.getStyleClass().add("bodyMediumBold");
-            newFloorSet.getChildren().addAll(nextFloorText, separator);
+            newFloorSet.getChildren().addAll(nextFloorText);
             directionsVBox.getChildren().add(newFloorSet);
+            if (i == textualDirections.size() -1) {
+                Text traverseText = new Text(dir.getFloorNum());
+                traverseText.getStyleClass().add("body");
+                floorOrderHBox.getChildren().add(traverseText);
+            }
+            else {
+                Text traverseText = new Text(dir.getFloorNum() + ">>");
+                traverseText.getStyleClass().add("body");
+                floorOrderHBox.getChildren().add(traverseText);
+            }
             ArrayList<String> floorText = dir.getFloorText();
             for (int j = 0; j < floorText.size(); j++) {
                 String textDir = floorText.get(j);
@@ -567,30 +558,17 @@ public class MapController {
                     }
                 }
                 curr.getStyleClass().add("body");
+                curr.setWrappingWidth(275);
                 directionSet.getChildren().add(arrow);
                 directionSet.getChildren().add(curr);
+                directionSet.setSpacing(5);
                 directionsVBox.getChildren().add(directionSet);
             }
             directionsVBox.getChildren().add(new Text(""));
         }
 
-        Label indicator = new Label(Integer.toString(currentStage++));
-        indicator.setTextFill(Color.RED);
-        AnchorPane indicate_button = floorButtonMap.get(drawFloor);
-        indicate_button.getChildren().add(indicator);
-        int labelCount = 0;
-        for (javafx.scene.Node currentItem: indicate_button.getChildren()) {
-            if (currentItem instanceof Label) {
-                labelCount++;
-            }
-        }
-        if (labelCount == 1){
-            indicator.setTranslateX(-5);
-        }
-        else {
-            indicator.setTranslateX(5);
-        }
-
+        floorOrderHBox.setVisible(true);
+        floorOrderHBox.setManaged(true);
         gesturePane.zoomTo(1, 1, new Point2D(startNode.getXCoord(), startNode.getYCoord()));
         gesturePane.centreOn(new Point2D(startNode.getXCoord(), startNode.getYCoord()));
     }
@@ -722,11 +700,8 @@ public class MapController {
     }
 
     public void removeIndicators() {
-        for (Map.Entry<Integer, AnchorPane> entry : floorButtonMap.entrySet()) {
-            AnchorPane anchorPane = entry.getValue();
-            ObservableList<javafx.scene.Node> children = anchorPane.getChildren();
-            children.removeIf(child -> child instanceof Label);
-        }
+        floorOrderHBox.getChildren().clear();
+        floorOrderHBox.setVisible(false);
+        floorOrderHBox.setManaged(false);
     }
-
 }
