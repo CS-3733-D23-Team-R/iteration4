@@ -24,9 +24,11 @@ public enum Screen {
   ADDEMPLOYEE("views/AddEmployee.fxml"),
   EDITPROFILE("views/EditProfile.fxml"),
   CREDITS("views/CreditsPage.fxml"),
+  MY_ROOM_RESERVATIONS("views/MyRoomReservations.fxml"),
   ABOUT("views/About.fxml"),
-  ALERTS("views/Alerts.fxml"),
-  MOVEPATIENT("views/movePatient.fxml");
+  MOVEPATIENT("views/movePatient.fxml"),
+  ALERTS("views/Alerts.fxml");
+
   private final String filename;
 
   Screen(String filename) {
