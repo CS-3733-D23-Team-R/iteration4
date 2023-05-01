@@ -199,17 +199,17 @@ public class ViewAllDataController {
         allFlowers_description.setCellValueFactory(new PropertyValueFactory<>("description"));
         allFlowers_imageReference.setCellValueFactory(new PropertyValueFactory<>("imageReference"));
         allFlowers_hasCard.setCellValueFactory(new PropertyValueFactory<>("hasCard"));
-        allFlowers_isBoquet.setCellValueFactory(new PropertyValueFactory<>("isBouqet"));
+        allFlowers_isBoquet.setCellValueFactory(new PropertyValueFactory<>("bouqet"));
         allFlowers_price.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
 
         allFurnitureTable.setVisible(false);
         allFurnitureTable.getItems().addAll(new RequestDatabase().getAvailableFurniture());
         allFurniture_description.setCellValueFactory(new PropertyValueFactory<>("description"));
         allFurniture_imageReference.setCellValueFactory(new PropertyValueFactory<>("imageReference"));
-        allFurniture_isPillow.setCellValueFactory(new PropertyValueFactory<>("isPillow"));
-        allFurniture_isSeating.setCellValueFactory(new PropertyValueFactory<>("isSeating"));
-        allFurniture_isStorage.setCellValueFactory(new PropertyValueFactory<>("isStorage"));
-        allFurniture_isTable.setCellValueFactory(new PropertyValueFactory<>("isTable"));
+        allFurniture_isPillow.setCellValueFactory(new PropertyValueFactory<>("pillow"));
+        allFurniture_isSeating.setCellValueFactory(new PropertyValueFactory<>("seating"));
+        allFurniture_isStorage.setCellValueFactory(new PropertyValueFactory<>("storage"));
+        allFurniture_isTable.setCellValueFactory(new PropertyValueFactory<>("table"));
         allFurniture_itemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
 
         allMealsTable.setVisible(false);
@@ -219,11 +219,11 @@ public class ViewAllDataController {
         allMeals_imageReference.setCellValueFactory(new PropertyValueFactory<>("imageReference"));
         allMeals_itemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
         allMeals_itemPrice.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
-        allMeals_isVegan.setCellValueFactory(new PropertyValueFactory<>("isVegan"));
-        allMeals_isDairyFree.setCellValueFactory(new PropertyValueFactory<>("isDairyFree"));
-        allMeals_isGlutenFree.setCellValueFactory(new PropertyValueFactory<>("isGlutenFree"));
-        allMeals_isPeanutFree.setCellValueFactory(new PropertyValueFactory<>("isPeanutFree"));
-        allMeals_isVegetarian.setCellValueFactory(new PropertyValueFactory<>("isVegetarian"));
+        allMeals_isVegan.setCellValueFactory(new PropertyValueFactory<>("vegan"));
+        allMeals_isDairyFree.setCellValueFactory(new PropertyValueFactory<>("dairyFree"));
+        allMeals_isGlutenFree.setCellValueFactory(new PropertyValueFactory<>("glutenFree"));
+        allMeals_isPeanutFree.setCellValueFactory(new PropertyValueFactory<>("peanutFree"));
+        allMeals_isVegetarian.setCellValueFactory(new PropertyValueFactory<>("vegetarian"));
 
         allSuppliesTable.setVisible(false);
         allSuppliesTable.getItems().addAll(new RequestDatabase().getAvailableSupplies());
@@ -231,10 +231,10 @@ public class ViewAllDataController {
         allSupplies_imageReference.setCellValueFactory(new PropertyValueFactory<>("imageReference"));
         allSupplies_price.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
         allSupplies_itemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
-        allSupplies_isComputerAccessory.setCellValueFactory(new PropertyValueFactory<>("isComputerAccessory"));
-        allSupplies_isOrganization.setCellValueFactory(new PropertyValueFactory<>("isOrganization"));
-        allSupplies_isPaper.setCellValueFactory(new PropertyValueFactory<>("isPaper"));
-        allSupplies_isPen.setCellValueFactory(new PropertyValueFactory<>("isPen"));
+        allSupplies_isComputerAccessory.setCellValueFactory(new PropertyValueFactory<>("computerAccessory"));
+        allSupplies_isOrganization.setCellValueFactory(new PropertyValueFactory<>("organization"));
+        allSupplies_isPaper.setCellValueFactory(new PropertyValueFactory<>("paper"));
+        allSupplies_isPen.setCellValueFactory(new PropertyValueFactory<>("pen"));
 
         conferenceRoomTable.setVisible(false);
         conferenceRoomTable.getItems().addAll(new MapDatabase().getConferenceRooms());
@@ -242,7 +242,7 @@ public class ViewAllDataController {
         conferenceRoom_capacity.setCellValueFactory(new PropertyValueFactory<>("capacity"));
         conferenceRoom_hasOutlets.setCellValueFactory(new PropertyValueFactory<>("hasOutlets"));
         conferenceRoom_hasScreen.setCellValueFactory(new PropertyValueFactory<>("hasScreen"));
-        conferenceRoom_isAccessible.setCellValueFactory(new PropertyValueFactory<>("isAccessible"));
+        conferenceRoom_isAccessible.setCellValueFactory(new PropertyValueFactory<>("accessible"));
 
         directionArrowTable.setVisible(false);
         directionArrowTable.getItems().addAll(new MapDatabase().getDirectionArrows());
