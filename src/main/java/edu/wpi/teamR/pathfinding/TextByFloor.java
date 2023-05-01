@@ -4,7 +4,7 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 
-class TextByFloor {
+public class TextByFloor {
     @Getter
     ArrayList<String> floorText;
     @Getter

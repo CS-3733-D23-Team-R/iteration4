@@ -390,7 +390,6 @@ public class MapController {
         gesturePane
                 .animate(Duration.millis(time))
                 .interpolateWith(Interpolator.EASE_BOTH)
-                .afterFinished(() -> System.out.println("Done!"))
                 .centreOn(new Point2D(x, y));
     }
 
@@ -530,27 +529,49 @@ public class MapController {
         createCircle(endNode, drawFloor, endLocation);
 
         PathToText ptt = new PathToText(mapPath, java.sql.Date.valueOf(moveDatePicker.getValue()));
-        ArrayList<String> textualDirections = ptt.getTextualPath();
-        for (String dir: textualDirections) {
-            Text curr = new Text(dir);
-            HBox directionSet = new HBox();
-            ImageView arrow = new ImageView();
-            directionSet.setAlignment(Pos.CENTER_LEFT);
-            arrow.setFitWidth(20);
-            arrow.setFitHeight(20);
-            if (dir.contains("left")|| dir.contains("Left")) {
-                arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/leftArrowBlack.png"))));
+        ArrayList<TextByFloor> textualDirections = ptt.getTextualPathByFloor();
+        for (int i = 0; i < textualDirections.size(); i++) {
+            TextByFloor dir = textualDirections.get(i);
+            Text nextFloorText = new Text("Floor: " + dir.getFloorNum());
+            HBox newFloorSet = new HBox();
+            ImageView separator = new ImageView();
+            newFloorSet.setAlignment(Pos.CENTER_LEFT);
+            separator.setFitWidth(20);
+            separator.setFitHeight(20);
+            nextFloorText.getStyleClass().add("bodyMediumBold");
+            newFloorSet.getChildren().addAll(nextFloorText, separator);
+            directionsVBox.getChildren().add(newFloorSet);
+            ArrayList<String> floorText = dir.getFloorText();
+            for (int j = 0; j < floorText.size(); j++) {
+                String textDir = floorText.get(j);
+                Text curr = new Text(textDir);
+                HBox directionSet = new HBox();
+                ImageView arrow = new ImageView();
+                directionSet.setAlignment(Pos.CENTER_LEFT);
+                arrow.setFitWidth(20);
+                arrow.setFitHeight(20);
+                if (textDir.contains("left")|| textDir.contains("Left")) {
+                    arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/leftArrowBlack.png"))));
+                }
+                else if (textDir.contains("right") || textDir.contains("Right")) {
+                    arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/rightArrowBlack.png"))));
+                }
+                else if (j == floorText.size() - 1 && i != textualDirections.size() - 1) {
+                    int currFloor = floorNamesMap.get(dir.getFloorNum());
+                    int nextFloor = floorNamesMap.get(textualDirections.get(i+1).getFloorNum());
+                    if (currFloor < nextFloor) {
+                        arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/upArrowBlack.png"))));
+                    }
+                    else if (currFloor > nextFloor) {
+                        arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/downArrowBlack.png"))));
+                    }
+                }
+                curr.getStyleClass().add("body");
+                directionSet.getChildren().add(arrow);
+                directionSet.getChildren().add(curr);
+                directionsVBox.getChildren().add(directionSet);
             }
-            else if (dir.contains("right") || dir.contains("Right")) {
-                arrow.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/rightArrowBlack.png"))));
-            }
-            curr.getStyleClass().add("body");
-            directionSet.getChildren().add(arrow);
-            directionSet.getChildren().add(curr);
-            directionsVBox.getChildren().add(directionSet);
-            if (dir.contains("Staircase") || dir.contains("Elevator")) {
-                directionsVBox.getChildren().add(new Text(""));
-            }
+            directionsVBox.getChildren().add(new Text(""));
         }
 
         Label indicator = new Label(Integer.toString(currentStage++));
@@ -687,7 +708,6 @@ public class MapController {
     }
 
     public void selectLocation(String locationName){
-        System.out.println(startField.getValue());
         if (startField.getValue().equals("Select Start") || startField.getValue() == null) {
             startField.setValue(locationName);
         }
