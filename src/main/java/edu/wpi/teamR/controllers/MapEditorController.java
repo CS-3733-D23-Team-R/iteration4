@@ -796,12 +796,11 @@ public class MapEditorController {
                         }
                         case DELETION -> {
                             Circle deleted = new Circle(node.getXCoord(), node.getYCoord(), 4, pathColor);
-
-                            setupMapNode(currentFloor, node, deleted);
-
                             nodePanes[currentFloor].getChildren().add(deleted);
                             nodes.add(node);
                             mapdb.addNode(node);
+                            setupMapNode(currentFloor, node, deleted);
+                            redrawEdges(node);
                         }
                     }
                 }
