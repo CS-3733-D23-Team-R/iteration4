@@ -292,8 +292,13 @@ public class MapEditorController {
         });
 
         cancelEdgeButton.setOnAction(event -> {
+            if (drawEdgesMode) {
+                drawEdgesMode = false;
+            }
+            else if (createNode) {
+                createNode = false;
+            }
             edgeDialog(false);
-            drawEdgesMode = false;
         });
 
         locationFilters.getItems().addAll(locationTypes);
@@ -444,7 +449,7 @@ public class MapEditorController {
             selectedCircle = null;
             drawEdgesMode = false;
         }
-        if (setting == false) {
+        if (drawEdgesMode) {
             dialogText.setText("Click Another Node to Draw Edge");
         }
     }
@@ -564,6 +569,7 @@ public class MapEditorController {
                     if (selectedNode.equals(n)) {
                         selectedCircle.setFill(pathColor);
                         selectedNode = null;
+                        drawEdgesMode = false;
                         edgeDialog(false);
                         return;
                     }
@@ -629,6 +635,7 @@ public class MapEditorController {
                     }
                     updater.endAction();
                     selectedNode = null;
+                    drawEdgesMode = false;
                     edgeDialog(false);
                 }
             }
