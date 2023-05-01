@@ -15,7 +15,7 @@
          <children>
             <HBox prefHeight="381.0" prefWidth="596.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="75.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="503.0" HBox.hgrow="ALWAYS">
+                  <VBox fx:id="alertBox" prefHeight="200.0" prefWidth="503.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Announcements" VBox.vgrow="ALWAYS">
                            <font>
@@ -23,17 +23,6 @@
                            </font>
                         </Text>
                         <Line endX="250.0" startX="-100.0" VBox.vgrow="ALWAYS" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="signage-title" text="Introducing Our New Kisosk System!" translateY="100.0" VBox.vgrow="ALWAYS">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="signage-title" text="Romantic Raijuus’ are the Best!" translateY="200.0" VBox.vgrow="ALWAYS">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="signage-title" text="Iteration III On the way !" translateY="300.0" />
                      </children>
                      <HBox.margin>
                         <Insets top="40.0" />
