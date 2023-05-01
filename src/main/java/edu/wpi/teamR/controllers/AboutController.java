@@ -2,6 +2,7 @@ package edu.wpi.teamR.controllers;
 
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -53,9 +54,42 @@ public class AboutController {
                 rotateTransition.play();
             });
         }
+
+        for(int i = 0; i< VboxFront.length; i++){
+            int finalI = i;
+            RotateTransition rotateTransition = openingFlip(0,90,VboxFront[finalI]);
+            RotateTransition rotateTransition1 = openingFlip(90, 0, VboxBack[finalI]);
+            rotateTransition.setOnFinished(event1 -> {
+                VboxFront[finalI].setVisible(false);
+                VboxBack[finalI].setVisible(true);
+                rotateTransition1.play();
+                rotateTransition.play();
+            });
+        }
+        for(int i = 0; i< VboxBack.length; i++){
+            VboxBack[i].setVisible(false);
+            int finalI = i;
+            RotateTransition rotateTransition = openingFlip(0,90,VboxBack[finalI]);
+            RotateTransition rotateTransition1 = openingFlip(90, 0, VboxFront[finalI]);
+            rotateTransition.setOnFinished(event1 -> {
+                VboxBack[finalI].setVisible(false);
+                VboxFront[finalI].setVisible(true);
+                rotateTransition1.play();
+            });
+            rotateTransition.play();
+        }
     }
     private RotateTransition createRotation(double fromAngle, double toAngle, Node node) {
         RotateTransition rotation = new RotateTransition(Duration.millis(250), node);
+        rotation.setAxis(Rotate.Y_AXIS);
+        rotation.setFromAngle(fromAngle);
+        rotation.setToAngle(toAngle);
+        rotation.setInterpolator(Interpolator.LINEAR);
+        return rotation;
+    }
+
+    private RotateTransition openingFlip(double fromAngle, double toAngle, Node node) {
+        RotateTransition rotation = new RotateTransition(Duration.millis(0.1), node);
         rotation.setAxis(Rotate.Y_AXIS);
         rotation.setFromAngle(fromAngle);
         rotation.setToAngle(toAngle);
