@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -14,7 +15,14 @@
 <?import org.controlsfx.control.SearchableComboBox?>
 
 <BorderPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #F1F1F1;" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.SignageConfigurationController">
-    <center>
+    <bottom>
+        <Button fx:id="backButton" mnemonicParsing="false" styleClass="food_furniture-clear-button" text="Back to Signage Page" BorderPane.alignment="BOTTOM_CENTER">
+            <BorderPane.margin>
+                <Insets />
+            </BorderPane.margin>
+        </Button>
+    </bottom>
+   <top>
         <AnchorPane BorderPane.alignment="CENTER">
          <children>
             <Text layoutX="511.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Signage Configuration" textAlignment="CENTER" AnchorPane.bottomAnchor="583.841796875" AnchorPane.leftAnchor="511.0" AnchorPane.rightAnchor="360.73046875" AnchorPane.topAnchor="65.4375" />
@@ -105,14 +113,9 @@
                   </HBox>
                </children>
             </VBox>
+            <MFXComboBox fx:id="kioskLocation" prefHeight="40.0" prefWidth="233.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="50.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Kiosk Location:" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="30.0" />
          </children>
         </AnchorPane>
-    </center>
-    <bottom>
-        <Button fx:id="backButton" mnemonicParsing="false" styleClass="food_furniture-clear-button" text="Back to Signage Page" BorderPane.alignment="BOTTOM_CENTER">
-            <BorderPane.margin>
-                <Insets />
-            </BorderPane.margin>
-        </Button>
-    </bottom>
+   </top>
 </BorderPane>
