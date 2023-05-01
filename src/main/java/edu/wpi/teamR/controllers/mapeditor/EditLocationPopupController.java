@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.controlsfx.control.SearchableComboBox;
 
 import javax.xml.stream.Location;
 import java.sql.Date;
@@ -27,10 +28,10 @@ public class EditLocationPopupController {
 
     @FXML TextField shortField;
     @FXML
-    ComboBox<String> locationComboBox;
+    SearchableComboBox<String> locationComboBox;
     @FXML
-    ComboBox<Integer> nodeComboBox;
-    @FXML ComboBox<String> typeComboBox;
+    SearchableComboBox<Integer> nodeComboBox;
+    @FXML SearchableComboBox<String> typeComboBox;
     @FXML
     Button submitButton;
     @FXML

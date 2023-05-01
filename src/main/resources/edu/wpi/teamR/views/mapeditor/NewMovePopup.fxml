@@ -3,12 +3,12 @@
 <?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import org.controlsfx.control.SearchableComboBox?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" stylesheets="@../../styles/map.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.mapeditor.NewMovePopupController">
     <top>
@@ -19,13 +19,13 @@
                   <HBox alignment="CENTER" spacing="20.0">
                      <children>
                             <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Location:" />
-                            <ComboBox fx:id="locationBox" prefHeight="35.0" prefWidth="150.0" />
+                        <SearchableComboBox fx:id="locationBox" prefHeight="35.0" prefWidth="150.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" spacing="20.0">
                      <children>
                             <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Node ID:" />
-                        <ComboBox fx:id="nodeBox" prefHeight="35.0" prefWidth="150.0" />
+                        <SearchableComboBox fx:id="nodeBox" prefHeight="35.0" prefWidth="150.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" spacing="20.0">

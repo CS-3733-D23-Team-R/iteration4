@@ -3,6 +3,7 @@ package edu.wpi.teamR.controllers.mapeditor;
 import edu.wpi.teamR.App;
 import edu.wpi.teamR.mapdb.LocationName;
 import edu.wpi.teamR.mapdb.MapDatabase;
+import edu.wpi.teamR.mapdb.Move;
 import edu.wpi.teamR.mapdb.Node;
 import edu.wpi.teamR.mapdb.update.MapUpdater;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
@@ -12,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
+import org.controlsfx.control.SearchableComboBox;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -23,9 +25,9 @@ public class NewMovePopupController {
     MapDatabase mapdb;
 
     @FXML
-    ComboBox<String> locationBox;
+    SearchableComboBox<String> locationBox;
     @FXML
-    ComboBox<Integer> nodeBox;
+    SearchableComboBox<Integer> nodeBox;
     @FXML
     MFXDatePicker moveDatePicker;
 
@@ -46,7 +48,7 @@ public class NewMovePopupController {
         ArrayList<LocationName> ln_objects = App.getMapData().getLocationNames();
         ArrayList<String> names = new ArrayList<>();
         for (LocationName ln: ln_objects) {
-            if (!ln.getLongName().contains("Hall") && !ln.getLongName().contains("Elevator") && !ln.getLongName().contains("Stair") && !ln.getLongName().contains("Restroom")) {
+            if (!ln.getLongName().contains("Hall")) {
                 names.add(ln.getLongName());
             }
         }
@@ -72,6 +74,7 @@ public class NewMovePopupController {
 
     public void createNewMove() throws SQLException {
         mapUpdater.addMove(nodeBox.getValue(), locationBox.getValue(), Date.valueOf(moveDatePicker.getValue()));
+        Move m = mapdb.addMove(nodeBox.getValue(), locationBox.getValue(), Date.valueOf(moveDatePicker.getValue()));
     }
 
     public void setUpdater(MapUpdater updater) {
