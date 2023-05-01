@@ -468,8 +468,6 @@ public class MapController {
                     try {
                         displayFloorNum(newFloor);
                         animateZoomTo(n2.getXCoord(), n2.getYCoord(), 5);
-                        //gesturePane.zoomTo(1, 1, new Point2D(n2.getXCoord(), n2.getYCoord()));
-                        //gesturePane.centreOn(new Point2D(n2.getXCoord(), n2.getYCoord()));
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
@@ -566,10 +564,10 @@ public class MapController {
             }
         }
         if (labelCount == 1){
-            indicator.setTranslateX(-25);
+            indicator.setTranslateX(-5);
         }
         else {
-            indicator.setTranslateX(25);
+            indicator.setTranslateX(5);
         }
 
         gesturePane.zoomTo(1, 1, new Point2D(startNode.getXCoord(), startNode.getYCoord()));
