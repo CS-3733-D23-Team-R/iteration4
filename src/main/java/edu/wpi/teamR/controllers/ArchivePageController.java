@@ -47,6 +47,7 @@ public class ArchivePageController {
             try {
                 submit();
             } catch (SQLException | ClassNotFoundException | FileNotFoundException | CSVParameterException e) {
+                fileText.setText("Error: Try Again");
                 throw new RuntimeException(e);
             }
         });
@@ -55,6 +56,7 @@ public class ArchivePageController {
             try {
                 export();
             } catch (ClassNotFoundException | SQLException | IOException e) {
+                pathText.setText("Error: Try Again");
                 e.printStackTrace();
             }
         });
