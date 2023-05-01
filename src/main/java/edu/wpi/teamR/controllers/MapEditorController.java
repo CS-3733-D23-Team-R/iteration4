@@ -568,6 +568,13 @@ public class MapEditorController {
                             if (evt.getButton() == MouseButton.SECONDARY) {
                                 linesMap.remove(n.getNodeID());
                                 nodePanes[floor].getChildren().remove(l1);
+                                updater.deleteEdge(selectedNode.getNodeID(), n.getNodeID());
+                                updater.endAction();
+                                try {
+                                    mapdb.deleteEdge(selectedNode.getNodeID(), n.getNodeID());
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
+                                }
                                 System.out.println("Edge removed");
                             }
                         });
