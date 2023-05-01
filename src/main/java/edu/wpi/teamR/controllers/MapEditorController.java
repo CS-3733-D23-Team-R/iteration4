@@ -486,8 +486,11 @@ public class MapEditorController {
                     addLine(e.getEndNode(), l1);
                     nodePanes[floor].getChildren().add(l1);
                     l1.toBack();
+                    l1.setPickOnBounds(true);
 
+                    boolean edgeDeleted = false;
                     l1.setOnMouseClicked(event -> {
+                        l1.requestFocus();
                         if (event.getButton().equals(MouseButton.SECONDARY)) {
                             try {
                                 mapdb.deleteEdge(n1.getNodeID(), n2.getNodeID());
@@ -497,8 +500,10 @@ public class MapEditorController {
                             linesMap.remove(e.getStartNode());
                             linesMap.remove(e.getEndNode());
                             nodePanes[floor].getChildren().remove(l1);
-                            updater.deleteEdge(n1.getNodeID(), n2.getNodeID());
-                            updater.endAction();
+                            if (!edgeDeleted) {
+                                updater.deleteEdge(n1.getNodeID(), n2.getNodeID());
+                                updater.endAction();
+                            }
                         }
                     });
                 }
@@ -557,6 +562,7 @@ public class MapEditorController {
                         addLine(n.getNodeID(), l1);
                         addLine(selectedNode.getNodeID(), l1);
                         l1.toBack();
+                        l1.setPickOnBounds(true);
                         selectedCircle.setFill(pathColor);
                         l1.setOnMouseClicked(evt -> {
                             if (evt.getButton() == MouseButton.SECONDARY) {
@@ -748,6 +754,7 @@ public class MapEditorController {
                         l1.setStrokeWidth(4);
                         nodePanes[floor].getChildren().add(l1);
                         l1.toBack();
+                        l1.setPickOnBounds(true);
                         addLine(startNode.getNodeID(), l1);
                         addLine(endNode.getNodeID(), l1);
                     }
@@ -827,8 +834,11 @@ public class MapEditorController {
                             Line line = new Line(startNode.getXCoord(), startNode.getYCoord(), endNode.getXCoord(), endNode.getYCoord());
                             line.setStrokeWidth(4);
                             line.setStroke(pathColor);
+                            line.setPickOnBounds(true);
 
+                            boolean edgeDeleted = false;
                             line.setOnMouseClicked(event -> {
+                                line.requestFocus();
                                 if (event.getButton().equals(MouseButton.SECONDARY)) {
                                     try {
                                         mapdb.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
@@ -838,8 +848,10 @@ public class MapEditorController {
                                     linesMap.remove(edge.getStartNode());
                                     linesMap.remove(edge.getEndNode());
                                     nodePanes[currentFloor].getChildren().remove(line);
-                                    updater.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
-                                    updater.endAction();
+                                    if (!edgeDeleted) {
+                                        updater.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
+                                        updater.endAction();
+                                    }
                                 }
                             });
 
@@ -855,7 +867,11 @@ public class MapEditorController {
                             Line line = new Line(startNode.getXCoord(), startNode.getYCoord(), endNode.getXCoord(), endNode.getYCoord());
                             line.setStrokeWidth(4);
                             line.setStroke(pathColor);
+                            line.setPickOnBounds(true);
+
+                            boolean edgeDeleted = false;
                             line.setOnMouseClicked(event -> {
+                                line.requestFocus();
                                 if (event.getButton().equals(MouseButton.SECONDARY)) {
                                     try {
                                         mapdb.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
@@ -865,8 +881,10 @@ public class MapEditorController {
                                     linesMap.remove(edge.getStartNode());
                                     linesMap.remove(edge.getEndNode());
                                     nodePanes[currentFloor].getChildren().remove(line);
-                                    updater.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
-                                    updater.endAction();
+                                    if (!edgeDeleted) {
+                                        updater.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
+                                        updater.endAction();
+                                    }
                                 }
                             });
                             nodePanes[currentFloor].getChildren().add(line);
@@ -937,8 +955,11 @@ public class MapEditorController {
                     addLine(e.getEndNode(), l1);
                     nodePanes[currentFloor].getChildren().add(l1);
                     l1.toBack();
+                    l1.setPickOnBounds(true);
 
                     l1.setOnMouseClicked(event -> {
+                        l1.requestFocus();
+                        boolean edgeDeleted = false;
                         if (event.getButton().equals(MouseButton.SECONDARY)) {
                             try {
                                 mapdb.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
@@ -948,8 +969,10 @@ public class MapEditorController {
                             linesMap.remove(e.getStartNode());
                             linesMap.remove(e.getEndNode());
                             nodePanes[currentFloor].getChildren().remove(l1);
-                            updater.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
-                            updater.endAction();
+                            if (!edgeDeleted) {
+                                updater.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
+                                updater.endAction();
+                            }
                         }
                     });
                 }
