@@ -5,6 +5,8 @@ import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.mapdb.*;
 import edu.wpi.teamR.login.User;
 import edu.wpi.teamR.requestdb.*;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,12 +16,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ViewAllDataController {
     @FXML Button backupButton;
@@ -56,11 +60,12 @@ public class ViewAllDataController {
     @FXML TableColumn<Move, String> move_Date, move_longName;
 
     @FXML TableView<DirectionArrow> directionArrowTable;
-    @FXML TableColumn<DirectionArrow, String> directionArrow_longName, directionArrow_direction, directionArrow_date;
+    @FXML TableColumn<DirectionArrow, String> directionArrow_longName, directionArrow_date;
+    @FXML TableColumn<DirectionArrow, Direction> directionArrow_direction;
     @FXML TableColumn<DirectionArrow, Integer> directionArrow_kioskID;
 
     @FXML TableView<ConferenceRoom> conferenceRoomTable;
-    @FXML TableColumn<ConferenceRoom, String> conferenceRoom_longName, conferenceRoom_isAccessible, conferenceRoom_hasOutlets, conferenceRoom_hasScreen;
+    @FXML TableColumn<ConferenceRoom, String> conferenceRoom_longName, conferenceRoom_hasOutlets, conferenceRoom_hasScreen, conferenceRoom_isAccessible;
     @FXML TableColumn<ConferenceRoom, Integer> conferenceRoom_capacity;
 
     @FXML TableView<User> userTable;
@@ -145,6 +150,22 @@ public class ViewAllDataController {
     @FXML TableView<PatientMove> patientMoveTable;
     @FXML TableColumn<PatientMove, Integer> patientMove_patientID;
     @FXML TableColumn<PatientMove, String> patientMove_longName, patientMove_staffUsername, patientMove_time;
+    Boolean isNodeHbox,
+            isEdgeHbox,
+            isLocationNameHbox,
+            isMoveHbox,
+            isDirectionArrowHbox,
+            isConferenceRoomHbox,
+            isUserHbox,
+            isRoomRequestHbox,
+            isServiceRequestHbox,
+            isAllMealsHbox,
+            isAllFurnitureHbox,
+            isAllFlowersHbox,
+            isAllSuppliesHbox,
+            isAllAlertsHbox,
+            isPatientsHbox,
+            isAllPatientMovesHbox;
 
     HBox[] buttons = new HBox[]{
             nodeHbox,
@@ -163,6 +184,8 @@ public class ViewAllDataController {
             allAlertsHbox,
             patientsHbox,
             allPatientMovesHbox};
+
+
     public void initialize() throws SQLException {
         alertsTable.setVisible(false);
         alertsTable.getItems().addAll(new UserDatabase().getAlerts());
@@ -177,7 +200,7 @@ public class ViewAllDataController {
         allFlowers_imageReference.setCellValueFactory(new PropertyValueFactory<>("imageReference"));
         allFlowers_hasCard.setCellValueFactory(new PropertyValueFactory<>("hasCard"));
         allFlowers_isBoquet.setCellValueFactory(new PropertyValueFactory<>("isBouqet"));
-        allFlowers_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        allFlowers_price.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
 
         allFurnitureTable.setVisible(false);
         allFurnitureTable.getItems().addAll(new RequestDatabase().getAvailableFurniture());
@@ -190,11 +213,12 @@ public class ViewAllDataController {
         allFurniture_itemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
 
         allMealsTable.setVisible(false);
+
         allMealsTable.getItems().addAll(new RequestDatabase().getAvailableMeals());
         allMeals_description.setCellValueFactory(new PropertyValueFactory<>("description"));
         allMeals_imageReference.setCellValueFactory(new PropertyValueFactory<>("imageReference"));
         allMeals_itemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
-        allMeals_itemPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        allMeals_itemPrice.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
         allMeals_isVegan.setCellValueFactory(new PropertyValueFactory<>("isVegan"));
         allMeals_isDairyFree.setCellValueFactory(new PropertyValueFactory<>("isDairyFree"));
         allMeals_isGlutenFree.setCellValueFactory(new PropertyValueFactory<>("isGlutenFree"));
@@ -205,20 +229,20 @@ public class ViewAllDataController {
         allSuppliesTable.getItems().addAll(new RequestDatabase().getAvailableSupplies());
         allSupplies_description.setCellValueFactory(new PropertyValueFactory<>("description"));
         allSupplies_imageReference.setCellValueFactory(new PropertyValueFactory<>("imageReference"));
-        allSupplies_price.setCellValueFactory(new PropertyValueFactory<>("itemprice"));
+        allSupplies_price.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
         allSupplies_itemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
-        allSupplies_isComputerAccessory.setCellValueFactory(new PropertyValueFactory<>("iscomputeraccessory"));
-        allSupplies_isOrganization.setCellValueFactory(new PropertyValueFactory<>("isorganization"));
-        allSupplies_isPaper.setCellValueFactory(new PropertyValueFactory<>("ispaper"));
-        allSupplies_isPen.setCellValueFactory(new PropertyValueFactory<>("ispen"));
+        allSupplies_isComputerAccessory.setCellValueFactory(new PropertyValueFactory<>("isComputerAccessory"));
+        allSupplies_isOrganization.setCellValueFactory(new PropertyValueFactory<>("isOrganization"));
+        allSupplies_isPaper.setCellValueFactory(new PropertyValueFactory<>("isPaper"));
+        allSupplies_isPen.setCellValueFactory(new PropertyValueFactory<>("isPen"));
 
         conferenceRoomTable.setVisible(false);
         conferenceRoomTable.getItems().addAll(new MapDatabase().getConferenceRooms());
         conferenceRoom_longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
         conferenceRoom_capacity.setCellValueFactory(new PropertyValueFactory<>("capacity"));
-        conferenceRoom_hasOutlets.setCellValueFactory(new PropertyValueFactory<>("hasoutlets"));
-        conferenceRoom_hasScreen.setCellValueFactory(new PropertyValueFactory<>("hasscreen"));
-        conferenceRoom_isAccessible.setCellValueFactory(new PropertyValueFactory<>("isaccessible"));
+        conferenceRoom_hasOutlets.setCellValueFactory(new PropertyValueFactory<>("hasOutlets"));
+        conferenceRoom_hasScreen.setCellValueFactory(new PropertyValueFactory<>("hasScreen"));
+        conferenceRoom_isAccessible.setCellValueFactory(new PropertyValueFactory<>("isAccessible"));
 
         directionArrowTable.setVisible(false);
         directionArrowTable.getItems().addAll(new MapDatabase().getDirectionArrows());
@@ -230,17 +254,17 @@ public class ViewAllDataController {
         edgeTable.setVisible(false);
         edgeTable.getItems().addAll(new MapDatabase().getEdges());
         edge_endNode.setCellValueFactory(new PropertyValueFactory<>("endNode"));
-        edge_startNode.setCellValueFactory(new PropertyValueFactory<>("startnode"));
+        edge_startNode.setCellValueFactory(new PropertyValueFactory<>("startNode"));
 
         serviceRequestTable.setVisible(false);
         serviceRequestTable.getItems().addAll(new RequestDatabase().getItemRequests());
         serviceRequest_additionalNotes.setCellValueFactory(new PropertyValueFactory<>("additionalNotes"));
-        serviceRequest_itemType.setCellValueFactory(new PropertyValueFactory<>("itemtype"));
+        serviceRequest_itemType.setCellValueFactory(new PropertyValueFactory<>("itemType"));
         serviceRequest_longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
         serviceRequest_requestDate.setCellValueFactory(new PropertyValueFactory<>("requestDate"));
         serviceRequest_requestID.setCellValueFactory(new PropertyValueFactory<>("requestID"));
         serviceRequest_requesterName.setCellValueFactory(new PropertyValueFactory<>("requesterName"));
-        serviceRequest_requestStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        serviceRequest_requestStatus.setCellValueFactory(new PropertyValueFactory<>("requestStatus"));
         serviceRequest_requestType.setCellValueFactory(new PropertyValueFactory<>("requestType"));
         serviceRequest_staffUsername.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
 
@@ -252,17 +276,17 @@ public class ViewAllDataController {
 
         moveTable.setVisible(false);
         moveTable.getItems().addAll(new MapDatabase().getMoves());
-        move_Date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        move_Date.setCellValueFactory(new PropertyValueFactory<>("moveDate"));
         move_longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
         move_nodeID.setCellValueFactory(new PropertyValueFactory<>("nodeID"));
 
         nodeTable.setVisible(false);
         nodeTable.getItems().addAll(new MapDatabase().getNodes());
         node_building.setCellValueFactory(new PropertyValueFactory<>("building"));
-        node_xCoord.setCellValueFactory(new PropertyValueFactory<>("xcoord"));
-        node_yCoord.setCellValueFactory(new PropertyValueFactory<>("ycoord"));
+        node_xCoord.setCellValueFactory(new PropertyValueFactory<>("xCoord"));
+        node_yCoord.setCellValueFactory(new PropertyValueFactory<>("yCoord"));
         node_nodeID.setCellValueFactory(new PropertyValueFactory<>("nodeID"));
-        node_floor.setCellValueFactory(new PropertyValueFactory<>("floor"));
+        node_floor.setCellValueFactory(new PropertyValueFactory<>("floorNum"));
 
         patientTable.setVisible(false);
         patientTable.getItems().addAll(new RequestDatabase().getPatients());
@@ -282,7 +306,7 @@ public class ViewAllDataController {
         roomRequest_longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
         roomRequest_staffUsername.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
         roomRequest_startTime.setCellValueFactory(new PropertyValueFactory<>("startTime"));
-        roomRequest_roomRequestID.setCellValueFactory(new PropertyValueFactory<>("roomrequestID"));
+        roomRequest_roomRequestID.setCellValueFactory(new PropertyValueFactory<>("roomRequestID"));
 
         userTable.setVisible(false);
         userTable.getItems().addAll(new UserDatabase().getUsers());
@@ -303,6 +327,7 @@ public class ViewAllDataController {
             nodeTable.setVisible(true);
             setAllButtonsGrey();
             nodeHbox.setStyle("-fx-background-color: #0067B1");
+
         });
         edgeHbox.setOnMouseClicked(event -> {
             hideAllTables();
@@ -411,6 +436,22 @@ public class ViewAllDataController {
                 e.printStackTrace();
             }
         });
+        hboxConfigure(allAlertsHbox);
+        hboxConfigure(allFlowersHbox);
+        hboxConfigure(allFurnitureHbox);
+        hboxConfigure(allMealsHbox);
+        hboxConfigure(allSuppliesHbox);
+        hboxConfigure(nodeHbox);
+        hboxConfigure(edgeHbox);
+        hboxConfigure(locationNameHbox);
+        hboxConfigure(moveHbox);
+        hboxConfigure(directionArrowHbox);
+        hboxConfigure(conferenceRoomHbox);
+        hboxConfigure(userHbox);
+        hboxConfigure(roomRequestHbox);
+        hboxConfigure(serviceRequestHbox);
+        hboxConfigure(allPatientMovesHbox);
+        hboxConfigure(patientsHbox);
     }
     public void hideAllTables(){
         nodeTable.setVisible(false);
@@ -433,21 +474,57 @@ public class ViewAllDataController {
 
     public void setAllButtonsGrey(){
         nodeHbox.setStyle("-fx-background-color: #D9D9D9");
+        isNodeHbox = false;
         allFlowersHbox.setStyle("-fx-background-color: #D9D9D9");
+        isAllFlowersHbox = false;
         allSuppliesHbox.setStyle("-fx-background-color: #D9D9D9");
+        isAllSuppliesHbox = false;
         patientsHbox.setStyle("-fx-background-color: #D9D9D9");
+        isPatientsHbox = false;
         allAlertsHbox.setStyle("-fx-background-color: #D9D9D9");
+        isAllAlertsHbox = false;
         allPatientMovesHbox.setStyle("-fx-background-color: #D9D9D9");
+        isAllPatientMovesHbox = false;
         roomRequestHbox.setStyle("-fx-background-color: #D9D9D9");
+        isRoomRequestHbox = false;
         userHbox.setStyle("-fx-background-color: #D9D9D9");
+        isUserHbox = false;
         locationNameHbox.setStyle("-fx-background-color: #D9D9D9");
+        isLocationNameHbox = false;
         edgeHbox.setStyle("-fx-background-color: #D9D9D9");
+        isEdgeHbox = false;
         allFurnitureHbox.setStyle("-fx-background-color: #D9D9D9");
+        isAllFurnitureHbox = false;
         serviceRequestHbox.setStyle("-fx-background-color: #D9D9D9");
+        isServiceRequestHbox = false;
         conferenceRoomHbox.setStyle("-fx-background-color: #D9D9D9");
+        isConferenceRoomHbox = false;
         directionArrowHbox.setStyle("-fx-background-color: #D9D9D9");
+        isDirectionArrowHbox = false;
         moveHbox.setStyle("-fx-background-color: #D9D9D9");
+        isMoveHbox = false;
         allMealsHbox.setStyle("-fx-background-color: #D9D9D9");
+        isAllMealsHbox = false;
+    }
+
+    public void hboxConfigure(HBox hbox){
+
+        hbox.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(!hbox.getStyle().equals("-fx-background-color: #0067B1")){
+                    hbox.setStyle("-fx-background-color: #FFFFFF");
+                }
+            }
+        });
+        hbox.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(!hbox.getStyle().equals("-fx-background-color: #0067B1")){
+                    hbox.setStyle("-fx-background-color: #D9D9D9");
+                }
+            }
+        });
 
     }
 

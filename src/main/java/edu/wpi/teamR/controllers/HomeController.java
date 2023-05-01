@@ -93,7 +93,9 @@ public class HomeController {
 
       creditsText.setOnMouseClicked(event -> {Navigation.navigate(Screen.CREDITS);});
       aboutText.setOnMouseClicked(event -> {Navigation.navigate(Screen.ABOUT);});
-
+      if(UserData.getInstance().isLoggedIn()){
+          loginButton.setVisible(false);
+      }
       RootController rootPane = RootController.getInstance();
       rootPane.showSidebar();
   }
