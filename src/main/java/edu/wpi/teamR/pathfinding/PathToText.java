@@ -130,51 +130,51 @@ public class PathToText {
 
 
 
-    @Deprecated
-    private ArrayList<String> getTextualDirections(ArrayList<Integer> newPath, Date date) throws SQLException, ItemNotFoundException {
-//        ArrayList<Node> nodeList = new ArrayList<>();
-        ArrayList <String> textList = new ArrayList<>();
-        Node lastNode = this.mapDatabase.getNodeByID(newPath.get(0)); //keeps track of last junction we came from
-        Node currentNode = this.mapDatabase.getNodeByID(newPath.get(1));
-        Node previousNode = null;
-        Node secondPreviousNode = null;
-        Node nextNode = null;
-        int pathSize = newPath.size();
-        textList.add("Start at " + this.mapDatabase.getLocationNamesByNodeIDAtDate(newPath.get(0), date).get(0).getLongName()
-                + "\n      and turn to face " + cardinalText(lastNode, currentNode));
-        checkFloorChange(lastNode, null, null, currentNode, newPath.get(0), newPath.get(1), pathSize, textList);
-
-        //Break path into segments that need directions
-        for (int i = 1; i < pathSize; i++){
-            secondPreviousNode = previousNode; //will be null until i = 2
-            previousNode = currentNode; //will be null until i = 1
-            currentNode = this.mapDatabase.getNodeByID(newPath.get(i)); //current node
-            if(i + 1 < pathSize){nextNode = this.mapDatabase.getNodeByID(newPath.get(i + 1));};
-
-            LocationName locationName = this.mapDatabase.getLocationNamesByNodeIDAtDate(newPath.get(i), date).get(0);
-
-            if(i == newPath.size() - 1){
-                textList.add("Continue for " + nodeDiffToFeet(currentNode, lastNode) + " feet");
-                textList.add("You have arrived at " + this.mapDatabase.getLocationNamesByNodeIDAtDate(newPath.get(i), date).get(0).getLongName());
-                break;
-
-            } else if(checkFloorChange(currentNode, previousNode, secondPreviousNode, nextNode, newPath.get(i), newPath.get(i + 1), pathSize, textList)){
+//    @Deprecated
+//    private ArrayList<String> getTextualDirections(ArrayList<Integer> newPath, Date date) throws SQLException, ItemNotFoundException {
+////        ArrayList<Node> nodeList = new ArrayList<>();
+//        ArrayList <String> textList = new ArrayList<>();
+//        Node lastNode = this.mapDatabase.getNodeByID(newPath.get(0)); //keeps track of last junction we came from
+//        Node currentNode = this.mapDatabase.getNodeByID(newPath.get(1));
+//        Node previousNode = null;
+//        Node secondPreviousNode = null;
+//        Node nextNode = null;
+//        int pathSize = newPath.size();
+//        textList.add("Start at " + this.mapDatabase.getLocationNamesByNodeIDAtDate(newPath.get(0), date).get(0).getLongName()
+//                + "\n      and turn to face " + cardinalText(lastNode, currentNode));
+//        checkFloorChange(lastNode, null, null, currentNode, newPath.get(0), newPath.get(1), pathSize, textList);
+//
+//        //Break path into segments that need directions
+//        for (int i = 1; i < pathSize; i++){
+//            secondPreviousNode = previousNode; //will be null until i = 2
+//            previousNode = currentNode; //will be null until i = 1
+//            currentNode = this.mapDatabase.getNodeByID(newPath.get(i)); //current node
+//            if(i + 1 < pathSize){nextNode = this.mapDatabase.getNodeByID(newPath.get(i + 1));};
+//
+//            LocationName locationName = this.mapDatabase.getLocationNamesByNodeIDAtDate(newPath.get(i), date).get(0);
+//
+//            if(i == newPath.size() - 1){
+//                textList.add("Continue for " + nodeDiffToFeet(currentNode, lastNode) + " feet");
+//                textList.add("You have arrived at " + this.mapDatabase.getLocationNamesByNodeIDAtDate(newPath.get(i), date).get(0).getLongName());
+//                break;
+//
+//            } else if(checkFloorChange(currentNode, previousNode, secondPreviousNode, nextNode, newPath.get(i), newPath.get(i + 1), pathSize, textList)){
+////                lastNode = currentNode;
+//                lastNode = secondPreviousNode;
+//                i++;
+//
+//            } else if(detectTurn(currentNode, lastNode, nextNode)){
+//                String forwardText = "Error";
+//                if(!locationName.getNodeType().equals("HALL")) forwardText = "Walk forwards until you reach " + locationName.getShortName(); //change to deal with wayfinding nodes
+//                else forwardText = "Continue for " + nodeDiffToFeet(lastNode, currentNode) + " feet until you reach the hallway junction";
+//
+//                textList.add(forwardText);
+//                turnText(lastNode, currentNode, nextNode, textList);
 //                lastNode = currentNode;
-                lastNode = secondPreviousNode;
-                i++;
-
-            } else if(detectTurn(currentNode, lastNode, nextNode)){
-                String forwardText = "Error";
-                if(!locationName.getNodeType().equals("HALL")) forwardText = "Walk forwards until you reach " + locationName.getShortName(); //change to deal with wayfinding nodes
-                else forwardText = "Continue for " + nodeDiffToFeet(lastNode, currentNode) + " feet until you reach the hallway junction";
-
-                textList.add(forwardText);
-                turnText(lastNode, currentNode, nextNode, textList);
-                lastNode = currentNode;
-            }
-        }
-        return textList;
-    }
+//            }
+//        }
+//        return textList;
+//    }
 
     private int nodeDiffToFeet(Node firstNode, Node secondNode){
         int diff = nodeDiffPixels(firstNode, secondNode);
@@ -187,42 +187,48 @@ public class PathToText {
     }
 
     private boolean detectTurn(Node currentNode, Node lastNode, Node nextNode){
-        if(currentNode == null || lastNode == null || nextNode == null) return false;
-        int[] vector1 = new int[]{currentNode.getXCoord() - lastNode.getXCoord(), currentNode.getYCoord() - lastNode.getYCoord()};
-        int[] vector2 = new int[]{nextNode.getXCoord() - currentNode.getXCoord(), nextNode.getYCoord() - currentNode.getYCoord()};
-        int dotProduct = vector1[0] * vector2[0] + vector1[1] * vector2[1];
-        double magnitude1 = Math.sqrt(vector1[0]*vector1[1]);
-        double magnitude2 = Math.sqrt(vector2[0]*vector2[1]);
-        double turnThreshold = 0.2;
-        return dotProduct / (magnitude1 * magnitude2) > turnThreshold;
-    }
-    //updates textual directions list
-    private boolean checkFloorChange(Node firstNode, Node previousNode, Node secondPreviousNode, Node secondNode, int firstNodeId, int secondNodeID, int pathSize, ArrayList<String> textList) throws SQLException, ItemNotFoundException {
-        String firstNodeType = this.mapDatabase.getNodeTypeByNodeID(firstNodeId);
-        String secondNodeType = this.mapDatabase.getNodeTypeByNodeID(secondNodeID);
-        String outputString = "Take the ";
-        String direction = turnDirection(secondPreviousNode, previousNode, firstNode);
-        if(firstNodeType.equals("STAI") && 1 < pathSize && secondNodeType.equals("STAI")){
-            outputString += "staircase ";
-            if(direction != null){outputString = outputString + " on your " + direction;}
-            textList.add(outputString  + " to floor " + secondNode.getFloorNum().toString());
-            return true;
-        } else if(firstNodeType.equals("ELEV") && 1 < pathSize && secondNodeType.equals("ELEV")){
-            outputString += "elevator ";
-            if(direction != null){outputString = outputString + " on your " + direction;}
-            textList.add(outputString  + " to floor " + secondNode.getFloorNum().toString());
-            return true;
-        }
-        return false;
+//        if(currentNode == null || lastNode == null || nextNode == null) return false;
+//        int[] vector1 = new int[]{currentNode.getXCoord() - lastNode.getXCoord(), currentNode.getYCoord() - lastNode.getYCoord()};
+//        int[] vector2 = new int[]{nextNode.getXCoord() - currentNode.getXCoord(), nextNode.getYCoord() - currentNode.getYCoord()};
+//        int dotProduct = vector1[0] * vector2[0] + vector1[1] * vector2[1];
+//        double magnitude1 = Math.sqrt(vector1[0]*vector1[0] + vector1[1]*vector1[1]);
+//        double magnitude2 = Math.sqrt(vector2[0]*vector2[0] + vector2[1]*vector2[1]);
+//        double turnThreshold = 0.2;
+//        return dotProduct / (magnitude1 * magnitude2) > turnThreshold;
+        String turnDirection = turnDirection(lastNode, currentNode, nextNode);
+        if(turnDirection != null && (turnDirection.equals("right") || turnDirection.equals("left"))) return true;
+        else return false;
     }
 
+    //updates textual directions list
+//    private boolean checkFloorChange(Node firstNode, Node previousNode, Node secondPreviousNode, Node secondNode, int firstNodeId, int secondNodeID, int pathSize, ArrayList<String> textList) throws SQLException, ItemNotFoundException {
+//        String firstNodeType = this.mapDatabase.getNodeTypeByNodeID(firstNodeId);
+//        String secondNodeType = this.mapDatabase.getNodeTypeByNodeID(secondNodeID);
+//        String outputString = "Take the ";
+//        String direction = turnDirection(secondPreviousNode, previousNode, firstNode);
+//        if(firstNodeType.equals("STAI") && 1 < pathSize && secondNodeType.equals("STAI")){
+//            outputString += "staircase ";
+//            if(direction != null){outputString = outputString + " on your " + direction;}
+//            textList.add(outputString  + " to floor " + secondNode.getFloorNum().toString());
+//            return true;
+//        } else if(firstNodeType.equals("ELEV") && 1 < pathSize && secondNodeType.equals("ELEV")){
+//            outputString += "elevator ";
+//            if(direction != null){outputString = outputString + " on your " + direction;}
+//            textList.add(outputString  + " to floor " + secondNode.getFloorNum().toString());
+//            return true;
+//        }
+//        return false;
+//    }
+
     private String turnDirection(Node firstNode, Node middleNode, Node secondNode){
-        if(middleNode != null && firstNode != null) {
+        double turnThreshold = 0.0;
+        if(middleNode != null && firstNode != null && secondNode != null) {
             double firstSlope = (middleNode.getYCoord() - firstNode.getYCoord() * 1.0) / (middleNode.getXCoord() - firstNode.getXCoord());
             double secondSlope = (secondNode.getYCoord() - middleNode.getYCoord() * 1.0) / (secondNode.getXCoord() - middleNode.getXCoord());
             double difference = secondSlope - firstSlope;
-            if (difference > 0) return "right";
-            else return "left";
+            if (difference > turnThreshold) return "right";
+            else if (difference < turnThreshold) return "left";
+            else return "continue";
         } else {
             return null;
         }
