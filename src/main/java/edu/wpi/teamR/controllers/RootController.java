@@ -19,6 +19,7 @@ import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
@@ -111,6 +112,17 @@ public class RootController {
     transition.play();
 
     setLogoutButton(false);
+
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        App.getPrimaryStage().getScene().setOnKeyPressed(event -> {
+          if (event.getCode() == KeyCode.L && event.isControlDown()) {
+            timeout();
+          }
+        });
+      }
+    });
   }
 
   private void openProfile() throws SQLException, ClassNotFoundException, ItemNotFoundException {
@@ -145,6 +157,7 @@ public class RootController {
       rootHbox.setManaged(false);
       Navigation.navigate(Screen.SCREENSAVER);
       App.getPrimaryStage().removeEventFilter(InputEvent.ANY, ssevent);
+      logout();
   }
 
   public static RootController getInstance() {

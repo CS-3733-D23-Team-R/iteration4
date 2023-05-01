@@ -14,7 +14,7 @@
                 <Text layoutX="14.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="X-Coord:" />
                 <Text layoutX="69.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Building:" />
                 <Text layoutX="78.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Floor:" />
-                <Button fx:id="addButton" layoutX="149.0" layoutY="150.0" mnemonicParsing="false" style="-fx-font-size: 14;" text="Add Location" />
+                <Button fx:id="addButton" layoutX="157.0" layoutY="150.0" mnemonicParsing="false" style="-fx-font-size: 14;" text="Add Node" />
                 <TextField layoutX="115.0" layoutY="19.0" prefHeight="25.0" prefWidth="83.0" fx:id="xField" />
                 <ComboBox fx:id="floorCB" layoutX="175.0" layoutY="102.0" prefHeight="10.0" prefWidth="150.0" promptText="Choose Floor" />
             <Text layoutX="209.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Y-Coord:" />

@@ -37,7 +37,7 @@ import java.util.Date;
 
 public class StaffProfilePageController {
     @FXML Text time;
-    @FXML Button viewAllRequests, toConferenceRooms;
+    @FXML Button viewAllRequests, toConferenceRooms, toMovePatients;
     @FXML VBox profileCardContainer;
     @FXML StackPane conferenceRoomImage;
     @FXML TableView<ItemRequest> table;
@@ -119,6 +119,7 @@ public class StaffProfilePageController {
         for(ItemRequest request: new RequestDatabase().getItemRequests()){
             table.getItems().add(request);
         }
+        toMovePatients.setOnMouseClicked(event -> {Navigation.navigate(Screen.MOVEPATIENT);});
     }
 
     private Node loadCard(CurrentUser user) throws IOException, IOException {
