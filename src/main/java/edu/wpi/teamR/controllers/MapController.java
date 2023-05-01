@@ -186,7 +186,7 @@ public class MapController {
             }
         });
         floorText.setText(floorNames[currentFloor]);
-        startField.setValue("Select Start");
+        startField.setValue(App.getKioskLocationString());
         endField.setValue("Select End");
 
         reset();
