@@ -760,6 +760,7 @@ public class MapEditorController {
                 throw new RuntimeException(e);
             }
         });
+        c.toFront();
     }
 
     public void redraw() throws SQLException, ItemNotFoundException {
@@ -795,11 +796,11 @@ public class MapEditorController {
                             redrawEdges(node);
                         }
                         case DELETION -> {
-                            Circle deleted = new Circle(node.getXCoord(), node.getYCoord(), 4, pathColor);
-                            nodePanes[currentFloor].getChildren().add(deleted);
+                            Circle deleted = new Circle(node.getXCoord(), node.getYCoord(), 5, pathColor);
                             nodes.add(node);
                             mapdb.addNode(node);
                             setupMapNode(currentFloor, node, deleted);
+                            nodePanes[currentFloor].getChildren().add(deleted);
                             redrawEdges(node);
                         }
                     }
@@ -847,6 +848,8 @@ public class MapEditorController {
                             nodePanes[currentFloor].getChildren().add(line);
                             edges.add(edge);
                             mapdb.addEdge(edge.getStartNode(), edge.getEndNode());
+                            redrawEdges(startNode);
+                            redrawEdges(endNode);
                         }
                         case DELETION -> {
                             Node startNode = mapdb.getNodeByID(edge.getStartNode());
