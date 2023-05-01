@@ -88,6 +88,14 @@ public class MapPopupController {
             Date moveDate = move.getMoveDate();
             LocalDate date = moveDate.toLocalDate();
             Platform.runLater(() -> moveDatePicker.setValue(date));
+            String longName = move.getLongName();
+            LocationName locationName = mapdb.getLocationNameByLongName(longName);
+            String shortName = locationName.getShortName();
+            String nodeType = locationName.getNodeType();
+
+            longNameText.setText(longName);
+            shortNameText.setText(shortName);
+            nodeTypeText.setText(nodeType);
         }
         else {
             moveDatePicker.setValue(null);
@@ -103,15 +111,6 @@ public class MapPopupController {
             edgeString.append(" ").append(e.getStartNode()).append("-").append(e.getEndNode()).append("\n");
         }
         edgeText.setText(edgeString.toString());
-
-        String longName = move.getLongName();
-        LocationName locationName = mapdb.getLocationNameByLongName(longName);
-        String shortName = locationName.getShortName();
-        String nodeType = locationName.getNodeType();
-
-        longNameText.setText(longName);
-        shortNameText.setText(shortName);
-        nodeTypeText.setText(nodeType);
     }
 
     private void handleDatePickerChange(LocalDate newValue) throws SQLException {

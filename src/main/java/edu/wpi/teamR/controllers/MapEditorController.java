@@ -4,11 +4,7 @@ import edu.wpi.teamR.App;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.Main;
 import edu.wpi.teamR.controllers.mapeditor.*;
-import edu.wpi.teamR.archive.CSVParameterException;
-import edu.wpi.teamR.archive.CSVWriter;
-import edu.wpi.teamR.datahandling.MapStorage;
 import edu.wpi.teamR.mapdb.update.*;
-import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -18,7 +14,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.effect.DropShadow;
@@ -34,17 +29,11 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import edu.wpi.teamR.mapdb.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import net.kurobako.gesturefx.GesturePane;
-
-import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
@@ -150,9 +139,6 @@ public class MapEditorController {
     HashMap<Circle, Node> alignmentNodesList = new HashMap<>();
     ArrayList<Circle> alignmentCirclesList = new ArrayList<>();
     @FXML ImageView infoIcon;
-    @FXML
-    VBox dbBackupButton;
-    @FXML VBox backupBox;
 
     Color textColor = Color.BLACK;
     Color pathColor = Color.web("#012D5A");
@@ -201,13 +187,7 @@ public class MapEditorController {
             createNode = true;
         });
 
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                setNewNodeEvent();
-            }
-        });
-
+        Platform.runLater(this::setNewNodeEvent);
 
         edgeDialog(false);
         newEdgeButton.setOnAction(event -> {
@@ -422,20 +402,15 @@ public class MapEditorController {
             popOver.show(infoIcon);
         });
 
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                App.getPrimaryStage().getScene().setOnKeyPressed(event -> {
-                    if (event.getCode() == KeyCode.Z && event.isControlDown()) {
-                        try {
-                            undoAction();
-                        } catch (SQLException | ItemNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                });
+        Platform.runLater(() -> App.getPrimaryStage().getScene().setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.Z && event.isControlDown()) {
+                try {
+                    undoAction();
+                } catch (SQLException | ItemNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        });
+        }));
 
         reset();
     }
