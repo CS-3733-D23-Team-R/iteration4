@@ -75,7 +75,7 @@
                                        <children>
                                           <StackPane fx:id="viewDataImage" prefHeight="191.0" prefWidth="267.0" styleClass="boxroundedbordered">
                                              <children>
-                                                <Button fx:id="backupButton" mnemonicParsing="false" prefHeight="29.0" prefWidth="79.0" styleClass="tinyButton" text="View Data">
+                                                <Button fx:id="backupButton" mnemonicParsing="false" prefHeight="29.0" prefWidth="214.0" styleClass="tinyButton" text="View Database/Import &amp; Export">
                                                    <padding>
                                                       <Insets bottom="3.0" />
                                                    </padding>

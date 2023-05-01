@@ -41,7 +41,7 @@ import java.util.Date;
 
 public class StaffProfilePageController {
     @FXML Text time;
-    @FXML Button viewAllRequests, toConferenceRooms, toMovePatients;
+    @FXML Button viewAllRequests, toConferenceRooms, toMovePatients, statsButton;
     @FXML VBox profileCardContainer;
     @FXML StackPane conferenceRoomImage;
     @FXML TableView<ItemRequest> table;
@@ -56,7 +56,6 @@ public class StaffProfilePageController {
         LocalDate date = LocalDate.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
         String formattedDate = date.format(dateTimeFormatter);
-
         Timeline timeline =
                 new Timeline(
                         new KeyFrame(
@@ -74,6 +73,7 @@ public class StaffProfilePageController {
         time.setText(formattedDate);
         displayProfile(UserData.getInstance().getLoggedIn());
         toConferenceRooms.setOnAction(event -> Navigation.navigate(Screen.MY_ROOM_RESERVATIONS));
+        statsButton.setOnAction(event -> {Navigation.navigate(Screen.DASHBOARD);});
         SearchList aSearchList = new SearchList();
         aSearchList.addComparison(RequestAttribute.staffUsername, Operation.equalTo, user.getUsername());
         dataList.addAll(new RequestDatabase().getItemRequestByAttributes(aSearchList));

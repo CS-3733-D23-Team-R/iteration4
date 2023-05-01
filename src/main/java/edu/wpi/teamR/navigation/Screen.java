@@ -28,7 +28,8 @@ public enum Screen {
   ABOUT("views/About.fxml"),
   ALERTS("views/Alerts.fxml"),
   MOVEPATIENT("views/movePatient.fxml"),
-  VIEWDATA("views/ViewAllData.fxml");
+  VIEWDATA("views/ViewAllData.fxml"),
+  DASHBOARD("views/Dashboard.fxml");
 
   private final String filename;
 
