@@ -40,6 +40,7 @@ public class NewMovePopupController {
         mapdb = App.getMapData().getMapdb();
         ArrayList<Node> nodes = App.getMapData().getNodes();
         ArrayList<Integer> ids = new ArrayList<>();
+        System.out.println(nodes.size());
         for (Node n: nodes) {
             ids.add(n.getNodeID());
         }

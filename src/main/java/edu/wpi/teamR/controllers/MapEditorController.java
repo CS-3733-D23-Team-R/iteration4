@@ -290,6 +290,7 @@ public class MapEditorController {
                         if (change.getAddedSubList().contains("Select All")) {
                             userAction = false;
                             locationFilters.getCheckModel().checkAll();
+                            locationFilters.setTitle("All");
                             try {
                                 displayLocationNames(currentFloor);
                             } catch (SQLException e) {
@@ -311,6 +312,7 @@ public class MapEditorController {
                         if (change.getRemoved().contains("Select All")) {
                             userAction = false;
                             locationFilters.getCheckModel().clearChecks();
+                            locationFilters.setTitle("");
                             userAction = true;
                         }
                         ObservableList<javafx.scene.Node> children = nodePanes[currentFloor].getChildren();
