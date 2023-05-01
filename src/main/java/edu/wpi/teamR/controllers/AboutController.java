@@ -39,6 +39,10 @@ public class AboutController {
                 });
                 rotateTransition.play();
             });
+            VboxFront[i].setOnMouseDragged(event -> {
+                RotateTransition rotateTransition = createSpinningRotation(0, 360, VboxFront[finalI]);
+                rotateTransition.play();
+            });
         }
         for(int i = 0; i< VboxBack.length; i++){
             VboxBack[i].setVisible(false);
@@ -51,6 +55,10 @@ public class AboutController {
                     VboxFront[finalI].setVisible(true);
                     rotateTransition1.play();
                 });
+                rotateTransition.play();
+            });
+            VboxBack[i].setOnMouseDragged(event -> {
+                RotateTransition rotateTransition = createSpinningRotation(0, 360, VboxBack[finalI]);
                 rotateTransition.play();
             });
         }
@@ -85,6 +93,16 @@ public class AboutController {
         rotation.setFromAngle(fromAngle);
         rotation.setToAngle(toAngle);
         rotation.setInterpolator(Interpolator.LINEAR);
+        return rotation;
+    }
+
+    private RotateTransition createSpinningRotation(double fromAngle, double toAngle, Node node) {
+        RotateTransition rotation = new RotateTransition(Duration.millis(250), node);
+        rotation.setAxis(Rotate.Y_AXIS);
+        rotation.setFromAngle(fromAngle);
+        rotation.setToAngle(toAngle);
+        rotation.setInterpolator(Interpolator.LINEAR);
+        rotation.setCycleCount(5);
         return rotation;
     }
 

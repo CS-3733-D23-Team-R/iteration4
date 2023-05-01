@@ -433,6 +433,21 @@ public class ViewAllDataController {
 
     public void setAllButtonsGrey(){
         nodeHbox.setStyle("-fx-background-color: #D9D9D9");
+        allFlowersHbox.setStyle("-fx-background-color: #D9D9D9");
+        allSuppliesHbox.setStyle("-fx-background-color: #D9D9D9");
+        patientsHbox.setStyle("-fx-background-color: #D9D9D9");
+        allAlertsHbox.setStyle("-fx-background-color: #D9D9D9");
+        allPatientMovesHbox.setStyle("-fx-background-color: #D9D9D9");
+        roomRequestHbox.setStyle("-fx-background-color: #D9D9D9");
+        userHbox.setStyle("-fx-background-color: #D9D9D9");
+        locationNameHbox.setStyle("-fx-background-color: #D9D9D9");
+        edgeHbox.setStyle("-fx-background-color: #D9D9D9");
+        allFurnitureHbox.setStyle("-fx-background-color: #D9D9D9");
+        serviceRequestHbox.setStyle("-fx-background-color: #D9D9D9");
+        conferenceRoomHbox.setStyle("-fx-background-color: #D9D9D9");
+        directionArrowHbox.setStyle("-fx-background-color: #D9D9D9");
+        moveHbox.setStyle("-fx-background-color: #D9D9D9");
+        allMealsHbox.setStyle("-fx-background-color: #D9D9D9");
 
     }
 

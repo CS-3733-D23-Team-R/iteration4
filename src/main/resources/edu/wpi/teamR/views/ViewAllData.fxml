@@ -33,12 +33,12 @@
                                       <Insets right="26.0" />
                                   </HBox.margin>
                            <children>
-                              <Button fx:id="backupButton" mnemonicParsing="false" text="Backup Data" />
+                              <Button fx:id="backupButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="137.0" text="Import/Export" />
                            </children>
                               </HBox>
                           </children>
                       </HBox>
-                  <HBox prefHeight="0.0" prefWidth="1280.0">
+                  <HBox prefHeight="0.0" prefWidth="1280.0" spacing="10.0">
                      <children>
                         <HBox fx:id="nodeHbox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="actuallyRounded" HBox.hgrow="ALWAYS">
                            <children>
@@ -127,6 +127,7 @@
                   </HBox>
                   <StackPane VBox.vgrow="ALWAYS">
                      <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="SELECT A TABLE TO VIEW" />
                         <TableView fx:id="nodeTable" prefHeight="674.0" prefWidth="1378.0" stylesheets="@../styles/tables.css">
                           <columns>
                             <TableColumn fx:id="node_nodeID" editable="false" prefWidth="75.0" text="NodeID" />
