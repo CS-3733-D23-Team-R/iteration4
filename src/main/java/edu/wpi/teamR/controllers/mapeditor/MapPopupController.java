@@ -83,11 +83,20 @@ public class MapPopupController {
 
     public void showNodeInformation(MapUpdater updater, Node n) throws SQLException, ItemNotFoundException {
         node = n;
-        if (mapdb.getMovesByNode(n.getNodeID()).size() > 0) {
-            move = mapdb.getMovesByNode(n.getNodeID()).get(0);
+        ArrayList<Move> movesForNode = mapdb.getMovesByNode(n.getNodeID());
+        if (movesForNode.size() > 0) {
+            move = movesForNode.get(movesForNode.size() - 1);
             Date moveDate = move.getMoveDate();
             LocalDate date = moveDate.toLocalDate();
             Platform.runLater(() -> moveDatePicker.setValue(date));
+            String longName = move.getLongName();
+            LocationName locationName = mapdb.getLocationNameByLongName(longName);
+            String shortName = locationName.getShortName();
+            String nodeType = locationName.getNodeType();
+
+            longNameText.setText(longName);
+            shortNameText.setText(shortName);
+            nodeTypeText.setText(nodeType);
         }
         else {
             moveDatePicker.setValue(null);
@@ -103,15 +112,6 @@ public class MapPopupController {
             edgeString.append(" ").append(e.getStartNode()).append("-").append(e.getEndNode()).append("\n");
         }
         edgeText.setText(edgeString.toString());
-
-        String longName = move.getLongName();
-        LocationName locationName = mapdb.getLocationNameByLongName(longName);
-        String shortName = locationName.getShortName();
-        String nodeType = locationName.getNodeType();
-
-        longNameText.setText(longName);
-        shortNameText.setText(shortName);
-        nodeTypeText.setText(nodeType);
     }
 
     private void handleDatePickerChange(LocalDate newValue) throws SQLException {

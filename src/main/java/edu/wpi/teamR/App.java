@@ -24,6 +24,8 @@ public class App extends Application {
   @Setter @Getter
   public static MapStorage mapData;
 
+  @Setter @Getter public static String kioskLocationString = "75 Lobby";
+
   @Override
   public void init() {
     log.info("Starting Up");

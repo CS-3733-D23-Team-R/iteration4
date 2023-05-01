@@ -68,11 +68,6 @@ public class EditProfileController {
                 checkFields(currentUser, backendUser);
                 RootController root = RootController.getInstance();
                 root.setProfileIcon(UserDatabase.getProfilePictureFromID(imageID));
-                if(currentUser.getAccessLevel().equals(AccessLevel.Admin)){
-                    Navigation.navigate(Screen.ADMINPROFILEPAGE);
-                } else {
-                    Navigation.navigate(Screen.STAFFPROFILEPAGE);
-                }
             } catch (SQLException | ItemNotFoundException e) {
                 throw new RuntimeException(e);
             }

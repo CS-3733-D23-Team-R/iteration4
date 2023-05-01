@@ -1,10 +1,12 @@
 package edu.wpi.teamR.controllers;
 
+import edu.wpi.teamR.App;
 import edu.wpi.teamR.Main;
 import edu.wpi.teamR.mapdb.*;
 import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
 import edu.wpi.teamR.requestdb.RequestStatus;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -33,7 +35,6 @@ public class SignageConfigurationController {
     public void start(Stage primaryStage) {
         primaryStage.show();
     }
-
     @FXML Button backButton;
     @FXML Button submitButton;
     @FXML Button refreshButton;
@@ -47,6 +48,8 @@ public class SignageConfigurationController {
     @FXML TableColumn<DirectionArrow, Date> dateColumn;
     @FXML TableColumn<DirectionArrow, Integer> idColumn;
     @FXML TableColumn<DirectionArrow, Void> deleteColumn;
+
+    @FXML MFXComboBox kioskLocation;
 
     ObservableList<String> locationList;
     ObservableList<Direction> directionList;
@@ -75,7 +78,11 @@ public class SignageConfigurationController {
         }
         locationList = FXCollections.observableArrayList(tempList);
         locationBox.setItems(locationList);
-
+        kioskLocation.setItems(locationList);
+        kioskLocation.setText(App.getKioskLocationString());
+        kioskLocation.setOnAction(event -> {
+            App.setKioskLocationString(kioskLocation.getValue().toString());
+        });
 
         ArrayList<Direction> tempList2 = new ArrayList<Direction>();
         try {

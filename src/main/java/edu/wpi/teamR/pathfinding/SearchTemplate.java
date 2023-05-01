@@ -31,7 +31,7 @@ public abstract class SearchTemplate extends SearchAlgorithm {
             ArrayList<Integer> neighbors = mapDatabase.getAdjacentNodeIDsByNodeID(currentNode);
             for (int neighbor : neighbors) {
                 //remove stair nodes if accessible is checked
-                if(accessible && mapDatabase.getNodeTypeByNodeID(currentNode).equals("STAI") && mapDatabase.getNodeTypeByNodeID(neighbor).equals("STAI")) {
+                if(accessible && nodeTypeEquals(currentNode, "STAI") && nodeTypeEquals(neighbor, "STAI")) {
                     continue;
                 }
                 int newCost = costSoFar.get(currentNode) + nodeDist(currentNode, neighbor);

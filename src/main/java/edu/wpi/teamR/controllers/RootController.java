@@ -19,6 +19,7 @@ import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
@@ -111,6 +112,12 @@ public class RootController {
     transition.play();
 
     setLogoutButton(false);
+
+    Platform.runLater(() -> App.getPrimaryStage().getScene().setOnKeyPressed(event -> {
+      if (event.getCode() == KeyCode.L && event.isControlDown()) {
+        timeout();
+      }
+    }));
   }
 
   private void openProfile() throws SQLException, ClassNotFoundException, ItemNotFoundException {
@@ -118,12 +125,14 @@ public class RootController {
     if (!thisUserData.isLoggedIn()){
       Navigation.navigate(Screen.LOGIN);
     }
-    CurrentUser user = thisUserData.getLoggedIn();
-    setProfileIcon(user.getProfilePictureLocation());
-    if(user.getAccessLevel().equals(AccessLevel.Admin)){
-      Navigation.navigate(Screen.ADMINPROFILEPAGE);
-    } else if(user.getAccessLevel().equals(AccessLevel.Staff)){
-      Navigation.navigate(Screen.STAFFPROFILEPAGE);
+    else {
+      CurrentUser user = thisUserData.getLoggedIn();
+      setProfileIcon(user.getProfilePictureLocation());
+      if(user.getAccessLevel().equals(AccessLevel.Admin)){
+        Navigation.navigate(Screen.ADMINPROFILEPAGE);
+      } else if(user.getAccessLevel().equals(AccessLevel.Staff)){
+        Navigation.navigate(Screen.STAFFPROFILEPAGE);
+      }
     }
   }
 
@@ -145,6 +154,7 @@ public class RootController {
       rootHbox.setManaged(false);
       Navigation.navigate(Screen.SCREENSAVER);
       App.getPrimaryStage().removeEventFilter(InputEvent.ANY, ssevent);
+      logout();
   }
 
   public static RootController getInstance() {

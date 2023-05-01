@@ -28,7 +28,7 @@ public class DFSSearch extends SearchAlgorithm{
             }
             ArrayList<Integer> neighbors = mapDatabase.getAdjacentNodeIDsByNodeID(currentNode);
             for (Integer neighbor : neighbors) {
-                if(accessible && mapDatabase.getNodeTypeByNodeID(currentNode).equals("STAI") && mapDatabase.getNodeTypeByNodeID(neighbor).equals("STAI")) {
+                if(accessible && nodeTypeEquals(currentNode, "STAI") && nodeTypeEquals(neighbor, "STAI")) {
                     continue;
                 }
                 if (!cameFrom.containsKey(neighbor)) {

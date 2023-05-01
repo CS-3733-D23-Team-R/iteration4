@@ -39,7 +39,7 @@ public class AdminProfilePageController {
     ImageView ProfilePicture;
     @FXML
     Text time;
-    @FXML Button toEmployeeManager, toServiceRequests, toConferenceRooms, toSignageConfiguration, toAlerts, toEditMap;
+    @FXML Button toEmployeeManager, toServiceRequests, toConferenceRooms, toSignageConfiguration, toAlerts, toEditMap, toMovePatients, statsButton;
     @FXML VBox profileCardContainer;
     @FXML StackPane conferenceRoomImage, signageConfigurationImage, createAlertImage, allServiceRequestsImage, employeeManagementImage;
 
@@ -53,7 +53,7 @@ public class AdminProfilePageController {
     public void initialize(){
         UserData thisUserData = UserData.getInstance();
         CurrentUser user = thisUserData.getLoggedIn();
-
+        statsButton.setOnMouseClicked(event -> {Navigation.navigate(Screen.DASHBOARD);});
         toAlerts.setOnMouseClicked(event -> { Navigation.navigate(Screen.ALERTS);});
         toServiceRequests.setOnMouseClicked(event -> {Navigation.navigate(Screen.SORT_ORDERS);});
         toConferenceRooms.setOnMouseClicked(event -> {Navigation.navigate(Screen.ROOM_REQUEST_MANAGER);});
@@ -87,23 +87,8 @@ public class AdminProfilePageController {
         gesturePane.setMaxScale(2);
         gesturePane.zoomTo(0.25, 0.25, new Point2D(2500, 1700));
 
-        backupButton.setOnAction(event -> {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/ArchivePage.fxml"));
-            try {
-                Parent popupRoot = loader.load();
-
-                Stage popupStage = new Stage();
-                popupStage.initModality(Modality.APPLICATION_MODAL);
-                popupStage.setTitle("Archive Manager");
-                popupStage.setScene(new Scene(popupRoot, 550, 300));
-                RootController root = RootController.getInstance();
-                root.setPopupState(true);
-                popupStage.showAndWait();
-                root.setPopupState(false);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        backupButton.setOnMouseClicked(event -> {Navigation.navigate(Screen.VIEWDATA);});
+        toMovePatients.setOnMouseClicked(event -> {Navigation.navigate(Screen.MOVEPATIENT);});
     }
 
     private Node loadCard(CurrentUser user) throws IOException, IOException {

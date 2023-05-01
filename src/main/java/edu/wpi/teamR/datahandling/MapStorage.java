@@ -4,12 +4,13 @@ import edu.wpi.teamR.Main;
 import edu.wpi.teamR.mapdb.*;
 import javafx.scene.image.ImageView;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
 
-@Getter
+@Getter @Setter
 public class MapStorage {
 
     static URL firstFloorLink = Main.class.getResource("images/01_thefirstfloor.png");
@@ -66,10 +67,10 @@ public class MapStorage {
         }
 
         for (int i = 0; i < 5; i++) {
-            nodes = mapdb.getNodesByFloor(nodeFloorNames[i]);
+            ArrayList<Node> nodeArrayList = mapdb.getNodesByFloor(nodeFloorNames[i]);
             Map<Integer, Node> nodeMap = new HashMap<>();
             floorNodeMaps.add(nodeMap);
-            for (Node n : nodes) {
+            for (Node n : nodeArrayList) {
                 nodeMap.put(n.getNodeID(), n);
             }
         }

@@ -4,11 +4,8 @@ import edu.wpi.teamR.App;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.Main;
 import edu.wpi.teamR.controllers.mapeditor.*;
-import edu.wpi.teamR.archive.CSVParameterException;
-import edu.wpi.teamR.archive.CSVWriter;
-import edu.wpi.teamR.datahandling.MapStorage;
 import edu.wpi.teamR.mapdb.update.*;
-import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -17,11 +14,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -32,17 +29,11 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import edu.wpi.teamR.mapdb.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import net.kurobako.gesturefx.GesturePane;
-
-import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
@@ -148,14 +139,12 @@ public class MapEditorController {
     HashMap<Circle, Node> alignmentNodesList = new HashMap<>();
     ArrayList<Circle> alignmentCirclesList = new ArrayList<>();
     @FXML ImageView infoIcon;
-    @FXML
-    VBox dbBackupButton;
-    @FXML VBox backupBox;
 
     Color textColor = Color.BLACK;
     Color pathColor = Color.web("#012D5A");
 
     boolean userAction = true;
+    boolean createNode = false;
 
     @FXML
     public void initialize() throws SQLException, ClassNotFoundException, ItemNotFoundException {
@@ -193,34 +182,18 @@ public class MapEditorController {
             }
         });
         newNodeButton.setOnAction(event -> {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/NewNodePopup.fxml"));
-            try {
-                Parent popupRoot = loader.load();
-                NewNodePopupController popupController = loader.getController();
-                popupController.setUpdater(updater);
-
-                Stage popupStage = new Stage();
-                popupStage.initModality(Modality.APPLICATION_MODAL);
-                popupStage.setTitle("Create New Node");
-                popupStage.setScene(new Scene(popupRoot, 400, 200));
-                RootController root = RootController.getInstance();
-                root.setPopupState(true);
-                popupStage.showAndWait();
-                root.setPopupState(false);
-
-                Node newNode = nodes.get(nodes.size()-1);
-                Circle newCircle = new Circle(newNode.getXCoord(), newNode.getYCoord(), 4, pathColor);
-                nodePanes[currentFloor].getChildren().add(newCircle);
-                circlesMap.put(newNode.getNodeID(), newCircle);
-
-                setupMapNode(currentFloor, newNode, newCircle);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            edgeDialog(true);
+            dialogText.setText("Click to add node to point");
+            createNode = true;
         });
 
+        Platform.runLater(this::setNewNodeEvent);
+
         edgeDialog(false);
-        newEdgeButton.setOnAction(event -> edgeDialog(true));
+        newEdgeButton.setOnAction(event -> {
+            drawEdgesMode=true;
+            edgeDialog(true);
+        });
 
         undoButton.setOnAction(event -> {
             try {
@@ -238,7 +211,6 @@ public class MapEditorController {
         gesturePane.setMaxScale(2);
 
         try {
-            App.setMapData(new MapStorage());
             mapdb = App.getMapData().getMapdb();
             updater = new MapUpdater(mapdb);
             nodes = App.getMapData().getNodes();
@@ -299,7 +271,15 @@ public class MapEditorController {
             }
         });
 
-        cancelEdgeButton.setOnAction(event -> edgeDialog(false));
+        cancelEdgeButton.setOnAction(event -> {
+            if (drawEdgesMode) {
+                drawEdgesMode = false;
+            }
+            else if (createNode) {
+                createNode = false;
+            }
+            edgeDialog(false);
+        });
 
         locationFilters.getItems().addAll(locationTypes);
         initializeLocationMap();
@@ -310,6 +290,7 @@ public class MapEditorController {
                         if (change.getAddedSubList().contains("Select All")) {
                             userAction = false;
                             locationFilters.getCheckModel().checkAll();
+                            locationFilters.setTitle("All");
                             try {
                                 displayLocationNames(currentFloor);
                             } catch (SQLException e) {
@@ -331,6 +312,7 @@ public class MapEditorController {
                         if (change.getRemoved().contains("Select All")) {
                             userAction = false;
                             locationFilters.getCheckModel().clearChecks();
+                            locationFilters.setTitle("");
                             userAction = true;
                         }
                         ObservableList<javafx.scene.Node> children = nodePanes[currentFloor].getChildren();
@@ -422,19 +404,31 @@ public class MapEditorController {
             popOver.show(infoIcon);
         });
 
+        Platform.runLater(() -> App.getPrimaryStage().getScene().setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.Z && event.isControlDown()) {
+                try {
+                    undoAction();
+                } catch (SQLException | ItemNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }));
+
         reset();
     }
 
     private void edgeDialog(boolean setting) {
-        drawEdgesMode=setting;
         edgeHBox.setVisible(setting);
         edgeHBox.setManaged(setting);
         if (selectedCircle != null) {
             selectedNode = null;
             selectedCircle.setFill(pathColor);
             selectedCircle = null;
+            drawEdgesMode = false;
         }
-        dialogText.setText("Click Another Node to Draw Edge");
+        if (drawEdgesMode) {
+            dialogText.setText("Click Another Node to Draw Edge");
+        }
     }
 
     public void changeFloor(int floorNum) throws SQLException, ItemNotFoundException {
@@ -453,6 +447,7 @@ public class MapEditorController {
             if (selectedNode == null) {
                 reset();
             }
+            setNewNodeEvent();
             redraw();
         }
     }
@@ -551,6 +546,7 @@ public class MapEditorController {
                     if (selectedNode.equals(n)) {
                         selectedCircle.setFill(pathColor);
                         selectedNode = null;
+                        drawEdgesMode = false;
                         edgeDialog(false);
                         return;
                     }
@@ -616,6 +612,7 @@ public class MapEditorController {
                     }
                     updater.endAction();
                     selectedNode = null;
+                    drawEdgesMode = false;
                     edgeDialog(false);
                 }
             }
@@ -799,12 +796,11 @@ public class MapEditorController {
                         }
                         case DELETION -> {
                             Circle deleted = new Circle(node.getXCoord(), node.getYCoord(), 4, pathColor);
-
-                            setupMapNode(currentFloor, node, deleted);
-
                             nodePanes[currentFloor].getChildren().add(deleted);
                             nodes.add(node);
                             mapdb.addNode(node);
+                            setupMapNode(currentFloor, node, deleted);
+                            redrawEdges(node);
                         }
                     }
                 }
@@ -1011,5 +1007,46 @@ public class MapEditorController {
         floorButtonMap.put(2, floor1Button);
         floorButtonMap.put(3, floor2Button);
         floorButtonMap.put(4, floor3Button);
+    }
+
+    public void createNode(int x, int y) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/mapeditor/NewNodePopup.fxml"));
+        try {
+            Parent popupRoot = loader.load();
+            NewNodePopupController popupController = loader.getController();
+            popupController.setUpdater(updater);
+            popupController.open(x,y, nodeFloorNames[currentFloor]);
+
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.setTitle("Create New Node");
+            popupStage.setScene(new Scene(popupRoot, 400, 200));
+            RootController root = RootController.getInstance();
+            root.setPopupState(true);
+            popupStage.showAndWait();
+            root.setPopupState(false);
+
+            Node newNode = nodes.get(nodes.size()-1);
+            if (newNode.getFloorNum().equals(nodeFloorNames[currentFloor])) {
+                Circle newCircle = new Circle(newNode.getXCoord(), newNode.getYCoord(), 4, pathColor);
+                nodePanes[currentFloor].getChildren().add(newCircle);
+                circlesMap.put(newNode.getNodeID(), newCircle);
+                setupMapNode(currentFloor, newNode, newCircle);
+            }
+            edgeDialog(false);
+            createNode = false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setNewNodeEvent() {
+        nodePanes[currentFloor].setOnMouseClicked(event -> {
+            if (createNode) {
+                int x = (int) event.getX();
+                int y = (int) event.getY();
+                createNode(x,y);
+            }
+        });
     }
 }

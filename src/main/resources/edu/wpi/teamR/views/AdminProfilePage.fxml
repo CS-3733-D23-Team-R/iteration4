@@ -45,13 +45,52 @@
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </VBox>
-                        <VBox prefHeight="477.0" prefWidth="416.0" styleClass="boxroundedbordered" VBox.vgrow="ALWAYS">
+                        <VBox prefHeight="477.0" prefWidth="416.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <StackPane fx:id="conferenceRoomImage" prefHeight="343.0" prefWidth="416.0" styleClass="profileToConferenceRoom" VBox.vgrow="ALWAYS">
+                              <HBox prefHeight="273.0" prefWidth="539.0" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Button fx:id="toConferenceRooms" mnemonicParsing="false" styleClass="tinyButton" text="Manage Room Requests" />
+                                    <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <StackPane fx:id="movePatientsImage" prefHeight="191.0" prefWidth="267.0">
+                                             <children>
+                                                <Button fx:id="toMovePatients" mnemonicParsing="false" styleClass="tinyButton" text="Move Patients" />
+                                             </children>
+                                             <styleClass>
+                                                <String fx:value="boxroundedbordered" />
+                                                <String fx:value="profileToMovePatient" />
+                                             </styleClass>
+                                          </StackPane>
+                                          <StackPane fx:id="conferenceRoomImage" prefHeight="191.0" prefWidth="267.0">
+                                             <children>
+                                                <Button fx:id="toConferenceRooms" mnemonicParsing="false" styleClass="tinyButton" text="Manage Room Requests" />
+                                             </children>
+                                             <styleClass>
+                                                <String fx:value="profileToConferenceRoom" />
+                                                <String fx:value="boxroundedbordered" />
+                                             </styleClass>
+                                          </StackPane>
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <StackPane fx:id="viewDataImage" prefHeight="191.0" prefWidth="267.0" styleClass="boxroundedbordered">
+                                             <children>
+                                                <Button fx:id="backupButton" mnemonicParsing="false" prefHeight="29.0" prefWidth="214.0" styleClass="tinyButton" text="View Database/Import &amp; Export">
+                                                   <padding>
+                                                      <Insets bottom="3.0" />
+                                                   </padding>
+                                                </Button>
+                                             </children>
+                                          </StackPane>
+                                          <StackPane fx:id="statsImage" prefHeight="191.0" prefWidth="267.0" styleClass="boxroundedbordered">
+                                             <children>
+                                                <Button fx:id="statsButton" mnemonicParsing="false" styleClass="tinyButton" text="View Statistics" />
+                                             </children>
+                                          </StackPane>
+                                       </children>
+                                    </VBox>
                                  </children>
-                              </StackPane>
+                              </HBox>
                            </children>
                         </VBox>
                      </children>
@@ -71,21 +110,16 @@
                                     <StackPane alignment="BOTTOM_RIGHT" prefHeight="150.0" prefWidth="200.0" styleClass="boxroundedbordered" HBox.hgrow="ALWAYS">
                                        <children>
                                           <GesturePane fx:id="gesturePane" />
-                                          <Button fx:id="toEditMap" mnemonicParsing="false" prefHeight="29.0" prefWidth="79.0" styleClass="tinyButton" text="Edit Map" StackPane.alignment="BOTTOM_RIGHT">
+                                          <Button fx:id="toEditMap" mnemonicParsing="false" prefHeight="29.0" prefWidth="79.0" styleClass="tinyButton" text="Edit Map" StackPane.alignment="TOP_LEFT">
                                              <StackPane.margin>
-                                                <Insets bottom="3.0" />
+                                                <Insets left="5.0" top="5.0" />
                                              </StackPane.margin>
                                           </Button>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="viewOnly" text="View Only" StackPane.alignment="BOTTOM_LEFT">
                                              <StackPane.margin>
-                                                <Insets bottom="3.0" />
+                                                <Insets bottom="15.0" left="5.0" />
                                              </StackPane.margin>
                                           </Text>
-                                          <Button fx:id="backupButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="104.0" styleClass="tinyButton" text="Backup Data" StackPane.alignment="BOTTOM_CENTER">
-                                             <padding>
-                                                <Insets bottom="3.0" />
-                                             </padding>
-                                          </Button>
                                        </children>
                                     </StackPane>
                                  </children>
