@@ -1,17 +1,28 @@
 package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.login.Alert;
+import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.mapdb.*;
 import edu.wpi.teamR.login.User;
 import edu.wpi.teamR.requestdb.*;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.sql.SQLException;
 
 public class ViewAllDataController {
+    @FXML Button backupButton;
     @FXML HBox
             nodeHbox,
             edgeHbox,
@@ -135,13 +146,32 @@ public class ViewAllDataController {
     @FXML TableColumn<PatientMove, Integer> patientMove_patientID;
     @FXML TableColumn<PatientMove, String> patientMove_longName, patientMove_staffUsername, patientMove_time;
 
-    public void initialize(){
+    HBox[] buttons = new HBox[]{
+            nodeHbox,
+            edgeHbox,
+            locationNameHbox,
+            moveHbox,
+            directionArrowHbox,
+            conferenceRoomHbox,
+            userHbox,
+            roomRequestHbox,
+            serviceRequestHbox,
+            allMealsHbox,
+            allFurnitureHbox,
+            allFlowersHbox,
+            allSuppliesHbox,
+            allAlertsHbox,
+            patientsHbox,
+            allPatientMovesHbox};
+    public void initialize() throws SQLException {
         alertsTable.setVisible(false);
+        alertsTable.getItems().addAll(new UserDatabase().getAlerts());
         alert_message.setCellValueFactory(new PropertyValueFactory<>("message"));
         alert_endDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
         alert_startDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
 
         allFlowerTable.setVisible(false);
+        allFlowerTable.getItems().addAll(new RequestDatabase().getAvailableFlowers());
         allFlowers_itemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
         allFlowers_description.setCellValueFactory(new PropertyValueFactory<>("description"));
         allFlowers_imageReference.setCellValueFactory(new PropertyValueFactory<>("imageReference"));
@@ -150,6 +180,7 @@ public class ViewAllDataController {
         allFlowers_price.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         allFurnitureTable.setVisible(false);
+        allFurnitureTable.getItems().addAll(new RequestDatabase().getAvailableFurniture());
         allFurniture_description.setCellValueFactory(new PropertyValueFactory<>("description"));
         allFurniture_imageReference.setCellValueFactory(new PropertyValueFactory<>("imageReference"));
         allFurniture_isPillow.setCellValueFactory(new PropertyValueFactory<>("isPillow"));
@@ -159,6 +190,7 @@ public class ViewAllDataController {
         allFurniture_itemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
 
         allMealsTable.setVisible(false);
+        allMealsTable.getItems().addAll(new RequestDatabase().getAvailableMeals());
         allMeals_description.setCellValueFactory(new PropertyValueFactory<>("description"));
         allMeals_imageReference.setCellValueFactory(new PropertyValueFactory<>("imageReference"));
         allMeals_itemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
@@ -170,6 +202,7 @@ public class ViewAllDataController {
         allMeals_isVegetarian.setCellValueFactory(new PropertyValueFactory<>("isVegetarian"));
 
         allSuppliesTable.setVisible(false);
+        allSuppliesTable.getItems().addAll(new RequestDatabase().getAvailableSupplies());
         allSupplies_description.setCellValueFactory(new PropertyValueFactory<>("description"));
         allSupplies_imageReference.setCellValueFactory(new PropertyValueFactory<>("imageReference"));
         allSupplies_price.setCellValueFactory(new PropertyValueFactory<>("itemprice"));
@@ -180,26 +213,30 @@ public class ViewAllDataController {
         allSupplies_isPen.setCellValueFactory(new PropertyValueFactory<>("ispen"));
 
         conferenceRoomTable.setVisible(false);
-        conferenceRoom_longName.setCellValueFactory(new PropertyValueFactory<>("longname"));
+        conferenceRoomTable.getItems().addAll(new MapDatabase().getConferenceRooms());
+        conferenceRoom_longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
         conferenceRoom_capacity.setCellValueFactory(new PropertyValueFactory<>("capacity"));
         conferenceRoom_hasOutlets.setCellValueFactory(new PropertyValueFactory<>("hasoutlets"));
         conferenceRoom_hasScreen.setCellValueFactory(new PropertyValueFactory<>("hasscreen"));
         conferenceRoom_isAccessible.setCellValueFactory(new PropertyValueFactory<>("isaccessible"));
 
         directionArrowTable.setVisible(false);
-        directionArrow_longName.setCellValueFactory(new PropertyValueFactory<>("longname"));
+        directionArrowTable.getItems().addAll(new MapDatabase().getDirectionArrows());
+        directionArrow_longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
         directionArrow_kioskID.setCellValueFactory(new PropertyValueFactory<>("kioskID"));
         directionArrow_direction.setCellValueFactory(new PropertyValueFactory<>("direction"));
         directionArrow_date.setCellValueFactory(new PropertyValueFactory<>("date"));
 
         edgeTable.setVisible(false);
+        edgeTable.getItems().addAll(new MapDatabase().getEdges());
         edge_endNode.setCellValueFactory(new PropertyValueFactory<>("endNode"));
         edge_startNode.setCellValueFactory(new PropertyValueFactory<>("startnode"));
 
         serviceRequestTable.setVisible(false);
+        serviceRequestTable.getItems().addAll(new RequestDatabase().getItemRequests());
         serviceRequest_additionalNotes.setCellValueFactory(new PropertyValueFactory<>("additionalNotes"));
         serviceRequest_itemType.setCellValueFactory(new PropertyValueFactory<>("itemtype"));
-        serviceRequest_longName.setCellValueFactory(new PropertyValueFactory<>("longname"));
+        serviceRequest_longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
         serviceRequest_requestDate.setCellValueFactory(new PropertyValueFactory<>("requestDate"));
         serviceRequest_requestID.setCellValueFactory(new PropertyValueFactory<>("requestID"));
         serviceRequest_requesterName.setCellValueFactory(new PropertyValueFactory<>("requesterName"));
@@ -208,16 +245,19 @@ public class ViewAllDataController {
         serviceRequest_staffUsername.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
 
         locationNameTable.setVisible(false);
-        locationName_longName.setCellValueFactory(new PropertyValueFactory<>("longname"));
-        locationName_shortName.setCellValueFactory(new PropertyValueFactory<>("shortname"));
+        locationNameTable.getItems().addAll(new MapDatabase().getLocationNames());
+        locationName_longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
+        locationName_shortName.setCellValueFactory(new PropertyValueFactory<>("shortName"));
         locationName_nodeType.setCellValueFactory(new PropertyValueFactory<>("nodeType"));
 
         moveTable.setVisible(false);
+        moveTable.getItems().addAll(new MapDatabase().getMoves());
         move_Date.setCellValueFactory(new PropertyValueFactory<>("date"));
-        move_longName.setCellValueFactory(new PropertyValueFactory<>("longname"));
+        move_longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
         move_nodeID.setCellValueFactory(new PropertyValueFactory<>("nodeID"));
 
         nodeTable.setVisible(false);
+        nodeTable.getItems().addAll(new MapDatabase().getNodes());
         node_building.setCellValueFactory(new PropertyValueFactory<>("building"));
         node_xCoord.setCellValueFactory(new PropertyValueFactory<>("xcoord"));
         node_yCoord.setCellValueFactory(new PropertyValueFactory<>("ycoord"));
@@ -225,12 +265,176 @@ public class ViewAllDataController {
         node_floor.setCellValueFactory(new PropertyValueFactory<>("floor"));
 
         patientTable.setVisible(false);
-
+        patientTable.getItems().addAll(new RequestDatabase().getPatients());
+        patient_patientID.setCellValueFactory(new PropertyValueFactory<>("patientID"));
+        patient_patientName.setCellValueFactory(new PropertyValueFactory<>("patientName"));
 
         patientMoveTable.setVisible(false);
-        roomRequestTable.setVisible(false);
-        userTable.setVisible(false);
+        patientMoveTable.getItems().addAll(new RequestDatabase().getPatientMoves());
+        patientMove_longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
+        patientMove_patientID.setCellValueFactory(new PropertyValueFactory<>("patientID"));
+        patientMove_staffUsername.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
+        patientMove_time.setCellValueFactory(new PropertyValueFactory<>("time"));
 
+        roomRequestTable.setVisible(false);
+        roomRequestTable.getItems().addAll(new RequestDatabase().getRoomRequests());
+        roomRequest_endTime.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+        roomRequest_longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
+        roomRequest_staffUsername.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
+        roomRequest_startTime.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        roomRequest_roomRequestID.setCellValueFactory(new PropertyValueFactory<>("roomrequestID"));
+
+        userTable.setVisible(false);
+        userTable.getItems().addAll(new UserDatabase().getUsers());
+        user_department.setCellValueFactory(new PropertyValueFactory<>("department"));
+        user_accessLevel.setCellValueFactory(new PropertyValueFactory<>("accessLevel"));
+        user_email.setCellValueFactory(new PropertyValueFactory<>("email"));
+        user_imageID.setCellValueFactory(new PropertyValueFactory<>("imageID"));
+        user_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        user_jobTitle.setCellValueFactory(new PropertyValueFactory<>("jobTitle"));
+        user_joinDate.setCellValueFactory(new PropertyValueFactory<>("joinDate"));
+        user_password.setCellValueFactory(new PropertyValueFactory<>("password"));
+        user_phoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNum"));
+        user_salt.setCellValueFactory(new PropertyValueFactory<>("salt"));
+        user_staffUsername.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
+
+        nodeHbox.setOnMouseClicked(event -> {
+            hideAllTables();
+            nodeTable.setVisible(true);
+            setAllButtonsGrey();
+            nodeHbox.setStyle("-fx-background-color: #0067B1");
+        });
+        edgeHbox.setOnMouseClicked(event -> {
+            hideAllTables();
+            edgeTable.setVisible(true);
+            setAllButtonsGrey();
+            edgeHbox.setStyle("-fx-background-color: #0067B1");
+        });
+        locationNameHbox.setOnMouseClicked(event -> {
+            hideAllTables();
+            locationNameTable.setVisible(true);
+            setAllButtonsGrey();
+            locationNameHbox.setStyle("-fx-background-color: #0067B1");
+        });
+        moveHbox.setOnMouseClicked(event -> {
+            hideAllTables();
+            moveTable.setVisible(true);
+            setAllButtonsGrey();
+            moveHbox.setStyle("-fx-background-color: #0067B1");
+        });
+        directionArrowHbox.setOnMouseClicked(event -> {
+            hideAllTables();
+            directionArrowTable.setVisible(true);
+            setAllButtonsGrey();
+            directionArrowHbox.setStyle("-fx-background-color: #0067B1");
+        });
+        conferenceRoomHbox.setOnMouseClicked(event -> {
+            hideAllTables();
+            conferenceRoomTable.setVisible(true);
+            setAllButtonsGrey();
+            conferenceRoomHbox.setStyle("-fx-background-color: #0067B1");
+        });
+        userHbox.setOnMouseClicked(event -> {
+            hideAllTables();
+            userTable.setVisible(true);
+            setAllButtonsGrey();
+            userHbox.setStyle("-fx-background-color: #0067B1");
+        });
+        roomRequestHbox.setOnMouseClicked(event -> {
+            hideAllTables();
+            roomRequestTable.setVisible(true);
+            setAllButtonsGrey();
+            roomRequestHbox.setStyle("-fx-background-color: #0067B1");
+        });
+        serviceRequestHbox.setOnMouseClicked(event -> {
+            hideAllTables();
+            serviceRequestTable.setVisible(true);
+            setAllButtonsGrey();
+            serviceRequestHbox.setStyle("-fx-background-color: #0067B1");
+        });
+        allMealsHbox.setOnMouseClicked(event -> {
+            hideAllTables();
+            allMealsTable.setVisible(true);
+            setAllButtonsGrey();
+            allMealsHbox.setStyle("-fx-background-color: #0067B1");
+        });
+        allFurnitureHbox.setOnMouseClicked(event -> {
+            hideAllTables();
+            allFurnitureTable.setVisible(true);
+            setAllButtonsGrey();
+            allFurnitureHbox.setStyle("-fx-background-color: #0067B1");
+        });
+        allFlowersHbox.setOnMouseClicked(event -> {
+            hideAllTables();
+            allFlowerTable.setVisible(true);
+            setAllButtonsGrey();
+            allFlowersHbox.setStyle("-fx-background-color: #0067B1");
+        });
+        allSuppliesHbox.setOnMouseClicked(event -> {
+            hideAllTables();
+            allSuppliesTable.setVisible(true);
+            setAllButtonsGrey();
+            allSuppliesHbox.setStyle("-fx-background-color: #0067B1");
+        });
+        allAlertsHbox.setOnMouseClicked(event -> {
+            hideAllTables();
+            alertsTable.setVisible(true);
+            setAllButtonsGrey();
+            allAlertsHbox.setStyle("-fx-background-color: #0067B1");
+        });
+        patientsHbox.setOnMouseClicked(event -> {
+            hideAllTables();
+            patientTable.setVisible(true);
+            setAllButtonsGrey();
+            patientsHbox.setStyle("-fx-background-color: #0067B1");
+        });
+        allPatientMovesHbox.setOnMouseClicked(event -> {
+            hideAllTables();
+            patientMoveTable.setVisible(true);
+            setAllButtonsGrey();
+            allPatientMovesHbox.setStyle("-fx-background-color: #0067B1");
+        });
+        backupButton.setOnAction(event -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/ArchivePage.fxml"));
+            try {
+                Parent popupRoot = loader.load();
+
+                Stage popupStage = new Stage();
+                popupStage.initModality(Modality.APPLICATION_MODAL);
+                popupStage.setTitle("Archive Manager");
+                popupStage.setScene(new Scene(popupRoot, 550, 300));
+                RootController root = RootController.getInstance();
+                root.setPopupState(true);
+                popupStage.showAndWait();
+                root.setPopupState(false);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+    public void hideAllTables(){
+        nodeTable.setVisible(false);
+        edgeTable.setVisible(false);
+        locationNameTable.setVisible(false);
+        moveTable.setVisible(false);
+        directionArrowTable.setVisible(false);
+        conferenceRoomTable.setVisible(false);
+        userTable.setVisible(false);
+        roomRequestTable.setVisible(false);
+        serviceRequestTable.setVisible(false);
+        allMealsTable.setVisible(false);
+        allFurnitureTable.setVisible(false);
+        allFlowerTable.setVisible(false);
+        allSuppliesTable.setVisible(false);
+        alertsTable.setVisible(false);
+        patientTable.setVisible(false);
+        patientMoveTable.setVisible(false);
+    }
+
+    public void setAllButtonsGrey(){
+        nodeHbox.setStyle("-fx-background-color: #D9D9D9");
 
     }
+
+
 }

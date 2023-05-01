@@ -87,23 +87,7 @@ public class AdminProfilePageController {
         gesturePane.setMaxScale(2);
         gesturePane.zoomTo(0.25, 0.25, new Point2D(2500, 1700));
 
-        backupButton.setOnAction(event -> {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/ArchivePage.fxml"));
-            try {
-                Parent popupRoot = loader.load();
-
-                Stage popupStage = new Stage();
-                popupStage.initModality(Modality.APPLICATION_MODAL);
-                popupStage.setTitle("Archive Manager");
-                popupStage.setScene(new Scene(popupRoot, 550, 300));
-                RootController root = RootController.getInstance();
-                root.setPopupState(true);
-                popupStage.showAndWait();
-                root.setPopupState(false);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        backupButton.setOnMouseClicked(event -> {Navigation.navigate(Screen.VIEWDATA);});
         toMovePatients.setOnMouseClicked(event -> {Navigation.navigate(Screen.MOVEPATIENT);});
     }
 

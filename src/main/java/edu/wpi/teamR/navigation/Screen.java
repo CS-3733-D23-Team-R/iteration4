@@ -26,7 +26,8 @@ public enum Screen {
   CREDITS("views/CreditsPage.fxml"),
   ABOUT("views/About.fxml"),
   ALERTS("views/Alerts.fxml"),
-  MOVEPATIENT("views/movePatient.fxml");
+  MOVEPATIENT("views/movePatient.fxml"),
+  VIEWDATA("views/ViewAllData.fxml");
   private final String filename;
 
   Screen(String filename) {
