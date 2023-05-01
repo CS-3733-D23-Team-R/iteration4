@@ -113,16 +113,11 @@ public class RootController {
 
     setLogoutButton(false);
 
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        App.getPrimaryStage().getScene().setOnKeyPressed(event -> {
-          if (event.getCode() == KeyCode.L && event.isControlDown()) {
-            timeout();
-          }
-        });
+    Platform.runLater(() -> App.getPrimaryStage().getScene().setOnKeyPressed(event -> {
+      if (event.getCode() == KeyCode.L && event.isControlDown()) {
+        timeout();
       }
-    });
+    }));
   }
 
   private void openProfile() throws SQLException, ClassNotFoundException, ItemNotFoundException {
