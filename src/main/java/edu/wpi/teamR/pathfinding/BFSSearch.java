@@ -3,6 +3,7 @@ package edu.wpi.teamR.pathfinding;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.mapdb.LocationName;
 import edu.wpi.teamR.mapdb.MapDatabase;
+import edu.wpi.teamR.mapdb.Node;
 
 import javax.xml.stream.Location;
 import java.sql.Date;
@@ -51,7 +52,7 @@ public class BFSSearch extends SearchAlgorithm{
         return path;
     }
 
-    String getNearest(int startID, Date date) throws SQLException, ItemNotFoundException {
+    Node getNearest(int startID, Date date) throws SQLException, ItemNotFoundException {
         HashMap<Integer, Integer> cameFrom = new HashMap<>();
         cameFrom.put(startID, null);
         LinkedList<Integer> queue = new LinkedList<>();
@@ -63,7 +64,7 @@ public class BFSSearch extends SearchAlgorithm{
             ArrayList<LocationName> locationNames = mapDatabase.getLocationNamesByNodeIDAtDate(currentNode, date);
             if (locationNames.size() > 0) {
                 LocationName locationName = locationNames.get(0);
-                if(!locationName.getNodeType().equals("HALL")) return locationName.getLongName();
+                if(!locationName.getNodeType().equals("HALL")) return mapDatabase.getNodeByID(currentNode);
             }
             ArrayList<Integer> neighbors = mapDatabase.getAdjacentNodeIDsByNodeID(currentNode);
             for (Integer neighbor : neighbors) {
@@ -74,6 +75,6 @@ public class BFSSearch extends SearchAlgorithm{
                 }
             }
         }
-        return "the hallway";
+        return null;
     }
 }
