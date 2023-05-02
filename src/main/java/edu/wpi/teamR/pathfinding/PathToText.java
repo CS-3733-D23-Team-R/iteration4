@@ -69,6 +69,7 @@ public class PathToText {
 
     private ArrayList<String> getTextualDirectionsByFloor(ArrayList<Integer> floorNodes, Date date, int lastNodeID, String nextFloor) throws SQLException, ItemNotFoundException {
         ArrayList <String> floorTextList = new ArrayList<>();
+        BFSSearch bfsSearch = new BFSSearch(mapDatabase);
         Node lastNode = null; //keeps track of last junction we came from
         Node currentNode = null;
         Node previousNode = null;
@@ -96,7 +97,7 @@ public class PathToText {
                         initialText = initialText + "Exit the elevator and " + turnText(currentNode, nextNode, nextNextNode);
                         lastNode = nextNode;
                     } else if (getNodeTypeByNodeID(floorNodes.get(i), date).equals("STAI")) {
-                        initialText = initialText + "Exit the stairs and turn " + turnText(currentNode, nextNode, nextNextNode);
+                        initialText = initialText + "Exit the stairs and " + turnText(currentNode, nextNode, nextNextNode);
                         lastNode = nextNode;
                     } else {
                         initialText = initialText + "Start at " + this.mapDatabase.getLocationNamesByNodeIDAtDate(floorNodes.get(0), date).get(0).getLongName()
@@ -109,7 +110,9 @@ public class PathToText {
             } else { //anything intermediate or at the end
                 if(detectTurn(currentNode, lastNode, nextNode)){
                     String intermediateText = "";
-                    intermediateText = "Continue for " + nodeDiffToFeet(lastNode, currentNode) + " feet until you reach the hallway junction";
+//                    intermediateText = "Continue for " + nodeDiffToFeet(lastNode, currentNode) + " feet until you reach the hallway junction";
+                    intermediateText = "Continue for " + nodeDiffToFeet(lastNode, currentNode) + " feet";
+                    intermediateText = intermediateText + " until you are near the " + bfsSearch.getNearest(floorNodes.get(i), date);
                     floorTextList.add(intermediateText);
                     floorTextList.add(turnText(lastNode, currentNode, nextNode));
                     lastNode = currentNode;
@@ -202,7 +205,7 @@ public class PathToText {
 //        return dotProduct / (magnitude1 * magnitude2) > turnThreshold;
         String turnDirection = turnDirection(lastNode, currentNode, nextNode);
         if(turnDirection == null) return false;
-        else if(turnDirection.equals("continue forwards facing ")) return false;
+        else if(turnDirection.equals("go forwards facing ")) return false;
         else return true;
     }
 
@@ -232,7 +235,7 @@ public class PathToText {
             double firstSlope = (middleNode.getYCoord() - firstNode.getYCoord() * 1.0) / (middleNode.getXCoord() - firstNode.getXCoord());
             double secondSlope = (secondNode.getYCoord() - middleNode.getYCoord() * 1.0) / (secondNode.getXCoord() - middleNode.getXCoord());
             double difference = secondSlope - firstSlope;
-            if (abs(difference) < turnThreshold) return "continue forwards facing ";
+            if (abs(difference) < turnThreshold) return "go forwards facing ";
             else if(difference > turnThreshold) return "turn right to face ";
             else return "turn left to face "; //difference < turnThreshold
         } else {
@@ -241,7 +244,7 @@ public class PathToText {
     }
 
     private String turnText(Node firstNode, Node middleNode, Node secondNode){
-        String outputText = turnDirection(firstNode, middleNode, secondNode) + cardinalText(firstNode, secondNode);
+        String outputText = turnDirection(firstNode, middleNode, secondNode) + cardinalText(middleNode, secondNode);
         return outputText;
     }
 
