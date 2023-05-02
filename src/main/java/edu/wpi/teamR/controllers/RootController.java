@@ -121,6 +121,13 @@ public class RootController {
           }
         });
       }
+      else {
+        oldScene.setOnKeyPressed(event -> {
+          if (event.getCode() == KeyCode.L && event.isControlDown()) {
+            timeout();
+          }
+        });
+      }
     });
   }
 
