@@ -61,13 +61,23 @@ public class ScreensaverController {
         bwh.setTranslateY(bwh.getTranslateY() + offsetY);
 
         // handle collisions with AnchorPane bounds
-        if (bwh.getTranslateX() <= 0 || bwh.getTranslateX() + WIDTH >= anchorPane.getWidth()) {
+        if (bwh.getTranslateX() <= 1 || bwh.getTranslateX() + WIDTH >= anchorPane.getWidth()) {
             offsetX *= -1;
             changeImage();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        if (bwh.getTranslateY() <= 0 || bwh.getTranslateY() + HEIGHT >= anchorPane.getHeight()) {
+        if (bwh.getTranslateY() <= 1 || bwh.getTranslateY() + HEIGHT >= anchorPane.getHeight()) {
             offsetY *= -1;
             changeImage();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -428,8 +428,6 @@ public class MapController {
     }
 
     public void displayPath(String startLocation, String endLocation, Boolean accessible) throws Exception {
-        int currentStage = 1;
-
         clearPath();
         mapPane.getChildren().add(paths[currentFloor]);
         updatePathfindingAlgorithm(algorithmChoicebox.getValue());

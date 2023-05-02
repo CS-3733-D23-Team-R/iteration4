@@ -142,7 +142,10 @@
                         </Text>
                         <MFXScrollPane fx:id="textScrollPane" pannable="true" prefHeight="166.0" prefWidth="310.0" VBox.vgrow="ALWAYS">
                            <content>
-                              <VBox fx:id="directionsVBox" prefHeight="164.0" prefWidth="312.0" />
+                              <VBox fx:id="directionsVBox" prefHeight="164.0" prefWidth="312.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Generate a path to display directions!" />
+                                 </children></VBox>
                            </content>
                            <VBox.margin>
                               <Insets right="5.0" />
