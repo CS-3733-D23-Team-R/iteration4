@@ -205,7 +205,7 @@
                </children>
             </VBox>
             <StackPane fx:id="compassPane" layoutX="1110.0" layoutY="6.0" prefHeight="100.0" prefWidth="100.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <HBox fx:id="floorOrderHBox" alignment="CENTER" disable="true" layoutX="543.0" layoutY="14.0" prefHeight="25.0" prefWidth="200.0" styleClass="map-vbox" visible="false" AnchorPane.leftAnchor="542.0" AnchorPane.rightAnchor="542.0" AnchorPane.topAnchor="14.0" />
+            <HBox fx:id="floorOrderHBox" alignment="CENTER" disable="true" layoutX="543.0" layoutY="14.0" prefHeight="25.0" prefWidth="200.0" spacing="3.0" styleClass="map-vbox" visible="false" AnchorPane.leftAnchor="542.0" AnchorPane.rightAnchor="542.0" AnchorPane.topAnchor="14.0" />
          </children>
       </AnchorPane>
    </center>
