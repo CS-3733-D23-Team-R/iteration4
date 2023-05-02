@@ -74,7 +74,7 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <MFXTextField fx:id="phoneField" floatingText="Edit Phone Number:" prefHeight="49.0" prefWidth="225.0" promptText="i.e. 1234567890" HBox.hgrow="ALWAYS" />
+                                    <MFXTextField fx:id="phoneField" floatingText="Edit Phone Number:" prefHeight="49.0" prefWidth="225.0" promptText="Restricted to 0-9" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
                            </children>

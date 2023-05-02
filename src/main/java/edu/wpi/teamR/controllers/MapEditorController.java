@@ -23,7 +23,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -37,6 +36,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javafx.geometry.Point2D;
 import org.controlsfx.control.CheckComboBox;
@@ -486,20 +486,25 @@ public class MapEditorController {
                     addLine(e.getEndNode(), l1);
                     nodePanes[floor].getChildren().add(l1);
                     l1.toBack();
+                    l1.setPickOnBounds(true);
 
+                    AtomicBoolean edgeDeleted = new AtomicBoolean(false);
                     l1.setOnMouseClicked(event -> {
+                        l1.requestFocus();
                         if (event.getButton().equals(MouseButton.SECONDARY)) {
-                            updater.deleteEdge(n1.getNodeID(), n2.getNodeID());
                             try {
                                 mapdb.deleteEdge(n1.getNodeID(), n2.getNodeID());
                             } catch (SQLException ex) {
                                 throw new RuntimeException(ex);
                             }
-                            updater.endAction();
                             linesMap.remove(e.getStartNode());
                             linesMap.remove(e.getEndNode());
                             nodePanes[floor].getChildren().remove(l1);
-                            nodePanes[floor].requestLayout();
+                            if (!edgeDeleted.get()) {
+                                updater.deleteEdge(n1.getNodeID(), n2.getNodeID());
+                                updater.endAction();
+                                edgeDeleted.set(true);
+                            }
                         }
                     });
                 }
@@ -558,11 +563,19 @@ public class MapEditorController {
                         addLine(n.getNodeID(), l1);
                         addLine(selectedNode.getNodeID(), l1);
                         l1.toBack();
+                        l1.setPickOnBounds(true);
                         selectedCircle.setFill(pathColor);
                         l1.setOnMouseClicked(evt -> {
                             if (evt.getButton() == MouseButton.SECONDARY) {
                                 linesMap.remove(n.getNodeID());
                                 nodePanes[floor].getChildren().remove(l1);
+                                updater.deleteEdge(selectedNode.getNodeID(), n.getNodeID());
+                                updater.endAction();
+                                try {
+                                    mapdb.deleteEdge(selectedNode.getNodeID(), n.getNodeID());
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
+                                }
                                 System.out.println("Edge removed");
                             }
                         });
@@ -749,8 +762,29 @@ public class MapEditorController {
                         l1.setStrokeWidth(4);
                         nodePanes[floor].getChildren().add(l1);
                         l1.toBack();
+                        l1.setPickOnBounds(true);
                         addLine(startNode.getNodeID(), l1);
                         addLine(endNode.getNodeID(), l1);
+                        Line finalL = l1;
+                        l1.setOnMouseClicked(event -> {
+                            finalL.requestFocus();
+                            boolean edgeDeleted = false;
+                            if (event.getButton().equals(MouseButton.SECONDARY)) {
+                                try {
+                                    mapdb.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
+                                } catch (SQLException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+                                linesMap.remove(e.getStartNode());
+                                linesMap.remove(e.getEndNode());
+                                nodePanes[currentFloor].getChildren().remove(finalL);
+                                if (!edgeDeleted) {
+                                    updater.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
+                                    updater.endAction();
+                                    edgeDeleted = true;
+                                }
+                            }
+                        });
                     }
                 }
                 updater.modifyCoords(n.getNodeID(), (int) dragEvent.getX(), (int) dragEvent.getY());
@@ -760,6 +794,7 @@ public class MapEditorController {
                 throw new RuntimeException(e);
             }
         });
+        c.toFront();
     }
 
     public void redraw() throws SQLException, ItemNotFoundException {
@@ -795,13 +830,12 @@ public class MapEditorController {
                             redrawEdges(node);
                         }
                         case DELETION -> {
-                            Circle deleted = new Circle(node.getXCoord(), node.getYCoord(), 4, pathColor);
-
-                            setupMapNode(currentFloor, node, deleted);
-
-                            nodePanes[currentFloor].getChildren().add(deleted);
+                            Circle deleted = new Circle(node.getXCoord(), node.getYCoord(), 5, pathColor);
                             nodes.add(node);
                             mapdb.addNode(node);
+                            setupMapNode(currentFloor, node, deleted);
+                            nodePanes[currentFloor].getChildren().add(deleted);
+                            redrawEdges(node);
                         }
                     }
                 }
@@ -828,26 +862,33 @@ public class MapEditorController {
                             Line line = new Line(startNode.getXCoord(), startNode.getYCoord(), endNode.getXCoord(), endNode.getYCoord());
                             line.setStrokeWidth(4);
                             line.setStroke(pathColor);
+                            line.setPickOnBounds(true);
 
+                            final boolean[] edgeDeleted = {false};
                             line.setOnMouseClicked(event -> {
+                                line.requestFocus();
                                 if (event.getButton().equals(MouseButton.SECONDARY)) {
-                                    updater.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
                                     try {
                                         mapdb.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
                                     } catch (SQLException ex) {
                                         throw new RuntimeException(ex);
                                     }
-                                    updater.endAction();
                                     linesMap.remove(edge.getStartNode());
                                     linesMap.remove(edge.getEndNode());
                                     nodePanes[currentFloor].getChildren().remove(line);
-                                    nodePanes[currentFloor].requestLayout();
+                                    if (!edgeDeleted[0]) {
+                                        updater.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
+                                        updater.endAction();
+                                        edgeDeleted[0] = true;
+                                    }
                                 }
                             });
 
                             nodePanes[currentFloor].getChildren().add(line);
                             edges.add(edge);
                             mapdb.addEdge(edge.getStartNode(), edge.getEndNode());
+                            addLine(startNode.getNodeID(), line);
+                            addLine(endNode.getNodeID(), line);
                         }
                         case DELETION -> {
                             Node startNode = mapdb.getNodeByID(edge.getStartNode());
@@ -855,9 +896,32 @@ public class MapEditorController {
                             Line line = new Line(startNode.getXCoord(), startNode.getYCoord(), endNode.getXCoord(), endNode.getYCoord());
                             line.setStrokeWidth(4);
                             line.setStroke(pathColor);
+                            line.setPickOnBounds(true);
+
+                            AtomicBoolean edgeDeleted = new AtomicBoolean(false);
+                            line.setOnMouseClicked(event -> {
+                                line.requestFocus();
+                                if (event.getButton().equals(MouseButton.SECONDARY)) {
+                                    try {
+                                        mapdb.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
+                                    } catch (SQLException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
+                                    linesMap.remove(edge.getStartNode());
+                                    linesMap.remove(edge.getEndNode());
+                                    nodePanes[currentFloor].getChildren().remove(line);
+                                    if (!edgeDeleted.get()) {
+                                        updater.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
+                                        updater.endAction();
+                                        edgeDeleted.set(true);
+                                    }
+                                }
+                            });
                             nodePanes[currentFloor].getChildren().add(line);
                             edges.add(edge);
                             mapdb.addEdge(edge.getStartNode(), edge.getEndNode());
+                            addLine(startNode.getNodeID(), line);
+                            addLine(endNode.getNodeID(), line);
                         }
                     }
                 }
@@ -921,20 +985,25 @@ public class MapEditorController {
                     addLine(e.getEndNode(), l1);
                     nodePanes[currentFloor].getChildren().add(l1);
                     l1.toBack();
+                    l1.setPickOnBounds(true);
 
                     l1.setOnMouseClicked(event -> {
+                        l1.requestFocus();
+                        boolean edgeDeleted = false;
                         if (event.getButton().equals(MouseButton.SECONDARY)) {
-                            updater.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
                             try {
                                 mapdb.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
                             } catch (SQLException ex) {
                                 throw new RuntimeException(ex);
                             }
-                            updater.endAction();
                             linesMap.remove(e.getStartNode());
                             linesMap.remove(e.getEndNode());
                             nodePanes[currentFloor].getChildren().remove(l1);
-                            nodePanes[currentFloor].requestLayout();
+                            if (!edgeDeleted) {
+                                updater.deleteEdge(startNode.getNodeID(), endNode.getNodeID());
+                                updater.endAction();
+                                edgeDeleted = true;
+                            }
                         }
                     });
                 }

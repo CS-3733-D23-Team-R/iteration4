@@ -26,8 +26,10 @@ public enum Screen {
   CREDITS("views/CreditsPage.fxml"),
   MY_ROOM_RESERVATIONS("views/MyRoomReservations.fxml"),
   ABOUT("views/About.fxml"),
+  ALERTS("views/Alerts.fxml"),
   MOVEPATIENT("views/movePatient.fxml"),
-  ALERTS("views/Alerts.fxml");
+  VIEWDATA("views/ViewAllData.fxml"),
+  DASHBOARD("views/Dashboard.fxml");
 
   private final String filename;
 

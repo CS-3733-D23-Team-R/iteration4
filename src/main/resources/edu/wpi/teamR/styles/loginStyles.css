@@ -284,3 +284,10 @@
     -fx-background-size: cover;
     -fx-background-position: center;
 }
+
+.actuallyRoundedBlue{
+    -fx-background-radius: 30;
+    -fx-border-radius: 30;
+    -fx-background-color: #0067B1;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0.0, 0.0);
+}

@@ -1,6 +1,8 @@
 package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.Main;
+import edu.wpi.teamR.login.Alert;
+import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.mapdb.DirectionArrow;
 import edu.wpi.teamR.mapdb.MapDatabase;
 import edu.wpi.teamR.navigation.Navigation;
@@ -14,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -21,6 +24,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static edu.wpi.teamR.mapdb.Direction.*;
@@ -34,11 +41,26 @@ public class SignageController {
   }
 
   @FXML VBox signageBox;
+  @FXML VBox alertBox;
   MapDatabase aMapDatabase = new MapDatabase();
+  SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
   @FXML
   public void initialize() throws SQLException, ClassNotFoundException {
-
+    UserDatabase userDatabase = new UserDatabase();
+    List<Alert> alertsList = userDatabase.getCurrentAlerts();
+    if(alertsList.isEmpty()){
+      Text emptyLabel = new Text("No New Announcements");
+      emptyLabel.setFill(Color.WHITE);
+      alertBox.getChildren().add(emptyLabel);
+    }else {
+      alertsList.forEach(
+              (alert) -> {
+                HBox alerts = alertView(alert);
+                alertBox.getChildren().add(alerts);
+              }
+      );
+    }
     signageBox.setBackground(Background.fill(Color.web("#012D5A")));
     setVisible();
   }
@@ -120,5 +142,24 @@ public class SignageController {
       signageBox.getChildren().add(hBox);
     }
     signageBox.setMaxHeight(489);
+  }
+  private HBox alertView(Alert alert){
+    HBox layout = new HBox();
+    HBox leftBox = new HBox();
+    HBox rightBox = new HBox();
+    leftBox.setAlignment(Pos.CENTER_LEFT);
+    rightBox.setAlignment(Pos.CENTER_RIGHT);
+    Insets insets = new Insets(20);
+    rightBox.setPadding(insets);
+    HBox.setHgrow(leftBox, Priority.ALWAYS);
+    HBox.setHgrow(rightBox, Priority.ALWAYS);
+    Text message = new Text(alert.getMessage());
+    message.setStyle("-fx-font-size: 24;");
+    Text date = new Text(dateFormat.format(alert.getStartDate()));
+    date.setStyle("-fx-font-size: 24;");
+    leftBox.getChildren().add(message);
+    rightBox.getChildren().add(date);
+    layout.getChildren().addAll(leftBox, rightBox);
+    return layout;
   }
 }

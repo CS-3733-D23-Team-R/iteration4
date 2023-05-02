@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -76,6 +77,11 @@
                      </image>
                   </ImageView>
                   <Text lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="help-body" text="Logout: Sign out of your account." wrappingWidth="550.0" />
+               </children>
+            </HBox>
+            <HBox alignment="BOTTOM_CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Button fx:id="userManualButton" mnemonicParsing="false" styleClass="food_furniture-clear-button" text="User Manual" textAlignment="CENTER" />
                </children>
             </HBox>
          </children>
