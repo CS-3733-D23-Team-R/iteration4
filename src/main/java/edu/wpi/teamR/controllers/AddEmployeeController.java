@@ -54,7 +54,7 @@ public class AddEmployeeController {
             }
         });
         back.setOnMouseClicked(event -> back());
-        accesslevel.setValue(AccessLevel.Staff);
+        accesslevel.setText("Access Level");
         accesslevel.setItems(accessLevels);
         phoneNumber.setTextLimit(10);
     }
