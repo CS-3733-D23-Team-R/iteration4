@@ -51,7 +51,7 @@
                                  <children>
                                     <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <StackPane fx:id="movePatientsImage" prefHeight="191.0" prefWidth="267.0">
+                                          <StackPane fx:id="movePatientsImage" prefHeight="191.0" prefWidth="267.0" VBox.vgrow="ALWAYS">
                                              <children>
                                                 <Button fx:id="toMovePatients" mnemonicParsing="false" styleClass="tinyButton" text="Move Patients" />
                                              </children>
@@ -60,7 +60,7 @@
                                                 <String fx:value="profileToMovePatient" />
                                              </styleClass>
                                           </StackPane>
-                                          <StackPane fx:id="conferenceRoomImage" prefHeight="191.0" prefWidth="267.0">
+                                          <StackPane fx:id="conferenceRoomImage" prefHeight="191.0" prefWidth="267.0" VBox.vgrow="ALWAYS">
                                              <children>
                                                 <Button fx:id="toConferenceRooms" mnemonicParsing="false" styleClass="tinyButton" text="Manage Room Requests" />
                                              </children>
@@ -73,7 +73,7 @@
                                     </VBox>
                                     <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <StackPane fx:id="viewDataImage" prefHeight="191.0" prefWidth="267.0" styleClass="boxroundedbordered">
+                                          <StackPane fx:id="viewDataImage" prefHeight="191.0" prefWidth="267.0" VBox.vgrow="ALWAYS">
                                              <children>
                                                 <Button fx:id="backupButton" mnemonicParsing="false" prefHeight="29.0" prefWidth="214.0" styleClass="tinyButton" text="View Database/Import &amp; Export">
                                                    <padding>
@@ -81,11 +81,19 @@
                                                    </padding>
                                                 </Button>
                                              </children>
+                                             <styleClass>
+                                                <String fx:value="boxroundedbordered" />
+                                                <String fx:value="profileToViewData" />
+                                             </styleClass>
                                           </StackPane>
-                                          <StackPane fx:id="statsImage" prefHeight="191.0" prefWidth="267.0" styleClass="boxroundedbordered">
+                                          <StackPane fx:id="statsImage" prefHeight="191.0" prefWidth="267.0" VBox.vgrow="ALWAYS">
                                              <children>
                                                 <Button fx:id="statsButton" mnemonicParsing="false" styleClass="tinyButton" text="View Statistics" />
                                              </children>
+                                             <styleClass>
+                                                <String fx:value="boxroundedbordered" />
+                                                <String fx:value="profileToStatistics" />
+                                             </styleClass>
                                           </StackPane>
                                        </children>
                                     </VBox>
