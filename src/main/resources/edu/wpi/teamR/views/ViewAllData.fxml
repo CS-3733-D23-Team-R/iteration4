@@ -128,7 +128,7 @@
                   <StackPane VBox.vgrow="ALWAYS">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="SELECT A TABLE TO VIEW" />
-                        <TableView fx:id="nodeTable" prefHeight="674.0" prefWidth="1378.0" stylesheets="@../styles/tables.css">
+                        <TableView fx:id="nodeTable" prefHeight="674.0" prefWidth="1378.0" styleClass="actuallyRounded" stylesheets="@../styles/tables.css">
                           <columns>
                             <TableColumn fx:id="node_nodeID" editable="false" prefWidth="75.0" text="NodeID" />
                             <TableColumn fx:id="node_xCoord" editable="false" prefWidth="75.0" text="X-Coordinate" />
@@ -139,8 +139,11 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
                         </TableView>
-                        <TableView fx:id="edgeTable" prefHeight="674.0" prefWidth="1378.0" stylesheets="@../styles/tables.css">
+                        <TableView fx:id="edgeTable" prefHeight="674.0" prefWidth="1378.0" styleClass="actuallyRounded" stylesheets="@../styles/tables.css">
                            <columns>
                               <TableColumn fx:id="edge_startNode" editable="false" prefWidth="75.0" text="Start Node" />
                               <TableColumn fx:id="edge_endNode" editable="false" prefWidth="75.0" text="End Node" />
@@ -148,8 +151,11 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
                         </TableView>
-                        <TableView fx:id="locationNameTable" prefHeight="674.0" prefWidth="1378.0" stylesheets="@../styles/tables.css">
+                        <TableView fx:id="locationNameTable" prefHeight="674.0" prefWidth="1378.0" styleClass="actuallyRounded" stylesheets="@../styles/tables.css">
                            <columns>
                               <TableColumn fx:id="locationName_longName" editable="false" prefWidth="75.0" text="Long Name" />
                               <TableColumn fx:id="locationName_shortName" editable="false" prefWidth="75.0" text="Short Name" />
@@ -158,8 +164,11 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
                         </TableView>
-                        <TableView fx:id="moveTable" prefHeight="674.0" prefWidth="1378.0" stylesheets="@../styles/tables.css">
+                        <TableView fx:id="moveTable" prefHeight="674.0" prefWidth="1378.0" styleClass="actuallyRounded" stylesheets="@../styles/tables.css">
                            <columns>
                               <TableColumn fx:id="move_nodeID" editable="false" prefWidth="75.0" text="Node ID" />
                               <TableColumn fx:id="move_Date" editable="false" prefWidth="75.0" text="Date" />
@@ -168,8 +177,11 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
                         </TableView>
-                        <TableView fx:id="directionArrowTable" prefHeight="674.0" prefWidth="1378.0" stylesheets="@../styles/tables.css">
+                        <TableView fx:id="directionArrowTable" prefHeight="674.0" prefWidth="1378.0" styleClass="actuallyRounded" stylesheets="@../styles/tables.css">
                            <columns>
                               <TableColumn fx:id="directionArrow_kioskID" editable="false" prefWidth="75.0" text="Kiosk ID" />
                               <TableColumn fx:id="directionArrow_longName" editable="false" prefWidth="75.0" text="Long Name" />
@@ -179,8 +191,11 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
                         </TableView>
-                        <TableView fx:id="conferenceRoomTable" prefHeight="674.0" prefWidth="1378.0" stylesheets="@../styles/tables.css">
+                        <TableView fx:id="conferenceRoomTable" prefHeight="674.0" prefWidth="1378.0" styleClass="actuallyRounded" stylesheets="@../styles/tables.css">
                            <columns>
                               <TableColumn fx:id="conferenceRoom_longName" editable="false" prefWidth="75.0" text="Long Name" />
                               <TableColumn fx:id="conferenceRoom_capacity" editable="false" prefWidth="75.0" text="Capacity" />
@@ -191,8 +206,11 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
                         </TableView>
-                        <TableView fx:id="userTable" prefHeight="674.0" prefWidth="1378.0" stylesheets="@../styles/tables.css">
+                        <TableView fx:id="userTable" prefHeight="674.0" prefWidth="1378.0" styleClass="actuallyRounded" stylesheets="@../styles/tables.css">
                            <columns>
                               <TableColumn fx:id="user_staffUsername" editable="false" prefWidth="75.0" text="Staff Username" />
                               <TableColumn fx:id="user_password" editable="false" prefWidth="75.0" text="Password" />
@@ -209,8 +227,11 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
                         </TableView>
-                        <TableView fx:id="roomRequestTable" prefHeight="674.0" prefWidth="1378.0" stylesheets="@../styles/tables.css">
+                        <TableView fx:id="roomRequestTable" prefHeight="674.0" prefWidth="1378.0" styleClass="actuallyRounded" stylesheets="@../styles/tables.css">
                            <columns>
                               <TableColumn fx:id="roomRequest_roomRequestID" editable="false" prefWidth="75.0" text="Room Request ID" />
                               <TableColumn fx:id="roomRequest_longName" editable="false" prefWidth="75.0" text="Long Name" />
@@ -221,8 +242,11 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
                         </TableView>
-                        <TableView fx:id="serviceRequestTable" prefHeight="674.0" prefWidth="1378.0" stylesheets="@../styles/tables.css">
+                        <TableView fx:id="serviceRequestTable" prefHeight="674.0" prefWidth="1378.0" styleClass="actuallyRounded" stylesheets="@../styles/tables.css">
                            <columns>
                               <TableColumn fx:id="serviceRequest_requestID" editable="false" prefWidth="75.0" text="RequestID" />
                               <TableColumn fx:id="serviceRequest_requestType" editable="false" prefWidth="75.0" text="Request Type" />
@@ -237,8 +261,11 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
                         </TableView>
-                        <TableView fx:id="allMealsTable" prefHeight="674.0" prefWidth="1378.0" stylesheets="@../styles/tables.css">
+                        <TableView fx:id="allMealsTable" prefHeight="674.0" prefWidth="1378.0" styleClass="actuallyRounded" stylesheets="@../styles/tables.css">
                            <columns>
                               <TableColumn fx:id="allMeals_itemName" editable="false" prefWidth="75.0" text="Item Name" />
                               <TableColumn fx:id="allMeals_itemPrice" editable="false" prefWidth="75.0" text="Item Price" />
@@ -253,8 +280,11 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
                         </TableView>
-                        <TableView fx:id="allFurnitureTable" prefHeight="674.0" prefWidth="1378.0" stylesheets="@../styles/tables.css">
+                        <TableView fx:id="allFurnitureTable" prefHeight="674.0" prefWidth="1378.0" styleClass="actuallyRounded" stylesheets="@../styles/tables.css">
                            <columns>
                               <TableColumn fx:id="allFurniture_itemName" editable="false" prefWidth="75.0" text="Item Name" />
                               <TableColumn fx:id="allFurniture_imageReference" editable="false" prefWidth="75.0" text="Image Reference" />
@@ -267,8 +297,11 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
                         </TableView>
-                        <TableView fx:id="allFlowerTable" prefHeight="674.0" prefWidth="1378.0" stylesheets="@../styles/tables.css">
+                        <TableView fx:id="allFlowerTable" prefHeight="674.0" prefWidth="1378.0" styleClass="actuallyRounded" stylesheets="@../styles/tables.css">
                            <columns>
                               <TableColumn fx:id="allFlowers_itemName" editable="false" prefWidth="75.0" text="Item Name" />
                               <TableColumn fx:id="allFlowers_price" editable="false" prefWidth="75.0" text="Price" />
@@ -280,8 +313,11 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
                         </TableView>
-                        <TableView fx:id="allSuppliesTable" prefHeight="674.0" prefWidth="1378.0" stylesheets="@../styles/tables.css">
+                        <TableView fx:id="allSuppliesTable" prefHeight="674.0" prefWidth="1378.0" styleClass="actuallyRounded" stylesheets="@../styles/tables.css">
                            <columns>
                               <TableColumn fx:id="allSupplies_itemName" editable="false" prefWidth="75.0" text="Item Name" />
                               <TableColumn fx:id="allSupplies_price" editable="false" prefWidth="75.0" text="Price" />
@@ -295,8 +331,11 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
                         </TableView>
-                        <TableView fx:id="alertsTable" prefHeight="674.0" prefWidth="1378.0" stylesheets="@../styles/tables.css">
+                        <TableView fx:id="alertsTable" prefHeight="674.0" prefWidth="1378.0" styleClass="actuallyRounded" stylesheets="@../styles/tables.css">
                            <columns>
                               <TableColumn fx:id="alert_message" editable="false" prefWidth="75.0" text="Message" />
                               <TableColumn fx:id="alert_startDate" editable="false" prefWidth="75.0" text="Start Date" />
@@ -305,8 +344,11 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
                         </TableView>
-                        <TableView fx:id="patientTable" prefHeight="674.0" prefWidth="1378.0" stylesheets="@../styles/tables.css">
+                        <TableView fx:id="patientTable" prefHeight="674.0" prefWidth="1378.0" styleClass="actuallyRounded" stylesheets="@../styles/tables.css">
                            <columns>
                               <TableColumn fx:id="patient_patientID" editable="false" prefWidth="75.0" text="Patient ID" />
                               <TableColumn fx:id="patient_patientName" editable="false" prefWidth="75.0" text="Patient Name" />
@@ -314,8 +356,11 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
                         </TableView>
-                        <TableView fx:id="patientMoveTable" prefHeight="674.0" prefWidth="1378.0" stylesheets="@../styles/tables.css">
+                        <TableView fx:id="patientMoveTable" prefHeight="674.0" prefWidth="1378.0" styleClass="actuallyRounded" stylesheets="@../styles/tables.css">
                            <columns>
                               <TableColumn fx:id="patientMove_patientID" editable="false" prefWidth="75.0" text="Patient ID" />
                               <TableColumn fx:id="patientMove_longName" editable="false" prefWidth="75.0" text="Long Name" />
@@ -325,6 +370,9 @@
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
                         </TableView>
                      </children>
                      <VBox.margin>
