@@ -16,7 +16,7 @@ public class HelpController {
 
   @FXML
   public void initialize() {
-    userManualButton.setOnMouseClicked(event -> downloadUserManual());
+    userManualButton.setOnMouseClicked(event -> viewUserManual());
   }
 
   @FXML
@@ -29,7 +29,7 @@ public class HelpController {
     primaryStage.show();
   }
 
-  private void downloadUserManual() {
+  private void viewUserManual() {
     String url = "https://docs.google.com/document/d/1v4bLPNDgx1ff8fVih4D98vuN3wGwO7FgsX2yB5DXQvU/edit?usp=sharing";
 
     try {

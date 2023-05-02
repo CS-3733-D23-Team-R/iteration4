@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -202,10 +203,16 @@ public class ServiceRequestCartController extends CartObserver {
 
     public void refreshCart(){
         cartPane.getChildren().clear();
+        ScrollPane scrollPane = new ScrollPane();
+        VBox vBox = new VBox();
+        vBox.setMaxWidth(280);
+        vBox.setMinWidth(280);
+        scrollPane.setContent(vBox);
+        cartPane.getChildren().add(scrollPane);
         this.cartInstance.items.forEach(
                 (item, number) -> {
                     HBox productView = shoppingCartView(item,number);
-                    cartPane.getChildren().add(productView);
+                    vBox.getChildren().add(productView);
                 }
         );
         HBox totalPriceLabel = totalView((float) this.cartInstance.calculateTotal());
@@ -236,6 +243,8 @@ public class ServiceRequestCartController extends CartObserver {
                 reqDatabase.addItemRequest(itemInHash.getRequestType(), RequestStatus.Unstarted, location, staff, itemInHash.getItemName(), requestor, additionalNotes, CurrentDateTime());
             }
         }
+
+        cartPane.getChildren().clear();
 
         Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
         confirmation.setContentText("Request Order Received!");
