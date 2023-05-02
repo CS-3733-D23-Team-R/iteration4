@@ -113,11 +113,15 @@ public class RootController {
 
     setLogoutButton(false);
 
-    Platform.runLater(() -> App.getPrimaryStage().getScene().setOnKeyPressed(event -> {
-      if (event.getCode() == KeyCode.L && event.isControlDown()) {
-        timeout();
+    App.getPrimaryStage().sceneProperty().addListener((obs, oldScene, newScene) -> {
+      if (newScene != null) {
+        newScene.setOnKeyPressed(event -> {
+          if (event.getCode() == KeyCode.L && event.isControlDown()) {
+            timeout();
+          }
+        });
       }
-    }));
+    });
   }
 
   private void openProfile() throws SQLException, ClassNotFoundException, ItemNotFoundException {
