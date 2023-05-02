@@ -1098,7 +1098,7 @@ public class MapEditorController {
 
             Node newNode = nodes.get(nodes.size()-1);
             if (newNode.getFloorNum().equals(nodeFloorNames[currentFloor])) {
-                Circle newCircle = new Circle(newNode.getXCoord(), newNode.getYCoord(), 4, pathColor);
+                Circle newCircle = new Circle(newNode.getXCoord(), newNode.getYCoord(), 5, pathColor);
                 nodePanes[currentFloor].getChildren().add(newCircle);
                 circlesMap.put(newNode.getNodeID(), newCircle);
                 setupMapNode(currentFloor, newNode, newCircle);
@@ -1116,6 +1116,16 @@ public class MapEditorController {
                 int x = (int) event.getX();
                 int y = (int) event.getY();
                 createNode(x,y);
+            }
+            else if (!event.isShiftDown() && alignmentCirclesList != null){
+                if (alignmentCirclesList.size() > 0) {
+                    for (Circle current : alignmentCirclesList) {
+                        current.setStroke(Color.TRANSPARENT);
+                        current.setStrokeWidth(0);
+                    }
+                    alignmentNodesList.clear();
+                    alignmentCirclesList.clear();
+                }
             }
         });
     }

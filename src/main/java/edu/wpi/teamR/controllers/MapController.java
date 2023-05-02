@@ -1,6 +1,7 @@
 package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.App;
+import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.Main;
 import edu.wpi.teamR.datahandling.MapStorage;
 import edu.wpi.teamR.login.Alert;
@@ -8,6 +9,7 @@ import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.mapdb.MapDatabase;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -376,10 +378,10 @@ public class MapController {
 
     public void clearPath() throws SQLException {
         paths[currentFloor].getChildren().clear();
-        mapPane.getChildren().remove(paths[currentFloor]);
         for (int i = 0; i < 5; i++) {
             paths[i] = new AnchorPane();
         }
+        mapPane.getChildren().add(paths[currentFloor]);
         displayLocationNames(currentFloor);
         directionsVBox.getChildren().clear();
         removeIndicators();
@@ -428,10 +430,7 @@ public class MapController {
     }
 
     public void displayPath(String startLocation, String endLocation, Boolean accessible) throws Exception {
-        int currentStage = 1;
-
         clearPath();
-        mapPane.getChildren().add(paths[currentFloor]);
         updatePathfindingAlgorithm(algorithmChoicebox.getValue());
 
         Move startNodeMove = mapdb.getLatestMoveForLocationByDate(startLocation, java.sql.Date.valueOf(moveDatePicker.getValue()));
@@ -524,17 +523,19 @@ public class MapController {
             nextFloorText.getStyleClass().add("bodyMediumBold");
             newFloorSet.getChildren().addAll(nextFloorText);
             directionsVBox.getChildren().add(newFloorSet);
+            int floor = floorNamesMap.get(dir.getFloorNum());
+            Text traverseText = new Text("Floor " + dir.getFloorNum());
+            traverseText.getStyleClass().add("body");
+            if (floor < 2) {
+                traverseText.setText(dir.getFloorNum());
+            }
             if (i == textualDirections.size() -1) {
-                Text traverseText = new Text(dir.getFloorNum());
-                traverseText.getStyleClass().add("body");
                 floorOrderHBox.getChildren().add(traverseText);
             }
             else {
-                Text traverseText = new Text("Floor " + dir.getFloorNum() + " ");
-                traverseText.getStyleClass().add("body");
                 ImageView triangle = new ImageView();
-                triangle.setFitWidth(20);
-                triangle.setFitHeight(20);
+                triangle.setFitWidth(10);
+                triangle.setFitHeight(10);
                 triangle.setImage(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("images/map/pathTriangle.png"))));
                 floorOrderHBox.getChildren().add(traverseText);
                 floorOrderHBox.getChildren().add(triangle);
@@ -601,11 +602,18 @@ public class MapController {
         paths[drawFloor].getChildren().add(endText);
     }
 
-    void setChoiceboxes(){
+    void setChoiceboxes() {
         ArrayList<LocationName> locationNodes = locationNames;
         ArrayList<String> names = new ArrayList<>();
         for (LocationName l: locationNodes) {
-            if(!l.getLongName().contains("Hall")) {
+            Move m;
+            try {
+                m = mapdb.getLatestMoveByLocationName(l.getLongName());
+            }
+            catch (Exception e) {
+                m = null;
+            }
+            if(!l.getLongName().contains("Hall") && m != null) {
                 names.add(l.getLongName());
             }
         }

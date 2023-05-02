@@ -27,6 +27,8 @@ public class MapPopupController {
     Text yText;
     @FXML
     MFXDatePicker moveDatePicker;
+    @FXML Text buildingText;
+    @FXML Text floorText;
 
     @FXML Text edgeText;
 
@@ -105,6 +107,8 @@ public class MapPopupController {
         nodeField.setText(Integer.toString(n.getNodeID()));
         xText.setText(Integer.toString(n.getXCoord()));
         yText.setText(Integer.toString(n.getYCoord()));
+        buildingText.setText(n.getBuilding());
+        floorText.setText(n.getFloorNum());
 
         ArrayList<Edge> n_edges = mapdb.getEdgesByNode(node.getNodeID());
         StringBuilder edgeString = new StringBuilder();
