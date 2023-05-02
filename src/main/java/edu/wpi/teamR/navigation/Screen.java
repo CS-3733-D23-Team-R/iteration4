@@ -1,7 +1,5 @@
 package edu.wpi.teamR.navigation;
 
-import edu.wpi.teamR.controllers.EditProfileController;
-
 public enum Screen {
   ROOT("views/Root.fxml"),
   HOME("views/Home.fxml"),
