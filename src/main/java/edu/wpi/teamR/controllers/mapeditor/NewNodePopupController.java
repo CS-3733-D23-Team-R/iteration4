@@ -46,8 +46,10 @@ public class NewNodePopupController {
         buildingCB.setItems(buildingNames);
         addButton.setOnAction(event -> {
             try {
-                createNewNode();
-                close((Stage)addButton.getScene().getWindow());
+                if (buildingCB.getValue() != null) {
+                    createNewNode();
+                    close((Stage)addButton.getScene().getWindow());
+                }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -64,6 +66,7 @@ public class NewNodePopupController {
         nodes.add(n);
         App.getMapData().setNodes(nodes);
         mapUpdater.addNode(n);
+        mapUpdater.endAction();
     }
 
     public void setUpdater(MapUpdater updater) {
@@ -74,5 +77,6 @@ public class NewNodePopupController {
         xField.setText(Integer.toString(x));
         yField.setText(Integer.toString(y));
         floorCB.setValue(floor);
+
     }
 }
