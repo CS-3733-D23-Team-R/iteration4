@@ -161,8 +161,6 @@ public class RootController {
 
   /* This is a little buggy and could be worked on more. */
   private void timeout() {
-      rootHbox.setVisible(false);
-      rootHbox.setManaged(false);
       Navigation.navigate(Screen.SCREENSAVER);
       App.getPrimaryStage().removeEventFilter(InputEvent.ANY, ssevent);
       logout();
@@ -176,6 +174,11 @@ public class RootController {
     rootHbox.setVisible(true);
     rootHbox.setManaged(true);
     App.getPrimaryStage().addEventFilter(InputEvent.ANY, ssevent);
+  }
+
+  public void hideSidebar() {
+    rootHbox.setVisible(false);
+    rootHbox.setManaged(false);
   }
 
   @FXML private void logout(){
