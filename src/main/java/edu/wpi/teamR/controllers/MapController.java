@@ -523,14 +523,16 @@ public class MapController {
             nextFloorText.getStyleClass().add("bodyMediumBold");
             newFloorSet.getChildren().addAll(nextFloorText);
             directionsVBox.getChildren().add(newFloorSet);
+            int floor = floorNamesMap.get(dir.getFloorNum());
+            Text traverseText = new Text("Floor " + dir.getFloorNum());
+            traverseText.getStyleClass().add("body");
+            if (floor < 2) {
+                traverseText.setText(dir.getFloorNum());
+            }
             if (i == textualDirections.size() -1) {
-                Text traverseText = new Text(dir.getFloorNum());
-                traverseText.getStyleClass().add("body");
                 floorOrderHBox.getChildren().add(traverseText);
             }
             else {
-                Text traverseText = new Text("Floor " + dir.getFloorNum() + " ");
-                traverseText.getStyleClass().add("body");
                 ImageView triangle = new ImageView();
                 triangle.setFitWidth(10);
                 triangle.setFitHeight(10);
