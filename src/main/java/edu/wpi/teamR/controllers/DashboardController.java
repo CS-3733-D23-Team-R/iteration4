@@ -7,27 +7,39 @@ import edu.wpi.teamR.requestdb.*;
 import io.github.gleidsonmt.dashboardfx.core.view.layout.creators.ScheduleListCreator;
 import io.github.gleidsonmt.dashboardfx.core.view.layout.creators.ScheduleListItem;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 
 public class DashboardController {
+    @FXML TableView<Move> moveTable;
+    @FXML TableColumn<Move, String> locationColumn;
+    @FXML TableColumn<Move, Date> dateColumn;
+    @FXML TableColumn<Move, Integer> nodeColumn;
     @FXML PieChart requestStatusChart;
     @FXML PieChart requestTypeChart;
     MapDatabase mapdb;
     RequestDatabase requestdb;
-    @FXML HBox hBox;
     ArrayList<Move> moves;
     int pastMoves;
     int futureMoves;
+
+
+    Date todayDate = Date.valueOf(LocalDate.now());
 
     HashMap<String, Integer> movesByFloor = new HashMap<>();
     public void initialize() throws SQLException, SearchException {
@@ -44,55 +56,9 @@ public class DashboardController {
             }
         }
 
-        ArrayList<PieChart.Data> dataList = new ArrayList<>();
-        for (RequestStatus r : RequestStatus.values()) {
-            SearchList searchList = new SearchList();
-            searchList.addComparison(RequestAttribute.requestStatus, Operation.equalTo, r);
-            double count = requestdb.getItemRequestByAttributes(searchList).size();
-            if (count != 0) {
-                PieChart.Data chartData = new PieChart.Data(r.toString(), count);
-                dataList.add(chartData);
-            }
-        }
-        requestStatusChart.setData(FXCollections.observableArrayList(dataList));
+        displayPieCharts();
+        displayMoveTable();
 
-        //ArrayList<PieChart.Data> dataList = new ArrayList<>();
-        dataList = new ArrayList<>();
-        for (RequestType r : RequestType.values()) {
-            SearchList searchList = new SearchList();
-            searchList.addComparison(RequestAttribute.requestType, Operation.equalTo, r);
-            double count = requestdb.getItemRequestByAttributes(searchList).size();
-            if (count != 0) {
-                PieChart.Data chartData = new PieChart.Data(r.toString(), count);
-                dataList.add(chartData);
-            }
-        }
-        requestTypeChart.setData(FXCollections.observableArrayList(dataList));
-
-//        SearchList searchList = new SearchList();
-//        searchList.addComparison(RequestAttribute.requestType, Operation.equalTo, RequestType.Flower);
-//        double flower = requestdb.getItemRequestByAttributes(searchList).size();
-//        searchList = new SearchList();
-//        searchList.addComparison(RequestAttribute.requestType, Operation.equalTo, RequestType.Meal);
-//        double meal = requestdb.getItemRequestByAttributes(searchList).size();
-//        searchList = new SearchList();
-//        searchList.addComparison(RequestAttribute.requestType, Operation.equalTo, RequestType.Furniture);
-//        double furniture = requestdb.getItemRequestByAttributes(searchList).size();
-//        searchList = new SearchList();
-//        searchList.addComparison(RequestAttribute.requestType, Operation.equalTo, RequestType.Supplies);
-//        double supplies = requestdb.getItemRequestByAttributes(searchList).size();
-//        ObservableList<PieChart.Data> requestTypeData = FXCollections.observableArrayList(
-//                new PieChart.Data("FLower", flower),
-//                new PieChart.Data("Meal", meal),
-//                new PieChart.Data("Furniture", furniture),
-//                new PieChart.Data("Supplies", supplies)
-//        );
-
-//        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-//                new PieChart.Data("Past Moves", pastMoves),
-//                new PieChart.Data("Future Moves", futureMoves));
-//
-//        requestTypeChart.setData(requestTypeData);
 
         Node scheduleList = new ScheduleListCreator()
                 .title("Upcoming Moves")
@@ -150,5 +116,45 @@ public class DashboardController {
                 .build();
 
         //hBox.getChildren().add(scheduleList);
+    }
+
+    private void displayMoveTable() throws SQLException {
+        nodeColumn.setCellValueFactory(new PropertyValueFactory<>("nodeID"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory<>("longName"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("moveDate"));
+
+        List<Move> moves = mapdb.getMoves();
+        FilteredList<Move> filteredMoves = new FilteredList<>(FXCollections.observableArrayList(moves),
+                m -> todayDate.before(m.getMoveDate()));
+        SortedList<Move> sortedMoves = new SortedList<>(filteredMoves, Comparator.comparing(Move::getMoveDate));
+        sortedMoves.comparatorProperty().bind(moveTable.comparatorProperty());
+        moveTable.setItems(filteredMoves);
+    }
+
+    private void displayPieCharts() throws SearchException, SQLException {
+        ArrayList<PieChart.Data> dataList = new ArrayList<>();
+        for (RequestStatus r : RequestStatus.values()) {
+            SearchList searchList = new SearchList();
+            searchList.addComparison(RequestAttribute.requestStatus, Operation.equalTo, r);
+            double count = requestdb.getItemRequestByAttributes(searchList).size();
+            if (count != 0) {
+                PieChart.Data chartData = new PieChart.Data(r.toString(), count);
+                dataList.add(chartData);
+            }
+        }
+        requestStatusChart.setData(FXCollections.observableArrayList(dataList));
+
+        //ArrayList<PieChart.Data> dataList = new ArrayList<>();
+        dataList = new ArrayList<>();
+        for (RequestType r : RequestType.values()) {
+            SearchList searchList = new SearchList();
+            searchList.addComparison(RequestAttribute.requestType, Operation.equalTo, r);
+            double count = requestdb.getItemRequestByAttributes(searchList).size();
+            if (count != 0) {
+                PieChart.Data chartData = new PieChart.Data(r.toString(), count);
+                dataList.add(chartData);
+            }
+        }
+        requestTypeChart.setData(FXCollections.observableArrayList(dataList));
     }
 }
