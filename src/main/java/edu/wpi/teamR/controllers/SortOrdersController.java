@@ -144,7 +144,7 @@ public class SortOrdersController {
                                 circle.setFill(Color.YELLOW);
                                 break;
                             case Done:
-                                circle.setFill(Color.GREEN);
+                                circle.setFill(Color.LIMEGREEN);
                                 break;
                             default:
                                 circle.setFill(Color.TRANSPARENT);

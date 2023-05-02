@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXProgressSpinner?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+
+<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="400" styleClass="background" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamR.controllers.SplashController">
+    <children>
+        <ImageView fitHeight="108.0" fitWidth="85.0" layoutX="161.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/splash.png" />
+            </image>
+        </ImageView>
+      <MFXProgressSpinner fx:id="progressSpinner" layoutX="175.0" layoutY="136.0">
+         <color1>
+            <Color red="0.003921568859368563" green="0.1764705926179886" blue="0.3529411852359772" />
+         </color1>
+         <color2>
+            <Color red="0.9647058844566345" green="0.7411764860153198" blue="0.21960784494876862" />
+         </color2>
+         <color3>
+            <Color />
+         </color3>
+         <color4>
+            <Color green="0.40392157435417175" blue="0.6941176652908325" />
+         </color4>
+      </MFXProgressSpinner>
+    </children>
+</AnchorPane>
