@@ -123,7 +123,7 @@ public class PathToText {
 //                    intermediateText = "Continue for " + nodeDiffToFeet(lastNode, currentNode) + " feet until you reach the hallway junction";
                     intermediateText = "Continue for " + nodeDiffToFeet(lastNode, currentNode) + " feet";
                     Node nearestNode = bfsSearch.getNearest(floorNodes.get(i), date);
-                    intermediateText = intermediateText + " until you are " + nodeDiffToFeet(currentNode, nearestNode) + " feet from the " + mapDatabase.getLocationNamesByNodeIDAtDate(nearestNode.getNodeID(), date).get(0).getLongName();
+                    intermediateText = intermediateText + " until you are near the " + mapDatabase.getLocationNamesByNodeIDAtDate(nearestNode.getNodeID(), date).get(0).getLongName();
                     floorTextList.add(intermediateText);
                     floorTextList.add(turnText(lastNode, currentNode, nextNode));
                     lastNode = currentNode;
@@ -163,25 +163,6 @@ public class PathToText {
         else if(turnDirection.equals("go forwards facing ")) return false;
         else return true;
     }
-
-//    private String turnDirectionCompareSlope(Node firstNode, Node middleNode, Node secondNode){
-//        double turnThreshold = 0.4;
-//        if(middleNode != null && firstNode != null && secondNode != null) {
-//            double firstSlopeDen = middleNode.getXCoord() - firstNode.getXCoord() * 1.0;
-//            double firstSlope = 1.0;
-//            if(firstSlopeDen != 0.0) firstSlope = (middleNode.getYCoord() - firstNode.getYCoord() * 1.0) / firstSlopeDen;
-//            double secondSlopeDen = secondNode.getXCoord() - middleNode.getXCoord() * 1.0;
-//            double secondSlope = 1.0;
-//            if(secondSlopeDen != 0.0) secondSlope = (secondNode.getYCoord() - middleNode.getYCoord() * 1.0) / secondSlopeDen;
-//            double difference = secondSlope - firstSlope;
-////            if(secondSlope < 0) difference = -difference;
-//            if (abs(difference) < turnThreshold) return "go forwards facing ";
-//            else if(difference > turnThreshold) return "turn right to face ";
-//            else return "turn left to face "; //difference < turnThreshold
-//        } else {
-//            return null;
-//        }
-//    }
 
     private String turnDirection(Node firstNode, Node middleNode, Node secondNode){
         double turnThreshold = 0.4;
