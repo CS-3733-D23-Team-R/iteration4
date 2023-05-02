@@ -9,6 +9,7 @@ import edu.wpi.teamR.navigation.Navigation;
 import edu.wpi.teamR.navigation.Screen;
 
 import edu.wpi.teamR.userData.UserData;
+import io.github.gleidsonmt.dashboardfx.core.interfaces.Root;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -92,6 +93,9 @@ public class HomeController {
 
       creditsText.setOnMouseClicked(event -> {Navigation.navigate(Screen.CREDITS);});
       aboutText.setOnMouseClicked(event -> {Navigation.navigate(Screen.ABOUT);});
+
+      RootController rootPane = RootController.getInstance();
+      rootPane.showSidebar();
   }
 
   private HBox alertView(Alert alert){
