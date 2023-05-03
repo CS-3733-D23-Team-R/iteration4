@@ -7,6 +7,7 @@ import edu.wpi.teamR.login.User;
 import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.mapdb.LocationName;
 import edu.wpi.teamR.requestdb.*;
+import edu.wpi.teamR.userData.UserData;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
@@ -86,7 +87,9 @@ public class ServiceRequestCartController extends CartObserver {
         }else {
             refreshCart();
         }
-
+        if(UserData.getInstance().isLoggedIn()){
+            userField.setValue(UserData.getInstance().getLoggedIn().getFullName());
+        }
     }
 
     // HBox function, sets up the given item in the shopping cart

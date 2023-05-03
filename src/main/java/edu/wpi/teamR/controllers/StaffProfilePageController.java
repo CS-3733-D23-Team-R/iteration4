@@ -41,7 +41,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class StaffProfilePageController {
-    @FXML Text time, goodJobText;
+    @FXML Text time;
     @FXML Button viewAllRequests, toConferenceRooms, toMovePatients, statsButton;
     @FXML VBox profileCardContainer;
     @FXML StackPane conferenceRoomImage;
@@ -49,13 +49,10 @@ public class StaffProfilePageController {
     @FXML TableColumn<ItemRequest, Integer> idCol;
     @FXML TableColumn<ItemRequest, String> requestTypeCol, nameCol, locationCol, notesCol, dateCol, statusCol, itemCol;
     @FXML GesturePane gesturePane;
-    @FXML ImageView checkmarkImage;
     private final AnchorPane mapPane = new AnchorPane();
     private final ObservableList<ItemRequest> dataList = FXCollections.observableArrayList();
     ObservableList<RequestStatus> statusList = FXCollections.observableArrayList(RequestStatus.values());
     public void initialize() throws SQLException, ClassNotFoundException, SearchException {
-        checkmarkImage.setVisible(false);
-        goodJobText.setVisible(false);
         CurrentUser user = UserData.getInstance().getLoggedIn();
         LocalDate date = LocalDate.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
