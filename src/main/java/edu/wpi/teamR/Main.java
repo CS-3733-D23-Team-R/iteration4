@@ -14,7 +14,7 @@ public class Main {
     } catch (ItemNotFoundException e) {
       new UserDatabase().addUser("admin", "admin", "","","","1234567890", new Date(System.currentTimeMillis()), AccessLevel.Admin, "", 1);
     }
-    Configuration.swapDatabase();
+//    Configuration.swapDatabase();
     App.launch(App.class, args);
     // shortcut: psvm
   }
