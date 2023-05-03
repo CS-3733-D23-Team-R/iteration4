@@ -214,7 +214,7 @@ public class PathToText {
             }
         } else if (NESW < 0) {
             if(SENW == 0){
-                return "SouthWest";
+                return "Southwest";
             } else if (SENW > 0){
                 return "South";
             } else if (SENW < 0){
