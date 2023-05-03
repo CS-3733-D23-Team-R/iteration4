@@ -109,7 +109,11 @@ public class PathToText {
                         initialText = initialText + "Exit the stairs and " + turnText(currentNode, nextNode, nextNextNode);
                         lastNode = nextNode;
                     } else {
-                        initialText = initialText + "Start at " + this.mapDatabase.getLocationNamesByNodeIDAtDate(floorNodes.get(0), date).get(0).getShortName()
+                        ArrayList<LocationName> nameList = this.mapDatabase.getLocationNamesByNodeIDAtDate(floorNodes.get(0), date);
+                        String name;
+                        if(nameList.size() > 0) name = nameList.get(0).getShortName();
+                        else name = "the end of the staircase";
+                        initialText = initialText + "Start at " + name
                                 + " and turn to face " + cardinalText(currentNode, nextNode);
                         lastNode = currentNode;
                     }
