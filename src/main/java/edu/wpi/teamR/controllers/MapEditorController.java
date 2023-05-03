@@ -1117,7 +1117,7 @@ public class MapEditorController {
                 int y = (int) event.getY();
                 createNode(x,y);
             }
-            else if (!event.isShiftDown() && alignmentCirclesList != null){
+            else if (!event.isShiftDown() && alignmentCirclesList != null && event.getButton().equals(MouseButton.PRIMARY)){
                 if (alignmentCirclesList.size() > 0) {
                     for (Circle current : alignmentCirclesList) {
                         current.setStroke(Color.TRANSPARENT);
