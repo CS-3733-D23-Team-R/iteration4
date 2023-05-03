@@ -20,6 +20,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -40,7 +41,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class StaffProfilePageController {
-    @FXML Text time;
+    @FXML Text time, goodJobText;
     @FXML Button viewAllRequests, toConferenceRooms, toMovePatients, statsButton;
     @FXML VBox profileCardContainer;
     @FXML StackPane conferenceRoomImage;
@@ -48,10 +49,13 @@ public class StaffProfilePageController {
     @FXML TableColumn<ItemRequest, Integer> idCol;
     @FXML TableColumn<ItemRequest, String> requestTypeCol, nameCol, locationCol, notesCol, dateCol, statusCol, itemCol;
     @FXML GesturePane gesturePane;
+    @FXML ImageView checkmarkImage;
     private final AnchorPane mapPane = new AnchorPane();
     private final ObservableList<ItemRequest> dataList = FXCollections.observableArrayList();
     ObservableList<RequestStatus> statusList = FXCollections.observableArrayList(RequestStatus.values());
     public void initialize() throws SQLException, ClassNotFoundException, SearchException {
+        checkmarkImage.setVisible(false);
+        goodJobText.setVisible(false);
         CurrentUser user = UserData.getInstance().getLoggedIn();
         LocalDate date = LocalDate.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
