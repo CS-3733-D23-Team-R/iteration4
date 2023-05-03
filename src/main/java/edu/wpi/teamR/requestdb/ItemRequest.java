@@ -31,10 +31,6 @@ public class ItemRequest implements Archivable {
         this.quantity = quantity;
     }
 
-    public ItemRequest(int requestID, RequestType requestType, RequestStatus requestStatus, String longName, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) {
-        this(requestID, requestType, requestStatus, longName, staffUsername, itemType, requesterName, additionalNotes, requestDate, 1);
-    }
-
     private ItemRequest(String[] args) throws IndexOutOfBoundsException {
         this(Integer.parseInt(args[0]), RequestType.valueOf(args[1]), RequestStatus.valueOf(args[2]), args[3], args[4], args[5], args[6], args[7], Timestamp.valueOf(args[8]), Integer.parseInt(args[9]));
     }

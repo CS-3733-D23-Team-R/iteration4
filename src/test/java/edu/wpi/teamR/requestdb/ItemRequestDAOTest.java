@@ -57,7 +57,7 @@ class ItemRequestDAOTest {
         assertEquals(0, itemRequests.size());
 
         mapDatabase.addLocationName("location1", "", "");
-        itemRequest1 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location1", null, "item1", "Dave", null, new Timestamp(System.currentTimeMillis()));
+        itemRequest1 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location1", null, "item1", "Dave", null, new Timestamp(System.currentTimeMillis()), 1);
 
         itemRequests = itemRequestDAO.getItemRequests();
         assertEquals(1, itemRequests.size());
@@ -71,6 +71,7 @@ class ItemRequestDAOTest {
         assertEquals(itemRequest1.getRequesterName(), itemRequest2.getRequesterName());
         assertEquals(itemRequest1.getAdditionalNotes(), itemRequest2.getAdditionalNotes());
         assertEquals(itemRequest1.getRequestDate(), itemRequest2.getRequestDate());
+        assertEquals(itemRequest1.getQuantity(), itemRequest2.getQuantity());
     }
 
     @Test
@@ -86,8 +87,8 @@ class ItemRequestDAOTest {
         assertEquals(0, itemRequests.size());
 
         mapDatabase.addLocationName("location1", "", "");
-        itemRequest1 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location1", null, "item1", "Dave", null, new Timestamp(System.currentTimeMillis()));
-        itemRequest2 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location1", null, "item2", "Dave", null, new Timestamp(System.currentTimeMillis()));
+        itemRequest1 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location1", null, "item1", "Dave", null, new Timestamp(System.currentTimeMillis()), 5);
+        itemRequest2 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location1", null, "item2", "Dave", null, new Timestamp(System.currentTimeMillis()), 6);
 
         itemRequests = itemRequestDAO.getItemRequests();
         assertEquals(2, itemRequests.size());
@@ -118,8 +119,8 @@ class ItemRequestDAOTest {
         assertEquals(0, itemRequests.size());
 
         mapDatabase.addLocationName("location1", "", "");
-        itemRequest1 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location1", null, "item1", "Dave", null, new Timestamp(System.currentTimeMillis()));
-        itemRequest2 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location1", null, "item2", "Dave", null, new Timestamp(System.currentTimeMillis()));
+        itemRequest1 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location1", null, "item1", "Dave", null, new Timestamp(System.currentTimeMillis()),1);
+        itemRequest2 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location1", null, "item2", "Dave", null, new Timestamp(System.currentTimeMillis()), 1);
 
         itemRequests = itemRequestDAO.getItemRequests();
         assertEquals(2, itemRequests.size());
@@ -149,12 +150,12 @@ class ItemRequestDAOTest {
         mapDatabase.addLocationName("location4", "", "");
         mapDatabase.addLocationName("location5", "", "");
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        itemRequest1 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location1", null, "item1", "Dave", null, timestamp);
-        itemRequest2 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location2", null, "item2", "Dave", null, timestamp);
-        itemRequest3 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location3", "staff1", "item3", "Dave", null, timestamp);
-        itemRequest4 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location4", "staff2", "item4", "Dave", null, timestamp);
-        itemRequest5 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location5", "staff3", "item5", "Dave", null, timestamp);
-        itemRequest6 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location5", "staff1", "item6", "Dave", null, timestamp);
+        itemRequest1 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location1", null, "item1", "Dave", null, timestamp, 1);
+        itemRequest2 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location2", null, "item2", "Dave", null, timestamp, 1);
+        itemRequest3 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location3", "staff1", "item3", "Dave", null, timestamp, 1);
+        itemRequest4 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location4", "staff2", "item4", "Dave", null, timestamp, 1);
+        itemRequest5 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location5", "staff3", "item5", "Dave", null, timestamp, 1);
+        itemRequest6 = itemRequestDAO.addItemRequest(RequestType.Meal, RequestStatus.Unstarted, "location5", "staff1", "item6", "Dave", null, timestamp, 1);
 
         itemRequests = itemRequestDAO.getItemRequests();
         assertEquals(6, itemRequests.size());

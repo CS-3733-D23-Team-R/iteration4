@@ -188,8 +188,9 @@ public class ItemRequestDAO {
             String requesterName = resultSet.getString("requesterName");
             String additionalNotes = resultSet.getString("additionalNotes");
             Timestamp requestDate = resultSet.getTimestamp("requestDate");
+            int quantity = resultSet.getInt("quantity");
 
-            itemRequests.add(new ItemRequest(requestID, requestType, requestStatus, longName, staffUsername, itemType, requesterName, additionalNotes, requestDate));
+            itemRequests.add(new ItemRequest(requestID, requestType, requestStatus, longName, staffUsername, itemType, requesterName, additionalNotes, requestDate, quantity));
         }
         return itemRequests;
     }
