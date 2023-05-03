@@ -280,14 +280,36 @@ public class ItemRequestController {
                 case Furniture:
                     ArrayList<AvailableFurniture> furnitureFilteredList = requestDatabase.getAvailableFurnitureByAttributes(null, null, null, this.button1Val, this.button2Val, this.button3Val, this.button4Val);
                     if(this.button5Val != null && this.button5Val) {
-                        furnitureFilteredList.addAll(requestDatabase.getAvailableFurnitureByAttributes(null, null, null, false, false, false, false));
+                        ArrayList<AvailableFurniture> tempList = requestDatabase.getAvailableFurnitureByAttributes(null, null, null, false, false, false, false);
+                        for (AvailableFurniture f: tempList) {
+                            if (f.isPillow() || f.isTable() || f.isSeating() || f.isStorage()) {
+                                tempList.remove(f);
+                            }
+                        }
+                        furnitureFilteredList.clear();
+                        furnitureFilteredList.addAll(tempList);
+                        FilterButton1.setSelected(false);
+                        FilterButton2.setSelected(false);
+                        FilterButton3.setSelected(false);
+                        FilterButton4.setSelected(false);
                     }
                     filteredList.addAll(furnitureFilteredList);
                     break;
                 case Supplies:
                     ArrayList<AvailableSupplies> suppliesFilteredList = requestDatabase.getAvailableSuppliesByAttributes(null, null, null, null, this.button2Val, this.button3Val, this.button4Val, this.button1Val, this.sortOrder);
                     if(this.button5Val != null && this.button5Val) {
-                        suppliesFilteredList.addAll(requestDatabase.getAvailableSuppliesByAttributes(null, null, null, null, false, false, false, false, this.sortOrder));
+                        ArrayList<AvailableSupplies> tempList = requestDatabase.getAvailableSuppliesByAttributes(null, null, null, null, false, false, false, false, this.sortOrder);
+                        for (AvailableSupplies s: tempList) {
+                            if (s.isPen() || s.isPaper() || s.isOrganization() || s.isComputerAccessory()) {
+                                tempList.remove(s);
+                            }
+                        }
+                        suppliesFilteredList.clear();
+                        suppliesFilteredList.addAll(tempList);
+                        FilterButton1.setSelected(false);
+                        FilterButton2.setSelected(false);
+                        FilterButton3.setSelected(false);
+                        FilterButton4.setSelected(false);
                     }
                     filteredList.addAll(suppliesFilteredList);
                     break;
