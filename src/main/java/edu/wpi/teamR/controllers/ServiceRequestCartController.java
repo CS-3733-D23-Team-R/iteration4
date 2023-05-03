@@ -87,7 +87,7 @@ public class ServiceRequestCartController extends CartObserver {
         }
     }
 
-    // HBox function, sets up the given item in the shopping cart
+    // hBox function, sets up the given item in the shopping cart
     // input : ItemRequest item, Integer number
     // item -> item added to shopping cart
     // number -> number of that item added
@@ -182,8 +182,8 @@ public class ServiceRequestCartController extends CartObserver {
         layout.getChildren().addAll(nameBox, quantityBox, priceBox);
         layout.setSpacing(5);
         HBox.setHgrow(nameBox, Priority.ALWAYS);
-        //HBox.setHgrow(quantityBox, Priority.ALWAYS);
-        //HBox.setHgrow(priceBox, Priority.ALWAYS);
+        //hBox.setHgrow(quantityBox, Priority.ALWAYS);
+        //hBox.setHgrow(priceBox, Priority.ALWAYS);
 
         return layout;
     }
