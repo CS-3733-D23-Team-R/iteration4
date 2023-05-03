@@ -79,6 +79,30 @@
     -fx-background-color: white;
 }
 
+
+.table-view .scroll-bar:horizontal {
+    -fx-background-color: black;
+}
+
+.table-view .scroll-bar:horizontal .thumb {
+    -fx-background-color: white;
+}
+
+.table-view .scroll-bar:horizontal .increment-button,
+.table-view .scroll-bar:horizontal .decrement-button {
+    -fx-background-color: black;
+}
+
+.table-view .scroll-bar:horizontal .increment-arrow,
+.table-view .scroll-bar:horizontal .decrement-arrow {
+    -fx-background-color: white;
+}
+
+.table-view .scroll-bar:horizontal .increment-arrow:hover,
+.table-view .scroll-bar:horizontal .decrement-arrow:hover {
+    -fx-background-color: white;
+}
+
 .table-view .combo-box {
     -fx-background-color: #ffffff;
     -fx-background-radius: 2;

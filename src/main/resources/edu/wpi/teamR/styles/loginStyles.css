@@ -37,6 +37,20 @@
     -fx-background-position: center;
 }
 
+.profileToViewData{
+    -fx-background-image: url("../images/login/viewalldata.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.profileToStatistics{
+    -fx-background-image: url("../images/login/statistics.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
 .profileToEmployeeManagement{
     -fx-background-image: url("../images/login/adminprofilepage/blurredtoemployeemanagement.png");
     -fx-background-repeat: stretch;
