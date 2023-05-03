@@ -109,7 +109,7 @@ public class PathToText {
                         initialText = initialText + "Exit the stairs and " + turnText(currentNode, nextNode, nextNextNode);
                         lastNode = nextNode;
                     } else {
-                        initialText = initialText + "Start at " + this.mapDatabase.getLocationNamesByNodeIDAtDate(floorNodes.get(0), date).get(0).getLongName()
+                        initialText = initialText + "Start at " + this.mapDatabase.getLocationNamesByNodeIDAtDate(floorNodes.get(0), date).get(0).getShortName()
                                 + " and turn to face " + cardinalText(currentNode, nextNode);
                         lastNode = currentNode;
                     }
@@ -123,7 +123,7 @@ public class PathToText {
 //                    intermediateText = "Continue for " + nodeDiffToFeet(lastNode, currentNode) + " feet until you reach the hallway junction";
                     intermediateText = "Continue for " + nodeDiffToFeet(lastNode, currentNode) + " feet";
                     Node nearestNode = bfsSearch.getNearest(floorNodes.get(i), date);
-                    intermediateText = intermediateText + " until you are near the " + mapDatabase.getLocationNamesByNodeIDAtDate(nearestNode.getNodeID(), date).get(0).getLongName();
+                    intermediateText = intermediateText + " until you are near the " + mapDatabase.getLocationNamesByNodeIDAtDate(nearestNode.getNodeID(), date).get(0).getShortName();
                     floorTextList.add(intermediateText);
                     floorTextList.add(turnText(lastNode, currentNode, nextNode));
                     lastNode = currentNode;
@@ -132,7 +132,7 @@ public class PathToText {
                 if (i == floorNodesSize - 1) { //end of floor
                     String endingText = "";
                     if (floorNodes.get(i) == lastNodeID) {
-                        endingText = endingText + "You have arrived at " + this.mapDatabase.getLocationNamesByNodeIDAtDate(floorNodes.get(i), date).get(0).getLongName();
+                        endingText = endingText + "You have arrived at " + this.mapDatabase.getLocationNamesByNodeIDAtDate(floorNodes.get(i), date).get(0).getShortName();
                     } else if (getNodeTypeByNodeID(floorNodes.get(i), date).equals("ELEV")) {
                         endingText = endingText + "Take the elevator to floor " + nextFloor;
                     } else if (getNodeTypeByNodeID(floorNodes.get(i), date).equals("STAI")) {
@@ -214,7 +214,7 @@ public class PathToText {
             }
         } else if (NESW < 0) {
             if(SENW == 0){
-                return "SouthWest";
+                return "Southwest";
             } else if (SENW > 0){
                 return "South";
             } else if (SENW < 0){

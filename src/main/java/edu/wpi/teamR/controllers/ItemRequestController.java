@@ -114,6 +114,7 @@ public class ItemRequestController {
         FilterButton5.setOnAction(event -> {if(FilterButton5.isSelected()){button5Val = true;} else {button5Val = null;} regenerateCards();});
 
         itemFilterByComboBox.setItems(priceList);
+        itemFilterByComboBox.setValue("Unsorted");
         itemFilterByComboBox.setOnAction(event -> {
             String comboType = itemFilterByComboBox.getSelectionModel().getSelectedItem();
             switch(comboType){
