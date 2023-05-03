@@ -44,6 +44,11 @@ public class ShoppingCart {
         } else {incrementItem(itemInList(item));}
         notifyAllObservers();
     }
+
+    /**
+     * only call on item already in cart
+     * @param item
+     */
     public void incrementItem(IAvailableItem item){
         if(item != null) {
             items.replace(itemInList(item), items.get(itemInList(item)) + 1);
