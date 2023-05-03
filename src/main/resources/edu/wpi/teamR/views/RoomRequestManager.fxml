@@ -41,7 +41,7 @@
                               <Insets />
                            </HBox.margin>
                            <children>
-                              <Button fx:id="newRequestBtn" mnemonicParsing="false" styleClass="title" text="Create New Reservation">
+                              <Button fx:id="newRequestBtn" mnemonicParsing="false" prefHeight="43.0" prefWidth="220.0" text="Create New Reservation">
                                  <HBox.margin>
                                     <Insets right="20.0" />
                                  </HBox.margin>
@@ -57,7 +57,7 @@
                                       <MFXTextField fx:id="searchField" floatingText="Search By Name:" prefHeight="1.0" prefWidth="250.0" styleClass="label" HBox.hgrow="ALWAYS" />
                                   </children>
                               </HBox>
-                              <TableView fx:id="roomTable" editable="true" prefHeight="576.0" prefWidth="1180.0" VBox.vgrow="ALWAYS">
+                              <TableView fx:id="roomTable" editable="true" prefHeight="576.0" prefWidth="1180.0" stylesheets="@../styles/tables.css" VBox.vgrow="ALWAYS">
                                   <columns>
                                       <TableColumn fx:id="idColumn" maxWidth="80.0" minWidth="80.0" prefWidth="-1.0" text="ID Number" />
                                       <TableColumn fx:id="nameColumn" minWidth="20.0" prefWidth="115.33326721191406" text="Name" />
@@ -79,7 +79,7 @@
         </AnchorPane>
     </center>
    <stylesheets>
-      <URL value="@../styles/tables.css" />
       <URL value="@../styles/employeeManagementTable.css" />
+      <URL value="@../styles/styles.css" />
    </stylesheets>
 </BorderPane>

@@ -57,7 +57,7 @@ public class RoomRequestManagerController {
         dataList.addAll(new RequestDatabase().getRoomRequests());
         idColumn.setCellValueFactory(new PropertyValueFactory<>("roomRequestID"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
-        locationColumn.setCellValueFactory(new PropertyValueFactory<>("longname"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory<>("longName"));
         newRequestBtn.getStyleClass().add("Button");
         newRequestBtn.setOnAction(event -> Navigation.navigate(Screen.ROOM_REQUEST));
         addButtonToTable();
@@ -140,6 +140,7 @@ public class RoomRequestManagerController {
                             filteredData.getSource().remove(data);
                             try {
                                 new RequestDatabase().deleteRoomRequest(data.getRoomRequestID());
+                                roomTable.getItems().remove(data);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
