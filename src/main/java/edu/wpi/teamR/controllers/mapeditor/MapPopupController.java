@@ -91,14 +91,16 @@ public class MapPopupController {
             Date moveDate = move.getMoveDate();
             LocalDate date = moveDate.toLocalDate();
             Platform.runLater(() -> moveDatePicker.setValue(date));
-            String longName = move.getLongName();
-            LocationName locationName = mapdb.getLocationNameByLongName(longName);
-            String shortName = locationName.getShortName();
-            String nodeType = locationName.getNodeType();
-
-            longNameText.setText(longName);
-            shortNameText.setText(shortName);
-            nodeTypeText.setText(nodeType);
+            ArrayList<LocationName> loc_list = mapdb.getLocationNamesByNodeIDAtDate(n.getNodeID(), java.sql.Date.valueOf(LocalDate.now()));
+            if (loc_list.size() > 0) {
+                LocationName locationName = loc_list.get(loc_list.size()-1);
+                String longName = locationName.getLongName();
+                String shortName = locationName.getShortName();
+                String nodeType = locationName.getNodeType();
+                longNameText.setText(longName);
+                shortNameText.setText(shortName);
+                nodeTypeText.setText(nodeType);
+            }
         }
         else {
             moveDatePicker.setValue(null);
