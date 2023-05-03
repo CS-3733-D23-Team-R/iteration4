@@ -496,7 +496,7 @@ public class MapController {
                 t.setX(n1.getXCoord());
                 t.setY(n1.getYCoord() + 30);
                 paths[drawFloor].getChildren().add(t);
-                t.toBack();
+                t.toFront();
 
                 t.setOnMouseClicked(event -> {
                     try {
@@ -661,6 +661,7 @@ public class MapController {
                         t.setOnMouseClicked(event -> selectLocation(m.getLocationNames().get(0).getLongName()));
 
                         paths[floor].getChildren().add(t);
+                        t.toBack();
                     }
                 }
             }

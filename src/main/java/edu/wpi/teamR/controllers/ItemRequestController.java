@@ -172,7 +172,6 @@ public class ItemRequestController {
             itemRequestPane.setRight(null);
             cartOpen = false;
         }
-        System.out.println("opened");
     }
 
     private void changeTypeState(RequestType type) {
