@@ -12,6 +12,7 @@ import java.util.*;
 public class ShoppingCart {
     private List<CartObserver> observers = new ArrayList<CartObserver>();
     public HashMap<IAvailableItem, Integer> items = new HashMap<IAvailableItem, Integer>();
+    private HashMap<ItemForeignKey, IAvailableItem> itemNames = new HashMap<>(); //check that nothing of the same foreign key i in cart
 
     private static ShoppingCart instance;
 
@@ -39,12 +40,43 @@ public class ShoppingCart {
     }
 
     public void addItem(IAvailableItem item, int quantity){
-        if(!items.containsKey(item)){
+        if(itemNames.isEmpty()){
+            itemNames.putIfAbsent(new ItemForeignKey(item), item);
             items.putIfAbsent(item, quantity);
-           // test.refreshCart();
-        } else {incrementItem(item);}
+            notifyAllObservers();
+            return;
+        }
+        ItemForeignKey itemKey = new ItemForeignKey(item);
+        for(ItemForeignKey keyList : itemNames.keySet()){
+            if(keyList.isEqualTo(item)) {
+                itemNames.putIfAbsent(itemKey, item);
+                incrementItem(itemKey);
+                notifyAllObservers();
+                return;
+            }
+        }
+        itemNames.putIfAbsent(new ItemForeignKey(item), item); //not empty but not in keyset
+        items.putIfAbsent(item, quantity);
+        notifyAllObservers();
+//        incrementItem(itemKey); //only if wasn't in key list
         notifyAllObservers();
     }
+
+    private IAvailableItem findItemByKey(ItemForeignKey key){
+        for(IAvailableItem item : items.keySet()){
+            if(key.isEqualTo(item)) return item;
+        }
+        return null;
+    }
+
+    private void incrementItem(ItemForeignKey key){
+        incrementItem(findItemByKey(key));
+    }
+
+    /**
+     * only call on item already in cart
+     * @param item
+     */
     public void incrementItem(IAvailableItem item){
         items.replace(item, items.get(item) + 1);
         notifyAllObservers();
