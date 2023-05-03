@@ -34,6 +34,9 @@ public class ScreensaverController {
     private int offsetY = 5;
 
     public void initialize() {
+        RootController root = RootController.getInstance();
+        root.hideSidebar();
+
         images = new URL[]{
                 Main.class.getResource("images/screensaver/bwh_white.png"),
                 Main.class.getResource("images/screensaver/bwh_yellow.png"),

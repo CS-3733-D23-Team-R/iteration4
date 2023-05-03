@@ -27,7 +27,7 @@ public class App extends Application {
   @Setter @Getter
   public static MapStorage mapData;
 
-  @Setter @Getter public static String kioskLocationString = "75 Lobby";
+  @Setter @Getter public static String kioskLocationString = "75 Lobby Information Desk";
 
   @Override
   public void init() {
@@ -46,6 +46,7 @@ public class App extends Application {
     final AnchorPane splashRoot = splashLoader.load();
     final Scene splashScene = new Scene(splashRoot);
     final Stage splashStage = new Stage();
+    splashStage.getIcons().add(icon);
     splashStage.setScene(splashScene);
     splashStage.initStyle(StageStyle.UNDECORATED);
     splashStage.show();

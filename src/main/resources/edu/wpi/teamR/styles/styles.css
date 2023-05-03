@@ -110,7 +110,7 @@
 
 .popup-overlay {
     -fx-background-color: white;
-    -fx-border-color: -swatch-grey;
+    -fx-border-color: gray;
     -fx-border-width: 0 0 2 0;
     -fx-background-radius: 0;
     -fx-border-radius: 0;
@@ -118,7 +118,7 @@
 
 .help-background {
     -fx-background-color: #DEDEDE;
-    -fx-border-color: -black;
+    -fx-border-color: black;
     -fx-border-width: 0 0 2 0;
     -fx-background-radius: 0;
     -fx-border-radius: 0;
