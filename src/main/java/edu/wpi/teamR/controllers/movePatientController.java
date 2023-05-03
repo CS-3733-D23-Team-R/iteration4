@@ -134,6 +134,7 @@ public class movePatientController {
             staffMember.clearSelection();
             currentLocation.clear();
             moveDate.clear();
+            moveTime.clearSelection();
             moveTable.setItems(defaultTable);
         });
     }
