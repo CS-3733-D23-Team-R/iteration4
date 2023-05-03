@@ -35,6 +35,7 @@ public class SortOrdersController {
     @FXML TableColumn<ItemRequest, String> nameColumn;
     @FXML TableColumn<ItemRequest, String> locationColumn;
     @FXML TableColumn<ItemRequest, String> requestTypeColumn;
+    @FXML TableColumn<ItemRequest, Integer> quantityColumn;
     @FXML TableColumn<ItemRequest, String> notesColumn;
     @FXML TableColumn<ItemRequest, String> staffMemberColumn;
     @FXML TableColumn<ItemRequest, String> timeColumn;
@@ -51,7 +52,8 @@ public class SortOrdersController {
         dataList.addAll(new RequestDatabase().getItemRequests());
         idColumn.setCellValueFactory(new PropertyValueFactory<>("requestID"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("requesterName"));
-        locationColumn.setCellValueFactory(new PropertyValueFactory<>("longname"));
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory<>("longName"));
         staffMemberColumn.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
         staffMemberColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         notesColumn.setCellValueFactory(new PropertyValueFactory<>("additionalNotes"));
@@ -78,8 +80,9 @@ public class SortOrdersController {
                         request.getItemType(),
                         request.getRequesterName(),
                         request.getAdditionalNotes(),
-                        request.getRequestDate());
-            } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
+                        request.getRequestDate(),
+                        request.getQuantity());
+            } catch (SQLException | ItemNotFoundException e) {
                 throw new RuntimeException(e);
             }
         });
@@ -101,7 +104,8 @@ public class SortOrdersController {
                                 request.getItemType(),
                                 request.getRequesterName(),
                                 request.getAdditionalNotes(),
-                                request.getRequestDate());
+                                request.getRequestDate(),
+                                request.getQuantity());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -121,34 +125,18 @@ public class SortOrdersController {
                     Circle circle = new Circle(8);
                     RequestStatus status = sr.getRequestStatus();
                     switch (status) {
-                        case Unstarted:
-                            circle.setFill(Color.RED);
-                            break;
-                        case Processing:
-                            circle.setFill(Color.YELLOW);
-                            break;
-                        case Done:
-                            circle.setFill(Color.LIMEGREEN);
-                            break;
-                        default:
-                            circle.setFill(Color.TRANSPARENT);
-                            break;
+                        case Unstarted -> circle.setFill(Color.RED);
+                        case Processing -> circle.setFill(Color.YELLOW);
+                        case Done -> circle.setFill(Color.LIMEGREEN);
+                        default -> circle.setFill(Color.TRANSPARENT);
                     }
 
                     changeStatusButton.valueProperty().addListener((observable, oldValue, newValue) -> {
                         switch (newValue) {
-                            case Unstarted:
-                                circle.setFill(Color.RED);
-                                break;
-                            case Processing:
-                                circle.setFill(Color.YELLOW);
-                                break;
-                            case Done:
-                                circle.setFill(Color.LIMEGREEN);
-                                break;
-                            default:
-                                circle.setFill(Color.TRANSPARENT);
-                                break;
+                            case Unstarted -> circle.setFill(Color.RED);
+                            case Processing -> circle.setFill(Color.YELLOW);
+                            case Done -> circle.setFill(Color.LIMEGREEN);
+                            default -> circle.setFill(Color.TRANSPARENT);
                         }
                     });
 

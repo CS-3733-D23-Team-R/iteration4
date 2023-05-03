@@ -107,7 +107,7 @@ public class ViewAllDataController {
             serviceRequest_additionalNotes,
             serviceRequest_requestDate,
             serviceRequest_itemType;
-    @FXML TableColumn<ItemRequest, Integer> serviceRequest_requestID;
+    @FXML TableColumn<ItemRequest, Integer> serviceRequest_requestID, serviceRequest_quantity;
 
     @FXML TableView<AvailableMeals> allMealsTable;
     @FXML TableColumn<AvailableMeals, String>
@@ -277,6 +277,7 @@ public class ViewAllDataController {
         serviceRequest_requesterName.setCellValueFactory(new PropertyValueFactory<>("requesterName"));
         serviceRequest_requestStatus.setCellValueFactory(new PropertyValueFactory<>("requestStatus"));
         serviceRequest_requestType.setCellValueFactory(new PropertyValueFactory<>("requestType"));
+        serviceRequest_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         serviceRequest_staffUsername.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
 
         locationNameTable.setVisible(false);
@@ -634,6 +635,7 @@ public class ViewAllDataController {
         serviceRequest_requesterName.setCellValueFactory(new PropertyValueFactory<>("requesterName"));
         serviceRequest_requestStatus.setCellValueFactory(new PropertyValueFactory<>("requestStatus"));
         serviceRequest_requestType.setCellValueFactory(new PropertyValueFactory<>("requestType"));
+        serviceRequest_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         serviceRequest_staffUsername.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
 
         locationNameTable.setVisible(false);

@@ -9,8 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RequestDatabase {
-    public ItemRequest addItemRequest(RequestType requestType, RequestStatus requestStatus, String longName, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) throws SQLException, ClassNotFoundException {
-        return new ItemRequestDAO().addItemRequest(requestType, requestStatus, longName, staffUsername, itemType, requesterName, additionalNotes, requestDate);
+
+    public ItemRequest addItemRequest(RequestType requestType, RequestStatus requestStatus, String longName, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate, int quantity) throws SQLException {
+        return new ItemRequestDAO().addItemRequest(requestType, requestStatus, longName, staffUsername, itemType, requesterName, additionalNotes, requestDate, quantity);
     }
 
     public void addItemRequests(List<ItemRequest> itemRequests) throws SQLException {
@@ -21,8 +22,8 @@ public class RequestDatabase {
         new ItemRequestDAO().deleteItemRequestsByUser(staffUsername);
     }
 
-    public ItemRequest modifyItemRequestByID(int requestID, RequestType requestType, RequestStatus requestStatus, String longName, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate) throws SQLException, ClassNotFoundException, ItemNotFoundException {
-        return new ItemRequestDAO().modifyItemRequestByID(requestID, requestType, requestStatus, longName, staffUsername, itemType, requesterName, additionalNotes, requestDate);
+    public ItemRequest modifyItemRequestByID(int requestID, RequestType requestType, RequestStatus requestStatus, String longName, String staffUsername, String itemType, String requesterName, String additionalNotes, Timestamp requestDate, int quantity) throws SQLException, ItemNotFoundException {
+        return new ItemRequestDAO().modifyItemRequestByID(requestID, requestType, requestStatus, longName, staffUsername, itemType, requesterName, additionalNotes, requestDate, quantity);
     }
 
     public void deleteItemRequest(int requestID) throws SQLException, ItemNotFoundException {

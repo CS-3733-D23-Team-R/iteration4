@@ -83,6 +83,7 @@
                               <TableColumn fx:id="nameColumn" minWidth="20.0" prefWidth="115.33326721191406" text="Name" />
                               <TableColumn fx:id="locationColumn" prefWidth="124.0" text="Location" />
                               <TableColumn fx:id="requestTypeColumn" prefWidth="110.66671752929688" text="Request Type" />
+                              <TableColumn fx:id="quantityColumn" prefWidth="75.0" text="Quantity" />
                               <TableColumn fx:id="notesColumn" prefWidth="200.0" text="Notes" />
                               <TableColumn fx:id="staffMemberColumn" prefWidth="170.0" text="Staff Member" />
                               <TableColumn fx:id="timeColumn" prefWidth="95.0" text="Time" />
