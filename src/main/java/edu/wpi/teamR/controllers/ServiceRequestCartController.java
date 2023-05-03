@@ -241,6 +241,7 @@ public class ServiceRequestCartController extends CartObserver {
         }
 
         cartPane.getChildren().clear();
+        cartInstance.clearCart();
 
         Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
         confirmation.setContentText("Request Order Received!");
