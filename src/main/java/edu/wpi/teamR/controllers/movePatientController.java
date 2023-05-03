@@ -31,17 +31,19 @@ public class movePatientController {
     RequestDatabase db;
     UserDatabase udb;
     ArrayList<String> rooms = new ArrayList<>();
-    ObservableList<String> patientList, roomList, staffList;
+    ArrayList<String> times = new ArrayList<>();
+    ObservableList<String> patientList, roomList, staffList, timeList;
+    ObservableList<PatientMove> defaultTable;
     @FXML GesturePane miniMap;
     AnchorPane mapPane;
-    @FXML MFXComboBox patientName, patientDestination, staffMember;
+    @FXML MFXComboBox patientName, patientDestination, staffMember, moveTime;
     @FXML MFXTextField currentLocation;
     @FXML MFXDatePicker moveDate;
     @FXML TableView<PatientMove> moveTable;
     @FXML TableColumn<PatientMove, String> locCol, staffCol;
     @FXML TableColumn<PatientMove, Integer> idCol;
     @FXML TableColumn<PatientMove, Timestamp> dateCol;
-    @FXML MFXButton clearButton, submitButton;
+    @FXML Button clearButton, submitButton;
 
     public void initialize() throws SQLException, ItemNotFoundException {
         db = new RequestDatabase();
@@ -73,6 +75,23 @@ public class movePatientController {
 
         Platform.runLater(() -> moveDate.setValue(LocalDate.now()));
 
+        String addable = "";
+        for(int i = 0; i <= 23; i++)
+            for(int j = 0; j < 60; j += 5) {
+                addable = "";
+                if(i < 10)
+                    addable = "0" + i + ":";
+                else
+                    addable = i + ":";
+                if(j < 10)
+                    addable = addable + "0" + j;
+                else
+                    addable = addable + j;
+                times.add(addable);
+            }
+        timeList = FXCollections.observableArrayList(times);
+        moveTime.setItems(timeList);
+
         idCol.setCellValueFactory(new PropertyValueFactory<>("patientID"));
         dateCol.setCellValueFactory(new PropertyValueFactory<>("time"));
         locCol.setCellValueFactory(new PropertyValueFactory<>("longName"));
@@ -91,6 +110,31 @@ public class movePatientController {
                 e.printStackTrace();
             }
         });
-
+        submitButton.setOnMouseClicked(event -> {
+            while(patientName.getValue() == null || patientDestination == null || staffMember == null || moveDate == null)
+                continue;
+            String[] pSelect = patientName.getValue().toString().split(" ");
+            int pID = Integer.parseInt(pSelect[pSelect.length - 1]);
+            String pDestination = patientDestination.getValue().toString();
+            String[] sSelect = staffMember.getValue().toString().split(" ");
+            String sUsername = sSelect[sSelect.length - 1];
+            LocalDate dSelect = moveDate.getValue();
+            String[] time = moveTime.getValue().toString().split(":");
+            Timestamp dTime = new Timestamp(dSelect.getYear() - 1900,dSelect.getMonthValue() - 1, dSelect.getDayOfMonth(), Integer.parseInt(time[0]), Integer.parseInt(time[1]), 0, 0);
+            try {
+                db.addPatientMove(pID, dTime, pDestination, sUsername);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        clearButton.setOnMouseClicked(event -> {
+            patientName.clearSelection();
+            patientDestination.clearSelection();
+            staffMember.clearSelection();
+            currentLocation.clear();
+            moveDate.clear();
+            moveTable.setItems(defaultTable);
+        });
     }
 }
