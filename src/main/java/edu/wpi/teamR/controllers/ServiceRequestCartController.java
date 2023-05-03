@@ -56,7 +56,6 @@ public class ServiceRequestCartController extends CartObserver {
 
     private RequestDatabase reqDatabase = new RequestDatabase();
 
-
     @FXML public void initialize() throws SQLException, ClassNotFoundException, ItemNotFoundException {
         this.cartInstance = cartInstance;
         this.cartInstance.attach(this);
@@ -136,7 +135,7 @@ public class ServiceRequestCartController extends CartObserver {
         plusButton.setUserData(item.getItemName());
         plusButton.setOnAction(event -> {
             this.cartInstance.incrementItem(item);
-            quantity.setText(String.valueOf(this.cartInstance.items.get(item)));
+            quantity.setText(String.valueOf(this.cartInstance.items.get(cartInstance.itemInList(item))));
             this.totalPriceLabel.setText("$" + formatPrice.format(this.cartInstance.calculateTotal()));
         });
 
@@ -145,7 +144,7 @@ public class ServiceRequestCartController extends CartObserver {
         minusButton.setOnAction(event -> {
             if(this.cartInstance.getItemQuantity(item) != 0) {
                 this.cartInstance.decrementItem(item);
-                quantity.setText(String.valueOf(String.valueOf(this.cartInstance.items.get(item))));
+                quantity.setText(String.valueOf(String.valueOf(this.cartInstance.items.get(cartInstance.itemInList(item)))));
                 this.totalPriceLabel.setText("$" + formatPrice.format(this.cartInstance.calculateTotal()));
                 if (this.cartInstance.getItemQuantity(item) == 0) {
                     this.cartInstance.deleteItem(item);
@@ -211,7 +210,7 @@ public class ServiceRequestCartController extends CartObserver {
         cartPane.getChildren().add(scrollPane);
         this.cartInstance.items.forEach(
                 (item, number) -> {
-                    HBox productView = shoppingCartView(item,number);
+                    HBox productView = shoppingCartView(cartInstance.itemInList(item),number);
                     vBox.getChildren().add(productView);
                 }
         );

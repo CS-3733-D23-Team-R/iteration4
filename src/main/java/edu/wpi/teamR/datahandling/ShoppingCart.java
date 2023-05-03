@@ -39,23 +39,28 @@ public class ShoppingCart {
     }
 
     public void addItem(IAvailableItem item, int quantity){
-        if(!items.containsKey(item)){
+        if(!itemsContainsItem(item)){
             items.putIfAbsent(item, quantity);
-           // test.refreshCart();
-        } else {incrementItem(item);}
+        } else {incrementItem(itemInList(item));}
         notifyAllObservers();
     }
     public void incrementItem(IAvailableItem item){
-        items.replace(item, items.get(item) + 1);
-        notifyAllObservers();
+        if(item != null) {
+            items.replace(itemInList(item), items.get(itemInList(item)) + 1);
+            notifyAllObservers();
+        }
     }
     public void deleteItem(IAvailableItem item){
-        items.remove(item);
-        notifyAllObservers();
+        if(item != null) {
+            items.remove(itemInList(item));
+            notifyAllObservers();
+        }
     }
     public void decrementItem(IAvailableItem item) {
-        items.replace(item, items.get(item) - 1);
-        notifyAllObservers();
+        if(item != null) {
+            items.replace(itemInList(item), items.get(itemInList(item)) - 1);
+            notifyAllObservers();
+        }
     }
     public void clearCart(){
         items.clear();
@@ -63,7 +68,9 @@ public class ShoppingCart {
     }
 
     public int getItemQuantity(IAvailableItem item){
-        return items.get(item);
+        if(item != null) {
+            return items.get(itemInList(item));
+        } else return 0;
     }
 
 
@@ -77,5 +84,27 @@ public class ShoppingCart {
             }
         }
         return total;
+    }
+
+    private boolean itemsContainsItem(IAvailableItem item){
+        if(item != null) {
+            String itemName = item.getItemName();
+            RequestType type = item.getRequestType();
+            for (IAvailableItem itemInList : items.keySet()) {
+                if (itemName.equals(itemInList.getItemName()) && type == item.getRequestType()) return true;
+            }
+        }
+        return false;
+    }
+
+    public IAvailableItem itemInList(IAvailableItem item){
+        if(item != null) {
+            String itemName = item.getItemName();
+            RequestType type = item.getRequestType();
+            for (IAvailableItem itemInList : items.keySet()) {
+                if (itemName.equals(itemInList.getItemName()) && type == item.getRequestType()) return itemInList;
+            }
+        }
+        return null;
     }
 }
