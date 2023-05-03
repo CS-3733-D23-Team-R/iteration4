@@ -116,7 +116,7 @@ public class PathToText {
                     floorTextList.add(initialText);
                 }
 
-            } else if (currentNode.getNodeID() == lastNode.getNodeID() && i < floorNodesSize - 1){ //after leaving an elevator assuming it's not the end of the path
+            } else if (i < floorNodesSize - 1 && currentNode.getNodeID() == lastNode.getNodeID()){ //after leaving an elevator assuming it's not the end of the path
             } else { //anything intermediate or at the end
                 if(detectTurn(currentNode, lastNode, nextNode)){
                     String intermediateText = "";
