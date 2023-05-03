@@ -1,5 +1,6 @@
 package edu.wpi.teamR.controllers;
 
+
 import edu.wpi.teamR.App;
 import edu.wpi.teamR.mapdb.MapDatabase;
 import edu.wpi.teamR.mapdb.Move;
@@ -7,11 +8,12 @@ import edu.wpi.teamR.requestdb.*;
 import io.github.gleidsonmt.dashboardfx.core.view.layout.creators.ScheduleListCreator;
 import io.github.gleidsonmt.dashboardfx.core.view.layout.creators.ScheduleListItem;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.scene.chart.*;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.chart.PieChart;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,6 +22,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -32,13 +35,17 @@ public class DashboardController {
     @FXML TableColumn<Move, Integer> nodeColumn;
     @FXML PieChart requestStatusChart;
     @FXML PieChart requestTypeChart;
+    @FXML TableView<ItemRequest> requestTable;
+    @FXML TableColumn<ItemRequest, Integer> idCol;
+    @FXML TableColumn<ItemRequest, String> requestTypeCol, locationCol, notesCol, dateCol, itemCol;
+    @FXML BarChart barChartField;
     MapDatabase mapdb;
     RequestDatabase requestdb;
     ArrayList<Move> moves;
     int pastMoves;
     int futureMoves;
 
-
+    private final ObservableList<ItemRequest> dataList = FXCollections.observableArrayList();
     Date todayDate = Date.valueOf(LocalDate.now());
 
     HashMap<String, Integer> movesByFloor = new HashMap<>();
@@ -116,6 +123,49 @@ public class DashboardController {
                 .build();
 
         //hBox.getChildren().add(scheduleList);
+
+            LocalDate date = LocalDate.now();
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
+            String formattedDate = date.format(dateTimeFormatter);
+
+        dataList.addAll(new RequestDatabase().getItemRequests());
+        idCol.setCellValueFactory(new PropertyValueFactory<>("requestID"));
+        locationCol.setCellValueFactory(new PropertyValueFactory<>("longName"));
+        requestTypeCol.setCellValueFactory(new PropertyValueFactory<>("requestType"));
+        itemCol.setCellValueFactory(new PropertyValueFactory<>("itemType"));
+        dateCol.setCellValueFactory(new PropertyValueFactory<>("requestDate"));
+
+        for (ItemRequest request : new RequestDatabase().getItemRequests()) {
+            requestTable.getItems().add(request);
+        }
+
+        XYChart.Series series = new XYChart.Series<>();
+
+        SearchList searchList = new SearchList();
+        searchList.addOrdering(RequestAttribute.requestDate, Operation.orderByAsc);
+        ArrayList<ItemRequest> requestList = new RequestDatabase().getItemRequestByAttributes(searchList);
+        HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
+
+
+        for (int i = 0; i < requestList.size() - 1; i++){
+            int count = 1;
+            ItemRequest request = requestList.get(i);
+            LocalDate currentDate = request.getRequestDate().toLocalDateTime().toLocalDate();
+
+            if(!hashMap.containsKey(currentDate.toString())) {
+                for (int j = i + 1; j < requestList.size() - 1; j++) {
+                    if (currentDate.equals(requestList.get(j).getRequestDate().toLocalDateTime().toLocalDate())) {
+                        count++;
+                    }
+                }
+                series.getData().add(new XYChart.Data<>(currentDate.toString(), count));
+                hashMap.put(currentDate.toString(), count);
+                System.out.println(count);
+            }
+        }
+
+        barChartField.getData().add(series);
+        barChartField.setLegendVisible(false);
     }
 
     private void displayMoveTable() throws SQLException {

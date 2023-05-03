@@ -4,3 +4,15 @@
     -fx-background-size: cover;
     -fx-background-position: center;
 }
+
+.data0.chart-pie { -fx-pie-color: royalblue; }
+.data1.chart-pie { -fx-pie-color: steelblue; }
+.data2.chart-pie { -fx-pie-color: dodgerblue; }
+.data3.chart-pie { -fx-pie-color: cornflowerblue; }
+.chart-legend { -fx-background-color: #bdbdbd; }
+
+.data0.chart-bar { -fx-bar-fill: royalblue; }
+.data1.chart-bar { -fx-bar-fill: steelblue; }
+.data2.chart-bar { -fx-bar-fill: dodgerblue; }
+.data3.chart-bar { -fx-bar-fill: cornflowerblue; }
+.data4.chart-bar { -fx-bar-fill: blue; }
