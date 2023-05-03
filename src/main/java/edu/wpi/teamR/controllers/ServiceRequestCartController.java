@@ -209,7 +209,7 @@ public class ServiceRequestCartController extends CartObserver {
         cartPane.getChildren().add(scrollPane);
         this.cartInstance.items.forEach(
                 (item, number) -> {
-                    HBox productView = shoppingCartView(item,number);
+                    HBox productView = shoppingCartView(cartInstance.itemInList(item), number);
                     vBox.getChildren().add(productView);
                 }
         );
