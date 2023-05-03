@@ -1,5 +1,6 @@
 package edu.wpi.teamR.controllers;
 
+import edu.wpi.teamR.App;
 import edu.wpi.teamR.ItemNotFoundException;
 import edu.wpi.teamR.Main;
 import edu.wpi.teamR.datahandling.ShoppingCart;
@@ -7,6 +8,8 @@ import edu.wpi.teamR.requestdb.AvailableItem;
 import edu.wpi.teamR.requestdb.IAvailableItem;
 import edu.wpi.teamR.requestdb.RequestDatabase;
 import edu.wpi.teamR.requestdb.RequestType;
+import io.github.palexdev.materialfx.controls.MFXScrollPane;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
@@ -18,11 +21,14 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+import java.awt.*;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.Objects;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
-public class ItemCard {
+public class ItemCard extends VBox{
 
     @FXML
     private AnchorPane addToCartButton;
@@ -50,6 +56,10 @@ public class ItemCard {
 
     private IAvailableItem item;
 
+    @FXML HBox hBox;
+
+    @FXML VBox cardBase;
+
     public void initialize() {
         plusIcon.setVisible(false);
         addToCartButton.setOnMouseEntered(e -> {
@@ -67,7 +77,7 @@ public class ItemCard {
             cart.addItem(this.item, 1);
         });
     }
-
+    Rectangle2D rect;
     public void setInfo(IAvailableItem item) {
         this.item = item;
         cardTitle.setText(item.getItemName());
@@ -88,13 +98,32 @@ public class ItemCard {
         imageURL = imageURL + item.getImageReference();
         Image freshCardImage = new Image(Objects.requireNonNull(Main.class.getResource(imageURL)).toExternalForm());
 //        double imageAspectRatio = freshCardImage.getWidth() / freshCardImage.getHeight();
-        double widthMax = 300;
-        double imageWidth = freshCardImage.getWidth();
-        double imageHeight = freshCardImage.getHeight();
-        if(imageWidth > widthMax) {imageWidth = widthMax;}
-        if(imageHeight > widthMax) {imageHeight = widthMax;}
-        Rectangle clipRect = new Rectangle(imageWidth, imageHeight);
+        double widthMax = 250;
+//        double imageWidth = freshCardImage.getWidth();
+//        double imageHeight = freshCardImage.getHeight();
+//        if(imageWidth > widthMax) {imageWidth = widthMax;}
         cardImageView.setImage(freshCardImage);
+        double newMeasure = (cardImageView.getImage().getWidth() < cardImageView.getImage().getHeight()) ? cardImageView.getImage().getWidth() : cardImageView.getImage().getHeight();
+        double x = (cardImageView.getImage().getWidth() - newMeasure) / 2;
+        double y = (cardImageView.getImage().getHeight() - newMeasure) / 2;
+
+        rect = new Rectangle2D(x, y, newMeasure, newMeasure);
+        cardImageView.setViewport(rect);
+        cardImageView.setFitWidth(250);
+        cardImageView.setFitHeight(250);
+        cardImageView.setSmooth(true);
+        Rectangle clipRect = new Rectangle(250, 250);
+        clipRect.setArcWidth(90);
+        clipRect.setArcHeight(90);
         cardImageView.setClip(clipRect);
     }
+
+    public VBox getCardBase() {
+        return cardBase;
+    }
+
+    public ImageView getImageView() {
+        return cardImageView;
+    }
+
 }

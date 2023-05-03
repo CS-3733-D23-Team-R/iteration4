@@ -1,6 +1,7 @@
 package edu.wpi.teamR.controllers;
 
 import edu.wpi.teamR.App;
+import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.value.ChangeListener;
@@ -63,8 +64,10 @@ public class ItemRequestController {
     @FXML
     private GridPane cardGridPane;
     @FXML
-    private ScrollPane cardScrollPane;
+    private MFXScrollPane cardScrollPane;
     @FXML AnchorPane itemRequestAnchorPane;
+
+    boolean toggle = false;
 
 
 
@@ -92,14 +95,13 @@ public class ItemRequestController {
 
     @FXML public void initialize() throws IOException {
 
+
         ObservableList<RequestType> itemTypeList = FXCollections.observableArrayList();
 //        for (RequestType type : RequestType.values()) {itemTypeList.add(type);} //add all request types to combo box
 //        itemTypeBox.setItems(itemTypeList);
 
         changeTypeState(RequestType.Meal);
         foodButton.setSelected(true);
-
-
         furnitureButton.setOnAction(event -> {changeTypeState(RequestType.Furniture);});
         foodButton.setOnAction(event -> {changeTypeState(RequestType.Meal);});
         flowersButton.setOnAction(event -> {changeTypeState(RequestType.Flower);});
@@ -150,6 +152,11 @@ public class ItemRequestController {
                         regenerateCards();
                     }
                 });
+                cardScrollPane.widthProperty().addListener((observable, oldVal, newVal) -> {
+                    cardGridPane.setMaxWidth(newVal.doubleValue());
+                    cardGridPane.setMinWidth(newVal.doubleValue());
+                });
+
             }
         });
     }
@@ -246,28 +253,44 @@ public class ItemRequestController {
 
     private void loadCard(int col, int row, IAvailableItem item) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamR/views/ItemCard.fxml"));
-        AnchorPane anchorPane = new AnchorPane();
-        cardGridPane.add(anchorPane, col, row);
-        loader.setRoot(anchorPane);
+        VBox vBox = new VBox();
+        cardGridPane.add(vBox, col, row);
+        loader.setRoot(vBox);
         loader.load();
         ItemCard contentController = loader.getController();
         contentController.setInfo(item);
+        //contentController.setWidthBind(cardGridPane);
+        cardScrollPane.widthProperty().addListener((observable, oldValue, newValue) -> {
+            double val = newValue.doubleValue()/cardsAcross - 20;
+            contentController.getCardBase().setMaxWidth(val);
+            contentController.getCardBase().setMinWidth(val);
+            for(int i = 0; i < 3000; i++){}
+        });
     }
     private void regenerateCards(){
         RequestDatabase requestDatabase = new RequestDatabase();
         cardGridPane.getChildren().clear();
-        cardGridPane.getColumnConstraints().clear();
-        cardGridPane.getRowConstraints().clear();
+//        cardGridPane.getColumnConstraints().clear();
+//        cardGridPane.getRowConstraints().clear();
         RowConstraints row = new RowConstraints(458);
-        ColumnConstraints col = new ColumnConstraints(458);
+        ColumnConstraints col = new ColumnConstraints();
+        if(toggle){
+            Double val = cardScrollPane.widthProperty().doubleValue();
+            cardGridPane.setMaxWidth(val);
+            cardGridPane.setMinWidth(val);
+        }
+        else
+            toggle = true;
+        col.setHgrow(Priority.ALWAYS);
+        //row.setVgrow(Priority.ALWAYS);
         cardGridPane.getColumnConstraints().setAll(col);
         for (int i = 1; i<cardsAcross; i++){
             cardGridPane.getColumnConstraints().add(col);
         }
         cardGridPane.getRowConstraints().setAll(row);
         ArrayList<IAvailableItem> filteredList = new ArrayList<>();
-        cardGridPane.setHgap(10.0);
-        cardGridPane.setVgap(10.0);
+        cardGridPane.setHgap(20.0);
+        cardGridPane.setVgap(20.0);
         try {
             switch(this.type){
                 case Flower:
