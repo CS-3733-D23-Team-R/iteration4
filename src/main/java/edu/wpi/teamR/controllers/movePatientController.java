@@ -24,6 +24,7 @@ import net.kurobako.gesturefx.GesturePane;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class movePatientController {
@@ -99,12 +100,21 @@ public class movePatientController {
 
         patientName.setOnAction(event -> {
             try {
-                String[] patientSelection = patientName.getValue().toString().split(" ");
-                String patientID = patientSelection[patientSelection.length - 1];
-                ArrayList<PatientMove> selection = db.getPatientMovesByPatient(Integer.parseInt(patientID));
-                moveTable.setItems(FXCollections.observableArrayList(selection));
-                PatientMove currentMove = db.getCurrentPatientMove(Integer.parseInt(patientID));
-                currentLocation.setText(currentMove.getLongName());
+                if(patientName.getValue() != null) {
+                    String[] patientSelection = patientName.getValue().toString().split(" ");
+                    int patientID = Integer.parseInt(patientSelection[patientSelection.length - 1]);
+                    ArrayList<PatientMove> selection = db.getPatientMovesByPatient(patientID);
+                    moveTable.setItems(FXCollections.observableArrayList(selection));
+                    PatientMove currentMove = db.getCurrentPatientMove(patientID);
+                    currentLocation.setText(currentMove.getLongName());
+                }
+                else {
+                    moveTable.setItems(defaultTable);
+                    currentLocation.clear();
+                }
+            }
+            catch (ItemNotFoundException e) {
+                currentLocation.setText("No Room Currently Assigned");
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -123,6 +133,11 @@ public class movePatientController {
             Timestamp dTime = new Timestamp(dSelect.getYear() - 1900,dSelect.getMonthValue() - 1, dSelect.getDayOfMonth(), Integer.parseInt(time[0]), Integer.parseInt(time[1]), 0, 0);
             try {
                 db.addPatientMove(pID, dTime, pDestination, sUsername);
+                patientName.clearSelection();
+                patientDestination.clearSelection();
+                staffMember.clearSelection();
+                moveDate.setValue(LocalDate.now());
+                moveTime.clearSelection();
             }
             catch (Exception e) {
                 e.printStackTrace();
