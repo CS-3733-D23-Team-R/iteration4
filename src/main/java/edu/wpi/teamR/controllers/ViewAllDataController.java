@@ -1,10 +1,16 @@
 package edu.wpi.teamR.controllers;
 
+import edu.wpi.teamR.App;
+import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.Alert;
 import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.mapdb.*;
 import edu.wpi.teamR.login.User;
+import edu.wpi.teamR.navigation.Navigation;
+import edu.wpi.teamR.navigation.Screen;
 import edu.wpi.teamR.requestdb.*;
+import edu.wpi.teamR.userData.CurrentUser;
+import edu.wpi.teamR.userData.UserData;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,17 +22,22 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ViewAllDataController {
-    @FXML Button backupButton;
+    @FXML Text title;
+    @FXML Button backupButton, backButton;
     @FXML HBox
             nodeHbox,
             edgeHbox,
@@ -452,6 +463,9 @@ public class ViewAllDataController {
         hboxConfigure(serviceRequestHbox);
         hboxConfigure(allPatientMovesHbox);
         hboxConfigure(patientsHbox);
+        backButton.setOnAction(event -> {
+            Navigation.navigate(Screen.ADMINPROFILEPAGE);
+        });
     }
     public void hideAllTables(){
         nodeTable.setVisible(false);
@@ -527,6 +541,5 @@ public class ViewAllDataController {
         });
 
     }
-
 
 }
