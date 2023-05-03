@@ -24,19 +24,19 @@
                   <VBox prefHeight="500.0" prefWidth="350.0" spacing="5.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="Patient Name" VBox.vgrow="ALWAYS" />
-                        <MFXComboBox fx:id="patientName" allowEdit="true" floatMode="DISABLED" floatingTextGap="9.0" maxHeight="40.0" minHeight="40.0" promptText="Enter Patient" scrollOnOpen="true" selectable="true" styleClass="combo-box" VBox.vgrow="ALWAYS">
+                        <MFXComboBox fx:id="patientName" allowEdit="true" floatMode="DISABLED" floatingTextGap="9.0" maxHeight="40.0" maxWidth="1.7976931348623157E308" minHeight="40.0" promptText="Enter Patient" scrollOnOpen="true" selectable="true" styleClass="combo-box" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="150.0" />
                            </VBox.margin>
                         </MFXComboBox>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="Patient Destination" VBox.vgrow="ALWAYS" />
-                        <MFXComboBox fx:id="patientDestination" floatMode="DISABLED" maxHeight="40.0" minHeight="40.0" promptText="Enter Destination" styleClass="combo-box" VBox.vgrow="ALWAYS">
+                        <MFXComboBox fx:id="patientDestination" floatMode="DISABLED" maxHeight="40.0" maxWidth="1.7976931348623157E308" minHeight="40.0" promptText="Enter Destination" styleClass="combo-box" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="150.0" />
                            </VBox.margin>
                         </MFXComboBox>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="Staff Member" VBox.vgrow="ALWAYS" />
-                        <MFXComboBox fx:id="staffMember" floatMode="DISABLED" maxHeight="40.0" minHeight="40.0" promptText="Enter Staff Member" styleClass="combo-box" VBox.vgrow="ALWAYS" />
+                        <MFXComboBox fx:id="staffMember" floatMode="DISABLED" maxHeight="40.0" maxWidth="1.7976931348623157E308" minHeight="40.0" promptText="Enter Staff Member" styleClass="combo-box" VBox.vgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
@@ -45,18 +45,18 @@
                   <VBox prefHeight="500.0" prefWidth="300.0" spacing="5.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="Patient Location" VBox.vgrow="ALWAYS" />
-                        <MFXTextField fx:id="currentLocation" allowEdit="false" disable="true" editable="false" floatMode="DISABLED" maxHeight="40.0" minHeight="40.0" selectable="false" styleClass="combo-box" text="Current Location" VBox.vgrow="ALWAYS">
+                        <MFXTextField fx:id="currentLocation" allowEdit="false" disable="true" editable="false" floatMode="DISABLED" maxHeight="40.0" maxWidth="1.7976931348623157E308" minHeight="40.0" selectable="false" styleClass="combo-box" text="Current Location" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="150.0" />
                            </VBox.margin>
                         </MFXTextField>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="Patient Move Date" VBox.vgrow="ALWAYS" />
-                        <MFXDatePicker fx:id="moveDate" maxHeight="40.0" minHeight="40.0" promptText="Enter Date" styleClass="mfx-date-picker" VBox.vgrow="ALWAYS">
+                        <MFXDatePicker fx:id="moveDate" maxHeight="40.0" maxWidth="1.7976931348623157E308" minHeight="40.0" promptText="Enter Date" styleClass="mfx-date-picker" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="150.0" />
                            </VBox.margin></MFXDatePicker>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="Patient Move Time" />
-                        <MFXComboBox fx:id="moveTime" floatMode="DISABLED" maxHeight="40.0" minHeight="40.0" promptText="Enter Time" styleClass="combo-box" VBox.vgrow="ALWAYS" />
+                        <MFXComboBox fx:id="moveTime" floatMode="DISABLED" maxHeight="40.0" maxWidth="1.7976931348623157E308" minHeight="40.0" promptText="Enter Time" styleClass="combo-box" VBox.vgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
