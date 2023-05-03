@@ -73,7 +73,8 @@ public class ArchivePageController {
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Zip Files", "*.zip"));
         fileChooser.setTitle("Open File");
         selectedFile = fileChooser.showOpenDialog(chooseImportButton.getScene().getWindow());
-        importText.setText(selectedFile.getName());
+        if (selectedFile != null)
+            importText.setText(selectedFile.getName());
     }
 
     public void submit() throws SQLException, IOException, CSVParameterException {
