@@ -20,6 +20,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -45,10 +46,8 @@ public class StaffProfilePageController {
     @FXML VBox profileCardContainer;
     @FXML StackPane conferenceRoomImage;
     @FXML TableView<ItemRequest> table;
-    @FXML TableColumn<ItemRequest, Integer> idCol;
+    @FXML TableColumn<ItemRequest, Integer> idCol, quantityCol;
     @FXML TableColumn<ItemRequest, String> requestTypeCol, nameCol, locationCol, notesCol, dateCol, statusCol, itemCol;
-    @FXML GesturePane gesturePane;
-    private final AnchorPane mapPane = new AnchorPane();
     private final ObservableList<ItemRequest> dataList = FXCollections.observableArrayList();
     ObservableList<RequestStatus> statusList = FXCollections.observableArrayList(RequestStatus.values());
     public void initialize() throws SQLException, ClassNotFoundException, SearchException {
@@ -82,6 +81,7 @@ public class StaffProfilePageController {
         locationCol.setCellValueFactory(new PropertyValueFactory<>("longName"));
         requestTypeCol.setCellValueFactory(new PropertyValueFactory<>("requestType"));
         itemCol.setCellValueFactory(new PropertyValueFactory<>("itemType"));
+        quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         notesCol.setCellValueFactory(new PropertyValueFactory<>("additionalNotes"));
         dateCol.setCellValueFactory(new PropertyValueFactory<>("requestDate"));
         statusCol.setCellFactory(column -> new TableCell<>(){
@@ -103,8 +103,9 @@ public class StaffProfilePageController {
                                 request.getItemType(),
                                 request.getRequesterName(),
                                 request.getAdditionalNotes(),
-                                request.getRequestDate());
-                    } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
+                                request.getRequestDate(),
+                                request.getQuantity());
+                    } catch (SQLException | ItemNotFoundException e) {
                         throw new RuntimeException(e);
                     }
                 });
@@ -125,12 +126,6 @@ public class StaffProfilePageController {
             table.getItems().add(request);
         }
         toMovePatients.setOnMouseClicked(event -> {Navigation.navigate(Screen.MOVEPATIENT);});
-
-        gesturePane.setContent(mapPane);
-        mapPane.getChildren().add(MapStorage.getFirstFloor());
-        gesturePane.setMinScale(0.25);
-        gesturePane.setMaxScale(2);
-        gesturePane.zoomTo(0.25, 0.25, new Point2D(2500, 1700));
     }
 
     private Node loadCard(CurrentUser user) throws IOException, IOException {
