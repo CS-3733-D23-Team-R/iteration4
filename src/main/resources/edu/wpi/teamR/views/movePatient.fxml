@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -51,7 +51,12 @@
                            </VBox.margin>
                         </MFXTextField>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="Patient Move Date" VBox.vgrow="ALWAYS" />
-                        <MFXDatePicker fx:id="moveDate" maxHeight="40.0" minHeight="40.0" promptText="Enter Date" styleClass="mfx-date-picker" VBox.vgrow="ALWAYS" />
+                        <MFXDatePicker fx:id="moveDate" maxHeight="40.0" minHeight="40.0" promptText="Enter Date" styleClass="mfx-date-picker" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="150.0" />
+                           </VBox.margin></MFXDatePicker>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle" text="Patient Move Time" />
+                        <MFXComboBox fx:id="moveTime" floatMode="DISABLED" maxHeight="40.0" minHeight="40.0" promptText="Enter Time" styleClass="combo-box" VBox.vgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
@@ -86,8 +91,8 @@
             </HBox>
             <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
                <children>
-                  <MFXButton fx:id="clearButton" maxWidth="80.0" text="Clear" HBox.hgrow="ALWAYS" />
-                  <MFXButton fx:id="submitButton" maxWidth="80.0" text="Submit" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="clearButton" mnemonicParsing="false" text="Clear" />
+                  <Button fx:id="submitButton" mnemonicParsing="false" text="Submit" />
                </children>
             </HBox>
          </children>
