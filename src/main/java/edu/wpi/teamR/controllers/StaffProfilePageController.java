@@ -48,8 +48,6 @@ public class StaffProfilePageController {
     @FXML TableView<ItemRequest> table;
     @FXML TableColumn<ItemRequest, Integer> idCol, quantityCol;
     @FXML TableColumn<ItemRequest, String> requestTypeCol, nameCol, locationCol, notesCol, dateCol, statusCol, itemCol;
-    @FXML GesturePane gesturePane;
-    private final AnchorPane mapPane = new AnchorPane();
     private final ObservableList<ItemRequest> dataList = FXCollections.observableArrayList();
     ObservableList<RequestStatus> statusList = FXCollections.observableArrayList(RequestStatus.values());
     public void initialize() throws SQLException, ClassNotFoundException, SearchException {
@@ -128,12 +126,6 @@ public class StaffProfilePageController {
             table.getItems().add(request);
         }
         toMovePatients.setOnMouseClicked(event -> {Navigation.navigate(Screen.MOVEPATIENT);});
-
-        gesturePane.setContent(mapPane);
-        mapPane.getChildren().add(MapStorage.getFirstFloor());
-        gesturePane.setMinScale(0.25);
-        gesturePane.setMaxScale(2);
-        gesturePane.zoomTo(0.25, 0.25, new Point2D(2500, 1700));
     }
 
     private Node loadCard(CurrentUser user) throws IOException, IOException {
