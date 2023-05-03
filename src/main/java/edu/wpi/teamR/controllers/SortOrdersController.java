@@ -196,6 +196,7 @@ public class SortOrdersController {
                             filteredData.getSource().remove(data);
                             try {
                                 new RequestDatabase().deleteItemRequest(data.getRequestID());
+                                requestTable.getItems().remove(data);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
