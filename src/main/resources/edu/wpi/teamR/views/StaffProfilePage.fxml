@@ -83,22 +83,23 @@
                                 <Insets bottom="10.0" left="26.0" />
                             </HBox.margin>
                         </VBox>
-                        <VBox prefHeight="674.0" prefWidth="690.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                        <VBox prefHeight="664.0" prefWidth="798.0" spacing="10.0" HBox.hgrow="ALWAYS">
                             <HBox.margin>
                                 <Insets bottom="10.0" right="26.0" />
                             </HBox.margin>
                             <children>
                                 <VBox prefHeight="704.0" prefWidth="672.0" spacing="10.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <TableView fx:id="table" editable="true" prefHeight="469.0" prefWidth="672.0" styleClass="boxroundedbordered" stylesheets="@../styles/tables.css" VBox.vgrow="ALWAYS">
+                              <TableView fx:id="table" editable="true" prefHeight="469.0" prefWidth="729.0" styleClass="boxroundedbordered" stylesheets="@../styles/tables.css" VBox.vgrow="ALWAYS">
                                 <columns>
                                   <TableColumn fx:id="idCol" maxWidth="30.0" minWidth="30.0" prefWidth="-1.0" text="ID" />
                                   <TableColumn fx:id="nameCol" minWidth="30.0" prefWidth="41.33331298828125" text="Name" />
                                     <TableColumn fx:id="locationCol" maxWidth="500.0" minWidth="70.0" prefWidth="119.3333740234375" text="Location" />
                                     <TableColumn fx:id="itemCol" minWidth="40.0" prefWidth="78.66668701171875" text="Item" />
-                                    <TableColumn fx:id="requestTypeCol" minWidth="60.0" prefWidth="68.66656494140625" text="Request Type" />
-                                    <TableColumn fx:id="notesCol" minWidth="145.3333740234375" prefWidth="196.666748046875" text="Additional Notes" />
-                                    <TableColumn fx:id="dateCol" minWidth="72.6666259765625" prefWidth="91.3333740234375" text="Date &amp; Time" />
+                                    <TableColumn fx:id="quantityCol" prefWidth="53.71429443359375" text="Quantity" />
+                                    <TableColumn fx:id="requestTypeCol" minWidth="57.142822265625" prefWidth="83.42852783203125" text="Request Type" />
+                                    <TableColumn fx:id="notesCol" minWidth="106.28570556640625" prefWidth="122.28570556640625" text="Additional Notes" />
+                                    <TableColumn fx:id="dateCol" minWidth="72.6666259765625" prefWidth="123.4285888671875" text="Date &amp; Time" />
                                     <TableColumn fx:id="statusCol" minWidth="61.3333740234375" prefWidth="82.0" text="Status" />
                                 </columns>
                                  <columnResizePolicy>

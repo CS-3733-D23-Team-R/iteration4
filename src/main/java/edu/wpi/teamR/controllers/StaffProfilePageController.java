@@ -45,7 +45,7 @@ public class StaffProfilePageController {
     @FXML VBox profileCardContainer;
     @FXML StackPane conferenceRoomImage;
     @FXML TableView<ItemRequest> table;
-    @FXML TableColumn<ItemRequest, Integer> idCol;
+    @FXML TableColumn<ItemRequest, Integer> idCol, quantityCol;
     @FXML TableColumn<ItemRequest, String> requestTypeCol, nameCol, locationCol, notesCol, dateCol, statusCol, itemCol;
     @FXML GesturePane gesturePane;
     private final AnchorPane mapPane = new AnchorPane();
@@ -82,6 +82,7 @@ public class StaffProfilePageController {
         locationCol.setCellValueFactory(new PropertyValueFactory<>("longName"));
         requestTypeCol.setCellValueFactory(new PropertyValueFactory<>("requestType"));
         itemCol.setCellValueFactory(new PropertyValueFactory<>("itemType"));
+        quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         notesCol.setCellValueFactory(new PropertyValueFactory<>("additionalNotes"));
         dateCol.setCellValueFactory(new PropertyValueFactory<>("requestDate"));
         statusCol.setCellFactory(column -> new TableCell<>(){
@@ -103,8 +104,9 @@ public class StaffProfilePageController {
                                 request.getItemType(),
                                 request.getRequesterName(),
                                 request.getAdditionalNotes(),
-                                request.getRequestDate());
-                    } catch (SQLException | ClassNotFoundException | ItemNotFoundException e) {
+                                request.getRequestDate(),
+                                request.getQuantity());
+                    } catch (SQLException | ItemNotFoundException e) {
                         throw new RuntimeException(e);
                     }
                 });
