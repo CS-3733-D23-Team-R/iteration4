@@ -145,10 +145,10 @@ public class ServiceRequestCartController extends CartObserver {
                 this.cartInstance.decrementItem(item);
                 quantity.setText(String.valueOf(String.valueOf(this.cartInstance.items.get(item))));
                 this.totalPriceLabel.setText("$" + formatPrice.format(this.cartInstance.calculateTotal()));
-                if (this.cartInstance.getItemQuantity(item) == 0) {
-                    this.cartInstance.deleteItem(item);
-                    refreshCart();
-                }
+            }
+            if (this.cartInstance.getItemQuantity(item) == 0) {
+                this.cartInstance.deleteItem(item);
+                refreshCart();
             }
             if(this.cartInstance.items.isEmpty()) {
                 cartPane.getChildren().clear();

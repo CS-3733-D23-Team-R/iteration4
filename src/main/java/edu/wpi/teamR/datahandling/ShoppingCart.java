@@ -82,20 +82,42 @@ public class ShoppingCart {
         notifyAllObservers();
     }
     public void deleteItem(IAvailableItem item){
-        items.remove(item);
+        for(ItemForeignKey itemForeignKey : itemNames.keySet()){
+            if(itemForeignKey.isEqualTo(item)) {
+                items.remove(items.get(itemForeignKey));
+                itemNames.remove(itemForeignKey);
+                break;
+            }
+        }
+//        itemNames.remove(new ItemForeignKey(item));
         notifyAllObservers();
     }
     public void decrementItem(IAvailableItem item) {
-        items.replace(item, items.get(item) - 1);
+        IAvailableItem realItem = null;
+        for(ItemForeignKey itemForeignKey : itemNames.keySet()){
+            if(itemForeignKey.isEqualTo(item)) {
+                realItem = itemNames.get(itemForeignKey);
+                items.replace(realItem, items.get(realItem) - 1);
+                break;
+            }
+        }
+        if(realItem != null && items.get(realItem) == 0) deleteItem(realItem);
+
         notifyAllObservers();
     }
     public void clearCart(){
         items.clear();
+        itemNames.clear();
         notifyAllObservers();
     }
 
-    public int getItemQuantity(IAvailableItem item){
-        return items.get(item);
+    public Integer getItemQuantity(IAvailableItem item){
+        for(ItemForeignKey itemForeignKey : itemNames.keySet()){
+            if(itemForeignKey.isEqualTo(item)) {
+                return items.get(itemNames.get(itemForeignKey));
+            }
+        }
+        return null;
     }
 
 
