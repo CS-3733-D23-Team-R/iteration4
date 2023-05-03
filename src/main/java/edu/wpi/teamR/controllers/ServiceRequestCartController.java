@@ -7,6 +7,7 @@ import edu.wpi.teamR.login.User;
 import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.mapdb.LocationName;
 import edu.wpi.teamR.requestdb.*;
+import edu.wpi.teamR.userData.UserData;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
@@ -30,7 +31,6 @@ import static java.lang.Math.round;
 
 public class ServiceRequestCartController extends CartObserver {
 
-    @FXML AnchorPane cartAnchor;
     @FXML
     SearchableComboBox<String> userField;
     @FXML
@@ -48,16 +48,12 @@ public class ServiceRequestCartController extends CartObserver {
     @FXML Text totalPriceLabel;
     @FXML MFXTextField notesField;
     ArrayList<LocationName> locationNames;
-    //ArrayList<StaffMembers> staffMembers;
-
-//    ShoppingCart cartInstance = ShoppingCart.getInstance();
 
     DecimalFormat formatPrice = new DecimalFormat("###.00");
 
     private RequestDatabase reqDatabase = new RequestDatabase();
 
     @FXML public void initialize() throws SQLException, ClassNotFoundException, ItemNotFoundException {
-        this.cartInstance = cartInstance;
         this.cartInstance.attach(this);
         locationField.setValue("Select location");
         staffField.setValue("Select staff");
@@ -85,7 +81,9 @@ public class ServiceRequestCartController extends CartObserver {
         }else {
             refreshCart();
         }
-
+        if(UserData.getInstance().isLoggedIn()){
+            userField.setValue(UserData.getInstance().getLoggedIn().getFullName());
+        }
     }
 
     // HBox function, sets up the given item in the shopping cart
@@ -238,9 +236,7 @@ public class ServiceRequestCartController extends CartObserver {
 
 
         for (IAvailableItem itemInHash : this.cartInstance.items.keySet()){
-            for(int i = 0; i<this.cartInstance.items.get(itemInHash); i++){
-                reqDatabase.addItemRequest(itemInHash.getRequestType(), RequestStatus.Unstarted, location, staff, itemInHash.getItemName(), requestor, additionalNotes, CurrentDateTime());
-            }
+            reqDatabase.addItemRequest(itemInHash.getRequestType(), RequestStatus.Unstarted, location, staff, itemInHash.getItemName(), requestor, additionalNotes, CurrentDateTime(), this.cartInstance.items.get(itemInHash));
         }
 
         cartPane.getChildren().clear();
@@ -271,7 +267,7 @@ public class ServiceRequestCartController extends CartObserver {
             ArrayList<User> users = new UserDatabase().getUsers();
             ArrayList<String> userNames = new ArrayList<>();
             for (User u: users){
-                userNames.add(u.getStaffUsername());
+                userNames.add(u.getName());
             }
             ObservableList<String> staff = FXCollections.observableArrayList(userNames);
             staffField.setItems(staff);

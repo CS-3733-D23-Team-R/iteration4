@@ -1,10 +1,16 @@
 package edu.wpi.teamR.controllers;
 
+import edu.wpi.teamR.App;
+import edu.wpi.teamR.login.AccessLevel;
 import edu.wpi.teamR.login.Alert;
 import edu.wpi.teamR.login.UserDatabase;
 import edu.wpi.teamR.mapdb.*;
 import edu.wpi.teamR.login.User;
+import edu.wpi.teamR.navigation.Navigation;
+import edu.wpi.teamR.navigation.Screen;
 import edu.wpi.teamR.requestdb.*;
+import edu.wpi.teamR.userData.CurrentUser;
+import edu.wpi.teamR.userData.UserData;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,17 +22,22 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ViewAllDataController {
-    @FXML Button backupButton;
+    @FXML Text title;
+    @FXML Button backupButton, backButton;
     @FXML HBox
             nodeHbox,
             edgeHbox,
@@ -96,7 +107,7 @@ public class ViewAllDataController {
             serviceRequest_additionalNotes,
             serviceRequest_requestDate,
             serviceRequest_itemType;
-    @FXML TableColumn<ItemRequest, Integer> serviceRequest_requestID;
+    @FXML TableColumn<ItemRequest, Integer> serviceRequest_requestID, serviceRequest_quantity;
 
     @FXML TableView<AvailableMeals> allMealsTable;
     @FXML TableColumn<AvailableMeals, String>
@@ -266,6 +277,7 @@ public class ViewAllDataController {
         serviceRequest_requesterName.setCellValueFactory(new PropertyValueFactory<>("requesterName"));
         serviceRequest_requestStatus.setCellValueFactory(new PropertyValueFactory<>("requestStatus"));
         serviceRequest_requestType.setCellValueFactory(new PropertyValueFactory<>("requestType"));
+        serviceRequest_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         serviceRequest_staffUsername.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
 
         locationNameTable.setVisible(false);
@@ -432,8 +444,11 @@ public class ViewAllDataController {
                 root.setPopupState(true);
                 popupStage.showAndWait();
                 root.setPopupState(false);
+                refreshData();
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         });
         hboxConfigure(allAlertsHbox);
@@ -452,6 +467,9 @@ public class ViewAllDataController {
         hboxConfigure(serviceRequestHbox);
         hboxConfigure(allPatientMovesHbox);
         hboxConfigure(patientsHbox);
+        backButton.setOnAction(event -> {
+            Navigation.navigate(Screen.ADMINPROFILEPAGE);
+        });
     }
     public void hideAllTables(){
         nodeTable.setVisible(false);
@@ -528,5 +546,158 @@ public class ViewAllDataController {
 
     }
 
+    public void refreshData() throws SQLException {
+        setAllButtonsGrey();
+        alertsTable.getItems().clear();
+        alertsTable.setVisible(false);
+        alertsTable.getItems().addAll(new UserDatabase().getAlerts());
+        alert_message.setCellValueFactory(new PropertyValueFactory<>("message"));
+        alert_endDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+        alert_startDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+
+        allFlowerTable.getItems().clear();
+        allFlowerTable.setVisible(false);
+        allFlowerTable.getItems().addAll(new RequestDatabase().getAvailableFlowers());
+        allFlowers_itemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+        allFlowers_description.setCellValueFactory(new PropertyValueFactory<>("description"));
+        allFlowers_imageReference.setCellValueFactory(new PropertyValueFactory<>("imageReference"));
+        allFlowers_hasCard.setCellValueFactory(new PropertyValueFactory<>("hasCard"));
+        allFlowers_isBoquet.setCellValueFactory(new PropertyValueFactory<>("bouqet"));
+        allFlowers_price.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
+
+        allFurnitureTable.getItems().clear();
+        allFurnitureTable.setVisible(false);
+        allFurnitureTable.getItems().addAll(new RequestDatabase().getAvailableFurniture());
+        allFurniture_description.setCellValueFactory(new PropertyValueFactory<>("description"));
+        allFurniture_imageReference.setCellValueFactory(new PropertyValueFactory<>("imageReference"));
+        allFurniture_isPillow.setCellValueFactory(new PropertyValueFactory<>("pillow"));
+        allFurniture_isSeating.setCellValueFactory(new PropertyValueFactory<>("seating"));
+        allFurniture_isStorage.setCellValueFactory(new PropertyValueFactory<>("storage"));
+        allFurniture_isTable.setCellValueFactory(new PropertyValueFactory<>("table"));
+        allFurniture_itemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+
+        allMealsTable.setVisible(false);
+        allMealsTable.getItems().clear();
+        allMealsTable.getItems().addAll(new RequestDatabase().getAvailableMeals());
+        allMeals_description.setCellValueFactory(new PropertyValueFactory<>("description"));
+        allMeals_imageReference.setCellValueFactory(new PropertyValueFactory<>("imageReference"));
+        allMeals_itemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+        allMeals_itemPrice.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
+        allMeals_isVegan.setCellValueFactory(new PropertyValueFactory<>("vegan"));
+        allMeals_isDairyFree.setCellValueFactory(new PropertyValueFactory<>("dairyFree"));
+        allMeals_isGlutenFree.setCellValueFactory(new PropertyValueFactory<>("glutenFree"));
+        allMeals_isPeanutFree.setCellValueFactory(new PropertyValueFactory<>("peanutFree"));
+        allMeals_isVegetarian.setCellValueFactory(new PropertyValueFactory<>("vegetarian"));
+
+        allSuppliesTable.setVisible(false);
+        allSuppliesTable.getItems().clear();
+        allSuppliesTable.getItems().addAll(new RequestDatabase().getAvailableSupplies());
+        allSupplies_description.setCellValueFactory(new PropertyValueFactory<>("description"));
+        allSupplies_imageReference.setCellValueFactory(new PropertyValueFactory<>("imageReference"));
+        allSupplies_price.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
+        allSupplies_itemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+        allSupplies_isComputerAccessory.setCellValueFactory(new PropertyValueFactory<>("computerAccessory"));
+        allSupplies_isOrganization.setCellValueFactory(new PropertyValueFactory<>("organization"));
+        allSupplies_isPaper.setCellValueFactory(new PropertyValueFactory<>("paper"));
+        allSupplies_isPen.setCellValueFactory(new PropertyValueFactory<>("pen"));
+
+        conferenceRoomTable.setVisible(false);
+        conferenceRoomTable.getItems().clear();
+        conferenceRoomTable.getItems().addAll(new MapDatabase().getConferenceRooms());
+        conferenceRoom_longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
+        conferenceRoom_capacity.setCellValueFactory(new PropertyValueFactory<>("capacity"));
+        conferenceRoom_hasOutlets.setCellValueFactory(new PropertyValueFactory<>("hasOutlets"));
+        conferenceRoom_hasScreen.setCellValueFactory(new PropertyValueFactory<>("hasScreen"));
+        conferenceRoom_isAccessible.setCellValueFactory(new PropertyValueFactory<>("accessible"));
+
+        directionArrowTable.setVisible(false);
+        directionArrowTable.getItems().clear();
+        directionArrowTable.getItems().addAll(new MapDatabase().getDirectionArrows());
+        directionArrow_longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
+        directionArrow_kioskID.setCellValueFactory(new PropertyValueFactory<>("kioskID"));
+        directionArrow_direction.setCellValueFactory(new PropertyValueFactory<>("direction"));
+        directionArrow_date.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        edgeTable.setVisible(false);
+        edgeTable.getItems().clear();
+        edgeTable.getItems().addAll(new MapDatabase().getEdges());
+        edge_endNode.setCellValueFactory(new PropertyValueFactory<>("endNode"));
+        edge_startNode.setCellValueFactory(new PropertyValueFactory<>("startNode"));
+
+        serviceRequestTable.setVisible(false);
+        serviceRequestTable.getItems().clear();
+        serviceRequestTable.getItems().addAll(new RequestDatabase().getItemRequests());
+        serviceRequest_additionalNotes.setCellValueFactory(new PropertyValueFactory<>("additionalNotes"));
+        serviceRequest_itemType.setCellValueFactory(new PropertyValueFactory<>("itemType"));
+        serviceRequest_longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
+        serviceRequest_requestDate.setCellValueFactory(new PropertyValueFactory<>("requestDate"));
+        serviceRequest_requestID.setCellValueFactory(new PropertyValueFactory<>("requestID"));
+        serviceRequest_requesterName.setCellValueFactory(new PropertyValueFactory<>("requesterName"));
+        serviceRequest_requestStatus.setCellValueFactory(new PropertyValueFactory<>("requestStatus"));
+        serviceRequest_requestType.setCellValueFactory(new PropertyValueFactory<>("requestType"));
+        serviceRequest_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        serviceRequest_staffUsername.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
+
+        locationNameTable.setVisible(false);
+        locationNameTable.getItems().clear();
+        locationNameTable.getItems().addAll(new MapDatabase().getLocationNames());
+        locationName_longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
+        locationName_shortName.setCellValueFactory(new PropertyValueFactory<>("shortName"));
+        locationName_nodeType.setCellValueFactory(new PropertyValueFactory<>("nodeType"));
+
+        moveTable.setVisible(false);
+        moveTable.getItems().clear();
+        moveTable.getItems().addAll(new MapDatabase().getMoves());
+        move_Date.setCellValueFactory(new PropertyValueFactory<>("moveDate"));
+        move_longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
+        move_nodeID.setCellValueFactory(new PropertyValueFactory<>("nodeID"));
+
+        nodeTable.setVisible(false);
+        nodeTable.getItems().clear();
+        nodeTable.getItems().addAll(new MapDatabase().getNodes());
+        node_building.setCellValueFactory(new PropertyValueFactory<>("building"));
+        node_xCoord.setCellValueFactory(new PropertyValueFactory<>("xCoord"));
+        node_yCoord.setCellValueFactory(new PropertyValueFactory<>("yCoord"));
+        node_nodeID.setCellValueFactory(new PropertyValueFactory<>("nodeID"));
+        node_floor.setCellValueFactory(new PropertyValueFactory<>("floorNum"));
+
+        patientTable.setVisible(false);
+        patientTable.getItems().clear();
+        patientTable.getItems().addAll(new RequestDatabase().getPatients());
+        patient_patientID.setCellValueFactory(new PropertyValueFactory<>("patientID"));
+        patient_patientName.setCellValueFactory(new PropertyValueFactory<>("patientName"));
+
+        patientMoveTable.setVisible(false);
+        patientMoveTable.getItems().clear();
+        patientMoveTable.getItems().addAll(new RequestDatabase().getPatientMoves());
+        patientMove_longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
+        patientMove_patientID.setCellValueFactory(new PropertyValueFactory<>("patientID"));
+        patientMove_staffUsername.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
+        patientMove_time.setCellValueFactory(new PropertyValueFactory<>("time"));
+
+        roomRequestTable.setVisible(false);
+        roomRequestTable.getItems().clear();
+        roomRequestTable.getItems().addAll(new RequestDatabase().getRoomRequests());
+        roomRequest_endTime.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+        roomRequest_longName.setCellValueFactory(new PropertyValueFactory<>("longName"));
+        roomRequest_staffUsername.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
+        roomRequest_startTime.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        roomRequest_roomRequestID.setCellValueFactory(new PropertyValueFactory<>("roomRequestID"));
+
+        userTable.setVisible(false);
+        userTable.getItems().clear();
+        userTable.getItems().addAll(new UserDatabase().getUsers());
+        user_department.setCellValueFactory(new PropertyValueFactory<>("department"));
+        user_accessLevel.setCellValueFactory(new PropertyValueFactory<>("accessLevel"));
+        user_email.setCellValueFactory(new PropertyValueFactory<>("email"));
+        user_imageID.setCellValueFactory(new PropertyValueFactory<>("imageID"));
+        user_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        user_jobTitle.setCellValueFactory(new PropertyValueFactory<>("jobTitle"));
+        user_joinDate.setCellValueFactory(new PropertyValueFactory<>("joinDate"));
+        user_password.setCellValueFactory(new PropertyValueFactory<>("password"));
+        user_phoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNum"));
+        user_salt.setCellValueFactory(new PropertyValueFactory<>("salt"));
+        user_staffUsername.setCellValueFactory(new PropertyValueFactory<>("staffUsername"));
+    }
 
 }

@@ -204,7 +204,8 @@ public class EmployeeManagerController {
                                             aItem.getItemType(),
                                             aItem.getRequesterName(),
                                             aItem.getAdditionalNotes(),
-                                            aItem.getRequestDate());
+                                            aItem.getRequestDate(),
+                                            aItem.getQuantity());
                                 }
                                 new RequestDatabase().deleteRoomRequestByUser(data.getStaffUsername());
                                 new UserDatabase().deleteUserByUsername(data.getStaffUsername());
