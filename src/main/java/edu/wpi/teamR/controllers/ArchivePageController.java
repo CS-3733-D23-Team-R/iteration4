@@ -67,7 +67,9 @@ public class ArchivePageController {
 
     public void openFile() {
         fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(new File("./backups/"));
+        File dir = new File("./backups/");
+        dir.mkdir();
+        fileChooser.setInitialDirectory(dir);
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Zip Files", "*.zip"));
         fileChooser.setTitle("Open File");
         selectedFile = fileChooser.showOpenDialog(chooseImportButton.getScene().getWindow());
